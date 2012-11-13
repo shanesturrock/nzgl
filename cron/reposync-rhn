@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e 
+
+repoids="rhel-x86_64-server-6 rhel-x86_64-server-optional-6"
+download_path="/var/www/nzgl/"
+
+for repoid in ${repoids}; do
+	reposync --quiet --download_path=${download_path} --repoid=${repoid} --newest-only --arch x86_64 --delete --downloadcomps --plugins &>/dev/null
+done

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+repos='rhel-x86_64-server-6 rhel-x86_64-server-optional-6'
+base_dir='/var/www/nzgl'
+
+set -e
+
+for repo in ${repos}; do
+	cd ${base_dir}/${repo}
+	createrepo -q -g comps.xml .
+done

@@ -1,0 +1,3 @@
+#!/bin/bash
+yum --quiet clean all &>/dev/null
+yum --errorlevel=0 --quiet -y upgrade

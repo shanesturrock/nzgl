@@ -1,0 +1,24 @@
+#!/bin/bash
+
+log_dir='/var/log/biomatters/dailyreport'
+log=${log_dir}/$(date +%Y-%m-%d).log
+
+# Get todays details
+
+rhn_updates=$(update_package_log)
+rhn_update_count=$?
+
+upstream_updates=$(upstream_package_check)
+upstream_update_count=$?
+
+failed_tests=$(run_all_tests)
+failed_test_count=$?
+
+{
+echo "rhn_update_count=${rhn_update_count}"
+echo "upstream_update_count=${upstream_update_count}"
+echo "failed_test_count=${failed_test_count}"
+[ -z "${rhn_updates} ] && echo "rhn_updates='${rhn_updates}'"
+[ -z "${upstream_updates} ] && echo "upstream_updates='${upstream_updates}'"
+[ -z "${failed_tests} ] && echo "failed_tests='${failed_tests}'"
+} > ${log}

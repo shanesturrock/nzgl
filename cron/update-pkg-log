@@ -1,0 +1,19 @@
+#!/bin/bash
+
+log_dir='/var/log/biomatters'
+log="pkg-update-$(date +%Y-%m-%d).log"
+repos='rhel-x86_64-server-6 rhel-x86_64-server-optional-6'
+repo_base='/var/www/nzgl'
+
+set -e
+
+mkdir -p ${log_dir}
+
+for repo in ${repos}; do
+	cd ${repo_base}/${repo}/getPackage
+	find . -type f -ctime -1 -printf "%f\n" > ${log_dir}/${log}
+	# rm zero length files
+	if [ ! -s ${log_dir}/${log} ]; then
+		/bin/rm ${log_dir}/${log}
+	fi
+done

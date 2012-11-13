@@ -1,0 +1,11 @@
+#!/bin/bash
+mailto='carl@biomatters.com'
+log=$(mktemp -q)
+cd /root/tests
+./test_all.sh &> ${log}
+ret=$?
+if [ $? -ne 0 ]; then
+	cat ${log} | mail -s "$? tests failed" ${mailto}
+fi
+rm -f ${log}
+exit 0
