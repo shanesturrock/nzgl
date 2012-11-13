@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# /etc/rc.d/init.d/galaxy
+#
+# Manages the Galaxy webserver
+# Based on http://www.sensi.org/~alec/unix/redhat/sysvinit.html
+#
+# chkconfig: 2345 80 20
+# description: Manages the Galaxy webserver
+
+# The chkconfig is levels, strat priority, stop priority. Last two should add to 100.
+# You get an error/failure if you try to restrat a stopped service.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+GALAXY_USER=galaxy
+GALAXY_DIST_HOME=/home/galaxy/galaxy-dist
+GALAXY_RUN="GALAXY_RUN_ALL=1 ${GALAXY_DIST_HOME}/run.sh"
+GALAXY_PID="${GALAXY_DIST_HOME}/paster.pid"
+
+case "$1" in
+        start)
+                          echo -n "Starting galaxy services: "
+#                          daemon --user $GALAXY_USER "${GALAXY_RUN} --daemon --pid-file=${GALAXY_PID}"
+                          daemon --user $GALAXY_USER "${GALAXY_RUN} --daemon"
+                          touch /var/lock/subsys/galaxy
+        ;;
+        stop)
+                          echo -n "Shutting down galaxy services: "
+                          daemon --user $GALAXY_USER "${GALAXY_RUN} --stop-daemon"
+                          rm -f /var/lock/subsys/galaxy
+        ;;
+        status)
+                          daemon --user galaxy "${GALAXY_RUN} --status"
+        ;;
+        restart)
+                          $0 stop; $0 start
+        ;;
+        reload)
+                          $0 stop; $0 start
+        ;;
+        *)
+                          echo "Usage: galaxy {start|stop|status|reload|restart"
+                          exit 1
+        ;;
+esac
