@@ -1,0 +1,4 @@
+version=3
+#http://www.cbcb.umd.edu/software/GlimmerHMM/ ftp://ftp.cbcb.umd.edu/pub/software/glimmerhmm/GlimmerHMM-([0-9]\.[0-9]\.[0-9])\.tar\.gz
+#http://www.cbcb.umd.edu/software/GlimmerHMM/ ftp://ftp.cbcb.umd.edu/pub/software/glimmerhmm/GlimmerHMM-([0-9]\.[0-9]\.[0-9])\.tar\.gz
+http://cbcb.umd.edu/software/glimmerhmm/ ftp://ftp.cbcb.umd.edu/pub/software/glimmerhmm/GlimmerHMM-([0-9]\.[0-9]\.[0-9])\.tar\.gz

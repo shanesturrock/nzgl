@@ -1,0 +1,3 @@
+version=3
+#http://cran.stat.auckland.ac.nz/src/base/R-2/R-([0-9].[0-9]{1,2}.[0-9]).tar.gz
+ftp://cran.r-project.org/pub/R/src/base/R-2/R-([0-9].[0-9]{1,2}.[0-9]).tar.gz

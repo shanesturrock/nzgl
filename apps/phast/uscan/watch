@@ -1,0 +1,3 @@
+version=3
+opts=uversionmangle=s/_/\./g \
+  http://compgen.bscb.cornell.edu/phast/downloads/ phast.v([0-9]_[0-9]_[0-9])\.tgz

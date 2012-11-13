@@ -1,0 +1,3 @@
+version=3
+opts=uversionmangle=s/-/\./g \
+  ftp://ftp.broadinstitute.org/pub/gsa/GenomeAnalysisTK/GenomeAnalysisTK-([0-9].[0-9]-[0-9]{1,2}-[a-z].*).tar.bz2
