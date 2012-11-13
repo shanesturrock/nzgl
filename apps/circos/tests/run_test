@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e 
+/opt/circos/bin/circos -conf /opt/circos/example/etc/circos.conf
+exit 0

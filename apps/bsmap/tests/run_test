@@ -1,0 +1,3 @@
+#!/bin/bash
+set -e
+bsmap -a e_coli_1000.fa -d NC_008253.fna -M GA -o out.bam

@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+# Example taken from http://www.broadinstitute.org/gatk/guide/topic?name=tutorials
+# carl@biomatters.com
+
+expected_output='TraversalEngine - 0 reads were filtered out during traversal out of 33 total'
+
+java -jar /usr/share/java/gatk/GenomeAnalysisTK.jar -T CountReads -R /usr/share/doc/gatk-*/resources/exampleFASTA.fasta -I /usr/share/doc/gatk-*/resources/exampleBAM.bam | grep -q "${expected_output}"

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+version=1.60
+set -e
+
+[ -d biopython-${version} ] && rm -rf biopython-${version}
+
+tar xf biopython-${version}.tar.gz
+cd biopython-${version}
+python setup.py test

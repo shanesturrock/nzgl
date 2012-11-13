@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Based on sample_data/test_Trinity_Assembly/runMe.sh script shipped with Trinity
+
+set -e
+
+#######################################################
+##  Run Trinity to Generate Transcriptome Assemblies ##
+#######################################################
+
+## use jellyfish
+/usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4
+
+######################################################
+## align reads back to the transcripts using Bowtie ##
+######################################################
+
+/usr/libexec/trinityrnaseq/util/alignReads.pl --left reads.left.fq --right reads.right.fq --target trinity_out_dir/Trinity.fasta --aligner bowtie --seqType fq --SS_lib_type RF
+
+###########################################
+# use RSEM to estimate read abundance  ####
+###########################################
+
+/usr/libexec/trinityrnaseq/util/RSEM_util/run_RSEM.pl --transcripts trinity_out_dir/Trinity.fasta --name_sorted_bam bowtie_out/bowtie_out.nameSorted.sam.+.sam.PropMapPairsForRSEM.bam --paired 
+
+############################
+# compute FPKM values   ####
+############################
+
+/usr/libexec/trinityrnaseq/util/RSEM_util/summarize_RSEM_fpkm.pl --transcripts trinity_out_dir/Trinity.fasta --RSEM RSEM.isoforms.results --fragment_length 300 --group_by_component | tee Trinity.RSEM.fpkm
+
+# Taken from testEdgeRfuncs/runMe.sh
+
+R --vanilla -q < run_edgeR_on_sample_data.R 
+
+exit 0

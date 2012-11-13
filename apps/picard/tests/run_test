@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+picard_dir='/usr/share/java/picard'
+
+[ -e Asperg.sam ] && rm -f Asperg.sam
+
+java -jar ${picard_dir}/CreateSequenceDictionary.jar OUTPUT=Asperg.sam R=Asperg.fasta
+java -jar ${picard_dir}/SortSam.jar INPUT=Asperg.sam OUTPUT=new.sam SORT_ORDER=unsorted

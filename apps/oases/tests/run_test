@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+# From http://computing.bio.cam.ac.uk/local/doc/oases.txt
+
+velveth new_directory 21 -shortPaired data/test_reads.fa
+velvetg new_directory -read_trkg yes
+oases new_directory -ins_length 200
+exit 0

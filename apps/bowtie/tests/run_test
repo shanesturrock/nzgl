@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ ! -d reads/ ]; then
+	echo "bowtie tests need reads/ directory from source package."
+	exit 1
+fi
+
+set -e
+bowtie e_coli reads/e_coli_1000.fq
+bowtie -t e_coli reads/e_coli_1000.fq e_coli.map
+
+bowtie-build NC_002127.fna e_coli_O157_H7
+bowtie -c e_coli_O157_H7 GCGTGAGCTATGAGAAAGCGCCACGCTTCC
+
+bowtie -S e_coli reads/e_coli_10000snp.fq ec_snp.sam
+samtools view -bS -o ec_snp.bam ec_snp.sam
+samtools sort ec_snp.bam ec_snp.sorted
+samtools mpileup -f genomes/NC_008253.fna ec_snp.sorted.bam

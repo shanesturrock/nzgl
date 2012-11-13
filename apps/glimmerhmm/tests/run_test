@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Data from ftp://ftp.cbcb.umd.edu/pub/software/glimmerhmm/trainfile_exp
+# Example from http://www.cbcb.umd.edu/software/GlimmerHMM/man.shtml
+
+set -e
+
+[ -d train/ ] && rm -rf train/
+
+trainGlimmerHMM Asperg.fasta Asperg.cds -d train/
+glimmerhmm Asperg.fasta train/ -n 50

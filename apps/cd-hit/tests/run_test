@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+# http://weizhong-lab.ucsd.edu/cd-hit/wiki/doku.php?id=cd-hit_user_guide
+
+cd-hit -i ls_orchid.fasta -o /dev/null -c 0.9 -n 5 -M 2000

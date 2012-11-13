@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# From http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide_v0.7.6.pdf
+# Test fastq from http://www.bioinformatics.babraham.ac.uk/projects/download.html#bismark
+# Test fasta from hg19
+
+set -e
+
+[ -d testdata/Bisulfite_Genome/ ] && rm -rf testdata/Bisulfite_Genome/
+
+bismark_genome_preparation testdata/
+bismark -n 1 -l 50 testdata/ test_data.fastq
+bismark_methylation_extractor -s --comprehensive test_data.fastq_bismark.sam

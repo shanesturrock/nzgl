@@ -1,0 +1,3 @@
+#!/bin/bash
+set -e
+cufflinks ./test_data.sam

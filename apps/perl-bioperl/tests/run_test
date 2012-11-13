@@ -1,0 +1,17 @@
+#!/bin/bash
+
+version=1.6.901
+set -e
+
+yumdownloader -y --source perl-bioperl perl-bioperl-run
+yum-builddep -y ./perl-bioperl*.src.rpm perl-bioperl-run*.src.rpm
+yum -y install cpan perl-Bio-SamTools
+
+tar xf BioPerl-${version}.tar.gz
+cd BioPerl-${version}
+perl Build.PL --installdirs vendor << EOF
+n
+a
+n
+EOF
+./Build test
