@@ -1,0 +1,8 @@
+#!/bin/bash
+vm='nzgl-test2'
+dist='rhel'
+mem='1024'
+disk='10'
+cpus='1'
+kickstart='nzgl.ks'
+virt-install --name ${vm} --disk /var/lib/libvirt/images/${vm}.img,size=${disk} --ram ${mem} --nographics --location http://nzglrepo.biomatters.com/rhel-x86_64-server-6/ --extra-args="ks=file:///${kickstart} console=tty0 console=ttyS0,115200" --vcpus=${cpus} --initrd-inject="${kickstart}"
