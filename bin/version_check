@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Compares the currently installed versions of packages with those upstream,
+# reporting any that are out of date.
+#
+# Depends on Debian's 'uscan' (Perl script)
+#
+# Carl Jones <carl@biomatters.com>
+
+bin=$(pwd)
+
+if [ ! -x ${bin}/uscan ]; then
+	echo "No 'uscan' found. Try running this from nzgl/bin"
+	exit 1
+fi
+
+cd ../apps/
+package_list=*
+
+#[ -n "${1}" ] && package_list=${1}
+#[ -n "${1}" ] && report_args='--report-status' || report_args='--report'
+if [ "${1}" == "--report" ]; then
+	verbose=''
+else
+	verbose='true'
+fi
+
+for package in ${package_list}; do
+	[ ! -d ${package} ] && continue
+	current_version=$(rpm -q --queryformat '%{VERSION}\n' ${package})
+	if [ -z "${current_version}" ]; then
+		echo "Unable to get current version for ${package}"
+		exit 1
+	fi
+	check=$(${bin}/uscan ${report_args} --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} --timeout 30)
+	if [ -n "${check}" ]; then
+		let packages_updated_count+=1
+		packages_updated="${packages_updated} ${package}"
+		[ -n "${verbose}" ] && echo ${check}
+	fi
+done 
+[ -z "${verbose}" ] && echo "${packages_updated}" | sed 's/^ //g'
+exit ${packages_updated_count}
