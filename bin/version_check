@@ -3,41 +3,103 @@
 # Compares the currently installed versions of packages with those upstream,
 # reporting any that are out of date.
 #
-# Depends on Debian's 'uscan' (Perl script)
+# Requires 'uscan' and 'rpm'.
 #
 # Carl Jones <carl@biomatters.com>
 
-bin=$(pwd)
+package_dir='/root/nzgl/apps'	# Default package directory
+update_count=0
 
-if [ ! -x ${bin}/uscan ]; then
-	echo "No 'uscan' found. Try running this from nzgl/bin"
+function log() {
+	[ -z "${verbose}" ] && return
+	echo "$@"
+}
+
+function usage() {
+	cat << EOF
+Usage: ${0} [-a -l -v] [-d <directory>] [-p <package>]
+	-a Check all packages
+	-d Package directory (default=${package_dir})
+	-e Print list of packages with updates after checks run (use without verbose)
+	-l Download new packages
+	-p Single package to check
+	-v Be verbose
+
+Each package directory needs to contain a uscan sub-directory containing a 'watch' file (see uscan docs).
+By default ${0} exit code will be the number of packages that have been updated; 0 if no updates.
+
+EOF
+}
+
+for binary in uscan rpm; do
+	if ! which ${binary} &>/dev/null; then
+		echo "Error: ${binary} not found."
+		exit 1
+	fi
+done
+
+if [ $# -eq 0 ]; then
+	usage
 	exit 1
 fi
 
-cd ../apps/
-package_list=*
+while getopts ad:elp:v flag; do
+	case $flag in
+		a)
+			package_list='all'
+			;;
+		d)
+			package_dir=${OPTARG}
+			;;
+		e)	
+			output_updates='true'
+			;;
+		l)
+			download_updates='true'
+			;;
+		p)
+			package_list=${OPTARG}
+			;;
+		v)
+			verbose='true'
+			;;
+		?)
+			usage
+			exit 1
+	esac
+done
 
-#[ -n "${1}" ] && package_list=${1}
-#[ -n "${1}" ] && report_args='--report-status' || report_args='--report'
-if [ "${1}" == "--report" ]; then
-	verbose=''
-else
-	verbose='true'
+shift $((OPTIND - 1))
+
+log ${package_dir}
+
+if [ ! -d ${package_dir} ]; then
+	echo "Error: Package directory ${package_dir} does not exist."
+	exit 1
 fi
+cd ${package_dir}
+
+if [ -z "${package_list}" ] || [ "${package_list}" == "all" ]; then
+	package_list=*
+fi
+
+log ${package_list}
 
 for package in ${package_list}; do
 	[ ! -d ${package} ] && continue
+	[ ! -e ${package}/uscan/watch ] && continue # skip packages we don't check upstream
+
 	current_version=$(rpm -q --queryformat '%{VERSION}\n' ${package})
 	if [ -z "${current_version}" ]; then
-		echo "Unable to get current version for ${package}"
+		echo "Unable to get current version for ${package}. Not installed?"
 		exit 1
 	fi
-	check=$(${bin}/uscan ${report_args} --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} --timeout 30)
+
+	check=$(uscan --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} --timeout 30)
 	if [ -n "${check}" ]; then
-		let packages_updated_count+=1
-		packages_updated="${packages_updated} ${package}"
-		[ -n "${verbose}" ] && echo ${check}
+		let updated_count+=1
+		log ${check}
+		[ -n "${output_updates}" ] && echo ${package}
 	fi
 done 
-[ -z "${verbose}" ] && echo "${packages_updated}" | sed 's/^ //g'
-exit ${packages_updated_count}
+exit ${update_count}
