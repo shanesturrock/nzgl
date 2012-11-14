@@ -1,0 +1,10 @@
+--- src/makefile.orig	2007-04-11 07:52:41.000000000 -0700
++++ src/makefile	2007-04-11 07:53:04.000000000 -0700
+@@ -89,7 +89,6 @@
+ bin : 
+ 	mkdir bin
+ 	mv models/pswdb models/psw models/genewisedb models/estwisedb models/estwise models/genewise models/dba models/dnal models/genomewise ./bin
+-	csh welcome.csh
+ 
+ libs : 
+ 	(cd base   ; make CC="$(CC)" CFLAGS="$(CFLAGS)" libwisebase.a )

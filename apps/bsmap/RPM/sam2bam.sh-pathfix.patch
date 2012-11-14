@@ -1,0 +1,34 @@
+--- sam2bam.sh.orig	2012-07-25 20:46:51.399013887 +0000
++++ sam2bam.sh	2012-07-25 20:48:31.824211851 +0000
+@@ -1,3 +1,4 @@
++#!/bin/bash
+ #convering SAM to BAM, sort and index BAM
+ #usage ./sam2bam.sh <infile>
+ #outputfile will be <infile_stem>.bam and <infile_stem>.bam.bai
+@@ -10,7 +11,7 @@
+ 	echo "$1 does not exist."
+ 	exit 1
+ fi
+-samtools/samtools view -bS $1 > $tmpbam
++/usr/bin/samtools view -bS $1 > $tmpbam
+ if [ $? -ne 0 ]; then
+ 	echo "SAM2BAM conversion not sucessful."
+ 	echo "$1 remains unchanged."
+@@ -18,7 +19,7 @@
+ 	exit 1
+ fi
+ echo "Sorting BAM ..."
+-samtools/samtools sort $tmpbam ${outbam%.*}
++/usr/bin/samtools sort $tmpbam ${outbam%.*}
+ if [ $? -ne 0 ]; then
+ 	echo "BAM file sorting not sucessful."
+ 	echo "$outbam is in unsorted BAM format".
+@@ -27,7 +28,7 @@
+ fi
+ rm $tmpbam
+ echo "Indexing BAM ..."
+-samtools/samtools index $outbam
++/usr/bin/samtools index $outbam
+ if [ $? -ne 0 ]; then
+ 	echo "BAM file indexing not sucessful."
+ 	exit 1

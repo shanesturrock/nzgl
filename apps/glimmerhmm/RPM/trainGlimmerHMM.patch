@@ -1,0 +1,11 @@
+--- train/trainGlimmerHMM.orig	2012-09-05 03:32:34.033182237 +0000
++++ train/trainGlimmerHMM	2012-09-05 03:32:52.456314957 +0000
+@@ -20,7 +20,7 @@
+ use splitiso;
+ 
+ my $workdir=cwd();
+-my $scriptdir=$FindBin::Bin; # directory where all training programs should be
++my $scriptdir="/usr/libexec/glimmerhmm";
+ 
+ #print "workdir=$workdir scriptdir=$scriptdir\n";exit;
+ 

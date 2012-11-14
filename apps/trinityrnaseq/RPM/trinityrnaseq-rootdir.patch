@@ -1,0 +1,11 @@
+--- Trinity.pl.orig	2012-09-03 21:28:32.586581786 +0000
++++ Trinity.pl	2012-09-03 21:28:56.881585765 +0000
+@@ -281,7 +281,7 @@
+ 
+ 
+ 
+-my $ROOTDIR = "$FindBin::RealBin";
++my $ROOTDIR = "/usr/libexec/trinityrnaseq";
+ my $UTILDIR = "$ROOTDIR/util";
+ my $INCHWORM_DIR = "$ROOTDIR/Inchworm";
+ my $CHRYSALIS_DIR = "$ROOTDIR/Chrysalis";

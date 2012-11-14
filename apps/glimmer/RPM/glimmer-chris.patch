@@ -1,0 +1,36 @@
+diff -up glimmer3.02/src/Common/delcher.hh.chris glimmer3.02/src/Common/delcher.hh
+--- glimmer3.02/src/Common/delcher.hh.chris	2006-06-12 21:40:14.000000000 +0200
++++ glimmer3.02/src/Common/delcher.hh	2009-02-24 17:25:50.000000000 +0100
+@@ -30,7 +30,7 @@
+ #include  <iomanip>
+ #include  <fstream>
+ #include  <vector>
+-#include  <string>
++#include  <cstring>
+ 
+ #include  "exceptions.hh"
+ 
+diff -up glimmer3.02/src/Common/gene.cc.chris glimmer3.02/src/Common/gene.cc
+--- glimmer3.02/src/Common/gene.cc.chris	2009-02-24 17:27:35.000000000 +0100
++++ glimmer3.02/src/Common/gene.cc	2009-02-24 17:27:46.000000000 +0100
+@@ -443,7 +443,7 @@ int  Char_Sub
+ //  Return a subscript corresponding to character  ch .
+ 
+   {
+-   char  * p;
++   const char  * p;
+ 
+    p = strchr (CONVERSION_STRING, tolower (ch));
+    if  (p == NULL)
+diff -up glimmer3.02/src/ICM/icm.cc.chris glimmer3.02/src/ICM/icm.cc
+--- glimmer3.02/src/ICM/icm.cc.chris	2009-02-24 17:29:20.000000000 +0100
++++ glimmer3.02/src/ICM/icm.cc	2009-02-24 17:33:45.000000000 +0100
+@@ -1981,7 +1981,7 @@ int  Subscript
+ //  model) for character  ch .
+ 
+   {
+-   char  * p;
++   const char  * p;
+ 
+    p = strchr (ALPHA_STRING, tolower (Filter (ch)));
+    if  (p == NULL)
