@@ -8,7 +8,8 @@
 # Carl Jones <carl@biomatters.com>
 
 package_dir='/root/nzgl/apps'	# Default package directory
-update_count=0
+updated_count=0
+uscan_args='--timeout 30'	# Default uscan args
 
 function log() {
 	[ -z "${verbose}" ] && return
@@ -20,7 +21,7 @@ function usage() {
 Usage: ${0} [-a -l -v] [-d <directory>] [-p <package>]
 	-a Check all packages
 	-d Package directory (default=${package_dir})
-	-e Print list of packages with updates after checks run (use without verbose)
+	-e Print just a list of packages with updates
 	-l Download new packages
 	-p Single package to check
 	-v Be verbose
@@ -55,13 +56,14 @@ while getopts ad:elp:v flag; do
 			output_updates='true'
 			;;
 		l)
-			download_updates='true'
+			uscan_args="${uscan_args} --download"
 			;;
 		p)
 			package_list=${OPTARG}
 			;;
 		v)
 			verbose='true'
+			output_updates='false'
 			;;
 		?)
 			usage
@@ -70,8 +72,6 @@ while getopts ad:elp:v flag; do
 done
 
 shift $((OPTIND - 1))
-
-log ${package_dir}
 
 if [ ! -d ${package_dir} ]; then
 	echo "Error: Package directory ${package_dir} does not exist."
@@ -83,8 +83,6 @@ if [ -z "${package_list}" ] || [ "${package_list}" == "all" ]; then
 	package_list=*
 fi
 
-log ${package_list}
-
 for package in ${package_list}; do
 	[ ! -d ${package} ] && continue
 	[ ! -e ${package}/uscan/watch ] && continue # skip packages we don't check upstream
@@ -95,11 +93,13 @@ for package in ${package_list}; do
 		exit 1
 	fi
 
-	check=$(uscan --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} --timeout 30)
+	check=$(uscan --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} ${uscan_args})
 	if [ -n "${check}" ]; then
 		let updated_count+=1
+		[ "${output_updates}" == "true" ] && echo "${package}"
 		log ${check}
-		[ -n "${output_updates}" ] && echo ${package}
+	else
+		log "${package} up to date."
 	fi
 done 
-exit ${update_count}
+exit ${updated_count}
