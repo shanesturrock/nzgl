@@ -1,0 +1,36 @@
+#!/bin/bash
+
+log_dir='/var/log/biomatters/report'
+log=${log_dir}/$(date +%Y-%m-%d).log
+scripts_dir='/root/nzgl'
+
+mkdir -p ${log_dir}
+
+# Don't over write existing log
+if [ -e ${log} ]; then
+	echo "Error: Log ${log} already exists."
+	exit 1
+fi
+
+# Get todays report details
+
+#rhn_updates=$(update_package_log)
+#rhn_update_count=$?
+
+cd upstream_package_check
+#./update_recorded_version.sh --report
+upstream_updates=$(./upstream_package_check.sh --report)
+upstream_update_count=$?
+cd ..
+cd tests/
+tests_failed=$(./test_all.sh --report)
+tests_failed_count=$?
+
+{
+echo "rhn_update_count=${rhn_update_count}"
+echo "upstream_update_count=${upstream_update_count}"
+echo "tests_failed_count=${tests_failed_count}"
+[ -n "${rhn_updates}" ] && echo "rhn_updates='${rhn_updates}'"
+[ -n "${upstream_updates}" ] && echo "upstream_updates='${upstream_updates}'"
+[ -n "${tests_failed}" ] && echo "tests_failed='${tests_failed}'"
+} | tee ${log}
