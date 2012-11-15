@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          3.0.3
+Version:          3.0.4
 Release:          1%{?dist}
 Summary:          Empirical analysis of digital gene expression data in R
 
@@ -61,6 +61,8 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/libs/edgeR.so
 
 %changelog
+* Fri Nov 16 2012 Carl Jones <carl@biomatters.com> 3.0.4-1
+- New upstream release
 * Wed Nov 14 2012 Carl Jones <carl@biomatters.com> 3.0.3-1
 - New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> 3.0.2-1
