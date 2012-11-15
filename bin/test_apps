@@ -14,7 +14,7 @@ function usage() {
 Usage: ${0} [-a] [-d <dir>] [-r] [-t <test/app>] [-v]
 
 	-a Run all tests	
-	-d Application directory where tests reside (looks for \$app_dir/\$app/tests/
+	-d Application directory where tests reside (looks for \$app_dir/\$app/tests/)
 	-r Report failing tests (for cron job, reporting)
 	-t Run selected test
 	-v Be verbose
@@ -31,20 +31,21 @@ while getopts ad:rt:v flag; do
 		a)
 			apps='all'
 			;;
-		-d)
+		d)
 			app_dir="${OPTARG}"
 			;;
-		-r)
+		r)
 			report='true'
 			;;
-		-t)
+		t)
 			apps="${OPTARG}"
 			;;
-		-v)
+		v)
 			verbose='true'
 			;;
 		?)
 			usage
+			exit 1
 			;;
 	esac
 done
@@ -68,9 +69,8 @@ for app in ${apps}; do
 	cd ${app_dir}/${app}/tests/
 
 	if [ ! -e run_test ] || [ ! -x run_test ]; then
-	#	echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
-	#	exit 1
-		continue
+		echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
+		exit 1
 	fi
 	
 	[ -n "${verbose}" ] && echo -n "${app}: "
