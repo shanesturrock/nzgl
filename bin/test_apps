@@ -3,13 +3,35 @@
 app_dir='/root/nzgl/apps'	# Default apps dir
 failed_tests=0
 
-[ "${1}" == "-v" ] && verbose='true'
-
 # Some tests fail if not run as root e.g. those that install packages.
 if [ ${UID} != '0' ]; then
         echo 'Tests must be run as root.'
         exit 1
 fi
+
+function usage() {
+	cat << EOF
+Usage: ${0} [-a] [-d <dir>] [-r] [-t <test/app>] [-v]
+
+	-a Run all tests	
+	-d Application directory where tests reside (looks for \$app_dir/\$app/tests/
+	-r Report failing tests (for cron job, reporting)
+	-t Run selected test
+	-v Be verbose
+EOF
+}
+
+if [ $# -eq 0 ]; then
+        usage
+        exit 1
+fi
+
+while getopts ad:rt:v flag; do
+        case $flag in
+
+	esac
+done
+
 
 if [ ! -d ${app_dir} ]; then
 	echo "Error: No such directory ${app_dir}"
@@ -35,7 +57,7 @@ for app in ${apps}; do
 
 	./run_test &> /dev/null
 	if [ $? -ne 0 ]; then
-		let failed_tests+=1
+		let failed_tests += 1
 		[ -n "${verbose}" ] && echo "Failed"
 	else
 		[ -n "${verbose}" ] && echo "Passed"
