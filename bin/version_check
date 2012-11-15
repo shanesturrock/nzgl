@@ -99,7 +99,7 @@ for application in ${application_list}; do
 		[ "${output_updates}" == "true" ] && echo "${application}"
 		log ${check}
 	else
-		log "${application} up to date."
+		log "${application}: Up to date"
 	fi
 done 
 exit ${updated_count}
