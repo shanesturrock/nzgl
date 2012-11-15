@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Compares the currently installed versions of packages with those upstream,
+# Compares the currently installed versions of applications with those upstream,
 # reporting any that are out of date.
 #
 # Requires 'uscan' and 'rpm'.
 #
 # Carl Jones <carl@biomatters.com>
 
-package_dir='/root/nzgl/apps'	# Default package directory
+application_dir='/root/nzgl/apps'	# Default application directory
 updated_count=0
-uscan_args='--timeout 30'	# Default uscan args
+uscan_args='--timeout 30'		# Default uscan args
 
 function log() {
 	[ -z "${verbose}" ] && return
@@ -18,16 +18,16 @@ function log() {
 
 function usage() {
 	cat << EOF
-Usage: ${0} [-a -l -v] [-d <directory>] [-p <package>]
-	-a Check all packages
-	-d Package directory (default=${package_dir})
-	-e Print just a list of packages with updates
-	-l Download new packages
-	-p Single package to check
+Usage: ${0} [-a -l -v] [-d <directory>] [-p <application>]
+	-a Check all applications
+	-d Application directory (default=${application_dir})
+	-f Fetch applications updates
+	-r Report list of applications with updates
+	-x Single application to check
 	-v Be verbose
 
-Each package directory needs to contain a uscan sub-directory containing a 'watch' file (see uscan docs).
-By default ${0} exit code will be the number of packages that have been updated; 0 if no updates.
+Each application directory needs to contain a uscan sub-directory containing a 'watch' file (see uscan docs).
+By default ${0} exit code will be the number of applications that have been updated; 0 if no updates.
 
 EOF
 }
@@ -44,22 +44,22 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-while getopts ad:elp:v flag; do
+while getopts ad:frvx: flag; do
 	case $flag in
 		a)
-			package_list='all'
+			application_list='all'
 			;;
 		d)
-			package_dir=${OPTARG}
+			application_dir="${OPTARG}"
 			;;
-		e)	
-			output_updates='true'
-			;;
-		l)
+		f)
 			uscan_args="${uscan_args} --download"
 			;;
-		p)
-			package_list=${OPTARG}
+		r)	
+			output_updates='true'
+			;;
+		x)
+			application_list="${OPTARG}"
 			;;
 		v)
 			verbose='true'
@@ -73,33 +73,33 @@ done
 
 shift $((OPTIND - 1))
 
-if [ ! -d ${package_dir} ]; then
-	echo "Error: Package directory ${package_dir} does not exist."
+if [ ! -d ${application_dir} ]; then
+	echo "Error: Application directory ${application_dir} does not exist."
 	exit 1
 fi
-cd ${package_dir}
+cd ${application_dir}
 
-if [ -z "${package_list}" ] || [ "${package_list}" == "all" ]; then
-	package_list=*
+if [ -z "${application_list}" ] || [ "${application_list}" == "all" ]; then
+	application_list=*
 fi
 
-for package in ${package_list}; do
-	[ ! -d ${package} ] && continue
-	[ ! -e ${package}/uscan/watch ] && continue # skip packages we don't check upstream
+for application in ${application_list}; do
+	[ ! -d ${application} ] && continue
+	[ ! -e ${application}/uscan/watch ] && continue # skip applications we don't check upstream
 
-	current_version=$(rpm -q --queryformat '%{VERSION}\n' ${package})
+	current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
 	if [ -z "${current_version}" ]; then
-		echo "Unable to get current version for ${package}. Not installed?"
+		echo "Unable to get current version for ${application}. Not installed?"
 		exit 1
 	fi
 
-	check=$(uscan --package ${package} --watchfile ${package}/uscan/watch --upstream-version ${current_version} ${uscan_args})
+	check=$(uscan --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
 	if [ -n "${check}" ]; then
 		let updated_count+=1
-		[ "${output_updates}" == "true" ] && echo "${package}"
+		[ "${output_updates}" == "true" ] && echo "${application}"
 		log ${check}
 	else
-		log "${package} up to date."
+		log "${application} up to date."
 	fi
 done 
 exit ${updated_count}
