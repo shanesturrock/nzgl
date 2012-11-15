@@ -1,0 +1,28 @@
+#/bin/bash
+
+# Runs matrix2png to generate example PNG files, then checks they exist and are PNG files.
+# carl@biomatters.com
+
+example_count=7
+
+set -e 
+
+matrix2png -data testdata.rdb -size 8:8 -map 1  -range -2:2 -numr 10 > example1.png
+matrix2png -data testdata.rdb -size 8:8 -r -c -s -map 3  -trim 5 -numr 10 > example2.png
+matrix2png -data testdata.rdb -size 8:8 -map 3 -range -2:2 -numr 10 > example3.png
+matrix2png -data testdata.rdb -size 8:8 -mincolor red -maxcolor green -e -b -bkgcolor black > example4.png
+matrix2png -data testdata.rdb -size 8:8 -map 4 -e -range -2:2 -bkgcolor black -numr 10 > example5.png
+matrix2png -data testdata.rdb -size 8:8 -map 1 -d -range -2:2 -numr 10 > example6.png
+matrix2png -size 1:16 -s -r -dmap NM_000041.map -data NM_000041.ds.mtx > example7.png
+
+for i in $(seq 1 ${example_count}); do
+	if [ ! -e example${i}.png ]; then
+		echo "example${i}.png not found"
+		false # trigger error, exit
+	fi
+	if ! file example${i}.png | grep -q PNG; then
+		echo "example${i}.png is not a PNG"
+		false # trigger error, exit
+	fi
+done
+exit 0

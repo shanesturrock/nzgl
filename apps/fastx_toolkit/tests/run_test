@@ -1,0 +1,21 @@
+#/bin/bash
+
+# http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_info_example
+
+set -e 
+
+fastx_quality_stats -i e_coli_1000_2.fq -o stats.txt
+fastq_quality_boxplot_graph.sh -i stats.txt -o quality.png -t "Test"
+fastx_nucleotide_distribution_graph.sh -i stats.txt -o nuc.png -t "Test"
+
+for file in quality.png nuc.png; do
+	if [ ! -e ${file} ]; then
+		echo "${file} not found"
+		false # trigger error, exit
+	fi
+	if ! file ${file} | grep -q PNG; then
+		echo "${file} is not a PNG"
+		false # trigger error, exit
+	fi
+done
+exit 0
