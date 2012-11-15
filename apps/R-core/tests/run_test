@@ -10,3 +10,5 @@ tests=$(find . -maxdepth 2 -name '*.R' -type f)
 for test in ${tests}; do 
 	R --no-save < ${test} 
 done
+/bin/rm -f *.pdf
+exit 0

@@ -25,4 +25,5 @@ for i in $(seq 1 ${example_count}); do
 		false # trigger error, exit
 	fi
 done
+rm -f *.png
 exit 0

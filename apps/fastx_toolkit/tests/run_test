@@ -18,4 +18,6 @@ for file in quality.png nuc.png; do
 		false # trigger error, exit
 	fi
 done
+/bin/rm *.png
+/bin/rm *.txt
 exit 0
