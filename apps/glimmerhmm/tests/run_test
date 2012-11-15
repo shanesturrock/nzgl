@@ -9,3 +9,5 @@ set -e
 
 trainGlimmerHMM Asperg.fasta Asperg.cds -d train/
 glimmerhmm Asperg.fasta train/ -n 50
+
+rm -rf train/

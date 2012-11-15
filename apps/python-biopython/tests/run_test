@@ -8,3 +8,5 @@ set -e
 tar xf biopython-${version}.tar.gz
 cd biopython-${version}
 python setup.py test
+cd ..
+rm -rf biopython-${version}

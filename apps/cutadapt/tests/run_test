@@ -23,3 +23,5 @@ test_bfast()
 test_polya()
 test_suffix()
 test_solid()
+
+os.remove('tests.pyc')

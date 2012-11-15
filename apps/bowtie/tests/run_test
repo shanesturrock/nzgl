@@ -16,3 +16,9 @@ bowtie -S e_coli reads/e_coli_10000snp.fq ec_snp.sam
 samtools view -bS -o ec_snp.bam ec_snp.sam
 samtools sort ec_snp.bam ec_snp.sorted
 samtools mpileup -f genomes/NC_008253.fna ec_snp.sorted.bam
+
+rm -f *.ebwt
+rm -f *.sam
+rm -f *.bam
+rm -f *.map
+exit 0

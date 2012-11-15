@@ -8,12 +8,15 @@ fi
 output='good_dataset.fq.png'
 
 set -e
+function cleanup() {
+	for file in good_dataset.fq.hist.pdf good_dataset.fq.matrix \
+		good_dataset.fq.png good_dataset.fq.quality good_dataset.fq \
+		good_dataset.fq.quality.pdf good_dataset.fq.segments; do
+		[ -e ${file} ] && rm -f ${file}
+	done
+}
 
-for file in good_dataset.fq.hist.pdf good_dataset.fq.matrix \
-	good_dataset.fq.png good_dataset.fq.quality \
-	good_dataset.fq.quality.pdf good_dataset.fq.segments; do
-	[ -e ${file} ] && rm -f ${file}
-done
+cleanup
 
 bzcat good_dataset.fq.bz2 > good_dataset.fq
 SolexaQA.pl good_dataset.fq
@@ -25,4 +28,6 @@ if ! file ${output} | grep -q PNG; then
 	echo "${output} is not a PNG"
 	false # trigger error, exit
 fi
+
+cleanup
 exit 0

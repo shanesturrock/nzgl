@@ -8,3 +8,5 @@ hmmbuild globins4.hmm globins4.sto
 hmmsearch globins4.hmm globins45.fa
 hmmbuild fn3.hmm fn3.sto
 hmmsearch fn3.hmm 7LESS_DROME
+
+rm -f *.hmm

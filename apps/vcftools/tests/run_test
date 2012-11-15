@@ -16,3 +16,4 @@ vcf-stats valid-4.1.vcf
 vcf-sort  valid-4.1.vcf
 vcf-merge merge-test-*.vcf.gz > merged.vcf
 zcat annotate-test.vcf.gz | vcf-annotate -a annotate.txt -d key=INFO,ID=ANN,Number=1,Type=Integer,Description='My custom annotation'  -c CHROM,FROM,TO,INFO/ANN
+rm -f merged.vcf

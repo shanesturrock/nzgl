@@ -1,3 +1,5 @@
 #!/bin/bash
 set -e
 cufflinks ./test_data.sam
+rm -f *_tracking
+rm -f *.gtf

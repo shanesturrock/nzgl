@@ -1,3 +1,4 @@
 #!/bin/bash
 set -e
 ./g3-from-scratch.csh tpall.fna test
+rm -f test.*

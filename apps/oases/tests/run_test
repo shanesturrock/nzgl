@@ -6,4 +6,5 @@ set -e
 velveth new_directory 21 -shortPaired data/test_reads.fa
 velvetg new_directory -read_trkg yes
 oases new_directory -ins_length 200
+rm -rf new_directory
 exit 0
