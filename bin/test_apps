@@ -28,7 +28,24 @@ fi
 
 while getopts ad:rt:v flag; do
         case $flag in
-
+		a)
+			apps='all'
+			;;
+		-d)
+			app_dir="${OPTARG}"
+			;;
+		-r)
+			report='true'
+			;;
+		-t)
+			apps="${OPTARG}"
+			;;
+		-v)
+			verbose='true'
+			;;
+		?)
+			usage
+			;;
 	esac
 done
 
@@ -40,7 +57,9 @@ fi
 
 cd ${app_dir}
 
-apps=$(find . -maxdepth 1 -type d -printf '%f\n' | grep -v \\.)
+if [ -z "${apps}" ] || [ "${apps}" == "all" ]; then
+	apps=$(find . -maxdepth 1 -type d -printf '%f\n' | grep -v \\.)
+fi
 
 for app in ${apps}; do
 	if [ ! -d ${app_dir}/${app}/tests/ ]; then
@@ -49,19 +68,21 @@ for app in ${apps}; do
 	cd ${app_dir}/${app}/tests/
 
 	if [ ! -e run_test ] || [ ! -x run_test ]; then
-		echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
-		exit 1
+	#	echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
+	#	exit 1
+		continue
 	fi
 	
 	[ -n "${verbose}" ] && echo -n "${app}: "
 
 	./run_test &> /dev/null
 	if [ $? -ne 0 ]; then
-		let failed_tests += 1
+		let failed_tests+=1
 		[ -n "${verbose}" ] && echo "Failed"
+		[ -n "${report}" ] && echo "${app}"
 	else
 		[ -n "${verbose}" ] && echo "Passed"
 	fi
 done
 
-exit ${failed_count}
+exit ${failed_tests}
