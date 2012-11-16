@@ -18,6 +18,7 @@ Usage: ${0} [-a] [-d <dir>] [-r] [-t <test/app>] [-v]
 	-r Report failing tests (for cron job, reporting)
 	-t Run selected test
 	-v Be verbose
+	-z Debug mode. Ignore tests that can't be executed. 
 EOF
 }
 
@@ -26,7 +27,7 @@ if [ $# -eq 0 ]; then
         exit 1
 fi
 
-while getopts ad:rt:v flag; do
+while getopts ad:rt:vz flag; do
         case $flag in
 		a)
 			apps='all'
@@ -42,6 +43,9 @@ while getopts ad:rt:v flag; do
 			;;
 		v)
 			verbose='true'
+			;;
+		z)
+			debug='true'
 			;;
 		?)
 			usage
@@ -62,6 +66,7 @@ if [ -z "${apps}" ] || [ "${apps}" == "all" ]; then
 	apps=$(find . -maxdepth 1 -type d -printf '%f\n' | grep -v \\.)
 fi
 
+failed=''
 for app in ${apps}; do
 	if [ ! -d ${app_dir}/${app}/tests/ ]; then
 		continue 	# Not all apps have individual tests
@@ -69,8 +74,12 @@ for app in ${apps}; do
 	cd ${app_dir}/${app}/tests/
 
 	if [ ! -e run_test ] || [ ! -x run_test ]; then
-		echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
-		exit 1
+		if [ -z "${debug}" ]; then
+			echo "Error: Unable to run test. Check ${app}/tests/run_test exists and is executable."
+			exit 1
+		else
+			continue
+		fi
 	fi
 	
 	[ -n "${verbose}" ] && echo -n "${app}: "
@@ -79,10 +88,10 @@ for app in ${apps}; do
 	if [ $? -ne 0 ]; then
 		let failed_tests+=1
 		[ -n "${verbose}" ] && echo "Failed"
-		[ -n "${report}" ] && echo "${app}"
+		[ -n "${report}" ] && failed="${app} ${failed}"
 	else
 		[ -n "${verbose}" ] && echo "Passed"
 	fi
 done
-
+echo "${failed}"
 exit 0

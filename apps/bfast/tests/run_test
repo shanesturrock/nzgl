@@ -1,6 +1,7 @@
 #!/bin/bash
 # Tests from tarball
 set -e
+bash test.cleanup.sh
 bash test.initialize.sh
 bash test.fasta2brg.sh
 bash test.index.sh
