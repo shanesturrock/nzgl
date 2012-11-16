@@ -1,0 +1,31 @@
+#!/bin/bash
+
+log='/var/log/yum.log'			# log to parse
+
+function usage() {
+	cat << EOF
+Usage: $0 <date|today>
+<date>	In the form of MMM DD e.g. 'Aug 14', or use 'today'	
+EOF
+	return 0
+}
+
+[ -z "${1}" ] && usage && exit 1
+
+if [ "${1}" == "today" ]; then 
+	date=$(date '+%b %d')		# Format is MMM DD e.g. Aug 14
+else
+	date="${1}"			# Allow date over-ride from command line
+	spaces=${date//[^ ]/}		# Replace all non spaces with nothing
+	if [ ${#spaces} -ne 1 ]; then
+		usage
+		exit 1
+	fi 
+fi
+
+updates=($(grep "${date}" /var/log/yum.log | egrep '(Installed:|Updated:)' | awk '{print $5}' | cut -f2 -d:))
+
+if [ ${#updates[@]} -gt 0 ]; then
+	echo ${updates[@]}
+fi
+exit 0
