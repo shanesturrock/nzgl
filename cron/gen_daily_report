@@ -12,13 +12,12 @@ if [ -e ${log} ]; then
 	exit 1
 fi
 
-redhat_updates=$(${bin}/list_yum_updates 'Aug 14')
-failed_tests=$(${bin}/test_apps -a -r -z | sed 's/ *$//g')
-
-#upstream_updates=$(${bin}/version_check -a -r)
+redhat_updates=$(${bin}/list_yum_updates today)
+failed_tests=$(${bin}/test_apps -a -r | sed 's/ *$//g')
+upstream_updates=$(${bin}/version_check -a -r | sed 's/ *$//g')
 
 {
 [ -n "${redhat_updates}" ] && echo "redhat_updates='${redhat_updates}'"
 [ -n "${upstream_updates}" ] && echo "upstream_updates='${upstream_updates}'"
 [ -n "${failed_tests}" ] && echo "failed_tests='${failed_tests}'"
-} | tee ${log}
+} > ${log}
