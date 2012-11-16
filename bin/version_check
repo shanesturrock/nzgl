@@ -8,7 +8,6 @@
 # Carl Jones <carl@biomatters.com>
 
 application_dir='/root/nzgl/apps'	# Default application directory
-updated_count=0
 uscan_args='--timeout 30'		# Default uscan args
 
 function log() {
@@ -95,11 +94,10 @@ for application in ${application_list}; do
 
 	check=$(uscan --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
 	if [ -n "${check}" ]; then
-		let updated_count+=1
 		[ "${output_updates}" == "true" ] && echo "${application}"
 		log ${check}
 	else
 		log "${application}: Up to date"
 	fi
 done 
-exit ${updated_count}
+exit 0
