@@ -43,6 +43,7 @@ pam_ldap
 sssd
 nx
 freenx
+yum-plugin-post-transaction-actions
 nzgl-release
 @Development tools
 @NZGL
@@ -66,9 +67,12 @@ done
 rpm -e subscription-manager subscription-manager-gnome
 
 # Revert default JDK to 1.6.0
-alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
-alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
-alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
+#alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
+#alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
+#alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
+
+echo 'java-1.7*:install:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java; alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64; alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
+java-1.7*:update:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java; alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64; alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64' > /etc/yum/post-actions/jdk.action
 
 # NFS 
 #echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
