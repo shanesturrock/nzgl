@@ -33,4 +33,15 @@ set -e
 
 R --vanilla -q < run_edgeR_on_sample_data.R 
 
+# Cleanup
+/bin/rm -rf bowtie_out
+/bin/rm -rf trinity_out_dir
+/bin/rm -rf RSEM.stat/
+/bin/rm *results*
+/bin/rm TRANS.*
+/bin/rm MA_plot.eps
+/bin/rm Trinity.RSEM.fpkm
+/bin/rm trinity.timing
+
+
 exit 0
