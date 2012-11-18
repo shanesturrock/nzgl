@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Grabs results from log parser, package updater and test scripts
+# Places results into log for parsing by reporting script
+
 log_dir='/var/log/biomatters/report'
 bin='/root/nzgl/bin'
 
