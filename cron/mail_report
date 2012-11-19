@@ -75,11 +75,11 @@ for log in ${logs}; do
 done
 
 # Sort, place into array
-all_redhat_updates=($(echo "${all_redhat_updates}" | sed 's/ /\n/g' | sort -n | uniq))
-all_upstream_updates=($(echo "${all_upstream_updates}" | sed 's/ /\n/g' | sort -n | uniq))
-all_failed_tests=($(echo "${all_failed_tests}" | sort -n | sed 's/ /\n/g' | uniq))
+all_redhat_updates=($(echo "${all_redhat_updates}" | sed 's/ /\n/g' | sort | uniq))
+all_upstream_updates=($(echo "${all_upstream_updates}" | sed 's/ /\n/g' | sort | uniq))
+all_failed_tests=($(echo "${all_failed_tests}" | sed 's/ /\n/g' | sort | uniq))
 
-if [ ${#all_redhat_updates[@]} -gt 0 ] || [ ${#all_upstream_updates[@]} -gt 0 ] || [ ${#all_failed_tests[@]} -gt 0 ]; then
+if [ ${#all_upstream_updates[@]} -gt 0 ] || [ ${#all_failed_tests[@]} -gt 0 ]; then
 	action_required=''
 else
 	action_required='no '
@@ -88,21 +88,19 @@ fi
 if [ "${type}" == "daily" ]; then 
 	mail_subject="Daily report for ${date} (${action_required}action required)"
 else
-	mail_subject="Monthly report for ${year}-${month} (${action_required}action required)"
+	mail_subject="Monthly report for ${year}-${month}"
 fi
 
 {
-cat << END
-${mail_subject}
+echo -e "${mail_subject}\n"
 
-RedHat Updates (${#all_redhat_updates[@]})
-${all_redhat_updates[@]}
+echo -e "RPM Updates (${#all_redhat_updates[@]})\n"
+[ ${#all_redhat_updates[@]} -gt 0 ] && echo "${all_redhat_updates[@]}" | sed 's/ /\n/g' && echo ""
 
-Upstream Updates (${#all_upstream_updates[@]})
-${all_upstream_updates}
+echo -e "Upstream Updates (${#all_upstream_updates[@]})\n"
+[ ${#all_upstream_updates[@]} -gt 0 ] && echo "${all_upstream_updates[@]}" | sed 's/ /\n/g' && echo ""
 
-Failed Tests (${#all_failed_tests[@]})
-${all_failed_tests[@]}
-END
+echo -e "Failed Tests (${#all_failed_tests[@]})\n"
+[ ${#all_failed_tests[@]} -gt 0 ] && echo "${all_failed_tests[@]}" | sed 's/ /\n/g' && echo ""
 
 } |  mail -s "${mail_subject}" ${mail_to}
