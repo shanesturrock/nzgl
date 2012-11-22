@@ -1,10 +1,11 @@
 install
 text
+cdrom
 reboot
 
-url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
+#url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
 repo --name=nzgl-stable --baseurl=http://nzglrepo.biomatters.com/nzgl-stable
-repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
+#repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
 
 lang en_US.UTF-8
 keyboard us
@@ -88,7 +89,9 @@ java-1.7*:update:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_6
 
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
+sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
 echo 'AllowGroups biomatters nx' >> /etc/ssh/sshd_config
+
 
 # PAM/LDAP host restriction
 # sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
