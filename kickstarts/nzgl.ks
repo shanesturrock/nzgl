@@ -73,7 +73,7 @@ rpm -e subscription-manager subscription-manager-gnome
 #alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
 
 echo 'java-1.7*:install:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java; alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64; alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
-java-1.7*:update:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java; alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64; alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64' > /etc/yum/post-actions/jdk.action
+java-1.7*:update:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java; alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64; alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64' > /etc/yum/post-actions/java.action
 
 # NFS 
 #echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -105,5 +105,8 @@ echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
 nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+# Allow password authentication from localhost (else NX can't authenticate)
+echo 'Match Address 127.0.0.1
+PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
 %end
