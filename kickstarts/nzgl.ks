@@ -45,6 +45,7 @@ sssd
 nx
 freenx
 yum-plugin-post-transaction-actions
+munin-node
 nzgl-release
 @Development tools
 @NZGL
@@ -57,7 +58,7 @@ nzgl-release
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
 
 # Disable services
-services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|freenx-server|ntpd"
+services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|freenx-server|ntpd|munin-node"
 services_disable=$(/sbin/chkconfig --list | grep 3:on | awk '{print $1}' | egrep -v "${services_enable}" | egrep -v "network")
 for service in ${services_disable}; do
 	/sbin/chkconfig --del ${service}
@@ -90,7 +91,7 @@ java-1.7*:update:alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_6
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
 sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
-echo 'AllowGroups biomatters nx' >> /etc/ssh/sshd_config
+echo 'AllowGroups biomatters nx munin' >> /etc/ssh/sshd_config
 
 
 # PAM/LDAP host restriction
@@ -108,5 +109,24 @@ nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
 echo 'Match Address 127.0.0.1
 PasswordAuthentication yes' >> /etc/ssh/sshd_config
+
+# Munin
+chkconfig munin-node on
+mkdir -m 0700 /var/lib/munin/.ssh
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
+chown -R munin:munin /var/lib/munin/.ssh/
+chmod 600 /var/lib/munin/.ssh/authorized_keys
+
+# Munin plugins
+/bin/rm /etc/munin/plugins/*
+
+plugins='cpu df df_inode diskstats load memory netstat processes proc_pri swap threads uptime users vmstat'
+for plugin in ${plugins}; do
+	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
+	ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
+done
+
+
+
 
 %end
