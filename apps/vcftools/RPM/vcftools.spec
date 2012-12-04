@@ -1,6 +1,6 @@
 Name:		vcftools
-Version:	0.1.9
-Release:	2%{?dist}
+Version:	0.1.10
+Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
 Group:		Applications/Engineering
@@ -58,12 +58,25 @@ rm -rf %{buildroot}
 %{_bindir}/vcf-subset
 %{_bindir}/vcf-to-tab
 %{_bindir}/vcf-validator
+%{_bindir}/fill-fs
+%{_bindir}/fill-ref-md5
+%{_bindir}/vcf-consensus
+%{_bindir}/vcf-contrast
+%{_bindir}/vcf-fix-ploidy
+%{_bindir}/vcf-indel-stats
+%{_bindir}/vcf-phased-join
+%{_bindir}/vcf-shuffle-cols
+%{_bindir}/vcf-tstv
+
 %attr(0755, root, root) %{_bindir}/vcftools
 %{perl_vendorarch}/FaSlice.pm
 %{perl_vendorarch}/Vcf.pm
 %{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Wed Dec 05 2012 Carl Jones <carl@biomatters.com> - 1.10-1
+- New upstream release
+
 * Tue Sep 04 2012 Carl Jones <carl@biomatters.com> - 0.1.9-2
 - Add dependancy on tabix
 * Sun Jul 29 2012  <bloch@verdurin.com> - 0.1.9-1
