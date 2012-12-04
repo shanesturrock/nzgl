@@ -1,0 +1,8 @@
+Split nzgl-release package into nzgl-release and nzgl-redhat-repo RPMs
+Cacti templates
+Cacti docs to add VM device
+Better tests
+Move tests to seperate git repo
+Update test scripts to use new git repo
+Status page
+Better way to record what packages were updated and when, version, etc
