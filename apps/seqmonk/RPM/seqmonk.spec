@@ -1,6 +1,6 @@
 Name:		seqmonk
-Version:	0.22.0
-Release:	2%{?dist}
+Version:	0.23.0
+Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -42,17 +42,15 @@ rm -rf %{buildroot}
 /usr/share/java/seqmonk/*
 
 %changelog
+* Wed Dec 05 2012 Carl Jones <carl@biomatters.com> - 0.23.0-1
+- New upstream release
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 0.22.0-2
 - Use 0.22 tarball rather than 0.21
-
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 0.22.0-1
 - New upstream release
-
 * Fri Aug 09 2012 Carl Jones <carl@biomatters.com> - 0.21.0-3
 - Fixed Java paths
-
 * Fri Aug 02 2012 Carl Jones <carl@biomatters.com> - 0.21.0-2
 - Move bin/seqmonk to seqmonk.
-
 * Fri Aug 02 2012 Carl Jones <carl@biomatters.com> - 0.21.0-1
 - Initial build.
