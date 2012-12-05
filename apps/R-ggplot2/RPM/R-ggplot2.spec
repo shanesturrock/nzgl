@@ -2,7 +2,7 @@
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.9.2.1
+Version:          0.9.3
 Release:          1%{?dist}
 Summary:          An implementation of the Grammar of Graphics
 
@@ -60,7 +60,10 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/data/*
 %{rlibdir}/%{packname}/test_ns/*
 %{rlibdir}/%{packname}/tests/*
+%{rlibdir}/%{packname}/staticdocs/*
 
 %changelog
+* Thu Dec 06 2012 Carl Jones <carl@biomatters.com> 0.9.3-1
+- New upstream release
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> 0.9.2.1-1
 - initial package
