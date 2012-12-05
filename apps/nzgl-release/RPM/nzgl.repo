@@ -1,17 +1,3 @@
-[rhel-base]
-name=Red Hat Enterprise Linux 6 - Base
-baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-
-[rhel-optional]
-name=Red Hat Enterprise Linux 6 - Optional
-baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-
 [nzgl-stable]
 name=NZGL packages for Enterprise Linux 6 - Stable
 baseurl=http://nzglrepo.biomatters.com/nzgl-stable

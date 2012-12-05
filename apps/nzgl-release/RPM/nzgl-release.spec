@@ -1,7 +1,7 @@
 Summary: NZGL release files
 Name: nzgl-release
 Version: 1.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2
 Source0: nzgl.repo
 Source1: RPM-GPG-KEY-Biomatters
@@ -31,6 +31,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Thu Dec 06 2012 Carl Jones <carl@biomatters.com> - 1.0-6
+- Split out RHN repositories
+
 * Tue Sep 11 2012 Carl Jones <carl@biomatters.com> - 1.0-5
 - Rename NZGL repositories
 
