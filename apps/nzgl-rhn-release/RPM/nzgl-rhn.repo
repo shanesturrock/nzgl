@@ -1,0 +1,13 @@
+[rhel-x86_64-server-6]
+name=Red Hat Enterprise Linux 6 - Base
+baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[rhel-x86_64-server-optional-6]
+name=Red Hat Enterprise Linux 6 - Optional
+baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
