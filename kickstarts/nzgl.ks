@@ -3,9 +3,9 @@ text
 cdrom
 reboot
 
-#url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
+url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
 repo --name=nzgl-stable --baseurl=http://nzglrepo.biomatters.com/nzgl-stable
-#repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
+repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
 
 lang en_US.UTF-8
 keyboard us
@@ -47,6 +47,7 @@ freenx
 yum-plugin-post-transaction-actions
 net-snmp
 nzgl-release
+nzgl-rhn-release
 @Development tools
 @NZGL
 @Internet Browser
@@ -83,9 +84,11 @@ chmod +x /usr/local/sbin/disablejava7
 echo 'java-1.7*:install:/usr/local/sbin/disablejava7 
 java-1.7*:update:/usr/local/sbin/disablejava7' > /etc/yum/post-actions/java.action
 
-yum -y upgrade
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
+
+# Upgrade packages
+yum -y upgrade
 
 # NFS 
 #echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
