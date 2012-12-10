@@ -1,5 +1,0 @@
-Unpack thold, settings and monitor tarballs into the Cacti plugins directory. Then enable them from the web UI.
-
-Next import the host template (cacti_host_template_biomatters.xml). You should now see the 'Biomatters' host template.
-There should also be a 'Disk IO Bytes' under Data Templates. If  the Disk IO template is missing try installing the 
-template from diskio087d.tar.gz (do not install unless there are issues).
