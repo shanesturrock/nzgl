@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.23.0
+Version:	0.23.1
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -42,6 +42,8 @@ rm -rf %{buildroot}
 /usr/share/java/seqmonk/*
 
 %changelog
+* Wed Dec 12 2012 Carl Jones <carl@biomatters.com> - 0.23.1-1
+- New upstream release
 * Wed Dec 05 2012 Carl Jones <carl@biomatters.com> - 0.23.0-1
 - New upstream release
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 0.22.0-2
