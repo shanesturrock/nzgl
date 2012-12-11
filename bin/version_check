@@ -17,7 +17,7 @@ function log() {
 
 function usage() {
 	cat << EOF
-Usage: ${0} [-a -l -v] [-d <directory>] [-p <application>]
+Usage: ${0} [-a -l -v] [-d <directory>] [-x <application>]
 	-a Check all applications
 	-d Application directory (default=${application_dir})
 	-f Fetch applications updates
