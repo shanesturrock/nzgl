@@ -1,6 +1,6 @@
 Name:           glimmer
-Version:        3.02
-Release:        10%{?dist}
+Version:        3.02a
+Release:        1%{?dist}
 Summary:        System for finding genes in microbial DNA
 
 Group:          Applications/Engineering
@@ -59,6 +59,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Dec 12 2012 Carl Jones <carl@biomatters.com> - 3.02a-1
+- New upstream release
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.02-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
