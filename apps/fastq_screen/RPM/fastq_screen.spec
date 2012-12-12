@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.3.1
+Version:	0.4
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -20,7 +20,7 @@ of a QC pipeline to confirm that a library comes from the expected
 source, and to help identify any sources of contamination.
 
 %prep
-%setup -q -n FastQScreen_v%{version}
+%setup -q -n %{name}_v%{version}
 
 cp -p %{SOURCE1} .
 
@@ -51,6 +51,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 13 2012 Carl Jones <carl@biomatters.com> - 0.4-1
+- New upstream release
+
 * Fri Jul 27 2012 Carl Jones <carl@biomatters.com> - 0.3.1-1
 - New upstream release
 
