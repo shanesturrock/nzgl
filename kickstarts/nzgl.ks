@@ -56,6 +56,10 @@ nzgl-rhn-release
 %end
 
 %post --logfile /root/post.log
+
+master_ipv4="192.168.30.104"
+master_ipv6="2001:dead:beef:fdb8::1"
+
 # Disable services
 cat << EOF > /usr/local/sbin/disableservices
 #!/bin/bash
@@ -138,11 +142,11 @@ echo 'Match Address 127.0.0.1
 #done
 
 # SNMP
-echo 'sysservices 72
+echo "sysservices 72
 sysContact nzgl@biomatters.com
 sysLocation NZGL
-rocommunity nzgl_pub 192.168.30.106 
-disk  /' > /etc/snmp/snmpd.conf
+rocommunity nzgl_pub ${master_ipv4} ${master_ipv6}
+disk  /" > /etc/snmp/snmpd.conf
 chkconfig snmpd on
 
 %end
