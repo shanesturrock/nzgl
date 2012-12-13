@@ -97,6 +97,7 @@ yum -y upgrade
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
 sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
+sed 's/#MaxAuthTries 6/MaxAuthTries 2/g' --in-place /etc/ssh/sshd_config
 echo 'AllowGroups biomatters nx' >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
