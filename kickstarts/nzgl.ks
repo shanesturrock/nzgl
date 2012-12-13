@@ -1,6 +1,6 @@
 install
 text
-cdrom
+#cdrom
 reboot
 
 url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
@@ -45,6 +45,7 @@ sssd
 nx
 freenx
 yum-plugin-post-transaction-actions
+yum-cron
 net-snmp
 nzgl-release
 nzgl-rhn-release
@@ -58,7 +59,7 @@ nzgl-rhn-release
 # Disable services
 cat << EOF > /usr/local/sbin/disableservices
 #!/bin/bash
-services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|freenx-server|ntpd|snmpd"
+services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|freenx-server|ntpd|snmpd|yum-cron"
 services_disable=\$(/sbin/chkconfig --list | grep 3:on | awk '{print \$1}' | egrep -v "\${services_enable}" | egrep -v "network")
 for service in \${services_disable}; do
 	/sbin/chkconfig --del \${service}
@@ -83,6 +84,10 @@ chmod +x /usr/local/sbin/disablejava7
 
 echo 'java-1.7*:install:/usr/local/sbin/disablejava7 
 java-1.7*:update:/usr/local/sbin/disablejava7' > /etc/yum/post-actions/java.action
+
+# Enable yum-cron
+chkconfig yum-cron on
+
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
