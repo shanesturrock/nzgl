@@ -1,11 +1,11 @@
 Name:		solexaqa
-Version:	1.13
+Version:	2.0
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://solexaqa.sourceforge.net/
-Source0:	SolexaQA_v%{version}.pl.zip
+Source0:	SolexaQA_v.%{version}.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	matrix2png
@@ -33,6 +33,8 @@ rm -rf %{buildroot}
 /usr/bin/SolexaQA.pl
 
 %changelog
+* Mon Dec 17 2012 Carl Jones <carl@biomatters.com> - 2.0-1
+- New upstream release
 * Fri Aug 09 2012 Carl Jones <carl@biomatters.com> - 1.13-2
 - Fix source file
 * Fri Aug 03 2012 Carl Jones <carl@biomatters.com> - 1.13-1
