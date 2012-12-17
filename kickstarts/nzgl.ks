@@ -145,7 +145,9 @@ echo 'Match Address 127.0.0.1
 echo "sysservices 72
 sysContact nzgl@biomatters.com
 sysLocation NZGL
-rocommunity nzgl_pub ${master_ipv4} ${master_ipv6}
+agentaddress udp:161,udp6:161,tcp:161,tcp6:161
+rocommunity nzgl_pub ${master_ipv4}
+rocommunity6 nzgl_pub ${master_ipv6}
 disk  /" > /etc/snmp/snmpd.conf
 chkconfig snmpd on
 
