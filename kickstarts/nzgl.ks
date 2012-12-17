@@ -57,14 +57,14 @@ nzgl-rhn-release
 
 %post --logfile /root/post.log
 
-master_ipv4="192.168.30.104"
+master_ipv4="192.168.30.106"
 # Our test IPv6 range is fd46:af09:3ae3::/48
 master_ipv6="fd46:af09:3ae3::10"
 
 # Disable services
 cat << EOF > /usr/local/sbin/disableservices
 #!/bin/bash
-services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|freenx-server|ntpd|snmpd|yum-cron"
+services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|ip6tables|freenx-server|ntpd|snmpd|yum-cron"
 services_disable=\$(/sbin/chkconfig --list | grep 3:on | awk '{print \$1}' | egrep -v "\${services_enable}" | egrep -v "network")
 for service in \${services_disable}; do
 	/sbin/chkconfig --del \${service}
@@ -125,28 +125,40 @@ nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 echo 'Match Address 127.0.0.1
   PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-# Munin
-#chkconfig munin-node on
-#mkdir -m 0700 /var/lib/munin/.ssh
-#echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
-#chown -R munin:munin /var/lib/munin/.ssh/
-#chmod 600 /var/lib/munin/.ssh/authorized_keys
-
-# Munin plugins
-#/bin/rm /etc/munin/plugins/*
-
-#plugins='cpu df df_inode diskstats load memory netstat processes proc_pri swap threads uptime users vmstat'
-#for plugin in ${plugins}; do
-#	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
-#	ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
-#done
-
 # SNMP
 echo "sysservices 72
 sysContact nzgl@biomatters.com
 sysLocation NZGL
-rocommunity nzgl_pub ${master_ipv4} ${master_ipv6}
+agentaddress udp:161,udp6:161,tcp:161,tcp6:161
+rocommunity nzgl_pub ${master_ipv4}
+rocommunity6 nzgl_pub ${master_ipv6}
 disk  /" > /etc/snmp/snmpd.conf
 chkconfig snmpd on
+
+# Firewall
+echo "*filter
+:INPUT DROP [1815:200229]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [1182:149006]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT 
+-A INPUT -s ${master_ipv4}/32 -p udp -m udp --dport 161 -j ACCEPT 
+-A INPUT -p icmp -j ACCEPT 
+COMMIT" > /etc/sysconfig/iptables
+
+echo "*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [247:25201]
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+-A INPUT -p ipv6-icmp -j ACCEPT 
+-A INPUT -s ${master_ipv6}/128 -p udp -m udp --dport 161 -j ACCEPT 
+COMMIT" > /etc/sysconfig/ip6tables
+
+chkconfig iptables on
+chkconfig ip6tables on
 
 %end
