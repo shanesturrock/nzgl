@@ -58,7 +58,8 @@ nzgl-rhn-release
 %post --logfile /root/post.log
 
 master_ipv4="192.168.30.104"
-master_ipv6="2001:dead:beef:fdb8::1"
+# Our test IPv6 range is fd46:af09:3ae3::/48
+master_ipv6="fd46:af09:3ae3::10"
 
 # Disable services
 cat << EOF > /usr/local/sbin/disableservices
@@ -91,7 +92,6 @@ java-1.7*:update:/usr/local/sbin/disablejava7' > /etc/yum/post-actions/java.acti
 
 # Enable yum-cron
 chkconfig yum-cron on
-
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
