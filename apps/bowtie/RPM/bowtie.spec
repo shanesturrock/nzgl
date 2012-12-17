@@ -1,5 +1,5 @@
 Name:		bowtie
-Version:	0.12.8
+Version:	0.12.9
 Release:	1%{?dist}
 Summary:	An ultrafast, memory-efficient short read aligner
 
@@ -58,6 +58,9 @@ rm -rf %{buildroot}
 %{_datadir}/bowtie/scripts
 
 %changelog
+* Tue Dec 18 2012 Carl Jones <carl@biomatters.com> - 0.12.9-1
+- New upstream release
+
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 0.12.8-1
 - New upstream release
 
