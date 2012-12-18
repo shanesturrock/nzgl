@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE comps PUBLIC "-//Red Hat, Inc.//DTD Comps info//EN" "comps.dtd">
+<comps>
+        
+  <group>
+   <id>nzgl</id>
+   <default>false</default>
+   <uservisible>true</uservisible>
+   <display_order>1024</display_order>
+   <name>NZGL</name>
+   <description></description>
+    <packagelist>
+      <packagereq type="mandatory">R-DESeq</packagereq>
+      <packagereq type="mandatory">R-GenomeGraphs</packagereq>
+      <packagereq type="mandatory">R-HilbertVis</packagereq>
+      <packagereq type="mandatory">R-affyQCReport</packagereq>
+      <packagereq type="mandatory">R-biomaRt</packagereq>
+      <packagereq type="mandatory">R-edgeR</packagereq>
+      <packagereq type="mandatory">R-ggplot2</packagereq>
+      <packagereq type="mandatory">R-gplots</packagereq>
+      <packagereq type="mandatory">R-limma</packagereq>
+      <packagereq type="mandatory">R-pcot2</packagereq>
+      <packagereq type="mandatory">R-xps</packagereq>
+      <packagereq type="mandatory">bfast</packagereq>
+      <packagereq type="mandatory">bismark</packagereq>
+      <packagereq type="mandatory">bowtie</packagereq>
+      <packagereq type="mandatory">bowtie2</packagereq>
+      <packagereq type="mandatory">bsmap</packagereq>
+      <packagereq type="mandatory">bwa</packagereq>
+      <packagereq type="mandatory">cd-hit</packagereq>
+      <packagereq type="mandatory">circos</packagereq>
+      <packagereq type="mandatory">clustalw</packagereq>
+      <packagereq type="mandatory">cufflinks</packagereq>
+      <packagereq type="mandatory">cutadapt</packagereq>
+      <packagereq type="mandatory">ea-utils</packagereq>
+      <packagereq type="mandatory">fastq_screen</packagereq>
+      <packagereq type="mandatory">fastqc</packagereq>
+      <packagereq type="mandatory">fastx_toolkit</packagereq>
+      <packagereq type="mandatory">gatk</packagereq>
+      <packagereq type="mandatory">glimmer</packagereq>
+      <packagereq type="mandatory">glimmerhmm</packagereq>
+      <packagereq type="mandatory">haploview</packagereq>
+      <packagereq type="mandatory">hmmer</packagereq>
+      <packagereq type="mandatory">igv</packagereq>
+      <packagereq type="mandatory">macs</packagereq>
+      <packagereq type="mandatory">matrix2png</packagereq>
+      <packagereq type="mandatory">mosaik</packagereq>
+      <packagereq type="mandatory">ncbi-blast</packagereq>
+      <packagereq type="mandatory">oases</packagereq>
+      <packagereq type="mandatory">perl-bioperl</packagereq>
+      <packagereq type="mandatory">perm</packagereq>
+      <packagereq type="mandatory">phast</packagereq>
+      <packagereq type="mandatory">picard</packagereq>
+      <packagereq type="mandatory">plink</packagereq>
+      <packagereq type="mandatory">python-biopython</packagereq>
+      <packagereq type="mandatory">samtools</packagereq>
+      <packagereq type="mandatory">seqmonk</packagereq>
+      <packagereq type="mandatory">solexaqa</packagereq>
+      <packagereq type="mandatory">srma</packagereq>
+      <packagereq type="mandatory">tablet</packagereq>
+      <packagereq type="mandatory">tophat</packagereq>
+      <packagereq type="mandatory">trinityrnaseq</packagereq>
+      <packagereq type="mandatory">vcftools</packagereq>
+      <packagereq type="mandatory">velvet</packagereq>
+    </packagelist>
+  </group>
+</comps>
