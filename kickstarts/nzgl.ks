@@ -76,11 +76,7 @@ chmod +x /usr/local/sbin/disableservices
 echo '*:install:/usr/local/sbin/disableservices
 *:update:/usr/local/sbin/disableservices' > /etc/yum/post-actions/services.action
 
-# Disable yum RHN subscription plugin
-#sed 's/enabled=1/enabled=0/g' --in-place /etc/yum/pluginconf.d/subscription-manager.conf
-rpm -e subscription-manager subscription-manager-gnome
-
-# Enforce default JDK is 1.6.0
+# Script to force default JDK to 1.6
 echo '#!/bin/bash
 alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
 alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
@@ -92,12 +88,6 @@ java-1.7*:update:/usr/local/sbin/disablejava7' > /etc/yum/post-actions/java.acti
 
 # Enable yum-cron
 chkconfig yum-cron on
-
-# Remove unnecessary firmware packages
-rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
-
-# Upgrade packages
-yum -y upgrade
 
 # NFS 
 #echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -137,9 +127,9 @@ chkconfig snmpd on
 
 # Firewall
 echo "*filter
-:INPUT DROP [1815:200229]
+:INPUT DROP [0:0]
 :FORWARD DROP [0:0]
-:OUTPUT ACCEPT [1182:149006]
+:OUTPUT ACCEPT [0:0]
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A INPUT -i lo -j ACCEPT 
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT 
@@ -150,15 +140,30 @@ COMMIT" > /etc/sysconfig/iptables
 echo "*filter
 :INPUT DROP [0:0]
 :FORWARD DROP [0:0]
-:OUTPUT ACCEPT [247:25201]
--A INPUT -i lo -j ACCEPT 
+:OUTPUT ACCEPT [0:0]
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
--A INPUT -p ipv6-icmp -j ACCEPT 
 -A INPUT -s ${master_ipv6}/128 -p udp -m udp --dport 161 -j ACCEPT 
+-A INPUT -p ipv6-icmp -j ACCEPT 
 COMMIT" > /etc/sysconfig/ip6tables
 
 chkconfig iptables on
 chkconfig ip6tables on
+
+# Remove RHN RPMs
+yum -y remove subscription-manager subscription-manager-gnome rhn-setup
+
+# Remove unnecessary firmware packages
+rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
+
+# Upgrade packages
+yum -y upgrade
+
+# Disable services
+/usr/local/sbin/disableservices
+
+# Disable Java 7
+/usr/local/sbin/disablejava7
 
 %end
