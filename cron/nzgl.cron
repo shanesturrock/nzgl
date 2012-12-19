@@ -1,1 +1,1 @@
-0 1 * * * root /root/nzgl/cron/yum_update; /root/nzgl/cron/log_updates; /root/nzgl/cron/mail_report
+0 1 * * * root /home/build/nzgl/cron/yum_update; /home/build/nzgl/cron/log_updates; /home/build/nzgl/cron/mail_report

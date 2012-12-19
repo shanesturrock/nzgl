@@ -4,7 +4,7 @@
 # Places results into log for parsing by reporting script
 
 log_dir='/var/log/biomatters/report'
-bin='/root/nzgl/bin'
+bin='/home/build/nzgl/bin'
 
 mkdir -p ${log_dir}
 log=${log_dir}/$(date +%Y-%m-%d).log
