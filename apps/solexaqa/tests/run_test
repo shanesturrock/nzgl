@@ -11,7 +11,8 @@ set -e
 function cleanup() {
 	for file in good_dataset.fq.hist.pdf good_dataset.fq.matrix \
 		good_dataset.fq.png good_dataset.fq.quality good_dataset.fq \
-		good_dataset.fq.quality.pdf good_dataset.fq.segments; do
+		good_dataset.fq.quality.pdf good_dataset.fq.segments \
+		good_dataset.fq.cumulative.pdf good_dataset.fq.matrix.png; do
 		[ -e ${file} ] && rm -f ${file}
 	done
 	return 0
