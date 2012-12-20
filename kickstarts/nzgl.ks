@@ -112,7 +112,7 @@ echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
 nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
-echo 'Match Address 127.0.0.1
+echo 'Match Address 127.0.0.1,::1
   PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
 # SNMP
