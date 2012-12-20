@@ -5,18 +5,19 @@ mail_to='nzgl@biomatters.com'
 
 function usage() {
 	cat << EOF
-Usage: ${0} [-d] [-m] [-t <date>]
+Usage: ${0} [-d] [-m] [-t <date>] [-e <email_address>]
 
 	-d Daily report
 	-m Monthly report
 	-t Use provided date rather than today YYYY-MM-DD
 	   (for viewing previous day/months reports)
+	-e Email address to send report to
 
 	Either daily (-d) or monthly (-m) must be specified.
 EOF
 }
 
-while getopts dmt: flag; do
+while getopts dmt:e: flag; do
         case $flag in
                 d)
                         type='daily'
@@ -26,6 +27,9 @@ while getopts dmt: flag; do
 			;;
 		t)
 			date=${OPTARG}
+			;;
+		e)
+			mail_to=${OPTARG}
 			;;
 		?)
 			usage
@@ -52,7 +56,7 @@ if [ "${type}" == "daily" ]; then
 else
 	year=$(date -d ${date} +%Y)
 	month=$(date -d ${date} +%m)
-	logs=$(find ${log_dir} -maxdepth 1 -type f -name "2012-11-*" -printf '%f\n')
+	logs=$(find ${log_dir} -maxdepth 1 -type f -name "${year}-${month}-*" -printf '%f\n')
 fi
 
 # Parse
@@ -103,4 +107,4 @@ echo -e "Upstream Updates (${#all_upstream_updates[@]})\n"
 echo -e "Failed Tests (${#all_failed_tests[@]})\n"
 [ ${#all_failed_tests[@]} -gt 0 ] && echo "${all_failed_tests[@]}" | sed 's/ /\n/g' && echo ""
 
-} |  mail -s "${mail_subject}" ${mail_to}
+} |  mail -r 'NZGL Report <nzgl@biomatters.com>' -s "${mail_subject}" ${mail_to}
