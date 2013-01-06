@@ -1,0 +1,4 @@
+java-1.7*:install:/usr/sbin/nzgl-java-configure
+java-1.7*:update:/usr/sbin/nzgl-java-configure
+*:install:/usr/sbin/nzgl-services-configure
+*:update:/usr/sbin/nzgl-services-configure
