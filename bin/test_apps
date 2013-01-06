@@ -1,6 +1,6 @@
 #!/bin/bash
 
-app_dir='/home/build/nzgl/apps'	# Default apps dir
+app_dir='/root/nzgl/apps'	# Default apps dir
 failed_tests=0
 
 # Some tests fail if not run as root e.g. those that install packages.
