@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Enables/disables configured services
+# Carl Jones <carl@biomatters.com>
+
+# List of services that should be enabled (all others will be disabled)
+services="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|ip6tables|freenx-server|ntpd$|snmpd|yum-cron"
+
+# Script starts
+services_enable=$(/sbin/chkconfig --list | awk '{print $1}' | egrep "${services}")
+services_disable=$(/sbin/chkconfig --list | grep 3:on | awk '{print $1}' | egrep -v "${services}" | egrep -v "network")
+
+# Disable and stop unwanted services
+for service in ${services_disable}; do
+        /sbin/chkconfig --del ${service}
+        if /sbin/service ${service} status &>/dev/null; then
+                /sbin/service ${service} stop &>/dev/null
+        fi
+done
+
+# Enable and start wanted services
+for service in ${services_enable}; do
+        /sbin/chkconfig --add ${service}
+        /sbin/chkconfig ${service} on
+        if ! /sbin/service ${service} status &>/dev/null; then
+                /sbin/service ${service} start &>/dev/null
+        fi
+done
