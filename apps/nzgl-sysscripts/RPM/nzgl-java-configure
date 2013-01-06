@@ -4,3 +4,4 @@
 alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java &>/dev/null
 alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64 &>/dev/null
 alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64 &>/dev/null
+exit 0

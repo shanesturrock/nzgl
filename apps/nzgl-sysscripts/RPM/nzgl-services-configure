@@ -26,3 +26,4 @@ for service in ${services_enable}; do
                 /sbin/service ${service} start &>/dev/null
         fi
 done
+exit 0
