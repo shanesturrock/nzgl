@@ -1,0 +1,4 @@
+#!/bin/bash
+yum clean all &>/dev/null
+yum -q -y upgrade &>/dev/null
+yum -q -y groupinstall NZGL &>/dev/null
