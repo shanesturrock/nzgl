@@ -45,10 +45,10 @@ sssd
 nx
 freenx
 yum-plugin-post-transaction-actions
-yum-cron
 net-snmp
 nzgl-release
 nzgl-rhn-release
+nzgl-sysscripts
 @Development tools
 @NZGL
 @Internet Browser
@@ -60,34 +60,6 @@ nzgl-rhn-release
 master_ipv4="192.168.30.106"
 # Our test IPv6 range is fd46:af09:3ae3::/48
 master_ipv6="fd46:af09:3ae3::10"
-
-# Disable services
-cat << EOF > /usr/local/sbin/disableservices
-#!/bin/bash
-services_enable="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|ip6tables|freenx-server|ntpd|snmpd|yum-cron"
-services_disable=\$(/sbin/chkconfig --list | grep 3:on | awk '{print \$1}' | egrep -v "\${services_enable}" | egrep -v "network")
-for service in \${services_disable}; do
-	/sbin/chkconfig --del \${service}
-done
-EOF
-
-chmod +x /usr/local/sbin/disableservices
-
-echo '*:install:/usr/local/sbin/disableservices
-*:update:/usr/local/sbin/disableservices' > /etc/yum/post-actions/services.action
-
-# Script to force default JDK to 1.6
-echo '#!/bin/bash
-alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
-alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64
-alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64' > /usr/local/sbin/disablejava7
-chmod +x /usr/local/sbin/disablejava7
-
-echo 'java-1.7*:install:/usr/local/sbin/disablejava7 
-java-1.7*:update:/usr/local/sbin/disablejava7' > /etc/yum/post-actions/java.action
-
-# Enable yum-cron
-chkconfig yum-cron on
 
 # NFS 
 #echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -158,12 +130,12 @@ yum -y remove subscription-manager subscription-manager-gnome rhn-setup
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
 
 # Upgrade packages
-yum -y upgrade
+/usr/sbin/nzgl-yum-upgrade
 
-# Disable services
-/usr/local/sbin/disableservices
+# Configure services
+/usr/sbin/nzgl-services-configure
 
-# Disable Java 7
-/usr/local/sbin/disablejava7
+# Configure java
+/usr/sbin/nzgl-java-configure
 
 %end
