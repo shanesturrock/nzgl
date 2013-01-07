@@ -11,7 +11,6 @@ lang en_US.UTF-8
 keyboard us
 network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $6$/c8wetYVjfiZENyf$g32b9vhjDwZKYe7ZVjAjFcQfBWbHqN4F4rbf3gb7sclPQscguZIm6rBhP.YkP2HeixQuJ5NA0IsQnoT4h6rr4/
-#firewall --enabled --ssh --port=161:udp
 skipx
 #authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://rhel6-build.biomatters.com --ldapbasedn="dc=testing,dc=com" --disableldaptls --enablesssd --enablesssdauth --update
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
@@ -49,7 +48,6 @@ net-snmp
 nzgl-release
 nzgl-rhn-release
 nzgl-sysscripts
-nzgl-iptables
 @Development tools
 @NZGL
 @Internet Browser
@@ -121,5 +119,8 @@ rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
 
 # Configure java
 /usr/sbin/nzgl-java-configure
+
+# Firewall setup
+yum -y install nzgl-iptables
 
 %end
