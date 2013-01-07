@@ -49,6 +49,7 @@ net-snmp
 nzgl-release
 nzgl-rhn-release
 nzgl-sysscripts
+nzgl-iptables
 @Development tools
 @NZGL
 @Internet Browser
@@ -60,9 +61,10 @@ nzgl-sysscripts
 master_ipv4="192.168.30.106"
 # Our test IPv6 range is fd46:af09:3ae3::/48
 master_ipv6="fd46:af09:3ae3::10"
+nfs_host="192.168.30.55"
 
 # NFS 
-#echo "rhel6-build:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
@@ -96,32 +98,6 @@ rocommunity nzgl_pub ${master_ipv4}
 rocommunity6 nzgl_pub ${master_ipv6}
 disk  /" > /etc/snmp/snmpd.conf
 chkconfig snmpd on
-
-# Firewall
-echo "*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT ACCEPT [0:0]
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
--A INPUT -i lo -j ACCEPT 
--A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT 
--A INPUT -s ${master_ipv4}/32 -p udp -m udp --dport 161 -j ACCEPT 
--A INPUT -p icmp -j ACCEPT 
-COMMIT" > /etc/sysconfig/iptables
-
-echo "*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT ACCEPT [0:0]
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
--A INPUT -i lo -j ACCEPT 
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
--A INPUT -s ${master_ipv6}/128 -p udp -m udp --dport 161 -j ACCEPT 
--A INPUT -p ipv6-icmp -j ACCEPT 
-COMMIT" > /etc/sysconfig/ip6tables
-
-chkconfig iptables on
-chkconfig ip6tables on
 
 # Remove RHN RPMs
 yum -y remove subscription-manager subscription-manager-gnome rhn-setup
