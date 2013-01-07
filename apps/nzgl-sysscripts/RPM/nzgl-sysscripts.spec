@@ -26,9 +26,9 @@ mkdir -p $RPM_BUILD_ROOT/etc/cron.d/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/
 
 mkdir -p $RPM_BUILD_ROOT/%{_sbindir}/
-install -m 755 ${SOURCE2} $RPM_BUILD_ROOT/%{_sbindir}/
-install -m 755 ${SOURCE3} $RPM_BUILD_ROOT/%{_sbindir}/
-install -m 755 ${SOURCE4} $RPM_BUILD_ROOT/%{_sbindir}/
+install -m 755 %{SOURCE2} $RPM_BUILD_ROOT/%{_sbindir}/
+install -m 755 %{SOURCE3} $RPM_BUILD_ROOT/%{_sbindir}/
+install -m 755 %{SOURCE4} $RPM_BUILD_ROOT/%{_sbindir}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
