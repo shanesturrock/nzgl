@@ -1,7 +1,7 @@
 Summary: iptables configuration files for NZGL VMs
 Name: nzgl-iptables
 Version: 1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Source0: iptables
 Source1: ip6tables
@@ -24,6 +24,10 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/chkconfig --add iptables
+/sbin/chkconfig --add ip6tables
+/sbin/chkconfig iptables on
+/sbin/chkconfig ip6tables on
 /sbin/service iptables restart &>/dev/null
 /sbin/service ip6tables restart &>/dev/null
 
@@ -33,5 +37,8 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/ip6tables
 
 %changelog
+* Mon Jan 07 2013 Carl Jones <carl@biomatters.com> - 1.0-2
+- Enable services in %post
+
 * Mon Jan 07 2013 Carl Jones <carl@biomatters.com> - 1.0-1
 - Initial release.
