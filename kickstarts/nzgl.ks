@@ -62,6 +62,7 @@ master_ipv4="192.168.30.106"
 # Our test IPv6 range is fd46:af09:3ae3::/48
 master_ipv6="fd46:af09:3ae3::10"
 nfs_host="192.168.30.55"
+ntp_servers="0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org"
 
 # NFS 
 echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -98,6 +99,13 @@ rocommunity nzgl_pub ${master_ipv4}
 rocommunity6 nzgl_pub ${master_ipv6}
 disk  /" > /etc/snmp/snmpd.conf
 chkconfig snmpd on
+
+# NTP
+[ -e /etc/ntp.conf ] && mv /etc/ntp.conf /etc/ntp.conf.orig
+echo "driftfile /var/lib/ntp/drift" > /etc/ntp.conf
+for ntp_server in ${ntp_servers}; do
+	echo "server ${ntp_server}" >> /etc/ntp.conf
+done
 
 # Remove RHN RPMs
 yum -y remove subscription-manager subscription-manager-gnome rhn-setup
