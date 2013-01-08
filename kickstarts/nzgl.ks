@@ -43,6 +43,7 @@ pam_ldap
 sssd
 nx
 freenx
+rstudio
 yum-plugin-post-transaction-actions
 net-snmp
 nzgl-release
