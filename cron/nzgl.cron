@@ -1,1 +1,2 @@
 0 1 * * * root /root/nzgl/cron/yum_update; /root/nzgl/cron/log_updates; /root/nzgl/cron/mail_report
+0 2 * * * root /root/nzgl/cron/reposync-rhn; /root/nzgl/cron/createrepo-local-rhn
