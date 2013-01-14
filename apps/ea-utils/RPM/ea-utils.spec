@@ -1,5 +1,5 @@
 %define ver 1.1.2
-%define rel 484
+%define rel 537
 
 Summary:	fastq-processing utilities
 Name:		ea-utils
@@ -13,6 +13,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	bamtools
 BuildRequires:	sparsehash-devel
 BuildRequires:	zlib-devel
+BuildRequires:	gsl-devel
 
 %description
 Utilities for processing fastq files, stitching paired-end reads,
@@ -49,6 +50,8 @@ rm -rf %{buildroot}
 %{_bindir}/varcall
 
 %changelog
+* Mon Jan 14 2013 Carl Jones <carl@biomatters.com> - 1.1.2.537-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> - 1.1.2.484-1
 - New upstream release
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 1.1.2.469-1
