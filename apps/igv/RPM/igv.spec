@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.2.3
+Version:	2.2.4
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 /usr/share/java/igv/igv.jar
 
 %changelog
+* Wed Jan 15 2013 Carl Jones <carl@biomatters.com> - 2.2.4-1
+- New upstream release
+
 * Mon Jan 13 2013 Carl Jones <carl@biomatters.com> - 2.2.3-1
 - New upstream release
 
