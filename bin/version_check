@@ -8,7 +8,7 @@
 # Carl Jones <carl@biomatters.com>
 
 application_dir='/root/nzgl/apps'	# Default application directory
-uscan_args='--timeout 30'		# Default uscan args
+uscan_args='--timeout 30 --no-symlink'	# Default uscan args
 
 function log() {
 	[ -z "${verbose}" ] && return
