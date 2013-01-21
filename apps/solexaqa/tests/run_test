@@ -5,14 +5,14 @@ if [ ! -e good_dataset.fq.bz2 ]; then
 	exit 1
 fi
 
-output='good_dataset.fq.matrix.png'
+output='good_dataset.fq.matrix.pdf'
 
 set -e
 function cleanup() {
 	for file in good_dataset.fq.hist.pdf good_dataset.fq.matrix \
 		good_dataset.fq.png good_dataset.fq.quality good_dataset.fq \
 		good_dataset.fq.quality.pdf good_dataset.fq.segments \
-		good_dataset.fq.cumulative.pdf good_dataset.fq.matrix.png; do
+		good_dataset.fq.cumulative.pdf good_dataset.fq.matrix.pdf; do
 		[ -e ${file} ] && rm -f ${file}
 	done
 	return 0
@@ -26,10 +26,10 @@ if [ ! -e ${output} ]; then
 	echo "${output} not found"
 	false # trigger error, exit
 fi
-if ! file ${output} | grep -q PNG; then
-	echo "${output} is not a PNG"
-	false # trigger error, exit
-fi
+#if ! file ${output} | grep -q PNG; then
+#	echo "${output} is not a PNG"
+#	false # trigger error, exit
+#fi
 
 cleanup
 exit 0
