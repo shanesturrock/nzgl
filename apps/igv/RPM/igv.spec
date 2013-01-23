@@ -1,12 +1,14 @@
 Name:		igv
 Version:	2.2.4
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
 URL:		http://www.broadinstitute.org/igv/home
 Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVDistribution_%{version}.zip
 Source1:	igv
+Source2:	igv.desktop
+Source3:	igv-icons.tar.gz
 Requires:	java-1.6.0 dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	ant
@@ -32,16 +34,38 @@ install -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}
 install -m 0644 igv.jar %{buildroot}/%{_javadir}/%{name}
 install -m 0644 lib/*.jar %{buildroot}/%{_javadir}/%{name}/lib
 
+# Icons
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/
+tar xf %{SOURCE3} -C %{buildroot}%{_datadir}/icons/hicolor/
+
+# .desktop
+mkdir -p %{buildroot}%{_datadir}/applications/
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
+
 %clean
 rm -rf %{buildroot}
+
+%post
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
+  /usr/bin/gtk-update-icon-cache --quiet /usr/share/icons/hicolor
+fi
 
 %files
 %defattr(-,root,root,-)
 /usr/bin/igv
 /usr/share/java/igv/lib/*.jar
 /usr/share/java/igv/igv.jar
+/usr/share/icons/hicolor/*
+/usr/share/applications/igv.desktop
 
 %changelog
+* Wed Jan 23 2013 Carl Jones <carl@biomatters.com> - 2.2.4-3
+- Run gtk-update-icon-cache after install to enable desktop icons
+- Fix icon paths
+
+* Wed Jan 23 2013 Carl Jones <carl@biomatters.com> - 2.2.4-2
+- Add icons, .desktop file
+
 * Wed Jan 15 2013 Carl Jones <carl@biomatters.com> - 2.2.4-1
 - New upstream release
 
