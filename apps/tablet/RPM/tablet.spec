@@ -1,11 +1,13 @@
 Name:		tablet
 Version:	1.12.12.05
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://bioinf.scri.ac.uk/tablet/index.shtml
 Source0:	%{name}-%{version}.tar.gz
+Source1:	%{name}-icons.tar.gz
+Source2:	%{name}.desktop
 Patch0:		%{name}-apphomefix.patch
 #Patch1:		maqtoace-apphomefix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -33,8 +35,21 @@ install -m 0755 %{name} %{buildroot}/%{_bindir}
 /bin/cp -r lib/ %{buildroot}/%{_javadir}/%{name}
 /bin/cp -r .install4j/ %{buildroot}/%{_javadir}/%{name}
 
+# Icons
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/
+tar xf %{SOURCE1} -C %{buildroot}%{_datadir}/icons/hicolor/
+
+# .desktop
+mkdir -p %{buildroot}%{_datadir}/applications/
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
+
 %clean
 rm -rf %{buildroot}
+
+%post
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
+  /usr/bin/gtk-update-icon-cache --quiet /usr/share/icons/hicolor
+fi
 
 %files
 %defattr(-,root,root,-)
@@ -43,8 +58,16 @@ rm -rf %{buildroot}
 #/usr/bin/maqtoace
 /usr/share/java/tablet/*
 /usr/share/java/tablet/.install4j/*
+/usr/share/applications/tablet.desktop
+/usr/share/icons/hicolor/*
 
 %changelog
+* Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 1.12.12.05-3
+- Fix desktop icons path
+
+* Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 1.12.12.05-2
+- Add desktop icons
+
 * Thu Dec 06 2012 Carl Jones <carl@biomatters.com> - 1.12.12.05-1
 - New upstream release
 * Thu Sep 05 2012 Carl Jones <carl@biomatters.com> - 1.12.08.29-1

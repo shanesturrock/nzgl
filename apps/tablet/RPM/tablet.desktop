@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Tablet
+Comment=Next Generation Sequence Assembly Visualization
+Terminal=false
+Exec=/usr/bin/tablet
+Icon=tablet
+Type=Application
+MimeType=application/x-executable;
+Categories=Science;
