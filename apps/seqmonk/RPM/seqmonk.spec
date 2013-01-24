@@ -1,11 +1,13 @@
 Name:		seqmonk
 Version:	0.23.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/
 Source0:	http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/seqmonk_v%{version}.zip
+Source1:	seqmonk-icons.tar.gz
+Source2:	seqmonk.desktop
 Patch0:		seqmonk-classpath.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -32,16 +34,34 @@ install -m 0755 seqmonk %{buildroot}/%{_bindir}
 /bin/cp -r uk/ %{buildroot}/%{_javadir}/%{name}/
 /bin/cp -r com/ %{buildroot}/%{_javadir}/%{name}/
 
+# Icons
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/
+tar xf %{SOURCE1} -C %{buildroot}%{_datadir}/icons/hicolor/
+
+# .desktop
+mkdir -p %{buildroot}%{_datadir}/applications/
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
+
 %clean
 rm -rf %{buildroot}
+
+%post
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
+  /usr/bin/gtk-update-icon-cache --quiet /usr/share/icons/hicolor
+fi
 
 %files
 %defattr(-,root,root,-)
 %doc README.txt LICENSE.txt RELEASE_NOTES.txt
 /usr/bin/seqmonk
 /usr/share/java/seqmonk/*
+/usr/share/applications/seqmonk.desktop
+/usr/share/icons/hicolor/*
 
 %changelog
+* Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 0.23.1-2
+- Add desktop icons, menu
+
 * Wed Dec 12 2012 Carl Jones <carl@biomatters.com> - 0.23.1-1
 - New upstream release
 * Wed Dec 05 2012 Carl Jones <carl@biomatters.com> - 0.23.0-1

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Seqmonk
+Comment=A tool to visualise and analyse high throughput mapped sequence data
+Terminal=false
+Exec=/usr/bin/seqmonk
+Icon=seqmonk
+Type=Application
+MimeType=application/x-executable;
+Categories=Science;
