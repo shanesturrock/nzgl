@@ -1,6 +1,6 @@
 Name:		igv
-Version:	2.2.4
-Release:	3%{?dist}
+Version:	2.2.5
+Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
@@ -59,6 +59,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue Jan 29 2013 Carl Jones <carl@biomatters.com> - 2.2.5-1
+- New upstream release
+
 * Wed Jan 23 2013 Carl Jones <carl@biomatters.com> - 2.2.4-3
 - Run gtk-update-icon-cache after install to enable desktop icons
 - Fix icon paths
