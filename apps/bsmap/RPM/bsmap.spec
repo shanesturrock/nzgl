@@ -1,5 +1,5 @@
 Name:		bsmap
-Version:	2.73
+Version:	2.74
 Release:	1%{?dist}
 Summary:	Bisulfite Sequence Mapping Program
 Group:		Applications/Engineering
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{_bindir}/methratio.py
 
 %changelog
+* Tue Jan 29 2013 Carl Jones <carl@biomatters.com> - 2.7.4-1
+- New upstream release
+
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 2.7.3-1
 - New upstream release
 
