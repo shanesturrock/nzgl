@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Galaxy
+Comment=NZGL Galaxy Server
+Terminal=false
+Exec=/usr/bin/firefox https://galaxy.biomatters.com:8443
+Icon=applications-internet
+Type=Application
+MimeType=application/x-executable;
+Categories=Science;Bioinformatics;
