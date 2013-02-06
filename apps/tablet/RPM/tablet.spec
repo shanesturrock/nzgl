@@ -1,6 +1,6 @@
 Name:		tablet
 Version:	1.12.12.05
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
 License:	BSD Modified
@@ -62,6 +62,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Thu Feb 07 2013 Carl Jones <carl@biomatters.com> - 1.12.12.05-4
+- Fix .desktop file 
+
 * Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 1.12.12.05-3
 - Fix desktop icons path
 

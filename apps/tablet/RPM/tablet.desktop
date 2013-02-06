@@ -7,4 +7,4 @@ Exec=/usr/bin/tablet
 Icon=tablet
 Type=Application
 MimeType=application/x-executable;
-Categories=Science;
+Categories=Science;Bioinformatics;

@@ -1,6 +1,6 @@
 Name:		seqmonk
 Version:	0.23.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3

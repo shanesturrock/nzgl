@@ -7,4 +7,4 @@ Exec=/usr/bin/seqmonk
 Icon=seqmonk
 Type=Application
 MimeType=application/x-executable;
-Categories=Science;
+Categories=Science;Bioinformatics;
