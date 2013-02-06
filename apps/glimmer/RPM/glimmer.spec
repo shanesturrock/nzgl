@@ -1,13 +1,13 @@
 Name:           glimmer
-Version:        3.02a
+Version:        3.02b
 Release:        1%{?dist}
 Summary:        System for finding genes in microbial DNA
 
 Group:          Applications/Engineering
 License:        Artistic clarified
 URL:            http://www.cbcb.umd.edu/software/glimmer
-Source0:        http://www.cbcb.umd.edu/software/glimmer/glimmer302.tar.gz
-Patch0:         glimmer-chris.patch
+Source0:        http://www.cbcb.umd.edu/software/glimmer/glimmer302b.tar.gz
+#Patch0:         glimmer-chris.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       elph
 
@@ -20,7 +20,7 @@ regions and distinguish them from noncoding DNA.
 
 %prep
 %setup -q -n glimmer3.02
-%patch0 -p1 -b .chris
+#%patch0 -p1 -b .chris
 rm -f sample-run/g3-*
 sed -i "s+/fs/szgenefinding/Glimmer3/bin+%{_libexecdir}/glimmer3+" scripts/g3-*
 sed -i "s+/fs/szgenefinding/Glimmer3/scripts+%{_datadir}/glimmer3+" scripts/g3-*
@@ -59,6 +59,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 07 2013 Carl Jones <carl@biomatters.com> - 3.02b-1
+- New upstream release
+
 * Wed Dec 12 2012 Carl Jones <carl@biomatters.com> - 3.02a-1
 - New upstream release
 
