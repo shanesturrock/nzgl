@@ -71,7 +71,7 @@ echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /et
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
 sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
-sed 's/#MaxAuthTries 6/MaxAuthTries 2/g' --in-place /etc/ssh/sshd_config
+sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
 echo "AllowGroups biomatters nx $(hostname)" >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
