@@ -1,14 +1,14 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
-Version: 1.1
-Release: 1%{?dist}
+Version: 1.2
+Release: 0%{?dist}
 License: GPLv2
 Source0: nzgl.action
 Source1: nzgl.cron
-Source2: nzgl-java-configure
-Source3: nzgl-services-configure
+Source2: nzgl-configure-services
+Source3: nzgl-configure-java
 Source4: nzgl-yum-upgrade
-Source5: nzgl-gnome-configure
+Source5: nzgl-configure-gnome
 Source6: panel-default-setup.entries.nzgl
 Source7: galaxy.desktop
 Source8: bioinformatics.menu
@@ -52,17 +52,17 @@ install -m 644 %{SOURCE9} %{buildroot}%{_datadir}/desktop-directories/
 rm -rf %{buildroot}
 
 %post
-/usr/sbin/nzgl-java-configure
-/usr/sbin/nzgl-services-configure
-/usr/sbin/nzgl-gnome-configure
+/usr/sbin/nzgl-configure-java
+/usr/sbin/nzgl-configure-services
+/usr/sbin/nzgl-configure-gnome
 
 %files
 %defattr(-,root,root,-)
 /etc/yum/post-actions/nzgl.action
 /etc/cron.d/nzgl.cron
-/usr/sbin/nzgl-java-configure
-/usr/sbin/nzgl-services-configure
-/usr/sbin/nzgl-gnome-configure
+/usr/sbin/nzgl-configure-java
+/usr/sbin/nzgl-configure-services
+/usr/sbin/nzgl-configure-gnome
 /usr/sbin/nzgl-yum-upgrade
 /etc/gconf/schemas/panel-default-setup.entries.nzgl
 /usr/share/applications/galaxy.desktop
@@ -70,6 +70,10 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Tue Feb 05 2013 Carl Jones <carl@biomatters.com> - 1.2-0
+- Rename *-configure to configure-*
+- Add desktop defaults to -configure-gnome
+
 * Tue Feb 05 2013 Carl Jones <carl@biomatters.com> - 1.1-1
 - Add panel defaults file and script.
 - Add Galaxy menu entry.
