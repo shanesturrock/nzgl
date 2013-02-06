@@ -2,8 +2,8 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.60
-Release:          2%{?dist}
+Version:          1.61
+Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
 License:          MIT
@@ -66,6 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Thu Feb 07 2013 Carl Jones <carl@biomatters.com> - 1.61-1
+- New upstream release
+
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 1.60-2
 - Rebuild
 
