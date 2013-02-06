@@ -3,9 +3,10 @@ text
 #cdrom
 reboot
 
-url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
+#url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
+url --url=http://mirrors.biomatters.com/mirrors/CentOS/6/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://nzglrepo.biomatters.com/nzgl-stable
-repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
+#repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
 
 lang en_US.UTF-8
 keyboard us
@@ -43,11 +44,11 @@ pam_ldap
 sssd
 nx
 freenx
-rstudio
 yum-plugin-post-transaction-actions
 net-snmp
+rstudio
 nzgl-release
-nzgl-rhn-release
+#nzgl-rhn-release
 nzgl-sysscripts
 @Development tools
 @NZGL
@@ -107,7 +108,7 @@ for ntp_server in ${ntp_servers}; do
 done
 
 # Remove RHN RPMs
-yum -y remove subscription-manager subscription-manager-gnome rhn-setup
+#yum -y remove subscription-manager subscription-manager-gnome rhn-setup
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
@@ -116,10 +117,10 @@ rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
 /usr/sbin/nzgl-yum-upgrade
 
 # Configure services
-/usr/sbin/nzgl-services-configure
+/usr/sbin/nzgl-configure-services
 
 # Configure java
-/usr/sbin/nzgl-java-configure
+/usr/sbin/nzgl-configure-java
 
 # Firewall setup
 yum -y install nzgl-iptables
