@@ -49,6 +49,7 @@ net-snmp
 rstudio
 cpan
 perl-Bio-SamTools
+perl-Module-Build
 nzgl-release
 #nzgl-rhn-release
 nzgl-sysscripts
