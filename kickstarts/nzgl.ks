@@ -47,6 +47,8 @@ freenx
 yum-plugin-post-transaction-actions
 net-snmp
 rstudio
+cpan
+perl-Bio-SamTools
 nzgl-release
 #nzgl-rhn-release
 nzgl-sysscripts
