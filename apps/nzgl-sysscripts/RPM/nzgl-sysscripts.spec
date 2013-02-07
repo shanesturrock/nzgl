@@ -1,7 +1,7 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
 Version: 1.2
-Release: 0%{?dist}
+Release: 1%{?dist}
 License: GPLv2
 Source0: nzgl.action
 Source1: nzgl.cron
@@ -70,6 +70,9 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Tue Feb 05 2013 Carl Jones <carl@biomatters.com> - 1.2-1
+- Fix nzgl.action paths
+
 * Tue Feb 05 2013 Carl Jones <carl@biomatters.com> - 1.2-0
 - Rename *-configure to configure-*
 - Add desktop defaults to -configure-gnome
