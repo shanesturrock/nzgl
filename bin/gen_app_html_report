@@ -1,0 +1,75 @@
+#!/bin/bash
+
+applications="
+bamtools
+bfast
+bismark
+bowtie
+bowtie2
+bsmap
+bwa
+cd-hit
+circos
+clustalw
+cufflinks
+cutadapt
+ea-utils
+fastqc
+fastq_screen
+fastx_toolkit
+gatk
+glimmer
+glimmerhmm
+haploview
+hmmer
+igv
+macs
+mosaik
+oases
+perl-bioperl
+perm
+phast
+picard
+plink
+python-biopython
+R-affyQCReport
+R-biomaRt
+R-core
+R-DESeq
+R-edgeR
+R-GenomeGraphs
+R-ggplot2
+R-gplots
+R-HilbertVis
+R-limma
+R-pcot2
+R-xps
+samtools
+seqmonk
+solexaqa
+srma
+tablet
+tophat
+trinityrnaseq
+vcftools
+velvet
+"
+
+cat << EOF
+<table>
+  <tr>
+    <th>Application</th><th>NZGL Stable Version</th><th>NZGL Testing Version</th><th>Upstream Stable Version</th><th>&nbsp;</th>
+  </tr>
+EOF
+for application in ${applications}; do
+	unset stable_version
+	unset testing_version
+	unset upstream_version
+	stable_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
+	testing_version=$(yum --quiet list available ${application} --enablerepo=nzgl-testing 2>/dev/null | egrep -v 'Installed Packages|Available Packages' | awk '{print $2}' | sed s@\.el6\.biomatters@@g | cut -f1 -d-)
+	upstream_version=$(./version_check -u -x ${application})
+	[ -z "${testing_version}" ] && testing_version='-'
+	[ -z "${upstream_version}" ] && upstream_version='-'
+	echo -e "  <tr>\n    <td>${application}</td><td>${stable_version}</td><td>${testing_version}</td><td>${upstream_version}<td><a href='${application}_history.html'>Version History</a></td>\n  </tr>"
+done
+echo '</table>'
