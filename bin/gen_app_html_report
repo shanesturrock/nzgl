@@ -1,5 +1,9 @@
 #!/bin/bash
 
+output_dir='/var/www/nzgl/app_status'
+
+mkdir -p ${output_dir}
+
 applications="
 bamtools
 bfast
@@ -54,7 +58,7 @@ trinityrnaseq
 vcftools
 velvet
 "
-
+{
 cat << EOF
 <table>
   <tr>
@@ -73,3 +77,17 @@ for application in ${applications}; do
 	echo -e "  <tr>\n    <td>${application}</td><td>${stable_version}</td><td>${testing_version}</td><td>${upstream_version}<td><a href='${application}_history.html'>Version History</a></td>\n  </tr>"
 done
 echo '</table>'
+} > ${output_dir}/applications.html
+
+for application in ${applications}; do 
+{
+	echo "<table><tr><th>Version</th><th>Stable Release Date</th><th>Testing Release Date</th></tr>"
+	cat /root/nzgl/apps/${application}/version_history.csv | while read line; do
+		version=$(echo ${line} | cut -f1 -d,)
+		stable_date=$(echo ${line} | cut -f2 -d,)
+		testing_date=$(echo ${line} | cut -f3 -d,)
+		echo "<tr><td>${version}</td><td>${stable_date}</td><td>${testing_date}</td></tr>"
+	done
+	echo "</table>"
+} > ${output_dir}/${application}_history.html
+done
