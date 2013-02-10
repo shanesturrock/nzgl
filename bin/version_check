@@ -23,6 +23,7 @@ Usage: ${0} [-a -l -v] [-d <directory>] [-x <application>]
 	-f Fetch applications updates
 	-r Report list of applications with updates
 	-x Single application to check
+	-u Report upstream version and exit
 	-v Be verbose
 
 Each application directory needs to contain a uscan sub-directory containing a 'watch' file (see uscan docs).
@@ -43,7 +44,7 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-while getopts ad:frvx: flag; do
+while getopts ad:frvux: flag; do
 	case $flag in
 		a)
 			application_list='all'
@@ -63,6 +64,10 @@ while getopts ad:frvx: flag; do
 		v)
 			verbose='true'
 			output_updates='false'
+			;;
+		u)
+			uscan_args="${uscan_args} --report-status"
+			report_upstream_version='true'
 			;;
 		?)
 			usage
@@ -94,6 +99,10 @@ for application in ${application_list}; do
 
 	check=$(uscan --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
 	if [ -n "${check}" ]; then
+		if [ -n "${report_upstream_version}" ]; then
+			echo ${check} | cut -f1 -d, | awk '{print $13}'
+			exit 0
+		fi
 		[ "${output_updates}" == "true" ] && echo -n "${application} "
 		log ${check}
 	else
