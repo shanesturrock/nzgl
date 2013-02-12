@@ -1,6 +1,6 @@
 Name:		seqmonk
-Version:	0.23.1
-Release:	3%{?dist}
+Version:	0.24.0
+Release:	0%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -59,6 +59,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed Feb 13 2013 Carl Jones <carl@biomatters.com> - 0.24-0
+- New upstream release
+
 * Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 0.23.1-2
 - Add desktop icons, menu
 
