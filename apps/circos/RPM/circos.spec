@@ -1,5 +1,5 @@
 Name:		circos
-Version:	0.63.2
+Version:	0.63.3
 Release:	0%{?dist}
 Summary:	Circos is a software package for visualizing data and information.
 Group:		Applications/Engineering
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Fri Feb 15 2013 Carl Jones <carl@biomatters.com> - 0.63.3-0
+- New upstream release
+
 * Thu Feb 14 2013 Carl Jones <carl@biomatters.com> - 0.63.2-0
 - New upstream release
 
