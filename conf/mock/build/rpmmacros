@@ -1,0 +1,3 @@
+%_signature gpg
+%_gpg_name Biomatters (Biomatters RPM signing key) <system_admin@biomatters.com>
+%_gpgbin /usr/bin/gpg

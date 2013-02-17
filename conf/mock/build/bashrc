@@ -1,0 +1,21 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+export PATH=~/nzgl/bin:$PATH
+
+function msource() {
+	[ -z "${1}" ] && { echo "No file specified"; return 1; }
+	mv -v ${1} /var/www/nzgl/nzgl-stable/SRPMS/
+}
+function mrpm() {
+	[ -z "${1}" ] && { echo "No file specified"; return 1; }
+	mv -v ${1} /var/www/nzgl/nzgl-stable/RPMS/
+}
+
+# User specific aliases and functions
+alias rb="/usr/bin/mock -r nzgl --resultdir=/home/build/mock/ --rebuild"
+alias buildrepo="cd /var/www/nzgl/nzgl-stable ; createrepo . -g nzgl.xml --database"
