@@ -1,1 +1,2 @@
-0 1 * * * root yum --quiet -y upgrade &>/dev/null; /home/build/nzgl/bin/log_updates; /home/build/nzgl/bin/mail_report
+0 1 * * * root yum --quiet -y upgrade &>/dev/null
+0 2 * * * build /home/build/nzgl/bin/log_updates; /home/build/nzgl/bin/mail_report

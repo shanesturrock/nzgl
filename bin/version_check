@@ -8,6 +8,7 @@
 # Carl Jones <carl@biomatters.com>
 
 application_dir="/home/build/nzgl/apps"	# Default application directory
+uscan='/home/build/nzgl/bin/uscan'
 uscan_args='--timeout 30 --no-symlink'	# Default uscan args
 download_dir='/home/build/rpmbuild/SOURCES' # Where uscan will place downloads
 
@@ -32,13 +33,6 @@ By default ${0} exit code will be the number of applications that have been upda
 
 EOF
 }
-
-for binary in uscan rpm; do
-	if ! which ${binary} &>/dev/null; then
-		echo "Error: ${binary} not found."
-		exit 1
-	fi
-done
 
 if [ $# -eq 0 ]; then
 	usage
@@ -99,7 +93,7 @@ for application in ${application_list}; do
 		exit 1
 	fi
 
-	check=$(uscan --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
+	check=$(${uscan} --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
 	if [ -n "${check}" ]; then
 		if [ -n "${report_upstream_version}" ]; then
 			echo ${check} | cut -f1 -d, | awk '{print $13}'
