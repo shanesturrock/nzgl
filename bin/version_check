@@ -9,6 +9,7 @@
 
 application_dir="/home/build/nzgl/apps"	# Default application directory
 uscan_args='--timeout 30 --no-symlink'	# Default uscan args
+download_dir='/home/build/rpmbuild/SOURCES' # Where uscan will place downloads
 
 function log() {
 	[ -z "${verbose}" ] && return
@@ -53,7 +54,7 @@ while getopts ad:frvux: flag; do
 			application_dir="${OPTARG}"
 			;;
 		f)
-			uscan_args="${uscan_args} --download"
+			uscan_args="${uscan_args} --download --destdir=${download_dir}"
 			;;
 		r)	
 			output_updates='true'
