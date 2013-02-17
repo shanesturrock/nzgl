@@ -1,1 +1,1 @@
-0 1 * * * root /root/nzgl/cron/yum_update; /root/nzgl/cron/log_updates; /root/nzgl/cron/mail_report
+0 1 * * * root yum --quiet -y upgrade &>/dev/null; /home/build/nzgl/bin/log_updates; /home/build/nzgl/bin/mail_report
