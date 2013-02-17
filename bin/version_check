@@ -55,6 +55,7 @@ while getopts ad:frvux: flag; do
 			;;
 		f)
 			uscan_args="${uscan_args} --download --destdir=${download_dir}"
+			log "Fetching packages. Downloads will be placed in ${download_dir}."
 			;;
 		r)	
 			output_updates='true'
