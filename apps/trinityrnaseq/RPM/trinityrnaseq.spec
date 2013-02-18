@@ -1,5 +1,5 @@
 Name:		trinityrnaseq
-Version:	20121005
+Version:	20130216
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
@@ -82,6 +82,8 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Mon Feb 18 2013 Shane Sturrock <shane@biomatters.com> - 20130216-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> - 20121005-1
 - New upstream release
 * Tue Sep 04 2012 Carl Jones <carl@biomatters.com> - 20120608-6
