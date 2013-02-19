@@ -45,7 +45,8 @@ sssd
 nx
 freenx
 yum-plugin-post-transaction-actions
-net-snmp
+#net-snmp
+munin-node
 rstudio
 cpan
 perl-Bio-SamTools
@@ -109,6 +110,21 @@ echo "driftfile /var/lib/ntp/drift" > /etc/ntp.conf
 for ntp_server in ${ntp_servers}; do
 	echo "server ${ntp_server}" >> /etc/ntp.conf
 done
+
+# Munin
+chkconfig munin-node on
+mkdir -m 0700 /var/lib/munin/.ssh
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
+chown -R munin:munin /var/lib/munin/.ssh/
+chmod 600 /var/lib/munin/.ssh/authorized_keys
+
+# Munin plugins
+/bin/rm /etc/munin/plugins/*
+plugins='cpu df df_inode diskstats load memory netstat processes proc_pri swap threads uptime users vmstat'
+for plugin in ${plugins}; do
+	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
+done
+ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
 
 # Remove RHN RPMs
 #yum -y remove subscription-manager subscription-manager-gnome rhn-setup
