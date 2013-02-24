@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.24.0
+Version:	0.24.1
 Release:	0%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -59,7 +59,10 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
-* Wed Feb 13 2013 Carl Jones <carl@biomatters.com> - 0.24-0
+* Mon Feb 25 2013 Carl Jones <carl@biomatters.com> - 0.24.1-0
+- New upstream release
+
+* Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 0.24-0
 - New upstream release
 
 * Thu Jan 24 2013 Carl Jones <carl@biomatters.com> - 0.23.1-2
