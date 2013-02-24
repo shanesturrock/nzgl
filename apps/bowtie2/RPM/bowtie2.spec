@@ -1,6 +1,6 @@
 Name:		bowtie2
-Version:	2.0.6
-Release:	1%{?dist}
+Version:	2.1.0
+Release:	0%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
 License:	GPLv3
@@ -50,6 +50,9 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Feb 25 2013 Carl Jones <carl@biomatters.com> - 2.1.0-0
+- New upstream release
+
 * Tue Jan 29 2013 Carl Jones <carl@biomatters.com> - 2.0.6-1
 - New upstream release
 
