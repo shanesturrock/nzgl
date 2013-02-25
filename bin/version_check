@@ -83,11 +83,15 @@ if [ -z "${application_list}" ] || [ "${application_list}" == "all" ]; then
 	application_list=*
 fi
 
+# Clean out local repo caches before starting
+yum -q clean all --enablerepo=nzgl-testing &>/dev/null
+
 for application in ${application_list}; do
 	[ ! -d ${application} ] && continue
 	[ ! -e ${application}/uscan/watch ] && continue # skip applications we don't check upstream
 
-	current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
+	#current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
+	current_version=$(yum -q list all ${application} --enablerepo=nzgl-testing | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 	if [ -z "${current_version}" ]; then
 		echo "Unable to get current version for ${application}. Not installed?"
 		exit 1
