@@ -1,7 +1,7 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
-Version: 1.2
-Release: 1%{?dist}
+Version: 1.3
+Release: 0%{?dist}
 License: GPLv2
 Source0: nzgl.action
 Source1: nzgl.cron
@@ -70,6 +70,10 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Tue Feb 26 2013 Carl Jones <carl@biomatters.com> - 1.3-0
+- Remove snmpd from default service list
+- Add munin-node to default service list
+
 * Tue Feb 05 2013 Carl Jones <carl@biomatters.com> - 1.2-1
 - Fix nzgl.action paths
 

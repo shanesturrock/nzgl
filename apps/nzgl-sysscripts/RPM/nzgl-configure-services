@@ -4,7 +4,7 @@
 # Carl Jones <carl@biomatters.com>
 
 # List of services that should be enabled (all others will be disabled)
-services="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|ip6tables|freenx-server|ntpd$|snmpd"
+services="crond|netfs|network|postfix|rsyslog|sshd|udev-post|rpcbind|sssd|iptables|ip6tables|freenx-server|ntpd$|munin-node"
 
 # Script starts
 services_enable=$(/sbin/chkconfig --list | awk '{print $1}' | egrep "${services}")
