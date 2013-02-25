@@ -1,24 +1,20 @@
 install
 text
-#cdrom
 reboot
 
-#url --url=http://nzglrepo.biomatters.com/rhel-x86_64-server-6
 url --url=http://mirrors.biomatters.com/mirrors/CentOS/6/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://nzglrepo.biomatters.com/nzgl-stable
-#repo --name=rhel-optional --baseurl=http://nzglrepo.biomatters.com/rhel-x86_64-server-optional-6
 
 lang en_US.UTF-8
 keyboard us
 network --onboot yes --device eth0 --bootproto dhcp
-rootpw --iscrypted $6$/c8wetYVjfiZENyf$g32b9vhjDwZKYe7ZVjAjFcQfBWbHqN4F4rbf3gb7sclPQscguZIm6rBhP.YkP2HeixQuJ5NA0IsQnoT4h6rr4/
+rootpw --iscrypted $1$g7II31$SBWELk3Sch95R2adstVjE0
 skipx
-#authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://rhel6-build.biomatters.com --ldapbasedn="dc=testing,dc=com" --disableldaptls --enablesssd --enablesssdauth --update
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
 selinux --disabled
 timezone NZ
 zerombr
-bootloader --location=mbr --append="console=tty0 console=ttyS0,115200 rd_NO_PLYMOUTH"
+bootloader --location=mbr --append="rd_NO_PLYMOUTH"
 clearpart --all
 
 part / --fstype=ext4 --grow --asprimary --size=200
@@ -45,7 +41,6 @@ sssd
 nx
 freenx
 yum-plugin-post-transaction-actions
-#net-snmp
 munin-node
 rstudio
 cpan
@@ -62,9 +57,6 @@ nzgl-sysscripts
 
 %post --logfile /root/post.log
 
-master_ipv4="192.168.30.106"
-# Our test IPv6 range is fd46:af09:3ae3::/48
-master_ipv6="fd46:af09:3ae3::10"
 nfs_host="192.168.30.55"
 ntp_servers="0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org"
 
@@ -89,20 +81,23 @@ echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
-nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+#nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
 echo 'Match Address 127.0.0.1,::1
   PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
 # SNMP
-echo "sysservices 72
-sysContact nzgl@biomatters.com
-sysLocation NZGL
-agentaddress udp:161,udp6:161,tcp:161,tcp6:161
-rocommunity nzgl_pub ${master_ipv4}
-rocommunity6 nzgl_pub ${master_ipv6}
-disk  /" > /etc/snmp/snmpd.conf
-chkconfig snmpd on
+#master_ipv4="192.168.30.106"
+# Our test IPv6 range is fd46:af09:3ae3::/48
+#master_ipv6="fd46:af09:3ae3::10"
+#echo "sysservices 72
+#sysContact nzgl@biomatters.com
+#sysLocation NZGL
+#agentaddress udp:161,udp6:161,tcp:161,tcp6:161
+#rocommunity nzgl_pub ${master_ipv4}
+#rocommunity6 nzgl_pub ${master_ipv6}
+#disk  /" > /etc/snmp/snmpd.conf
+#chkconfig snmpd on
 
 # NTP
 [ -e /etc/ntp.conf ] && mv /etc/ntp.conf /etc/ntp.conf.orig
@@ -112,6 +107,7 @@ for ntp_server in ${ntp_servers}; do
 done
 
 # Munin
+chkconfig --add munin-node
 chkconfig munin-node on
 mkdir -m 0700 /var/lib/munin/.ssh
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
@@ -125,9 +121,6 @@ for plugin in ${plugins}; do
 	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
 done
 ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
-
-# Remove RHN RPMs
-#yum -y remove subscription-manager subscription-manager-gnome rhn-setup
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
