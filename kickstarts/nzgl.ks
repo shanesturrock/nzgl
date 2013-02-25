@@ -68,7 +68,7 @@ sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/s
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
 sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
-echo "AllowGroups biomatters nx $(hostname)" >> /etc/ssh/sshd_config
+echo "AllowGroups biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
 # sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
