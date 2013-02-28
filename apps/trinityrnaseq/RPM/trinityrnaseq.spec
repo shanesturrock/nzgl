@@ -48,7 +48,6 @@ install -m 0644 Butterfly/Butterfly.jar %{buildroot}/%{_libexecdir}/%{name}/Butt
 install -m 0755 Inchworm/bin/cigar_tweaker %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/cigar_tweaker
 install -m 0755 Inchworm/bin/FastaToDeBruijn %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/FastaToDeBruijn
 install -m 0755 Inchworm/bin/inchworm %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/inchworm
-install -m 0755 Inchworm/bin/ParaFly %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/ParaFly
 install -m 0755 Inchworm/bin/pull_reads_with_kmers %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/pull_reads_with_kmers
 
 install -m 0755 Chrysalis/checkLock %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/checkLock
@@ -75,7 +74,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc docs/ LICENSE README Release.Notes
+%doc docs/ README Release.Notes
 /usr/bin/Trinity.pl
 #/usr/share/java/%{name}/Butterfly.jar
 /usr/libexec/%{name}/*
