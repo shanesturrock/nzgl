@@ -1,11 +1,11 @@
 Name:		trinityrnaseq
-Version:	20130216
+Version:	20130225
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://trinityrnaseq.sourceforge.net
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}_r2012-10-05.tgz
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}_r2013-02-25.tgz
 Patch0:		%{name}-rootdir.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -21,7 +21,7 @@ data. Trinity combines three independent software modules: Inchworm, Chrysalis, 
 applied sequentially to process large volumes of RNA-seq reads.
 
 %prep
-%setup -q -n %{name}_r2012-10-05
+%setup -q -n %{name}_r2013-02-25
 %patch0 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
@@ -82,6 +82,8 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Mon Feb 18 2013 Shane Sturrock <shane@biomatters.com> - 20130225-1
+- New upstream release
 * Mon Feb 18 2013 Shane Sturrock <shane@biomatters.com> - 20130216-1
 - New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> - 20121005-1
