@@ -1,12 +1,16 @@
+%define tarball r2013-02-25
+
 Name:		trinityrnaseq
 Version:	20130225
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://trinityrnaseq.sourceforge.net
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}_r2013-02-25.tgz
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}_%{tarball}.tgz
 Patch0:		%{name}-rootdir.patch
+Patch1:		GG_write_trinity_cmds.pl.patch
+Patch2:		run_Trinity_edgeR_pipeline.pl.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
@@ -21,8 +25,10 @@ data. Trinity combines three independent software modules: Inchworm, Chrysalis, 
 applied sequentially to process large volumes of RNA-seq reads.
 
 %prep
-%setup -q -n %{name}_r2013-02-25
+%setup -q -n %{name}_%{tarball}
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 
