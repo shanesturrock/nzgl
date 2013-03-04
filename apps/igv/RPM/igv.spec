@@ -1,6 +1,6 @@
 Name:		igv
-Version:	2.2.5
-Release:	2%{?dist}
+Version:	2.2.8
+Release:	0%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
@@ -59,6 +59,12 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Mar 04 2013 Shane Sturrock <shane@biomatters.com> - 2.2.8-0
+- New upstream release
+
+* Thu Feb 21 2013 Carl Jones <carl@biomatters.com> - 2.2.6-0
+- New upstream release
+
 * Thu Feb 07 2013 Carl Jones <carl@biomatters.com> - 2.2.5-2
 - Update .desktop file
 
