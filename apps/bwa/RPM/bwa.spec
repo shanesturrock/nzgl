@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.6.2
+Version:        0.7.0
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -31,8 +31,9 @@ mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_mandir}/man1
 
 install -m 0755 bwa %{buildroot}/%{_bindir}
-install -m 0755 solid2fastq.pl %{buildroot}/%{_bindir}
+install -m 0755 bwamem-lite %{buildroot}/%{_bindir}
 install -m 0755 qualfa2fq.pl %{buildroot}/%{_bindir}
+install -m 0755 xa2multi.pl %{buildroot}/%{_bindir}
 
 install -m 0644 bwa.1 %{buildroot}/%{_mandir}/man1/bwa.1
 
@@ -45,11 +46,15 @@ rm -rf %{buildroot}
 %doc COPYING NEWS 
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/bwa
+%{_bindir}/bwamem-lite
 %{_bindir}/qualfa2fq.pl
-%{_bindir}/solid2fastq.pl
+%{_bindir}/xa2multi.pl
 
 
 %changelog
+* Mon Mar 04 2013 Shane Sturrock <shane@biomatters.com> - 0.7.0-1
+- New upstream release which removes solid2fastq.pl but adds bwamem-lite and xa2multi.pl
+
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 0.6.2-1
 - New upstream release
 
