@@ -11,6 +11,8 @@ network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$g7II31$SBWELk3Sch95R2adstVjE0
 skipx
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
+# AD
+# authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
 selinux --disabled
 timezone NZ
 zerombr
@@ -75,6 +77,8 @@ echo "AllowGroups biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 # SSSD allow self-signed certs for testing only
 sed 's/\[sssd\]/ldap_tls_reqcert = never \n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 sed 's/#tls_checkpeer yes/tls_checkpeer no/g' --in-place /etc/pam_ldap.conf
+# AD
+#sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 
 # Sudoers
 echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
