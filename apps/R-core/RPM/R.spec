@@ -5,7 +5,7 @@
 %endif
 
 Name: R
-Version: 2.15.2
+Version: 2.15.3
 Release: 1%{?dist}
 Summary: A language for data analysis and graphics
 URL: http://www.r-project.org
@@ -64,26 +64,26 @@ Provides: R-class = 7.3.5
 Provides: R-cluster = 1.14.3
 Provides: R-codetools = 0.2.8
 Provides: R-datasets = %{version}
-Provides: R-foreign = 0.8.51
+Provides: R-foreign = 0.8.52
 Provides: R-graphics = %{version}
 Provides: R-grDevices = %{version}
 Provides: R-grid = %{version}
 Provides: R-KernSmooth = 2.23.8
-Provides: R-lattice = 0.20.10
-Provides: R-MASS = 7.3.22
-Provides: R-Matrix = 1.0.9
+Provides: R-lattice = 0.20.13
+Provides: R-MASS = 7.3.23
+Provides: R-Matrix = 1.0.11
 Obsoletes: R-Matrix < 0.999375-7
 Provides: R-methods = %{version}
 Provides: R-mgcv = 1.7.22
-Provides: R-nlme = 3.1.105
+Provides: R-nlme = 3.1.108
 Provides: R-nnet = 7.3.5
 Provides: R-parallel = %{version}
-Provides: R-rpart = 3.1.55
+Provides: R-rpart = 4.1.0
 Provides: R-spatial = 7.3.5
 Provides: R-splines = %{version}
 Provides: R-stats = %{version}
 Provides: R-stats4 = %{version}
-Provides: R-survival = 2.36.14
+Provides: R-survival = 2.37.2
 Provides: R-tcltk = %{version}
 Provides: R-tools = %{version}
 Provides: R-utils = %{version}
@@ -111,7 +111,7 @@ Requires: gcc-c++, gcc-gfortran, tex(latex), texinfo-tex
 Requires: bzip2-devel, libX11-devel, pcre-devel, zlib-devel
 Requires: tcl-devel, tk-devel, pkgconfig
 Requires: R-java-devel = %{version}-%{release}
-Provides: R-Matrix-devel = 1.0.9
+Provides: R-Matrix-devel = 1.0.11
 Obsoletes: R-Matrix-devel < 0.999375-7
 
 %description devel
@@ -465,6 +465,7 @@ popd
 %{_libdir}/R/library/datasets/NAMESPACE
 # foreign
 %dir %{_libdir}/R/library/foreign/
+%{_libdir}/R/library/foreign/COPYRIGHTS
 %{_libdir}/R/library/foreign/DESCRIPTION
 %{_libdir}/R/library/foreign/files/
 %{_libdir}/R/library/foreign/help/
@@ -721,6 +722,7 @@ popd
 # rpart
 %dir %{_libdir}/R/library/rpart/
 %{_libdir}/R/library/rpart/data/
+%{_libdir}/R/library/rpart/doc/
 %{_libdir}/R/library/rpart/DESCRIPTION
 %{_libdir}/R/library/rpart/help/
 %{_libdir}/R/library/rpart/html/
@@ -728,6 +730,7 @@ popd
 %{_libdir}/R/library/rpart/libs/
 %{_libdir}/R/library/rpart/Meta/
 %{_libdir}/R/library/rpart/NAMESPACE
+%{_libdir}/R/library/rpart/NEWS.Rd
 %dir %{_libdir}/R/library/rpart/po
 %lang(de) %{_libdir}/R/library/rpart/po/de/
 %lang(en) %{_libdir}/R/library/rpart/po/en*/
@@ -1029,6 +1032,9 @@ R CMD javareconf \
 %postun -n libRmath -p /sbin/ldconfig
 
 %changelog
+* Tue Mar 05 2013 Shane Sturrock <shane@biomatters.com> - 2.15.3-1
+- Update to 2.15.3
+
 * Mon Oct 29 2012 Tom Callaway <spot@fedoraproject.org> - 2.15.2-1
 - update to 2.15.2
 - R now Requires: R-java (for a more complete base install)
