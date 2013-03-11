@@ -7,11 +7,9 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-#network --onboot yes --device eth0 --bootproto dhcp --nameserver=10.0.1.1
-rootpw --iscrypted $1$g7II31$SBWELk3Sch95R2adstVjE0
+#network --onboot yes --device eth0 --bootproto dhcp
+rootpw --iscrypted $1$.8Yc41$olh/JfjqBvKCxN1/.82tm0
 skipx
-#authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
-# AD
 authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
 selinux --disabled
 timezone NZ
@@ -49,7 +47,6 @@ cpan
 perl-Bio-SamTools
 perl-Module-Build
 nzgl-release
-#nzgl-rhn-release
 nzgl-sysscripts
 @Development tools
 @NZGL
@@ -60,7 +57,7 @@ nzgl-sysscripts
 %post --logfile /root/post.log
 
 nfs_host="192.168.30.55"
-ntp_servers="0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org"
+ntp_servers="10.0.1.1 10.10.0.3"
 
 # NFS 
 #echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -85,23 +82,10 @@ echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
-#nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
 echo 'Match Address 127.0.0.1,::1
   PasswordAuthentication yes' >> /etc/ssh/sshd_config
-
-# SNMP
-#master_ipv4="192.168.30.106"
-# Our test IPv6 range is fd46:af09:3ae3::/48
-#master_ipv6="fd46:af09:3ae3::10"
-#echo "sysservices 72
-#sysContact nzgl@biomatters.com
-#sysLocation NZGL
-#agentaddress udp:161,udp6:161,tcp:161,tcp6:161
-#rocommunity nzgl_pub ${master_ipv4}
-#rocommunity6 nzgl_pub ${master_ipv6}
-#disk  /" > /etc/snmp/snmpd.conf
-#chkconfig snmpd on
 
 # NTP
 [ -e /etc/ntp.conf ] && mv /etc/ntp.conf /etc/ntp.conf.orig
