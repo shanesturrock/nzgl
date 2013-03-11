@@ -7,7 +7,7 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto dhcp
+network --onboot yes --device eth0 --bootproto dhcp --nameserver=10.0.1.1
 rootpw --iscrypted $1$g7II31$SBWELk3Sch95R2adstVjE0
 skipx
 #authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
