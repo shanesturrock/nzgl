@@ -2,17 +2,17 @@ install
 text
 reboot
 
-url --url=http://mirrors.biomatters.com/mirrors/CentOS/6/os/x86_64/
-repo --name=nzgl-stable --baseurl=http://nzglrepo.biomatters.com/nzgl-stable
+url --url=http://packages.genomics.local/mirrors/CentOS/6/os/x86_64/
+repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
 network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$g7II31$SBWELk3Sch95R2adstVjE0
 skipx
-authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
+#authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldaps://ldap.biomatters.com --ldapbasedn="dc=biomatters,dc=com" --enablesssd --enablesssdauth --update
 # AD
-# authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
+authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
 selinux --disabled
 timezone NZ
 zerombr
@@ -63,22 +63,22 @@ nfs_host="192.168.30.55"
 ntp_servers="0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org"
 
 # NFS 
-echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+#echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
-sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
-sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
+#sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
+#sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
-echo "AllowGroups biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
+#echo "AllowGroups biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
 # sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
 # SSSD allow self-signed certs for testing only
-sed 's/\[sssd\]/ldap_tls_reqcert = never \n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
-sed 's/#tls_checkpeer yes/tls_checkpeer no/g' --in-place /etc/pam_ldap.conf
+#sed 's/\[sssd\]/ldap_tls_reqcert = never \n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
+#sed 's/#tls_checkpeer yes/tls_checkpeer no/g' --in-place /etc/pam_ldap.conf
 # AD
-#sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
+sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 
 # Sudoers
 echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
