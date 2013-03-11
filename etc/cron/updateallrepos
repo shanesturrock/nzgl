@@ -1,0 +1,52 @@
+#!/bin/sh
+# combined script for updating the various repos we mirror.
+# put in one script so that only one is done at a time to not bog down network
+# of course it would be cleaner to put each in a separate script and have this
+# script go through all the script files in some directory
+
+# Lock this script in case it takes a long time.
+# This way it can be an update in an hourly cron job
+# but there will not be two instances running if it takes longer than an hour
+
+lockfile=/var/tmp/updatemirrorslock
+
+if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
+
+        trap 'rm -f "$lockfile"; exit $?' INT TERM EXIT
+
+       # body of the script follows here
+
+## specify the repo URLs to use. Choose closest or fastest ones that support rsync
+# Centos
+##CENTOSURL="ftp.wicks.co.nz/pub/linux/dist/centos"
+CENTOSURL="mirror.uber.com.au/centos"
+#EPELURL="mirror.nexicom.net/Fedora-EPEL"
+MIRRORBASE="/var/www/nzgl/mirrors"
+VERSION="6.4"
+
+# Centos 6
+
+# This should get the full install DVD when there is a new version of CentOS, limiting the bandwidth when that happens
+##rsync -azq --partial --bwlimit=100 --delete --delete-excluded --include '/CentOS-*-x86_64-minimal.iso' --include '/CentOS-*-x86_64-netinstall.iso' --include '/CentOS-*bin-DVD*.iso' --exclude '/*' rsync://${CENTOSURL}/6/isos/x86_64/ /var/www/html/mirrors/CentOS/6/isos/x86_64
+#rsync -azq --partial --delete --delete-excluded --include '/CentOS-*-x86_64-minimal.iso' --include '/CentOS-*-x86_64-netinstall.iso' --include '/CentOS-*bin-DVD*.iso' --exclude '/*' rsync://${CENTOSURL}/6/isos/x86_64/ /var/www/html/mirrors/CentOS/6/isos/x86_64
+
+#########################################
+# epel
+#rsync -azq --partial --delete --exclude debug rsync://${EPELURL}/6/x86_64/ ${MIRRORBASE}/epel/6/x86_64
+#rsync -azq --partial --delete --exclude debug rsync://${EPELURL}/testing/6/x86_64/ ${MIRRORBASE}/epel/testing/6/x86_64
+
+####################################
+
+rsync -azq --partial --delete rsync://${CENTOSURL}/${VERSION}/os/x86_64/ ${MIRRORBASE}/CentOS/${VERSION}/os/x86_64
+rsync -azq --partial --delete rsync://${CENTOSURL}/${VERSION}/updates/x86_64/ ${MIRRORBASE}/CentOS/${VERSION}/updates/x86_64
+rsync -azq --partial --delete rsync://${CENTOSURL}/${VERSION}/extras/x86_64/ ${MIRRORBASE}/CentOS/${VERSION}/extras/x86_64
+rsync -azq --partial --delete rsync://${CENTOSURL}/${VERSION}/cr/x86_64/ ${MIRRORBASE}/CentOS/${VERSION}/cr/x86_64
+
+################################
+
+        # clean up after the script, and release the trap
+        rm -f "$lockfile"
+        trap - INT TERM EXIT
+else
+        echo "Lock Exists: $lockfile owned by $(cat $lockfile)"
+fi
