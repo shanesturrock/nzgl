@@ -7,7 +7,7 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-#network --onboot yes --device eth0 --bootproto dhcp
+network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
 authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
@@ -67,7 +67,7 @@ sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/s
 #sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
 #sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
-#echo "AllowGroups biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
+#echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
 # sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
@@ -78,7 +78,7 @@ sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
 sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 
 # Sudoers
-echo '%biomatters ALL=(ALL) ALL' >> /etc/sudoers
+echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
