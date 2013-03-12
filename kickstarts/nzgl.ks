@@ -56,18 +56,18 @@ nzgl-sysscripts
 
 %post --logfile /root/post.log
 
-nfs_host="192.168.30.55"
+nfs_host="10.10.2.52"
 ntp_servers="10.0.1.1 10.10.0.3"
 
 # NFS 
-#echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
-#sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
-#sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
+sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
+sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
-#echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
+echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
 # PAM/LDAP host restriction
 # sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
