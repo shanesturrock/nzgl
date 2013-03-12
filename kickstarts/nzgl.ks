@@ -75,6 +75,9 @@ authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldap
 sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 echo 'binddn CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local
 bindpw Laptip23' >> /etc/pam_ldap.conf
+sed 's/dns_lookup_realm = false/dns_lookup_realm = true/g' --in-place /etc/krb5.conf 
+sed 's/dns_lookup_kdc = false/dns_lookup_kdc = true/g' --in-place /etc/krb5.conf 
+
 
 # Sudoers
 echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
@@ -134,6 +137,9 @@ name=CentOS-$releasever - Extras
 baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/extras/$basearch/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-Base.repo
+
+# Set clock
+ntpdate 10.0.1.1
 
 # Upgrade packages
 /usr/sbin/nzgl-yum-upgrade
