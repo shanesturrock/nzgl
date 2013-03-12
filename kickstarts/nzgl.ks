@@ -37,6 +37,7 @@ man
 screen
 nfs-utils
 pam_ldap
+pam_krb5
 sssd
 nx
 freenx
@@ -69,13 +70,11 @@ sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/s
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
 echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
-# PAM/LDAP host restriction
-# sed 's/#pam_check_host_attr yes/pam_check_host_attr yes/g' --in-place /etc/pam_ldap.conf
-# SSSD allow self-signed certs for testing only
-#sed 's/\[sssd\]/ldap_tls_reqcert = never \n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
-#sed 's/#tls_checkpeer yes/tls_checkpeer no/g' --in-place /etc/pam_ldap.conf
-# AD
+# AD authentication
+authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --update
 sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
+echo 'binddn CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local
+bindpw Laptip23' >> /etc/pam_ldap.conf
 
 # Sudoers
 echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
@@ -114,6 +113,27 @@ ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
+
+# Set CentOS repos
+echo '[base]
+name=CentOS-$releasever - Base
+baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+#released updates 
+[updates]
+name=CentOS-$releasever - Updates
+baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/updates/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+#additional packages that may be useful
+[extras]
+name=CentOS-$releasever - Extras
+baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/extras/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-Base.repo
 
 # Upgrade packages
 /usr/sbin/nzgl-yum-upgrade
