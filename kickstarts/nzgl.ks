@@ -62,19 +62,15 @@ ntp_servers="10.0.1.1 10.10.0.3"
 
 
 # NTP
+service ntpd stop
 [ -e /etc/ntp.conf ] && mv /etc/ntp.conf /etc/ntp.conf.orig
 echo "driftfile /var/lib/ntp/drift" > /etc/ntp.conf
 for ntp_server in ${ntp_servers}; do
 	echo "server ${ntp_server}" >> /etc/ntp.conf
-done
-
-# Force set time, as unix expects a UTC time from the BIOS but we seem to be getting a windows-style local time
-service ntpd stop
-for ntp_server in ${ntp_servers}; do
+	# Force set time, as unix expects a UTC time from the BIOS but we seem to be getting a windows-style local time
 	ntpdate ${ntp_server}
 done
 service ntpd start
-
 
 # NFS 
 echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
