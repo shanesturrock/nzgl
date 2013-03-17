@@ -1,6 +1,6 @@
 Name:		samtools
-Version:	0.1.18
-Release:	3%{?dist}
+Version:	0.1.19
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -82,7 +82,7 @@ cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
     sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
-    zoom2sam.pl seqtk	   	       		    			\
+    zoom2sam.pl bamcheck plot-bamcheck 					\
     %{buildroot}%{_bindir}
 
 cd ../bcftools/
@@ -102,7 +102,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
+%doc AUTHORS COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
 %{_bindir}/*
 %{_mandir}/man1/*
 
@@ -120,6 +120,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 0.1.19-1
+- Upstream update - removed seqtk
+
 * Tue Nov 06 2012 Carl Jones <carl@biomatters.com> - 0.1.18-3
 - Include libbam.a
 
