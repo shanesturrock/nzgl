@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.2
+Version:        0.7.3a
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -52,6 +52,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 0.7.3a-1
+- New upstream release
+
 * Mon Mar 11 2013 Simon Buxton <simon@biomatters.com> - 0.7.2-1
 - New upstream release
 
