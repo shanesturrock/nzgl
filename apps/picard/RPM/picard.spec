@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.86
+Version:	1.87
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,9 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 1.87-1
+- New upstream release
+
 * Mon Mar 04 2013 Shane Sturrock <shane@biomatters.com> - 1.86-1
 - New upstream release
 
