@@ -1,6 +1,6 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
-Version: 1.3
+Version: 1.4
 Release: 0%{?dist}
 License: GPLv2
 Source0: nzgl.action
@@ -70,6 +70,9 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 1.4-0
+- Change galaxy.desktop application to link to new Galaxy server in NZGL
+
 * Tue Feb 26 2013 Carl Jones <carl@biomatters.com> - 1.3-0
 - Remove snmpd from default service list
 - Add munin-node to default service list
