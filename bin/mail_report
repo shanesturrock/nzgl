@@ -90,9 +90,9 @@ else
 fi
 
 if [ "${type}" == "daily" ]; then 
-	mail_subject="Daily report for ${date} (${action_required}action required)"
+	mail_subject="${HOSTNAME%%.*} daily report for ${date} (${action_required}action required)"
 else
-	mail_subject="Monthly report for ${year}-${month}"
+	mail_subject="${HOSTNAME%%.*} monthly report for ${year}-${month}"
 fi
 
 {
