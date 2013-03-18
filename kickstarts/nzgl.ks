@@ -156,4 +156,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-B
 # Firewall setup
 yum -y install nzgl-iptables
 
+# Fix NX keyboard map problem
+touch /usr/share/X11/xkb/keymap.dir
+
 %end
