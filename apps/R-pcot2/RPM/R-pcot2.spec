@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.26.0
+Version:          1.28.0
 Release:          1%{?dist}
 Summary:          Principal Coordinates and Hotelling's T-Square method
 
@@ -59,6 +59,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.28.0-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> 1.26.0-1
 - New upstream release
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 1.24.0-1
