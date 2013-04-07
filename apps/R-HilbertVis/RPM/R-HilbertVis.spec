@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.16.0
+Version:          1.18.0
 Release:          1%{?dist}
 Summary:          Hilbert curve visualization
 
@@ -54,6 +54,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.18.0-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> 1.16.0-1
 - New upstream release
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> 1.14.0-1
