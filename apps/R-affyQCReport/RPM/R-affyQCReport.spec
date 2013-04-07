@@ -5,7 +5,7 @@
 
 Summary: QC Report Generation for affyBatch objects
 Name: R-affyQCReport
-Version: 1.36.0
+Version: 1.38.0
 Release: 1%{?dist}
 License: LGPL version 2 or newer
 Group: Applications/Libraries
@@ -43,6 +43,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.38.0-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> 1.36.0-1
 - New upstream release
 * Tue Aug 21 2012 Carl Jones <carl@biomatters.com> 1.34.0-2

@@ -1,7 +1,7 @@
 %global packname  biomaRt
 
 Name:             R-%{packname}
-Version:          2.14.0
+Version:          2.16.0
 Release:          1%{?dist}
 Summary:          R Interface to BioMart databases
 Group:            Applications/Productivity
@@ -55,6 +55,8 @@ rm -rf %{buildroot}%{_datadir}/R/library/R.css
 %{_datadir}/R/library/%{packname}/scripts/
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> - 2.16.0-1
+- New upstream release for R-3
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> - 2.14.0-1
 - New upstream release
 * Wed Aug 29 2012 Carl Jones <carl@biomatters.com> - 2.12.0-1
