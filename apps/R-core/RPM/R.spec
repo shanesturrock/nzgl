@@ -5,11 +5,11 @@
 %endif
 
 Name: R
-Version: 2.15.3
+Version: 3.0.0
 Release: 1%{?dist}
 Summary: A language for data analysis and graphics
 URL: http://www.r-project.org
-Source0: ftp://cran.r-project.org/pub/R/src/base/R-2/R-%{version}.tar.gz
+Source0: ftp://cran.r-project.org/pub/R/src/base/R-3/R-%{version}.tar.gz
 Source1: macros.R
 Source2: R-make-search-index.sh
 License: GPLv2+
@@ -59,31 +59,31 @@ Requires: perl, sed, gawk, tex(latex), tex(dvips), less, vi
 # depend on one of these submodules rather than just R. These are provided for 
 # packager convenience.
 Provides: R-base = %{version}
-Provides: R-boot = 1.3.7
-Provides: R-class = 7.3.5
-Provides: R-cluster = 1.14.3
+Provides: R-boot = 1.3.9
+Provides: R-class = 7.3.7
+Provides: R-cluster = 1.14.4
 Provides: R-codetools = 0.2.8
 Provides: R-datasets = %{version}
 Provides: R-foreign = 0.8.52
 Provides: R-graphics = %{version}
 Provides: R-grDevices = %{version}
 Provides: R-grid = %{version}
-Provides: R-KernSmooth = 2.23.8
-Provides: R-lattice = 0.20.13
-Provides: R-MASS = 7.3.23
-Provides: R-Matrix = 1.0.11
+Provides: R-KernSmooth = 2.23.10
+Provides: R-lattice = 0.20.15
+Provides: R-MASS = 7.3.26
+Provides: R-Matrix = 1.0.12
 Obsoletes: R-Matrix < 0.999375-7
 Provides: R-methods = %{version}
 Provides: R-mgcv = 1.7.22
-Provides: R-nlme = 3.1.108
-Provides: R-nnet = 7.3.5
+Provides: R-nlme = 3.1.109
+Provides: R-nnet = 7.3.6
 Provides: R-parallel = %{version}
-Provides: R-rpart = 4.1.0
-Provides: R-spatial = 7.3.5
+Provides: R-rpart = 4.1.1
+Provides: R-spatial = 7.3.6
 Provides: R-splines = %{version}
 Provides: R-stats = %{version}
 Provides: R-stats4 = %{version}
-Provides: R-survival = 2.37.2
+Provides: R-survival = 2.37.4
 Provides: R-tcltk = %{version}
 Provides: R-tools = %{version}
 Provides: R-utils = %{version}
@@ -320,25 +320,11 @@ popd
 %{_bindir}/R
 %{_bindir}/Rscript
 %dir %{_datadir}/R/
+%{_datadir}/R/dictionaries/
 %{_datadir}/R/encodings/
 %{_datadir}/R/java/
 %{_datadir}/R/library/
 %{_datadir}/R/licenses/
-%dir %{_datadir}/R/locale/
-%lang(da) %{_datadir}/R/locale/da/
-%lang(de) %{_datadir}/R/locale/de/
-%lang(en) %{_datadir}/R/locale/en*/
-%lang(es) %{_datadir}/R/locale/es*/
-%lang(fr) %{_datadir}/R/locale/fr/
-%lang(it) %{_datadir}/R/locale/it/
-%lang(ja) %{_datadir}/R/locale/ja/
-%lang(ko) %{_datadir}/R/locale/ko/
-%lang(nn) %{_datadir}/R/locale/nn/
-%lang(pl) %{_datadir}/R/locale/pl/
-%lang(pt) %{_datadir}/R/locale/pt*/
-%lang(ru) %{_datadir}/R/locale/ru/
-%lang(tr) %{_datadir}/R/locale/tr/
-%lang(zh) %{_datadir}/R/locale/zh*/
 %{_datadir}/R/make/
 %{_datadir}/R/R/
 %{_datadir}/R/sh/
@@ -349,7 +335,25 @@ popd
 %{_libdir}/R/etc
 %{_libdir}/R/lib
 # Have to break this out for the translations
-%dir %{_libdir}/R/library
+%dir %{_libdir}/R/library/
+# Translations
+%dir %{_libdir}/R/library/translations/
+%{_libdir}/R/library/translations/DESCRIPTION
+%lang(da) %{_libdir}/R/library/translations/da/
+%lang(de) %{_libdir}/R/library/translations/de/
+%lang(en) %{_libdir}/R/library/translations/en*/
+%lang(es) %{_libdir}/R/library/translations/es/
+%lang(fa) %{_libdir}/R/library/translations/fa/
+%lang(fr) %{_libdir}/R/library/translations/fr/
+%lang(it) %{_libdir}/R/library/translations/it/
+%lang(ja) %{_libdir}/R/library/translations/ja/
+%lang(ko) %{_libdir}/R/library/translations/ko/
+%lang(nn) %{_libdir}/R/library/translations/nn/
+%lang(pl) %{_libdir}/R/library/translations/pl/
+%lang(pt) %{_libdir}/R/library/translations/pt*/
+%lang(ru) %{_libdir}/R/library/translations/ru/
+%lang(tr) %{_libdir}/R/library/translations/tr/
+%lang(zh) %{_libdir}/R/library/translations/zh*/
 # base
 %dir %{_libdir}/R/library/base/
 %{_libdir}/R/library/base/CITATION
@@ -359,20 +363,6 @@ popd
 %{_libdir}/R/library/base/html/
 %{_libdir}/R/library/base/INDEX
 %{_libdir}/R/library/base/Meta/
-%dir %{_libdir}/R/library/base/po/
-%lang(da) %{_libdir}/R/library/base/po/da/
-%lang(de) %{_libdir}/R/library/base/po/de/
-%lang(en) %{_libdir}/R/library/base/po/en*/
-%lang(fr) %{_libdir}/R/library/base/po/fr/
-%lang(it) %{_libdir}/R/library/base/po/it/
-%lang(ja) %{_libdir}/R/library/base/po/ja/
-%lang(ko) %{_libdir}/R/library/base/po/ko/
-%lang(nn) %{_libdir}/R/library/base/po/nn/
-%lang(pl) %{_libdir}/R/library/base/po/pl/
-%lang(pt) %{_libdir}/R/library/base/po/pt*/
-%lang(ru) %{_libdir}/R/library/base/po/ru/
-%lang(tr) %{_libdir}/R/library/base/po/tr/
-%lang(zh) %{_libdir}/R/library/base/po/zh*/
 %{_libdir}/R/library/base/R/
 # boot
 %dir %{_libdir}/R/library/boot/
@@ -390,6 +380,7 @@ popd
 %lang(fr) %{_libdir}/R/library/boot/po/fr/
 %lang(pl) %{_libdir}/R/library/boot/po/pl/
 %lang(ru) %{_libdir}/R/library/boot/po/ru/
+%lang(ko) %{_libdir}/R/library/boot/po/ko/
 %{_libdir}/R/library/boot/R/
 # class
 %dir %{_libdir}/R/library/class/
@@ -408,6 +399,7 @@ popd
 %lang(en) %{_libdir}/R/library/class/po/en*/
 %lang(fr) %{_libdir}/R/library/class/po/fr/
 %lang(pl) %{_libdir}/R/library/class/po/pl/
+%lang(ko) %{_libdir}/R/library/class/po/ko/
 %{_libdir}/R/library/class/R/
 # cluster
 %dir %{_libdir}/R/library/cluster/
@@ -443,17 +435,6 @@ popd
 %{_libdir}/R/library/compiler/Meta/
 %{_libdir}/R/library/compiler/NAMESPACE
 %{_libdir}/R/library/compiler/R/
-%dir %{_libdir}/R/library/compiler/po/
-%lang(da) %{_libdir}/R/library/compiler/po/da/
-%lang(de) %{_libdir}/R/library/compiler/po/de/
-%lang(en) %{_libdir}/R/library/compiler/po/en*/
-%lang(fr) %{_libdir}/R/library/compiler/po/fr/
-%lang(ja) %{_libdir}/R/library/compiler/po/ja/
-%lang(ko) %{_libdir}/R/library/compiler/po/ko/
-%lang(pl) %{_libdir}/R/library/compiler/po/pl/
-%lang(pt) %{_libdir}/R/library/compiler/po/pt*/
-%lang(ru) %{_libdir}/R/library/compiler/po/ru/
-%lang(zh) %{_libdir}/R/library/compiler/po/zh*/
 # datasets
 %dir %{_libdir}/R/library/datasets/
 %{_libdir}/R/library/datasets/data/
@@ -472,7 +453,6 @@ popd
 %{_libdir}/R/library/foreign/html/
 %{_libdir}/R/library/foreign/INDEX
 %{_libdir}/R/library/foreign/libs/
-%{_libdir}/R/library/foreign/LICENCE
 %{_libdir}/R/library/foreign/Meta/
 %{_libdir}/R/library/foreign/NAMESPACE
 %dir %{_libdir}/R/library/foreign/po/
@@ -488,25 +468,15 @@ popd
 %{_libdir}/R/library/graphics/help/
 %{_libdir}/R/library/graphics/html/
 %{_libdir}/R/library/graphics/INDEX
+%{_libdir}/R/library/graphics/libs/
 %{_libdir}/R/library/graphics/Meta/
 %{_libdir}/R/library/graphics/NAMESPACE
-%dir %{_libdir}/R/library/graphics/po/
-%lang(da) %{_libdir}/R/library/graphics/po/da/
-%lang(de) %{_libdir}/R/library/graphics/po/de/
-%lang(en) %{_libdir}/R/library/graphics/po/en*/
-%lang(fr) %{_libdir}/R/library/graphics/po/fr/
-%lang(it) %{_libdir}/R/library/graphics/po/it/
-%lang(ja) %{_libdir}/R/library/graphics/po/ja/
-%lang(ko) %{_libdir}/R/library/graphics/po/ko/
-%lang(pl) %{_libdir}/R/library/graphics/po/pl/
-%lang(pt) %{_libdir}/R/library/graphics/po/pt*/
-%lang(ru) %{_libdir}/R/library/graphics/po/ru/
-%lang(zh) %{_libdir}/R/library/graphics/po/zh*/
 %{_libdir}/R/library/graphics/R/
 # grDevices
 %dir %{_libdir}/R/library/grDevices
 %{_libdir}/R/library/grDevices/afm/
 %{_libdir}/R/library/grDevices/DESCRIPTION
+%{_libdir}/R/library/grDevices/demo/
 %{_libdir}/R/library/grDevices/enc/
 %{_libdir}/R/library/grDevices/help/
 %{_libdir}/R/library/grDevices/html/
@@ -515,18 +485,6 @@ popd
 %{_libdir}/R/library/grDevices/libs/
 %{_libdir}/R/library/grDevices/Meta/
 %{_libdir}/R/library/grDevices/NAMESPACE
-%dir %{_libdir}/R/library/grDevices/po/
-%lang(da) %{_libdir}/R/library/grDevices/po/da/
-%lang(de) %{_libdir}/R/library/grDevices/po/de/
-%lang(en) %{_libdir}/R/library/grDevices/po/en*/
-%lang(fr) %{_libdir}/R/library/grDevices/po/fr/
-%lang(it) %{_libdir}/R/library/grDevices/po/it/
-%lang(ja) %{_libdir}/R/library/grDevices/po/ja/
-%lang(ko) %{_libdir}/R/library/grDevices/po/ko/
-%lang(pl) %{_libdir}/R/library/grDevices/po/pl/
-%lang(pt) %{_libdir}/R/library/grDevices/po/pt*/
-%lang(ru) %{_libdir}/R/library/grDevices/po/ru/
-%lang(zh) %{_libdir}/R/library/grDevices/po/zh*/
 %{_libdir}/R/library/grDevices/R/
 # grid
 %dir %{_libdir}/R/library/grid/
@@ -538,18 +496,6 @@ popd
 %{_libdir}/R/library/grid/libs/
 %{_libdir}/R/library/grid/Meta/
 %{_libdir}/R/library/grid/NAMESPACE
-%dir %{_libdir}/R/library/grid/po/
-%lang(da) %{_libdir}/R/library/grid/po/da/
-%lang(de) %{_libdir}/R/library/grid/po/de/
-%lang(en) %{_libdir}/R/library/grid/po/en*/
-%lang(fr) %{_libdir}/R/library/grid/po/fr*/
-%lang(it) %{_libdir}/R/library/grid/po/it/
-%lang(ja) %{_libdir}/R/library/grid/po/ja/
-%lang(ko) %{_libdir}/R/library/grid/po/ko/
-%lang(pl) %{_libdir}/R/library/grid/po/pl/
-%lang(pt) %{_libdir}/R/library/grid/po/pt*/
-%lang(ru) %{_libdir}/R/library/grid/po/ru/
-%lang(zh) %{_libdir}/R/library/grid/po/zh*/
 %{_libdir}/R/library/grid/R/
 # KernSmooth
 %dir %{_libdir}/R/library/KernSmooth/
@@ -558,13 +504,13 @@ popd
 %{_libdir}/R/library/KernSmooth/html/
 %{_libdir}/R/library/KernSmooth/INDEX
 %{_libdir}/R/library/KernSmooth/libs/
-%{_libdir}/R/library/KernSmooth/LICENCE
 %{_libdir}/R/library/KernSmooth/Meta/
 %{_libdir}/R/library/KernSmooth/NAMESPACE
 %dir %{_libdir}/R/library/KernSmooth/po/
 %lang(de) %{_libdir}/R/library/KernSmooth/po/de/
 %lang(en) %{_libdir}/R/library/KernSmooth/po/en*/
 %lang(pl) %{_libdir}/R/library/KernSmooth/po/pl/
+%lang(ko) %{_libdir}/R/library/KernSmooth/po/ko/
 %{_libdir}/R/library/KernSmooth/R/
 # lattice
 %dir %{_libdir}/R/library/lattice/
@@ -576,7 +522,6 @@ popd
 %{_libdir}/R/library/lattice/html/
 %{_libdir}/R/library/lattice/INDEX
 %{_libdir}/R/library/lattice/libs/
-%{_libdir}/R/library/lattice/LICENSE
 %{_libdir}/R/library/lattice/Meta/
 %{_libdir}/R/library/lattice/NAMESPACE
 %{_libdir}/R/library/lattice/NEWS
@@ -603,6 +548,7 @@ popd
 %lang(en) %{_libdir}/R/library/MASS/po/en*/
 %lang(fr) %{_libdir}/R/library/MASS/po/fr/
 %lang(pl) %{_libdir}/R/library/MASS/po/pl/
+%lang(ko) %{_libdir}/R/library/MASS/po/ko/
 %{_libdir}/R/library/MASS/R/
 %{_libdir}/R/library/MASS/scripts/
 # Matrix
@@ -637,17 +583,6 @@ popd
 %{_libdir}/R/library/methods/libs/
 %{_libdir}/R/library/methods/Meta/
 %{_libdir}/R/library/methods/NAMESPACE
-%dir %{_libdir}/R/library/methods/po/
-%lang(da) %{_libdir}/R/library/methods/po/da/
-%lang(de) %{_libdir}/R/library/methods/po/de/
-%lang(en) %{_libdir}/R/library/methods/po/en*/
-%lang(fr) %{_libdir}/R/library/methods/po/fr/
-%lang(ja) %{_libdir}/R/library/methods/po/ja/
-%lang(ko) %{_libdir}/R/library/methods/po/ko/
-%lang(pl) %{_libdir}/R/library/methods/po/pl/
-%lang(pt) %{_libdir}/R/library/methods/po/pt*/
-%lang(ru) %{_libdir}/R/library/methods/po/ru/
-%lang(zh) %{_libdir}/R/library/methods/po/zh*/
 %{_libdir}/R/library/methods/R/
 # mgcv
 %dir %{_libdir}/R/library/mgcv/
@@ -698,6 +633,7 @@ popd
 %lang(en) %{_libdir}/R/library/nnet/po/en*/
 %lang(fr) %{_libdir}/R/library/nnet/po/fr/
 %lang(pl) %{_libdir}/R/library/nnet/po/pl/
+%lang(ko) %{_libdir}/R/library/nnet/po/ko/
 %{_libdir}/R/library/nnet/R/
 # parallel
 %dir %{_libdir}/R/library/parallel/
@@ -709,15 +645,6 @@ popd
 %{_libdir}/R/library/parallel/libs/
 %{_libdir}/R/library/parallel/Meta/
 %{_libdir}/R/library/parallel/NAMESPACE
-%dir %{_libdir}/R/library/parallel/po
-%lang(da) %{_libdir}/R/library/parallel/po/da/
-%lang(de) %{_libdir}/R/library/parallel/po/de/
-%lang(en) %{_libdir}/R/library/parallel/po/en*/
-%lang(fr) %{_libdir}/R/library/parallel/po/fr/
-%lang(ko) %{_libdir}/R/library/parallel/po/ko/
-%lang(pl) %{_libdir}/R/library/parallel/po/pl/
-%lang(ru) %{_libdir}/R/library/parallel/po/ru/
-%lang(zh) %{_libdir}/R/library/parallel/po/zh*/
 %{_libdir}/R/library/parallel/R/
 # rpart
 %dir %{_libdir}/R/library/rpart/
@@ -737,6 +664,7 @@ popd
 %lang(fr) %{_libdir}/R/library/rpart/po/fr/
 %lang(pl) %{_libdir}/R/library/rpart/po/pl/
 %lang(ru) %{_libdir}/R/library/rpart/po/ru/
+%lang(ko) %{_libdir}/R/library/rpart/po/ko/
 %{_libdir}/R/library/rpart/R/
 # spatial
 %dir %{_libdir}/R/library/spatial/
@@ -767,17 +695,6 @@ popd
 %{_libdir}/R/library/splines/libs/
 %{_libdir}/R/library/splines/Meta/
 %{_libdir}/R/library/splines/NAMESPACE
-%dir %{_libdir}/R/library/splines/po
-%lang(da) %{_libdir}/R/library/splines/po/da/
-%lang(de) %{_libdir}/R/library/splines/po/de/
-%lang(en) %{_libdir}/R/library/splines/po/en*/
-%lang(fr) %{_libdir}/R/library/splines/po/fr/
-%lang(ja) %{_libdir}/R/library/splines/po/ja/
-%lang(ko) %{_libdir}/R/library/splines/po/ko/
-%lang(pl) %{_libdir}/R/library/splines/po/pl/
-%lang(pt) %{_libdir}/R/library/splines/po/pt*/
-%lang(ru) %{_libdir}/R/library/splines/po/ru/
-%lang(zh) %{_libdir}/R/library/splines/po/zh*/
 %{_libdir}/R/library/splines/R/
 # stats
 %dir %{_libdir}/R/library/stats/
@@ -790,19 +707,6 @@ popd
 %{_libdir}/R/library/stats/libs/
 %{_libdir}/R/library/stats/Meta/
 %{_libdir}/R/library/stats/NAMESPACE
-%dir %{_libdir}/R/library/stats/po
-%lang(da) %{_libdir}/R/library/stats/po/da/
-%lang(de) %{_libdir}/R/library/stats/po/de/
-%lang(en) %{_libdir}/R/library/stats/po/en*/
-%lang(fr) %{_libdir}/R/library/stats/po/fr/
-%lang(it) %{_libdir}/R/library/stats/po/it/
-%lang(ja) %{_libdir}/R/library/stats/po/ja/
-%lang(ko) %{_libdir}/R/library/stats/po/ko/
-%lang(pl) %{_libdir}/R/library/stats/po/pl/
-%lang(pt) %{_libdir}/R/library/stats/po/pt*/
-%lang(ru) %{_libdir}/R/library/stats/po/ru/
-%lang(tr) %{_libdir}/R/library/stats/po/tr/
-%lang(zh) %{_libdir}/R/library/stats/po/zh*/
 %{_libdir}/R/library/stats/R/
 %{_libdir}/R/library/stats/SOURCES.ts
 # stats4
@@ -813,19 +717,6 @@ popd
 %{_libdir}/R/library/stats4/INDEX
 %{_libdir}/R/library/stats4/Meta/
 %{_libdir}/R/library/stats4/NAMESPACE
-%dir %{_libdir}/R/library/stats4/po
-%lang(da) %{_libdir}/R/library/stats4/po/da/
-%lang(de) %{_libdir}/R/library/stats4/po/de/
-%lang(en) %{_libdir}/R/library/stats4/po/en*/
-%lang(fr) %{_libdir}/R/library/stats4/po/fr/
-%lang(it) %{_libdir}/R/library/stats4/po/it/
-%lang(ja) %{_libdir}/R/library/stats4/po/ja/
-%lang(ko) %{_libdir}/R/library/stats4/po/ko/
-%lang(pl) %{_libdir}/R/library/stats4/po/pl/
-%lang(pt) %{_libdir}/R/library/stats4/po/pt*/
-%lang(ru) %{_libdir}/R/library/stats4/po/ru/
-%lang(tr) %{_libdir}/R/library/stats4/po/tr/
-%lang(zh) %{_libdir}/R/library/stats4/po/zh*/
 %{_libdir}/R/library/stats4/R/
 # survival
 %dir %{_libdir}/R/library/survival/
@@ -852,18 +743,6 @@ popd
 %{_libdir}/R/library/tcltk/libs/
 %{_libdir}/R/library/tcltk/Meta/
 %{_libdir}/R/library/tcltk/NAMESPACE
-%dir %{_libdir}/R/library/tcltk/po/
-%lang(da) %{_libdir}/R/library/tcltk/po/da/
-%lang(de) %{_libdir}/R/library/tcltk/po/de/
-%lang(en) %{_libdir}/R/library/tcltk/po/en*/
-%lang(fr) %{_libdir}/R/library/tcltk/po/fr/
-%lang(it) %{_libdir}/R/library/tcltk/po/it/
-%lang(ja) %{_libdir}/R/library/tcltk/po/ja/
-%lang(ko) %{_libdir}/R/library/tcltk/po/ko/
-%lang(pl) %{_libdir}/R/library/tcltk/po/pl/
-%lang(pt) %{_libdir}/R/library/tcltk/po/pt*/
-%lang(ru) %{_libdir}/R/library/tcltk/po/ru/
-%lang(zh) %{_libdir}/R/library/tcltk/po/zh*/
 %{_libdir}/R/library/tcltk/R/
 # tools
 %dir %{_libdir}/R/library/tools/
@@ -874,19 +753,6 @@ popd
 %{_libdir}/R/library/tools/libs/
 %{_libdir}/R/library/tools/Meta/
 %{_libdir}/R/library/tools/NAMESPACE
-%dir %{_libdir}/R/library/tools/po
-%lang(da) %{_libdir}/R/library/tools/po/da/
-%lang(de) %{_libdir}/R/library/tools/po/de/
-%lang(en) %{_libdir}/R/library/tools/po/en*/
-%lang(fr) %{_libdir}/R/library/tools/po/fr/
-%lang(it) %{_libdir}/R/library/tools/po/it/
-%lang(ja) %{_libdir}/R/library/tools/po/ja/
-%lang(ko) %{_libdir}/R/library/tools/po/ko/
-%lang(pl) %{_libdir}/R/library/tools/po/pl/
-%lang(pt) %{_libdir}/R/library/tools/po/pt*/
-%lang(ru) %{_libdir}/R/library/tools/po/ru/
-%lang(tr) %{_libdir}/R/library/tools/po/tr/
-%lang(zh) %{_libdir}/R/library/tools/po/zh*/
 %{_libdir}/R/library/tools/R/
 # utils
 %dir %{_libdir}/R/library/utils/
@@ -896,21 +762,10 @@ popd
 %{_libdir}/R/library/utils/html/
 %{_libdir}/R/library/utils/iconvlist
 %{_libdir}/R/library/utils/INDEX
+%{_libdir}/R/library/utils/libs/
 %{_libdir}/R/library/utils/Meta/
 %{_libdir}/R/library/utils/misc/
 %{_libdir}/R/library/utils/NAMESPACE
-%dir %{_libdir}/R/library/utils/po
-%lang(da) %{_libdir}/R/library/utils/po/da/
-%lang(de) %{_libdir}/R/library/utils/po/de/
-%lang(en) %{_libdir}/R/library/utils/po/en*/
-%lang(fr) %{_libdir}/R/library/utils/po/fr/
-%lang(ja) %{_libdir}/R/library/utils/po/ja/
-%lang(ko) %{_libdir}/R/library/utils/po/ko/
-%lang(pl) %{_libdir}/R/library/utils/po/pl/
-%lang(pt) %{_libdir}/R/library/utils/po/pt*/
-%lang(ru) %{_libdir}/R/library/utils/po/ru/
-%lang(tr) %{_libdir}/R/library/utils/po/tr/
-%lang(zh) %{_libdir}/R/library/utils/po/zh*/
 %{_libdir}/R/library/utils/R/
 %{_libdir}/R/library/utils/Sweave/
 %{_libdir}/R/modules
@@ -1032,6 +887,9 @@ R CMD javareconf \
 %postun -n libRmath -p /sbin/ldconfig
 
 %changelog
+* Thu Apr 04 2013 Shane Sturrock <shane@biomatters.com> - 3.0.0-1
+- Update to 3.0.0
+
 * Tue Mar 05 2013 Shane Sturrock <shane@biomatters.com> - 2.15.3-1
 - Update to 2.15.3
 
