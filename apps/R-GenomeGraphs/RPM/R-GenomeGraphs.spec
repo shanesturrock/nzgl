@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.18.0
+Version:          1.20.0
 Release:          1%{?dist}
 Summary:          Plotting genomic information from Ensembl
 
@@ -64,6 +64,8 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/extra/*
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.20.0-1
+- New upstream release
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> 1.18.0-1
 - New upstream release
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 1.16.0-1
