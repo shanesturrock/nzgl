@@ -92,6 +92,7 @@ for application in ${application_list}; do
 
 	#current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
 	current_version=$(yum -q list all ${application} --enablerepo=nzgl-testing | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
+	#current_version=$(yum -q list all ${application} | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 	if [ -z "${current_version}" ]; then
 		echo "Unable to get current version for ${application}. Not installed?"
 		exit 1

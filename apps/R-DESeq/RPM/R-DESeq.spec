@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.10.1
+Version:          1.12.0
 Release:          1%{?dist}
 Summary:          Differential gene expression analysis based on the negative binomial distribution
 
@@ -59,6 +59,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.12.0-1
+- New upstream release
 * Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> 1.10.1-1
 - New upstream release
 * Wed Aug 29 2012 Carl Jones <carl@biomatters.com> 1.9.11-1
