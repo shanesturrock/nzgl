@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          2.11.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Various R programming tools for data manipulation
 
 Group:            Applications/Engineering 
@@ -14,10 +14,10 @@ Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{version}.t
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
-Requires:         R-gtools 
+Requires:         R-gtools R >= 3.0.0
 
 BuildRequires:    R-devel tex(latex) 
-BuildRequires:    R-gtools 
+BuildRequires:    R-gtools R >= 3.0.0
 
 
 %description
@@ -65,5 +65,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.11.0-2
+- Rebuild against R-3.0.0 for testing
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.11.0-1
 - initial package for Fedora

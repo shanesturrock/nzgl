@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          2.7.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Various R programming tools
 
 Group:            Applications/Engineering 
@@ -16,7 +16,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
 
-BuildRequires:    R-devel tex(latex) 
+BuildRequires:    R-devel tex(latex) R >= 3.0.0
 
 
 
@@ -60,5 +60,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.7.0-2
+- Rebuild against R-3.0.0 for testing
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.7.0-1
 - initial package for Fedora
