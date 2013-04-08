@@ -13,6 +13,7 @@ removeExt(c("slide1.spot","slide.2.spot"))
 removeExt(c("slide1.spot","slide"))
 
 ### printorder
+
 printorder(list(ngrid.r=4,ngrid.c=4,nspot.r=8,nspot.c=6),ndups=2,start="topright",npins=4)
 printorder(list(ngrid.r=4,ngrid.c=4,nspot.r=8,nspot.c=6))
 
@@ -28,21 +29,44 @@ merge(RG1,RG2)
 merge(RG2,RG1)
 
 ### background correction
+
 RG <- new("RGList", list(R=c(1,2,3,4),G=c(1,2,3,4),Rb=c(2,2,2,2),Gb=c(2,2,2,2)))
 backgroundCorrect(RG)
 backgroundCorrect(RG, method="half")
 backgroundCorrect(RG, method="minimum")
 backgroundCorrect(RG, offset=5)
 
+### loessFit
+
+x <- 1:100
+y <- rnorm(100)
+out <- loessFit(y,x)
+f1 <- quantile(out$fitted)
+r1 <- quantile(out$residual)
+w <- rep(1,100)
+w[1:50] <- 0.5
+out <- loessFit(y,x,weights=w)
+f2 <- quantile(out$fitted)
+r2 <- quantile(out$residual)
+w[1:80] <- 0
+out <- loessFit(y,x,weights=w)
+f3 <- quantile(out$fitted)
+r3 <- quantile(out$residual)
+data.frame(f1,f2,f3,r1,r2,r3)
+
 ### normalizeWithinArrays
 
-#library(sma)
-#data(MouseArray)
-#RG <- new("RGList",mouse.data)
-#RGb <- backgroundCorrect(RG[,1:2],method="normexp",normexp.method="saddle")
-#RGb
-#Rne <- backgroundCorrect(RG$R[,1:2]-RG$Rb[,1:2],method="normexp",normexp.method="mle")
-#Rne[1:5,]
+RG <- new("RGList",list())
+RG$R <- matrix(rexp(100*2),100,2)
+RG$G <- matrix(rexp(100*2),100,2)
+RG$Rb <- matrix(rnorm(100*2,sd=0.02),100,2)
+RG$Gb <- matrix(rnorm(100*2,sd=0.02),100,2)
+RGb <- backgroundCorrect(RG,method="normexp",normexp.method="saddle")
+summary(cbind(RGb$R,RGb$G))
+RGb <- backgroundCorrect(RG,method="normexp",normexp.method="mle")
+summary(cbind(RGb$R,RGb$G))
+MA <- normalizeWithinArrays(RGb,method="loess")
+summary(MA$M)
 #MA <- normalizeWithinArrays(RG[,1:2], mouse.setup, method="robustspline")
 #MA$M[1:5,]
 #MA <- normalizeWithinArrays(mouse.data, mouse.setup)
@@ -50,12 +74,12 @@ backgroundCorrect(RG, offset=5)
 
 ### normalizeBetweenArrays
 
-#MA <- normalizeBetweenArrays(MA,method="scale")
-#MA$M[1:5,]
-#MA$A[1:5,]
-#MA <- normalizeBetweenArrays(MA,method="quantile")
-#MA$M[1:5,]
-#MA$A[1:5,]
+MA2 <- normalizeBetweenArrays(MA,method="scale")
+MA$M[1:5,]
+MA$A[1:5,]
+MA2 <- normalizeBetweenArrays(MA,method="quantile")
+MA$M[1:5,]
+MA$A[1:5,]
 
 ### unwrapdups
 
@@ -184,11 +208,43 @@ avereps(x)
 ### roast
 
 y <- matrix(rnorm(100*4),100,4)
+sigma <- sqrt(2/rchisq(100,df=7))
+y <- y*sigma
 design <- cbind(Intercept=1,Group=c(0,0,1,1))
 iset1 <- 1:5
 y[iset1,3:4] <- y[iset1,3:4]+3
 iset2 <- 6:10
-roast(iset1,y,design,contrast=2)
-roast(iset1,y,design,contrast=2,array.weights=c(0.5,1,0.5,1))
-mroast(list(set1=iset1,set2=iset2),y,design,contrast=2)
-mroast(list(set1=iset1,set2=iset2),y,design,contrast=2,gene.weights=runif(100))
+roast(y=y,iset1,design,contrast=2)
+roast(y=y,iset1,design,contrast=2,array.weights=c(0.5,1,0.5,1))
+mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
+mroast(y=y,list(set1=iset1,set2=iset2),design,contrast=2,gene.weights=runif(100))
+
+### camera
+
+camera(y=y,iset1,design,contrast=2,weights=c(0.5,1,0.5,1))
+camera(y=y,list(set1=iset1,set2=iset2),design,contrast=2)
+
+### with EList arg
+
+y <- new("EList",list(E=y))
+roast(y=y,iset1,design,contrast=2)
+camera(y=y,iset1,design,contrast=2)
+
+### eBayes with trend
+
+fit <- lmFit(y,design)
+fit <- eBayes(fit,trend=TRUE)
+topTable(fit,coef=2)
+fit$df.prior
+fit$s2.prior
+summary(fit$s2.post)
+
+y$E[1,1] <- NA
+y$E[1,3] <- NA
+fit <- lmFit(y,design)
+fit <- eBayes(fit,trend=TRUE)
+topTable(fit,coef=2)
+fit$df.residual[1]
+fit$df.prior
+fit$s2.prior
+summary(fit$s2.post)
