@@ -3,8 +3,8 @@
 
 
 Name:             R-%{packname}
-Version:          2.11.0
-Release:          2%{?dist}
+Version:          2.12.0.2
+Release:          1%{?dist}
 Summary:          Various R programming tools for data manipulation
 
 Group:            Applications/Engineering 
@@ -65,7 +65,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.11.0-2
-- Rebuild against R-3.0.0 for testing
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.12.0.2-1
+- Upstream update built against R-3.0.0
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.11.0-1
 - initial package for Fedora

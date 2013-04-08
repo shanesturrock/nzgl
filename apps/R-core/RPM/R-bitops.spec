@@ -1,9 +1,9 @@
 %global packname  bitops
-%global packvers 1.0-4.1
+%global packvers 1.0-5
 
 Name:             R-%{packname}
-Version:          1.0.4.1
-Release:          8%{?dist}
+Version:          1.0.5
+Release:          1%{?dist}
 Summary:          Functions for Bitwise operations
 
 Group:            Applications/Productivity
@@ -11,8 +11,8 @@ License:          GPLv2+
 URL:              http://cran.r-project.org/web/packages/bitops/index.html
 Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{packvers}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:         R-core
-BuildRequires:    R-devel, tex(latex)
+Requires:         R-core, R >= 3.0.0
+BuildRequires:    R-devel, tex(latex), R >= 3.0.0
 
 %description
 Functions for Bitwise operations on integer vectors.
@@ -48,6 +48,9 @@ test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 %{_libdir}/R/library/%{packname}/libs
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> - 1.0.5-1
+- Upstream update built for R-3.0.0
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.4.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

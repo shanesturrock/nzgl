@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          2.11.0
+Version:          2.11.0.1
 Release:          1%{?dist}
 Summary:          Various R programming tools for plotting data
 
@@ -14,11 +14,12 @@ Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{version}.t
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:         R-gtools R-gdata R-stats R-caTools R-grid R-KernSmooth R-MASS R-datasets 
+Requires:         R >= 3.0.0
 
 Requires:         R-gtools 
 BuildRequires:    R-devel tex(latex) R-gtools R-gdata R-stats R-caTools R-grid R-KernSmooth R-MASS R-datasets
 
-BuildRequires:   R-gtools 
+BuildRequires:   R-gtools R >= 3.0.0
 
 %description
 Various R programming tools for plotting data
@@ -58,5 +59,7 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/data/*
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.11.0.1-1
+- initial package for Fedora
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.11.0-1
 - initial package for Fedora

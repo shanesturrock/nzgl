@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.13
+Version:          1.14
 Release:          1%{?dist}
 Summary:          Tools: moving window statistics, GIF, Base64, ROC AUC, etc.
 
@@ -15,10 +15,10 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:         R-bitops 
 
-Requires:         R-MASS R-rpart 
+Requires:         R-MASS R-rpart R >= 3.0.0
 BuildRequires:    R-devel tex(latex) R-bitops
 
-BuildRequires:   R-MASS R-rpart 
+BuildRequires:   R-MASS R-rpart R >= 3.0.0
 
 %description
 Contains several basic utility functions including: moving (rolling,
@@ -60,5 +60,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.14-1
+- Upstream update build against R-3.0.0
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 1.13-1
 - initial package for Fedora
