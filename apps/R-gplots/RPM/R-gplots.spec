@@ -59,7 +59,7 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/data/*
 
 %changelog
-* Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 2.11.0.1-1
+* Mon Apr 08 2013 Shane Sturrock <shane@biomatters.com> 2.11.0.1-1
 - initial package for Fedora
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.11.0-1
 - initial package for Fedora
