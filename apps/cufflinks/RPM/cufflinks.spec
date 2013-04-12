@@ -1,8 +1,8 @@
 %define samtools_version 0.1.18
 
 Name:		cufflinks
-Version:	2.0.2
-Release:	3%{?dist}
+Version:	2.1.1
+Release:	1%{?dist}
 Summary:	RNA-Seq transcript assembly, differential expression/regulation
 Group:		Applications/Engineering
 License:	Boost
@@ -73,6 +73,9 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Fri Apr 12 2013 Simon Buxton <simon@biomatters.com> 2.1.1-1
+- New upstream release
+
 * Thu Aug 30 2012 Carl Jones <carl@biomatters.com> 2.0.2-3
 - Fix issue with binaries being installed incorrectly
 
