@@ -1,5 +1,5 @@
 Name:		solexaqa
-Version:	2.1
+Version:	2.2
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -33,6 +33,9 @@ rm -rf %{buildroot}
 /usr/bin/SolexaQA.pl
 
 %changelog
+* Fri Apr 12 2013 Simon Buxton <simon@biomatters.com> - 2.2-1
+- New upstream release
+
 * Mon Jan 21 2013 Carl Jones <carl@biomatters.com> - 2.1-1
 - New upstream release
 
