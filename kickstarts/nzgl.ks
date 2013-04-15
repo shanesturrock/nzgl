@@ -57,8 +57,10 @@ nzgl-sysscripts
 
 %post --logfile /root/post.log
 
-nfs_host="10.10.2.52"
-ntp_servers="10.0.1.1 10.10.0.3"
+nfs_host="stn.genomics.local"
+#nfs_host="10.10.2.52"
+ntp_servers="10.10.0.1 10.10.0.2"
+#ntp_servers="10.0.1.1 10.10.0.3"
 
 
 # NTP
@@ -73,7 +75,14 @@ done
 service ntpd start
 
 # NFS 
-echo "${nfs_host}:/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+mkdir /active 
+mkdir /archive 
+mkdir /scratch
+
+echo "${nfs_host}:/fs1/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
