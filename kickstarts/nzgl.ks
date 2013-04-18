@@ -10,7 +10,7 @@ keyboard us
 network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
-authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
+authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --updateall
 selinux --disabled
 timezone --utc Pacific/Auckland
 zerombr
