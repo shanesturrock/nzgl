@@ -12,7 +12,7 @@ rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
 authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --enablemkhomedir --updateall
 selinux --disabled
-timezone NZ
+timezone --utc Pacific/Auckland
 zerombr
 bootloader --location=mbr --append="rd_NO_PLYMOUTH"
 clearpart --all
@@ -58,21 +58,16 @@ nzgl-sysscripts
 %post --logfile /root/post.log
 
 nfs_host="stn.genomics.local"
-#nfs_host="10.10.2.52"
-ntp_servers="10.10.0.1 10.10.0.2"
-#ntp_servers="10.0.1.1 10.10.0.3"
-
+ntp_servers="10.0.1.1 10.10.0.3"
 
 # NTP
-service ntpd stop
+/sbin/service ntpd stop
 [ -e /etc/ntp.conf ] && mv /etc/ntp.conf /etc/ntp.conf.orig
 echo "driftfile /var/lib/ntp/drift" > /etc/ntp.conf
 for ntp_server in ${ntp_servers}; do
 	echo "server ${ntp_server}" >> /etc/ntp.conf
-	# Force set time, as unix expects a UTC time from the BIOS but we seem to be getting a windows-style local time
-	ntpdate ${ntp_server}
 done
-service ntpd start
+/sbin/service ntpd start
 
 # NFS 
 mkdir /active 
@@ -105,7 +100,7 @@ echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
-nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+#nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
 echo 'Match Address 127.0.0.1,::1
   PasswordAuthentication yes' >> /etc/ssh/sshd_config
@@ -165,7 +160,11 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-B
 # Firewall setup
 yum -y install nzgl-iptables
 
-# Fix NX keyboard map problem
+# Fix NX keyboard map problem and set it up
 touch /usr/share/X11/xkb/keymap.dir
+nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+
+# 32 bit binary support
+yum -y install glibc.i686 libstdc++.i686 libgomp.i686
 
 %end
