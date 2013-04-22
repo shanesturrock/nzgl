@@ -1,6 +1,6 @@
 Name:		glimmerhmm
-Version:	3.0.2
-Release:	1%{?dist}
+Version:	3.0.1
+Release:	4%{?dist}
 Summary:	GlimmerHMM is a new gene finder based on a Generalized Hidden Markov Model (GHMM).
 Group:		Applications/Engineering
 License:	Artistic clarified
@@ -56,7 +56,8 @@ cd train && /bin/cp *.pm mkdir -p %{buildroot}/%{perl_vendorarch} && cd ..
 %{perl_vendorarch}/*.pm
 
 %changelog
-* Wed Sep 19 2012 Carl Jones <carl@biomatters.com> - 3.0.2-1
+* Tue Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 3.0.1-4
+- Correcting build problems with previous version
 - New usptream release
 - Correct version numbering (3.01 -> 3.0.1)
 * Wed Sep 05 2012 Carl Jones <carl@biomatters.com> - 3.0.1-2
