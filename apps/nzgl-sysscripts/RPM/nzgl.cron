@@ -1,1 +1,1 @@
-0 4 * * * root /usr/sbin/nzgl-yum-update
+0 4 * * * root /usr/sbin/nzgl-yum-upgrade
