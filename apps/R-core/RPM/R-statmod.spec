@@ -7,14 +7,14 @@
 Summary: Statistical Modelling
 Name: R-statmod
 Version: 1.4.14
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPL (>= 2)
 Group: Applications/Libraries
 URL: http://cran.r-project.org/src/contrib/%{short_name}_%{version}.tar.gz
 Source0: http://cran.r-project.org/src/contrib/%{short_name}_%{upstream_ver}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: R-devel
-Requires: R-core
+BuildRequires: R-devel >= 3.0.0
+Requires: R-core >= 3.0.0
 
 %description
 Various statistical modeling functions including growth
@@ -44,6 +44,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> 1.4.14-2
+- Recompile for R 3.0.0
 * Wed Jul 11 2012 David Nutter <davidn@bioss.ac.uk> R-statmod-1.4.14-1.el5
 - Update to upstream (for R 2.15)
 * Tue Oct 11 2011 Alec Mann <alec@bioss.ac.uk> - R-statmod-1.4.11-1.el5
