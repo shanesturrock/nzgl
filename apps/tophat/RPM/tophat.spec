@@ -2,13 +2,15 @@
 
 Name:		tophat
 Version:	2.0.8
-Release:	0%{?dist}
+Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://tophat.cbcb.umd.edu/
 Source0:	http://tophat.cbcb.umd.edu/downloads/tophat-%{version}.tar.gz
 Source1:	http://downloads.sourceforge.net/samtools/samtools-%{samtools_version}.tar.bz2
+Patch1:		tophat.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	boost >= 1.47
 BuildRequires:	boost-devel >= 1.47
@@ -34,6 +36,7 @@ Cell Biology.
 
 %prep
 %setup -q -a 1
+%patch1 -p0
 
 %build
 cd samtools-%{samtools_version}
@@ -80,6 +83,9 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> - 2.0.8-1
+- Patch because test for bowtie 1.0.0 fails
+
 * Mon Feb 25 2013 Carl Jones <carl@biomatters.com> - 2.0.8-0
 - New upstream release
 
