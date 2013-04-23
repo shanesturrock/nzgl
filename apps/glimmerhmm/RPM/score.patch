@@ -1,0 +1,11 @@
+--- train/score_orig.c	2013-04-24 10:13:08.666951830 +1200
++++ train/score.c	2013-04-24 10:13:20.824753065 +1200
+@@ -91,7 +91,7 @@
+    int *B;
+    long i, N;
+    long String_Len, Poz;
+-   double Score[2000000],S1,S2;
++   double Score[500000],S1,S2;
+    double score1,score2,score3;
+    tree *tdon, *tacc;
+    char line[5000];

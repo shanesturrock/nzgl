@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          3.2.3
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Empirical analysis of digital gene expression data in R
 
 Group:            Applications/Engineering 
@@ -13,12 +13,13 @@ URL:              http://bioconductor.org/packages/release/bioc/html/%{packname}
 Source0:          http://bioconductor.org/packages/release/bioc/src/contrib/%{packname}_%{version}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:         R-methods R-limma 
+Requires:         R-methods R-limma R >= 3.0.0
 
 Requires:         R-MASS R-statmod R-splines 
-BuildRequires:    R-devel tex(latex) R-methods R-limma
+BuildRequires:    R-devel >= 3.0.0
+BuildRequires:    tex(latex) R-methods R-limma
 
-BuildRequires:   R-MASS R-statmod R-splines 
+BuildRequires:    R-MASS R-statmod R-splines 
 
 %description
 Differential expression analysis of RNA-seq and digital gene expression
@@ -61,6 +62,8 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/libs/edgeR.so
 
 %changelog
+* Mon Apr 22 2013 Shane Sturrock <shane@biomatters.com> 3.2.3-2
+- Rebuild against R-3.0.0 for testing repo
 * Mon Apr 22 2013 Shane Sturrock <shane@biomatters.com> 3.2.3-1
 - New upstream release
 * Tue Apr 16 2013 Shane Sturrock <shane@biomatters.com> 3.2.2-1
