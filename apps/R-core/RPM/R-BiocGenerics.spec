@@ -5,15 +5,15 @@
 
 Summary: S4 generic functions needed by many other Bioconductor packages.
 Name: R-%{short_name}
-Version: 0.2.0
+Version: 0.6.0
 Release: 1%{?dist}
 License: Bioconductor
 Group: Applications/Libraries
-URL: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
-Source0: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
+URL: http://www.bioconductor.org/packages/2.12/bioc/src/contrib/%{short_name}_%{version}.tar.gz
+Source0: http://www.bioconductor.org/packages/2.12/bioc/src/contrib/%{short_name}_%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: R-devel >= 2.7.0
-Requires: R-core >= 2.7.0
+BuildRequires: R-devel >= 3.0.0
+Requires: R-core >= 3.0.0
 
 %description
 S4 generic functions needed by many other Bioconductor packages.
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> R-BiocGenerics-0.6.0-1
+- Latest build for R-3.0.0 compatibility
 * Wed Jul 11 2012 David Nutter <davidn@bioss.ac.uk> R-BiocGenerics-0.2.0-1.el5
 - Initial build. 
 

@@ -5,15 +5,15 @@
 
 Summary: Base functions for Bioconductor
 Name: R-Biobase
-Version: 2.16.0
+Version: 2.20.0
 Release: 1%{?dist}
 License: Bioconductor
 Group: Applications/Libraries
-URL: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
-Source0: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
+URL: http://www.bioconductor.org/packages/2.12/bioc/src/contrib/%{short_name}_%{version}.tar.gz
+Source0: http://www.bioconductor.org/packages/2.12/bioc/src/contrib/%{short_name}_%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: R-devel >= 2.7.0, R-BiocGenerics
-Requires: R-core >= 2.7.0, R-BiocGenerics
+BuildRequires: R-devel >= 3.0.0, R-BiocGenerics >= 0.6.0
+Requires: R-core >= 3.0.0, R-BiocGenerics >= 0.6.0
 
 %description
 Functions that are needed by many other packages or which replace R functions.
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> R-Biobase-2.20.0-1
+- Update to upstream (for R 3.0.0)
 * Wed Jul 11 2012 David Nutter <davidn@bioss.ac.uk> R-Biobase-2.16.0-1.el5
 - Update to upstream (for R 2.15)
 * Mon Oct 10 2011 Alec Mann <alec@bioss.ac.uk> - R-Biobase-2.16.0-1.el5
