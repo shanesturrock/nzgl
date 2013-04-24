@@ -1,6 +1,6 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
-Version: 1.4
+Version: 1.6
 Release: 0%{?dist}
 License: GPLv2
 Source0: nzgl.action
@@ -70,6 +70,13 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> - 1.6-0
+- Testing shows Tablet requires Java 7 so can't turn it off any more
+
+* Tue Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 1.5-0
+- Fixed issues with messagebus being turned off and incorrect update
+- script naming.
+
 * Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 1.4-0
 - Change galaxy.desktop application to link to new Galaxy server in NZGL
 
