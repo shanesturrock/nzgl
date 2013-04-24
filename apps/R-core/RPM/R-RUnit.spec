@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.4.26
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          R Unit test framework
 
 Group:            Applications/Engineering 
@@ -16,7 +16,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:         R-utils R-methods 
 
 
-BuildRequires:    R-devel tex(latex) R-utils R-methods
+BuildRequires:    R-devel >= 3.0.0 tex(latex) R-utils R-methods
 
 
 
@@ -61,5 +61,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Apr 24 2013 Shane Sturrock <shane@biomatters.com> 0.4.26-2
+- Rebuild for R-3
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 0.4.26-1
 - initial package for Fedora

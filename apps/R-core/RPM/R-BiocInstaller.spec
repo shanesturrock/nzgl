@@ -2,7 +2,7 @@
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.4.7
+Version:          1.10.0
 Release:          1%{?dist}
 Summary:          Install/Update Bioconductor and CRAN Packages
 
@@ -12,11 +12,11 @@ URL:              http://bioconductor.org/packages/release/bioc/html/%{packname}
 Source0:          http://bioconductor.org/packages/release/bioc/src/contrib/%{packname}_%{version}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:        noarch
-Requires:         R-core
+Requires:         R-core >= 3.0.0
 
-Requires:         R-RUnit 
-BuildRequires:    R-devel tex(latex) 
-BuildRequires:	R-RUnit 
+Requires:         R-RUnit R-BiocGenerics >= 0.6.0
+BuildRequires:    R-devel >= 3.0.0 tex(latex) 
+BuildRequires:	  R-RUnit R-BiocGenerics >= 0.6.0
 
 %description
 Install4/updates Bioconductor and CRAN packages
@@ -44,15 +44,18 @@ rm -rf %{buildroot}
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/html
 %doc %{rlibdir}/%{packname}/DESCRIPTION
+%doc %{rlibdir}/%{packname}/NEWS
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
 %{rlibdir}/%{packname}/scripts/biocLite.R
-%{rlibdir}/%{packname}/unitTests/test_biocLite.R
+%{rlibdir}/%{packname}/unitTests/test_BiocUpgrade.R
 %{rlibdir}/%{packname}/unitTests/test_biocinstallRepos.R
 
 %changelog
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> 1.10.0-1
+- Updates for R-3.0.0
 * Mon Aug 20 2012 Carl Jones <carl@biomatters.com> 1.4.7-1
 - initial package
