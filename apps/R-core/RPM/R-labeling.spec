@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Axis Labeling
 
 Group:            Applications/Engineering 
@@ -13,12 +13,12 @@ URL:              http://cran.r-project.org/web/packages/%{packname}/index.html
 Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:        noarch
-Requires:         R-core
+Requires:         R-core >= 3.0.0
 
 
 
 
-BuildRequires:    R-devel tex(latex) 
+BuildRequires:    R-devel >= 3.0.0 tex(latex) 
 
 
 
@@ -53,5 +53,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> 0.1-2
+- Rebuild for R-3.0.0
 * Tue Sep 25 2012 Carl Jones <carl@biomatters.com> 0.1-1
 - initial package for Fedora

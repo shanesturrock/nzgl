@@ -1,17 +1,17 @@
 %global packname  RCurl
-%global packver   1.7
-%global packrel   0
+%global packver   1.95
+%global packrel   4.1
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          4%{?dist}
+Release:          1%{?dist}
 Summary:          General network (HTTP/FTP) client interface for R
 Group:            Applications/Productivity
 License:          BSD
 URL:              http://cran.r-project.org/web/packages/RCurl/index.html
 Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
-Requires:         R-core, texlive-latex, R-bitops, R-methods
-BuildRequires:    R-devel, R-bitops, R-methods, libcurl-devel
+Requires:         R-core >= 3.0.0 , texlive-latex, R-bitops, R-methods
+BuildRequires:    R-devel >= 3.0.0 , R-bitops, R-methods, libcurl-devel
 BuildRequires:    R-Rcompression, R-XML
 
 %description
@@ -59,6 +59,9 @@ rm -rf %{buildroot}%{_libdir}/R/library/R.css
 %{_libdir}/R/library/%{packname}/examples/
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> - 1.95.4.1-5
+- Upstream update for R-3.0.0
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

@@ -7,14 +7,14 @@
 Summary: ColorBrewer palettes
 Name: R-RColorBrewer
 Version: 1.0.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: Applications/Libraries
 URL: http://cran.r-project.org/src/contrib/%{short_name}_%{version}.tar.gz
 Source0: http://cran.r-project.org/src/contrib/%{short_name}_%{upstream_ver}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: R-devel
-Requires: R-core
+BuildRequires: R-devel >= 3.0.0
+Requires: R-core >= 3.0.0
 
 %description
 Provides palettes for drawing nice maps shaded according to a variable.
@@ -42,6 +42,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> 1.0.5-3
+- Rebuild for R 3.0.0
 * Wed Jul 11 2012 David Nutter <davidn@bioss.ac.uk> R-RColorBrewer-1.0.5-2.el5
 - Rebuild for R 2.15
 * Mon Oct 10 2011 Alec Mann <alec@bioss.ac.uk> - R-RColorBrewer-1.0.5-2.el5

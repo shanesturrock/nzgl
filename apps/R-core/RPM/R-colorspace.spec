@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.1.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Color Space Manipulation
 
 Group:            Applications/Engineering 
@@ -16,7 +16,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:         R-methods 
 
 
-BuildRequires:    R-devel tex(latex) R-methods
+BuildRequires:    R-devel >= 3.0.0 tex(latex) R-methods
 
 
 
@@ -57,5 +57,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> 1.1.1-2
+- Rebuild for R-3.0.0
 * Tue Sep 25 2012 Carl Jones <carl@biomatters.com> 1.1.1-1
 - initial package

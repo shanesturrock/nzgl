@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.3a
+Version:        0.7.4
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -31,7 +31,6 @@ mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_mandir}/man1
 
 install -m 0755 bwa %{buildroot}/%{_bindir}
-install -m 0755 bwamem-lite %{buildroot}/%{_bindir}
 install -m 0755 qualfa2fq.pl %{buildroot}/%{_bindir}
 install -m 0755 xa2multi.pl %{buildroot}/%{_bindir}
 
@@ -46,12 +45,14 @@ rm -rf %{buildroot}
 %doc COPYING NEWS 
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/bwa
-%{_bindir}/bwamem-lite
 %{_bindir}/qualfa2fq.pl
 %{_bindir}/xa2multi.pl
 
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> - 0.7.4-1
+- New upstream release, drops explicit bwamem-lite binary
+
 * Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 0.7.3a-1
 - New upstream release
 

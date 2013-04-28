@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.4
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Munsell colour system
 
 Group:            Applications/Engineering 
@@ -18,7 +18,7 @@ Requires:         R-core
 
 Requires:         R-colorspace 
 
-BuildRequires:    R-devel tex(latex) 
+BuildRequires:    R-devel >= 3.0.0 tex(latex) 
 BuildRequires:    R-colorspace 
 
 
@@ -55,5 +55,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> 0.4-2
+- Rebuild for R 3.0.0
 * Tue Sep 25 2012 Carl Jones <carl@biomatters.com> 0.4-1
 - initial package for Fedora

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.8.7
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Another Multidimensional Analysis Package
 
 Group:            Applications/Engineering 
@@ -15,8 +15,8 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
 
-Requires:         R-Biobase 
-BuildRequires:    R-devel tex(latex) 
+Requires:         R-Biobase R-core >= 3.0.0
+BuildRequires:    R-devel >= 3.0.0 tex(latex) 
 
 BuildRequires:   R-Biobase 
 
@@ -61,5 +61,7 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/po/*
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> 0.8.7-2
+- Rebuild against R-3.0.0
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 0.8.7-1
 - initial package for Fedora

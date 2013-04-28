@@ -1,11 +1,11 @@
 %global packname  XML
-%global packver   3.9
-%global packrel   4
+%global packver   3.96
+%global packrel   1.1
 %global rlibdir   %{_libdir}/R/library
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          2%{?dist}
+Release:          1%{?dist}
 Summary:          Tools for parsing and generating xml within r and s-plus
 
 Group:            Applications/Engineering 
@@ -14,9 +14,9 @@ URL:              http://cran.r-project.org/web/packages/XML/index.html
 Source0:          http://cran.at.r-project.org/src/contrib/XML_%{packver}-%{packrel}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:         R-core R-methods R-utils 
+Requires:         R-core >= 3.0.0 R-methods R-utils 
 Requires:         R-bitops 
-BuildRequires:    R-devel tex(latex) R-methods R-utils R-bitops
+BuildRequires:    R-devel >= 3.0.0 tex(latex) R-methods R-utils R-bitops
 BuildRequires:    libxml2-devel
 
 %description
@@ -54,7 +54,6 @@ rm -rf %{buildroot}
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/html
 %doc %{rlibdir}/%{packname}/DESCRIPTION
-%doc %{rlibdir}/%{packname}/Docs
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
@@ -67,6 +66,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> - 3.99.1.1-1
+- Upstream update for R-3.0.0
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.9.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
