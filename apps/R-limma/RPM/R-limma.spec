@@ -5,7 +5,7 @@
 
 Summary: Data analysis, linear models and differential expression for microarray data.
 Name: R-limma
-Version: 3.16.1
+Version: 3.16.2
 Release: 2%{?dist}
 License: LGPL
 Group: Applications/Libraries
@@ -41,6 +41,8 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
+* Tue Apr 30 2013 Shane Sturrock <shane@biomatters.com> - 3.16.2-2
+- Rebuild for R 3.0.0 of new upstream release
 * Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> - 3.16.1-2
 - Rebuild for R 3.0.0
 * Tue Apr 09 2013 Shane Sturrock <shane@biomatters.com> - 3.16.1-1
