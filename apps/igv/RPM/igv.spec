@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.2
+Version:	2.3.3
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -59,6 +59,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu May 02 2013 Shane Sturrock <shane@biomatters.com> - 2.3.3-1
+- New upstream release
+
 * Tue Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 2.3.2-1
 - New upstream release
 
