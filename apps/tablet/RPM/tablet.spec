@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.13.04.22
+Version:	1.13.05.02
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -62,6 +62,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri May 03 2013 Shane Sturrock <shane@biomatters.com> - 1.13.05.02-1
+- New upstream release
+
 * Tue Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 1.13.04.22-1
 - New upstream release
 
