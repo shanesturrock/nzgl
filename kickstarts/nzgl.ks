@@ -38,6 +38,7 @@ screen
 nfs-utils
 pam_ldap
 pam_krb5
+krb5-workstation
 sssd
 nx
 freenx

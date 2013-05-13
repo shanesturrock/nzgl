@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.7.11
+Version:	0.7.12
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -45,6 +45,9 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Mon May 13 2013 Shane Sturrock <shane@biomatters.com> - 0.7.12-1
+- New upstream release
+
 * Mon Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 0.7.11-1
 - New upstream release including some new bed tools
 

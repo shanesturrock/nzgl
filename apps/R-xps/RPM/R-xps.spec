@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          1.20.1
+Version:          1.20.2
 Release:          1%{?dist}
 Summary:          Processing and Analysis of Affymetrix Oligonucleotide Arrays including Exon Arrays, Whole Genome Arrays and Plate Arrays
 
@@ -72,6 +72,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 13 2013 Shane Sturrock <shane@biomatters.com> 1.20.2-1
+- New upstream release
 * Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> 1.20.1-1
 - New upstream release
 * Mon Apr 8 2013 Shane Sturrock <shane@biomatters.com> 1.20.0-1
