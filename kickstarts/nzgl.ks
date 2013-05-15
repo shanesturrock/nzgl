@@ -42,6 +42,7 @@ krb5-workstation
 sssd
 nx
 freenx
+gedit
 yum-plugin-post-transaction-actions
 munin-node
 rstudio
