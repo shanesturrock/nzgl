@@ -5,7 +5,7 @@
 %endif
 
 Name: R
-Version: 3.0.0
+Version: 3.0.1
 Release: 1%{?dist}
 Summary: A language for data analysis and graphics
 URL: http://www.r-project.org
@@ -64,7 +64,7 @@ Provides: R-class = 7.3.7
 Provides: R-cluster = 1.14.4
 Provides: R-codetools = 0.2.8
 Provides: R-datasets = %{version}
-Provides: R-foreign = 0.8.52
+Provides: R-foreign = 0.8.53
 Provides: R-graphics = %{version}
 Provides: R-grDevices = %{version}
 Provides: R-grid = %{version}
@@ -887,6 +887,9 @@ R CMD javareconf \
 %postun -n libRmath -p /sbin/ldconfig
 
 %changelog
+* Mon May 20 2013 Simon Buxton <simon@biomatters.com> - 3.0.1-1
+- Update to 3.0.1
+
 * Thu Apr 04 2013 Shane Sturrock <shane@biomatters.com> - 3.0.0-1
 - Update to 3.0.0
 
