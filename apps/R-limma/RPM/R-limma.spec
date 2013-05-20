@@ -6,14 +6,14 @@
 Summary: Data analysis, linear models and differential expression for microarray data.
 Name: R-limma
 Version: 3.16.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPL
 Group: Applications/Libraries
 URL: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
 Source0: http://www.bioconductor.org/packages/2.10/bioc/src/contrib/%{short_name}_%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: R-devel >= 2.3.0
-Requires: R-core >= 2.3.0
+BuildRequires: R-devel >= 3.0.0
+Requires: R-core >= 3.0.0
 
 %description
 Data analysis, linear models and differential expression for microarray data.
@@ -41,12 +41,14 @@ rm -rf $RPM_BUILD_ROOT
 %{Rlibdir}/%{short_name}/*
 
 %changelog
-* Mon May 20 2013 Simon Buxton <simon@biomatters.com> - 3.16.4-1
-- New upstream release
-* Fri May 03 2013 Shane Sturrock <shane@biomatters.com> - 3.16.3-1
-- New upstream release
-* Tue Apr 30 2013 Shane Sturrock <shane@biomatters.com> - 3.16.2-1
-- New upstream release
+* Mon May 20 2013 Simon Buxton <simon@biomatters.com> - 3.16.4-2
+- Rebuild for R 3.0.0 of new upstream release
+* Fri May 03 2013 Shane Sturrock <shane@biomatters.com> - 3.16.3-2
+- Rebuild for R 3.0.0 of new upstream release
+* Tue Apr 30 2013 Shane Sturrock <shane@biomatters.com> - 3.16.2-2
+- Rebuild for R 3.0.0 of new upstream release
+* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> - 3.16.1-2
+- Rebuild for R 3.0.0
 * Tue Apr 09 2013 Shane Sturrock <shane@biomatters.com> - 3.16.1-1
 - New upstream release
 * Mon Dec 03 2012 Carl Jones <carl@biomatters.com> - 3.14.1-3
