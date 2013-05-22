@@ -1,7 +1,7 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
-Version: 1.6
-Release: 1%{?dist}
+Version: 1.5
+Release: 2%{?dist}
 License: GPLv2
 Source0: nzgl.action
 Source1: nzgl.cron
@@ -70,11 +70,11 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
-* Wed May 22 2013 Simon Buxton <simon@biomatters.com> - 1.6-1
-- Update Galaxy menu shortcut domain to galaxy.nzgenomics.co.nz
+* Thu May 23 2013 Simon Buxton <simon@biomatters.com> - 1.5-2
+- Update Galaxy menu shortcut to standard https port
 
-* Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> - 1.6-0
-- Testing shows Tablet requires Java 7 so can't turn it off any more
+* Wed May 22 2013 Simon Buxton <simon@biomatters.com> - 1.5-1
+- Update Galaxy menu shortcut domain to galaxy.nzgenomics.co.nz
 
 * Tue Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 1.5-0
 - Fixed issues with messagebus being turned off and incorrect update
