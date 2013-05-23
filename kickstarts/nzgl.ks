@@ -35,6 +35,7 @@ bind-utils
 wget
 man
 screen
+evince
 nfs-utils
 pam_ldap
 pam_krb5
