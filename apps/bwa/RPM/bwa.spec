@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.4
+Version:        0.7.5a
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -50,6 +50,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jun 04 2013 Simon Buxton <simon@biomatters.com> - 0.7.5a-1
+- New upstream release
+
 * Fri Apr 26 2013 Shane Sturrock <shane@biomatters.com> - 0.7.4-1
 - New upstream release, drops explicit bwamem-lite binary
 
