@@ -5,13 +5,14 @@
 # ----------------------------------------------------------------------------
 
 Name:      phylip
-Version:   3.69
+Version:   3.695
 Release:   1%{?dist}
 Summary:   Phylogeny Inference Package
 Group:     Applications/BioInformatics
 License:   Copyright University of Washington and Joseph Felsenstein
 URL:       http://evolution.genetics.washington.edu/phylip.html
-Source0:   ftp://evolution.genetics.washington.edu/pub/phylip/phylip-3.69.tar.gz
+Source0:   http://evolution.gs.washington.edu/phylip/download/phylip-%{version}.tar.gz
+#Source0:   ftp://evolution.genetics.washington.edu/pub/phylip/phylip-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # BuildRoot: /var/tmp/%{name}-buildroot
 BuildRequires: xorg-x11-server-devel libXt-devel libXaw-devel libX11-devel
@@ -36,14 +37,15 @@ Cladistics 5: 164-166.
 
 %build
 cd src
-make all
+make -f Makefile.unx all
 
 %install
 rm -rf %{buildroot}
 cd src 
 mkdir -p %{buildroot}/%{_bindir}/phylip
 mkdir -p %{buildroot}/%{_datadir}/phylip
-make EXEDIR=%{buildroot}/%{_bindir}/phylip DATADIR=%{buildroot}/%{_datadir}/phylip install
+make -f Makefile.unx EXEDIR=%{buildroot}/%{_bindir}/phylip DATADIR=%{buildroot}/%{_datadir}/phylip install
+
 
 %clean
 rm -rf %{buildroot}
@@ -57,6 +59,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jun 04 2013 Simon Buxton <simon@biomatters.com> - 3.695-1
+- New upstream release 
+
 * Fri May 17 2013 Shane Sturrock <shane@biomatters.com> - 3.69-1
 - Imported into NZGL project
 
