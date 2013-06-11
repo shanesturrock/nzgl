@@ -1,6 +1,6 @@
 Summary:	Sequence assembler for very short reads
 Name:		velvet
-Version:	1.2.09
+Version:	1.2.10
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
@@ -23,7 +23,7 @@ information, when available, to retrieve the repeated areas between contigs.
 This package builds the sequencespace and colorspace versions of Velvet.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}_%{version}
 
 %build
 make
@@ -48,6 +48,8 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 %{_bindir}/*
 
 %changelog
+* Tue Jun 11 2013 Simon Buxton <simon@biomatters.com> - 1.2.10-1
+- New upstream release.
 * Tue May 07 2013 Shane Sturrock <shane@biomatters.com> - 1.2.09-1
 - New upstream release.
 * Wed Oct 31 2012 Carl Jones <carl@biomatters.com> - 1.2.08-1
