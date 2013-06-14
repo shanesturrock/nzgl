@@ -47,7 +47,6 @@ perl-Module-Build
 nzgl-release
 nzgl-sysscripts
 @Development tools
-@NZGL
 %end
 
 %post --logfile /root/post.log
