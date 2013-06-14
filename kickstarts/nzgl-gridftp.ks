@@ -7,7 +7,7 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto static --ip 10.10.3.1 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname galaxy
+network --onboot yes --device eth0 --bootproto static --ip 10.10.3.1 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname gridftp
 #network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
@@ -48,7 +48,6 @@ perl-Module-Build
 nzgl-release
 nzgl-sysscripts
 @Development tools
-@NZGL
 %end
 
 %post --logfile /root/post.log
@@ -66,13 +65,15 @@ done
 /sbin/service ntpd start
 
 # NFS 
-mkdir /databases 
-mkdir /home/galaxy 
+mkdir /home/simon
+mkdir /home/sidney
 mkdir /home/shane 
+mkdir /home/gridftp
 
-echo "${nfs_host}:/fs1/home/galaxy /home/galaxy nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/gridftp /home/gridftp nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
