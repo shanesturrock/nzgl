@@ -7,8 +7,7 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto static --ip 10.10.3.1 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname gridftp
-#network --onboot yes --device eth0 --bootproto dhcp
+network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
 authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --updateall
@@ -48,6 +47,7 @@ perl-Module-Build
 nzgl-release
 nzgl-sysscripts
 @Development tools
+@NZGL
 %end
 
 %post --logfile /root/post.log
