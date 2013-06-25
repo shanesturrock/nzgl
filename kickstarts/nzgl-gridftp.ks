@@ -41,6 +41,7 @@ pam_krb5
 sssd
 yum-plugin-post-transaction-actions
 munin-node
+nc
 cpan
 perl-Bio-SamTools
 perl-Module-Build
