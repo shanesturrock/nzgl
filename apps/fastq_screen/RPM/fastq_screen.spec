@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.4
+Version:	0.4.1
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jun 26 2013 Shane Sturrock <shane@biomatters.com> - 0.4.1-1
+- New upstream release
+
 * Thu Dec 13 2012 Carl Jones <carl@biomatters.com> - 0.4-1
 - New upstream release
 
