@@ -1,5 +1,5 @@
 Name:		vcftools
-Version:	0.1.10
+Version:	0.1.11
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
@@ -74,6 +74,9 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Wed Jun 26 2013 Shane Sturrock <shane@biomatters.com> - 1.11-1
+- New upstream release
+
 * Wed Dec 05 2012 Carl Jones <carl@biomatters.com> - 1.10-1
 - New upstream release
 
