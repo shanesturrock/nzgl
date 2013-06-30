@@ -3,7 +3,7 @@
 
 
 Name:             R-%{packname}
-Version:          2.11.0.1
+Version:          2.11.3
 Release:          1%{?dist}
 Summary:          Various R programming tools for plotting data
 
@@ -59,6 +59,8 @@ rm -rf %{buildroot}
 %{rlibdir}/%{packname}/data/*
 
 %changelog
+* Mon Jul 01 2013 Shane Sturrock <shane@biomatters.com> 2.11.3-1
+- Upstream update
 * Mon Apr 08 2013 Shane Sturrock <shane@biomatters.com> 2.11.0.1-1
 - initial package for Fedora
 * Mon Aug 13 2012 Carl Jones <carl@biomatters.com> 2.11.0-1
