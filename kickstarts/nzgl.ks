@@ -76,11 +76,14 @@ done
 mkdir /active 
 mkdir /archive 
 mkdir /scratch
+mkdir /home/shane
+mkdir /home/simon
 
-echo "${nfs_host}:/fs1/home /home nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
