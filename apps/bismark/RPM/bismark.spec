@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.7.12
+Version:	0.8.0
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -29,29 +29,19 @@ mkdir -p %{buildroot}/%{_bindir}
 install -m 0755 bismark %{buildroot}/%{_bindir}
 install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
 install -m 0755 bismark_methylation_extractor %{buildroot}/%{_bindir}
-install -m 0755 bedGraph2cytosine %{buildroot}/%{_bindir}
-install -m 0755 bismark2bedGraph %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt RRBS_Guide.pdf
+%doc Bismark_User_Guide_v%{version}.pdf license.txt RELEASE_NOTES.txt
 %{_bindir}/bismark
-%{_bindir}/bismark2bedGraph
-%{_bindir}/bedGraph2cytosine
 %{_bindir}/bismark_genome_preparation
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
-* Mon May 13 2013 Shane Sturrock <shane@biomatters.com> - 0.7.12-1
-- New upstream release
-
-* Mon Apr 23 2013 Shane Sturrock <shane@biomatters.com> - 0.7.11-1
-- New upstream release including some new bed tools
-
-* Mon Apr 22 2013 Shane Sturrock <shane@biomatters.com> - 0.7.10-1
+* Mon Jul 15 2013 Shane Sturrock <shane@biomatters.com> - 0.8.0-1
 - New upstream release
 
 * Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 0.7.9-1
