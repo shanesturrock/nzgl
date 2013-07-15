@@ -14,4 +14,5 @@ bismark_methylation_extractor -s --comprehensive test_data.fastq_bismark.sam
 
 [ -d testdata/Bisulfite_Genome/ ] && rm -rf testdata/Bisulfite_Genome/
 rm -rf *.txt
+rm -rf *.png
 rm -f test_data.fastq_bismark.sam
