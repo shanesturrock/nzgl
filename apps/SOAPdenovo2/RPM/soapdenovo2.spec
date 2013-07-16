@@ -1,11 +1,11 @@
 Name:		SOAPdenovo2
-Version:	r239
+Version:	r240
 Release:	1%{?dist}
 Summary:	SOAPdenovo is a novel short-read assembly method
 Group:		Applications/Engineering
 License:	GPL
 URL:		http://soap.genomics.org.cn/soapdenovo.htm
-Source0:	SOAPdenovo2-src-r239.tgz
+Source0:	SOAPdenovo2-src-r240.tgz
 BuildRoot:	%{_tmppath}/%{name}-2.04-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel kernel-devel
 
@@ -38,5 +38,8 @@ rm -rf %{buildroot}
 %{_bindir}/SOAPdenovo-63mer
 
 %changelog
+* Wed Jul 17 2013 Shane Sturrock <shane@biomatters.com> - 2.04-r240
+- New upstream release
+
 * Thu Jun 27 2013 Shane Sturrock <shane@biomatters.com> - 2.04-r239
 - Initial build.
