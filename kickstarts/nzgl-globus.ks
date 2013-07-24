@@ -7,7 +7,7 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto static --ip 10.10.3.2 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname galaxy
+network --onboot yes --device eth0 --bootproto static --ip 10.10.3.2 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname globus.nzgenomics.co.nz
 # network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
