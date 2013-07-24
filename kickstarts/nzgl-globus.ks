@@ -7,7 +7,8 @@ repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto static --ip 10.10.3.2 --netmask 255.255.255.0 --gateway 10.10.3.254 --nameserver 10.0.1.1 --hostname globus.nzgenomics.co.nz
+# Temporary static IP address
+network --onboot yes --device eth0 --bootproto static --ip 10.10.2.83 --netmask 255.255.255.0 --gateway 10.10.2.254 --nameserver 10.0.1.1 --hostname globus.nzgenomics.co.nz
 # network --onboot yes --device eth0 --bootproto dhcp
 rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
 skipx
@@ -84,7 +85,8 @@ echo 'binddn CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=gen
 bindpw Laptip23' >> /etc/pam_ldap.conf
 sed 's/dns_lookup_realm = false/dns_lookup_realm = true/g' --in-place /etc/krb5.conf 
 sed 's/dns_lookup_kdc = false/dns_lookup_kdc = true/g' --in-place /etc/krb5.conf 
-
+chkconfig --add sssd
+chkconfig sssd on
 
 # Sudoers
 echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
