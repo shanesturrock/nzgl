@@ -65,11 +65,12 @@ done
 mkdir /home/simon
 mkdir /home/sidney
 mkdir /home/shane 
-mkdir /home/globus
+mkdir /home/qiime
 
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
