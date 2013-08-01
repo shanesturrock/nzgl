@@ -1,13 +1,13 @@
 Summary:	Sequence assembler for very short reads
 Name:		velvet
 Version:	1.2.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.ebi.ac.uk/~zerbino/velvet/ 
 Source:		http://www.ebi.ac.uk/~zerbino/velvet/velvet_%{version}.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires:	zlib-devel
+BuildRequires:	zlib-devel libgomp
 AutoReqProv:	no
 
 %description
@@ -26,8 +26,8 @@ This package builds the sequencespace and colorspace versions of Velvet.
 %setup -q -n %{name}_%{version}
 
 %build
-make
-make color
+make 'OPENMP=1'
+make 'OPENMP=1' color
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 
@@ -48,6 +48,8 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 %{_bindir}/*
 
 %changelog
+* Fri Aug 02 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-2
+- Recompile with openMP support
 * Tue Jun 11 2013 Simon Buxton <simon@biomatters.com> - 1.2.10-1
 - New upstream release.
 * Tue May 07 2013 Shane Sturrock <shane@biomatters.com> - 1.2.09-1
