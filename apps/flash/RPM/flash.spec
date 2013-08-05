@@ -1,5 +1,5 @@
 Name:		FLASH
-Version:	1.2.6
+Version:	1.2.7
 Release:	1%{?dist}
 Summary:	Fast Length Adjustment of SHort reads
 Group:		Applications/Engineering
@@ -41,5 +41,7 @@ rm -rf %{buildroot}
 %{_bindir}/flash
 
 %changelog
+* Tue Aug 06 2013 Shane Sturrock <shane@biomatters.com> - 1.2.7-1
+- Upstream update
 * Thu Jun 27 2013 Shane Sturrock <shane@biomatters.com> - 1.2.6-1
 - Initial build.
