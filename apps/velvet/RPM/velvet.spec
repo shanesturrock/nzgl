@@ -1,7 +1,7 @@
 Summary:	Sequence assembler for very short reads
 Name:		velvet
 Version:	1.2.10
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.ebi.ac.uk/~zerbino/velvet/ 
@@ -9,6 +9,7 @@ Source:		http://www.ebi.ac.uk/~zerbino/velvet/velvet_%{version}.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	zlib-devel libgomp
 AutoReqProv:	no
+Patch0:		Makefile.patch
 
 %description
 Velvet is a de novo genomic assembler specially designed for short read
@@ -24,6 +25,7 @@ This package builds the sequencespace and colorspace versions of Velvet.
 
 %prep
 %setup -q -n %{name}_%{version}
+%patch0 -p0
 
 %build
 make 'OPENMP=1'
@@ -48,6 +50,8 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 %{_bindir}/*
 
 %changelog
+* Tue Aug 06 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-3
+- Bump up MAXKMERLENGTH to 255 for MiSeq users
 * Fri Aug 02 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-2
 - Recompile with openMP support
 * Tue Jun 11 2013 Simon Buxton <simon@biomatters.com> - 1.2.10-1
