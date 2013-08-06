@@ -47,6 +47,7 @@ freenx
 gedit
 yum-plugin-post-transaction-actions
 munin-node
+valgrind
 rstudio
 cpan
 perl-Bio-SamTools
