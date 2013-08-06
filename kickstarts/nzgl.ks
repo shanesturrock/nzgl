@@ -30,6 +30,7 @@ openssh-clients
 dhclient
 ntp
 yum-presto
+yum-changelog
 xauth
 bind-utils
 wget
