@@ -9,7 +9,7 @@
 
 application_dir="/home/build/nzgl/apps"	# Default application directory
 uscan='/home/build/nzgl/bin/uscan'
-uscan_args='--timeout 30 --no-symlink'	# Default uscan args
+uscan_args='--timeout 60 --no-symlink'	# Default uscan args
 download_dir='/home/build/rpmbuild/SOURCES' # Where uscan will place downloads
 
 function log() {

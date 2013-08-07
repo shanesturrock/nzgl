@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.12
+Version:	2.3.14
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -59,8 +59,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Aug 08 2013 Shane Sturrock <shane@biomatters.com> - 2.3.14-1
+- New upstream release - no release notes, just fixing their borked zip
+
+* Thu Aug 08 2013 Shane Sturrock <shane@biomatters.com> - 2.3.13-1
+- New upstream release - no release notes
+
 * Wed Jul 17 2013 Shane Sturrock <shane@biomatters.com> - 2.3.12-1
-- New upstream release
+- Some bigwig files fail to load with a "null pointer exception"
 
 * Thu Jul 11 2013 Shane Sturrock <shane@biomatters.com> - 2.3.11-1
 - New upstream release
