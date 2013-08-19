@@ -1,0 +1,64 @@
+
+.ad l
+
+.ll 72
+
+.TH lsfrestart 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsfrestart\fR
+.sp 2
+   restarts LIM, RES, sbatchd and mbatchd on all hosts in the
+   cluster
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsfrestart [-f | -h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         This command can only be used by root, the primary
+         cluster administrator, or users listed in lsf.sudoers.
+.sp 2
+   Restarts LIM, RES, sbatchd and mbatchd, in that order, on all
+   hosts in the local cluster.
+.sp 2
+   By default, prompts for confirmation of the next operation if
+   an error is encountered.
+.sp 2
+   To be able to control all daemons in the cluster:
+.sp 2
+     o  
+         The file /etc/lsf.sudoers has to be set up properly.
+.sp 2
+     o  
+         You must be able to run the rsh or ssh command across
+         all LSF hosts without having to enter a password. See
+         your operating system documentation for information
+         about configuring the \fRrsh\fR and ssh commands.
+.sp 2
+   The shell command specified by LSF_RSH in lsf.conf is used
+   before rsh is tried.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-f\fR
+.br
+               Force mode. Continues to restart daemons even if
+               an error is encountered.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsadmin(8), badmin(8), lsfshutdown(8), lsf.sudoers(5)
+.sp 2

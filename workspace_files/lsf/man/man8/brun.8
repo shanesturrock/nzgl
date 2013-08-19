@@ -1,0 +1,145 @@
+
+.ad l
+
+.ll 72
+
+.TH brun 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrun\fR
+.sp 2
+   forces a job to run immediately
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brun [-b] [-c] [-f] -m "host_name[#num_cpus] ... " job_ID
+.sp 2
+brun [-b] [-c] [-f] -m "host_name[#num_cpus] ... "
+"job_ID[index_list]"
+.sp 2
+brun [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         This command can only be used by LSF administrators.
+.sp 2
+   Forces a pending job to run immediately on specified hosts.
+.sp 2
+   A job that has been forced to run is counted as a running job,
+   this may violate the user, queue, or host job limits, and
+   fairshare priorities. The forced job can run on hosts with an
+   exclusive resource definition.
+.sp 2
+   A job that has been forced to run cannot be preempted by other
+   jobs even if it is submitted to a preemptable queue and other
+   jobs are submitted to a preemptive queue.
+.sp 2
+   By default, after the job is started, it is still subject to
+   run windows and suspending conditions.
+.sp 2
+   LSF administrators can use brun to force jobs with an advance
+   reservation to run before the reservation is active, but the
+   job must finish running before the time window of the
+   reservation expires.
+.sp 2
+   For example, if the administrator forces a job with a
+   reservation to run one hour before the reservation is active,
+   and the reservation period is 3 hours, a 4 hour run limit
+   takes effect.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-b\fR
+.br
+               Causes a checkpointable job to start over from the
+               beginning, as if it had never been checkpointed.
+.sp 2
+   \fB-c\fR
+.br
+               Distribute job slots for a multihost parallel job
+               according to free CPUs.
+.sp 2
+               By default, if a parallel job spans for more than
+               one host, LSF distributes the slots based on the
+               static CPU counts of each host listed in the -m
+               option. Use -c to distribute the slots based on
+               the free CPUs of each host instead of the static
+               CPUs.
+.sp 2
+               The -c option can be only applied to hosts whose
+               total slot counts equal to their total CPU counts.
+               MXJ in lsb.hosts must be less than or equal to the
+               number of CPUs and PJOB_LIMIT=1 must be specified
+               in the queue (lsb.queues).
+.sp 2
+               For example, a 6-CPU job is submitted to
+               \fRhostA\fR and \fRhostB\fR with 4 CPUs each.
+               Without -c, LSF would let the job take 4 slots
+               from \fRhostA\fR first and then take 2 slots from
+               \fRhostB\fR regardless to the status or the slots
+               usage on \fRhostA\fR and \fRhostB\fR. If any slots
+               on \fRhostA\fR are used, the job remains pending.
+               With -c, LSF takes into consideration that
+               \fRhostA\fR has 2 slots in use and \fRhostB\fR is
+               completely free, so LSF is able to dispatch the
+               job using the 2 free slots on \fRhostA\fR and all
+               4 slots on \fRhostB\fR.
+.sp 2
+   \fB-f\fR
+.br
+               Allows the job to run without being suspended due
+               to run windows or suspending conditions.
+.sp 2
+   \fB-m "\fIhost_name\fB[#\fInum_cpus\fB] ... "\fR
+.br
+               Required. Specify one or more hosts on which to
+               run the job.
+.sp 2
+               You can optionally specify the number of CPUs
+               required per host for multihost parallel jobs. The
+               \fR#\fR\fInum_cpus\fR option distributes job slots
+               according the number of CPUs on the host. If
+               \fR#\fR\fInum_cpus\fR is not defined, or if
+               \fR#\fR\fInum_cpus\fR is greater than the number
+               of static CPUs on the host (or the number of free
+               CPUs if -c is specified), LSF distributes job
+               slots according to the number of static CPUs on
+               the host, or the number of free CPUs on the host
+               if -c is specified. The number sign (#) is
+               required as a prefix to the number of CPUs. The
+               square brackets ([ ])indicate that
+               \fR#\fR\fInum_cpus\fR is optional. Do not include
+               them in the command.
+.sp 2
+               For example, the following command forces job 123
+               to run and specifies 1 CPU on hostA and 1 CPU on
+               hostB:
+.sp 2
+               brun -m "hostA#1 hostB#1" 123
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex_list\fB]"\fR
+.br
+               Required. Specify the job to run, or specify one
+               element of a job array.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   You cannot force a job in SSUSP or USUSP state.
+.sp 2
+   brun does not guarantee a job runs; it just forces LSF to
+   dispatch the job.
+.sp 2
+   In the MultiCluster job forwarding model, you can only force a
+   job by running the command in the execution cluster.
+.sp 2

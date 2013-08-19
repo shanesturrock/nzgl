@@ -1,0 +1,94 @@
+
+.ad l
+
+.ll 72
+
+.TH bgadd 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbgadd\fR
+.sp 2
+   creates job groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bgadd [-L limit] [-sla service_class_name] job_group_name
+.sp 2
+bgadd [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Creates a job group with the job group name specified by
+   \fIjob_group_name\fR.
+.sp 2
+   You must provide full group path name for the new job group.
+   The last component of the path is the name of the new group to
+   be created.
+.sp 2
+   You do not need to create the parent job group before you
+   create a sub-group under it. If no groups in the job group
+   hierarchy exist, all groups are created with the specified
+   hierarchy.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-L \fIlimit\fB\fR
+.br
+               Specifies the maximum number of concurrent jobs
+               allowed to run under the job group (including
+               child groups) -L limits the number of started jobs
+               (RUN, SSUSP, USUSP) under the job group. Specify a
+               positive number between 0 and 2147483647. If the
+               specified limit is zero (0), no jobs under the job
+               group can run.
+.sp 2
+               You cannot specify a limit for the root job group.
+               The root job group has no job limit. Job groups
+               added with no limits specified inherit any limits
+               of existing parent job groups. The -L option only
+               limits the lowest level job group created.
+.sp 2
+               If a parallel job requests 2 CPUs (bsub -n 2), the
+               job group limit is per job, not per slots used by
+               the job.
+.sp 2
+               By default, a job group has no job limit. Limits
+               persist across mbatchd restart or reconfiguration.
+.sp 2
+   \fB-sla \fIservice_class_name\fB\fR
+.br
+               The name of a service class defined in
+               lsb.serviceclasses, or the name of the SLA defined
+               in ENABLE_DEFAULT_EGO_SLA in lsb.params. The job
+               group is attached to the specified SLA.
+.sp 2
+   \fB\fIjob_group_name\fB\fR
+.br
+               Full path of the job group name.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Create a job group named \fRrisk_group\fR under the root
+         group /:
+.sp 2
+         bgadd /risk_group
+.sp 2
+     o  
+         Create a job group named \fRportfolio1\fR under job
+         group \fR/risk_group\fR:
+.sp 2
+         bgadd /risk_group/portfolio1
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bgdel, bjgroup

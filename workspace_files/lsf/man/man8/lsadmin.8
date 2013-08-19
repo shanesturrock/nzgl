@@ -1,0 +1,736 @@
+
+.ad l
+
+.ll 72
+
+.TH lsadmin 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsadmin\fR
+.sp 2
+   administrative tool for LSF
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsadmin subcommand
+.sp 2
+lsadmin [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         This command can only be used by LSF administrators.
+.sp 2
+   lsadmin is a tool that executes privileged commands to control
+   LIM and RES operations in the LSF cluster.
+.sp 2
+   If no subcommands are supplied for \fRlsadmin\fR,
+   \fRlsadmin\fR prompts for subcommands from the standard input.
+.sp 2
+   For subcommands for which multiple host names or host groups
+   can be specified, do not enclose the multiple names in
+   quotation marks.
+.sp 2 .SH "Subcommand List"
+\fBSubcommand List\fR
+.sp 2
+   \fRckconfig\fR [\fR-v\fR]
+.sp 2
+   \fRreconfig\fR [\fR-f\fR] [\fR-v\fR]
+.sp 2
+   \fRlimstartup\fR [\fR-f\fR] [\fIhost_name \fR... |\fRall\fR]
+.sp 2
+   \fRlimshutdown\fR [\fR-f\fR] [\fIhost_name \fR... | \fRall\fR]
+.sp 2
+   \fRlimrestart\fR [\fR-v\fR] [\fR-f\fR] [\fIhost_name \fR... |
+   \fRall\fR]
+.sp 2
+   \fRlimlock\fR [\fR-l\fR \fItime_seconds\fR]
+.sp 2
+   \fRlimunlock \fR
+.sp 2
+   \fRresstartup\fR [\fR-f\fR] [\fIhost_name\fR ... | \fRall\fR]
+.sp 2
+   \fRresshutdown\fR [\fR-f\fR] [\fIhost_name \fR... | \fRall\fR]
+.sp 2
+   \fRresrestart\fR [\fR-f\fR] [\fIhost_name \fR... | \fRall\fR]
+.sp 2
+   \fRreslogon\fR [\fR-c\fR \fIcpu_time\fR] [\fIhost_name \fR...
+   | \fRall\fR]
+.sp 2
+   \fRreslogoff\fR [\fIhost_name \fR... | \fRall\fR]
+.sp 2
+   \fRlimdebug\fR [\fR-c "\fR\fIclass_name \fR...\fR"\fR]
+   [\fR-l\fR \fIdebug_level\fR] [\fR-f\fR \fIlogfile_name\fR]
+   [\fR-o\fR] [\fR"\fR\fIhost_name \fR...\fR"\fR]
+.sp 2
+   \fRresdebug\fR [\fR-c "\fR\fIclass_name\fR\fR"\fR] [\fR-l\fR
+   \fIdebug_level\fR] [\fR-f\fR \fIlogfile_name\fR] [\fR-o\fR]
+   [\fR"\fR\fIhost_name \fR...\fR"\fR]
+.sp 2
+   \fRlimtime\fR [\fR-l\fR \fItiming_level\fR] [\fR-f\fR
+   \fIlogfile_name\fR] [\fR-o\fR] [\fR"\fR\fIhost_name
+   ...\fR\fR"\fR]
+.sp 2
+   \fRrestime\fR [\fR-l\fR \fItiming_level\fR] [\fR-f\fR
+   \fIlogfile_name\fR] [\fR-o\fR] [\fR"\fR\fIhost_name
+   ...\fR\fR"\fR]
+.sp 2
+   \fRshowconf\fR \fRlim\fR [ \fIhost_name\fR … | \fRall\fR ]
+.sp 2
+   \fRlsflic\fR [\fIfeature_name\fR |\fR-c\fR |\fR-s\fR |
+   \fR-l\fR]
+.sp 2
+   \fRhelp\fR [\fIsubcommand \fR...] | \fR?\fR [\fIsubcommand
+   \fR...]
+.sp 2
+   \fRquit \fR
+.sp 2
+   \fR-h \fR
+.sp 2
+   \fR-V \fR
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIsubcommand\fB\fR
+.br
+               Executes the specified subcommand. See Usage
+               section.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   \fBckconfig [-v]\fR
+.br
+               Checks LSF configuration files.
+.sp 2
+               \fB-v \fR
+.br
+                           Displays detailed messages about
+                           configuration file checking.
+.sp 2
+   \fBreconfig [-f] [-v]\fR
+.br
+               Restarts LIMs on all hosts in the cluster. You
+               should use reconfig after changing configuration
+               files. The configuration files are checked before
+               all LIMs in the cluster are restarted. If the
+               configuration files are not correct,
+               reconfiguration is not initiated.
+.sp 2
+               If LSF_MASTER_LIST is specified in lsf.conf, you
+               are prompted to confirm the reconfiguration for
+               only the master candidate hosts.
+.sp 2
+               \fB-f \fR
+.br
+                           Disables user interaction and forces
+                           LIM to restart on all hosts in the
+                           cluster if no fatal errors are found.
+                           This option is useful in batch mode.
+.sp 2
+               \fB-v\fR
+.br
+                           Displays detailed messages about
+                           configuration file checking.
+.sp 2
+   \fBlimstartup [-f] [\fIhost_name\fB ... |all] \fR
+.br
+               Starts LIM on the local host if no arguments are
+               specified.
+.sp 2
+               Starts LIMs on the specified hosts or on all hosts
+               in the cluster if the word all is the only
+               argument provided. You are prompted to confirm LIM
+               startup.
+.sp 2
+               Only root and users listed in the parameter
+               LSF_STARTUP_USERS in lsf.sudoers(5) can use the
+               all and -f options to start LIM as root.
+.sp 2
+               These users must also be able to use rsh or ssh on
+               all LSF hosts without having to type in passwords.
+               If permission to start up LIMs as root is not
+               configured, limstartup starts up LIMs as yourself
+               after your confirmation.
+.sp 2
+               The shell command specified by LSF_RSH in lsf.conf
+               is used before rsh is tried.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for starting LIMs.
+.sp 2
+   \fBlimshutdown [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Shuts down LIM on the local host if no arguments
+               are supplied.
+.sp 2
+               Shuts down LIMs on the specified hosts or on all
+               hosts in the cluster if the word all is specified.
+               You are prompted to confirm LIM shutdown.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for shutting down
+                           LIMs.
+.sp 2
+   \fBlimrestart [-v] [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Restarts LIM on the local host if no arguments are
+               supplied.
+.sp 2
+               Restarts LIMs on the specified hosts or on all
+               hosts in the cluster if the word all is specified.
+               You are prompted to confirm LIM restart.
+.sp 2
+               limrestart should be used with care. Do not make
+               any modifications until all the LIMs have
+               completed the startup process. If you execute
+               limrestart \fIhost_name\fR\fR...\fR to restart
+               some of the LIMs after changing the configuration
+               files, but other LIMs are still running the old
+               configuration, confusion arises among these LIMs.
+               To avoid this situation, use reconfig instead of
+               limrestart.
+.sp 2
+               \fB-v \fR
+.br
+                           Displays detailed messages about
+                           configuration file checking.
+.sp 2
+               \fB-f \fR
+.br
+                           Disables user interaction and forces
+                           LIM to restart if no fatal errors are
+                           found. This option is useful in batch
+                           mode. limrestart -f all is the same as
+                           reconfig -f.
+.sp 2
+   \fBlimlock [-l \fItime_seconds\fB]\fR
+.br
+               Locks LIM on the local host until it is explicitly
+               unlocked if no time is specified. When a host is
+               locked, LIM’s load status becomes \fRlockU\fR. No
+               job is sent to a locked host by LSF.
+.sp 2
+               \fB-l time_seconds\fR
+.br
+                           The host is locked for the specified
+                           time in seconds.
+.sp 2
+                           LSF suspends all non-exclusive jobs
+                           running on the host. This is useful if
+                           a machine is running an exclusive job
+                           requiring all the available CPU time
+                           and/or memory. If
+                           \fBLSB_DISABLE_LIMLOCK_EXCL=y\fR (to
+                           enable preemption of exclusive jobs,
+                           for example) LSF suspends all jobs,
+                           including exclusive jobs.
+.sp 2
+   \fB limunlock\fR
+.br
+               Unlocks LIM on the local host.
+.sp 2
+   \fBresstartup [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Starts RES on the local host if no arguments are
+               specified.
+.sp 2
+               Starts RESs on the specified hosts or on all hosts
+               in the cluster if the word all is specified. You
+               are prompted to confirm RES startup.
+.sp 2
+               Only root and users defined by the
+               LSF_STARTUP_USERS parameter in lsf.sudoers(5) can
+               use the all and -f options to start RES as root.
+.sp 2
+               These users must be able to use rsh or ssh on all
+               LSF hosts without having to type in passwords. For
+               root installation to work properly, lsadmin must
+               be installed as a \fRsetuid\fR to root program.
+.sp 2
+               The shell command specified by LSF_RSH in lsf.conf
+               is used before rsh is tried.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for starting RESs.
+.sp 2
+   \fBresshutdown [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Shuts down RES on the local host if no arguments
+               are specified.
+.sp 2
+               Shuts down RESs on the specified hosts or on all
+               hosts in the cluster if the word all is specified.
+               You are prompted to confirm RES shutdown.
+.sp 2
+               If RES is running, it keeps running until all
+               remote tasks exit.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for shutting down
+                           RESs.
+.sp 2
+   \fBresrestart [-f] [\fIhost_name\fB ... | all] \fR
+.br
+               Restarts RES on the local host if no arguments are
+               specified.
+.sp 2
+               Restarts RESs on the specified hosts or on all
+               hosts in the cluster if the word all is specified.
+               You are prompted to confirm RES restart.
+.sp 2
+               If RES is running, it keeps running until all
+               remote tasks exit. While waiting for remote tasks
+               to exit, another RES is restarted to serve the new
+               queries.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for restarting RESs.
+.sp 2
+   \fBreslogon [-c \fIcpu_time\fB] [\fIhost_name \fB... | all]\fR
+.br
+               Logs all tasks executed by RES on the local host
+               if no arguments are specified.
+.sp 2
+               Logs tasks executed by RESs on the specified hosts
+               or on all hosts in the cluster if all is
+               specified.
+.sp 2
+               RES writes the task’s resource usage information
+               into the log file lsf.acct.\fIhost_name\fR. The
+               location of the log file is determined by
+               LSF_RES_ACCTDIR defined in lsf.conf. If
+               LSF_RES_ACCTDIR is not defined, or RES cannot
+               access it, the log file is created in \fR/tmp\fR
+               instead.
+.sp 2
+               \fB-c \fIcpu_time\fB\fR
+.br
+                           Logs only tasks that use more than the
+                           specified amount of CPU time. The
+                           amount of CPU time is specified by
+                           cpu_time in milliseconds.
+.sp 2
+   \fBreslogoff [\fIhost_name\fB ... | all]\fR
+.br
+               Turns off RES task logging on the specified hosts
+               or on all hosts in the cluster if all is
+               specified.
+.sp 2
+               If no arguments are specified, turns off RES task
+               logging on the local host.
+.sp 2
+   \fBlimdebug [-c "\fIclass_name\fB ..."] [-l \fIdebug_level\fB]
+   [-f \fIlogfile_name\fB] [-o] ["\fIhost_name\fB ..."]\fR
+.br
+               Sets the message log level for LIM to include
+               additional information in log files. You must be
+               root or the LSF administrator to use this command.
+.sp 2
+               If the command is used without any options, the
+               following default values are used:
+.sp 2
+               \fIclass_name\fR=0 (no additional classes are
+               logged)
+.sp 2
+               \fIdebug_level\fR=0 (LOG_DEBUG level in parameter
+               LSF_LOG_MASK)
+.sp 2
+               \fIlogfile_name\fR=current LSF system log file in
+               the LSF system log file directory, in the format
+               \fIdaemon_name.\fR\fRlog\fR\fI.host_name\fR
+.sp 2
+               \fIhost_name\fR= local host (host from which
+               command was submitted)
+.sp 2
+               In MultiCluster, debug levels can only be set for
+               hosts within the same cluster. For example, you
+               could not set debug or timing levels from a host
+               in \fRclusterA\fR for a host in \fRclusterB\fR.
+               You need to be on a host in \fRclusterB\fR to set
+               up debug or timing levels for \fRclusterB\fR
+               hosts.
+.sp 2
+               \fB-c "\fIclass_name\fB ..."\fR
+.br
+                           Specify software classes for which
+                           debug messages are to be logged. If a
+                           list of classes is specified, they
+                           must be enclosed in quotation marks
+                           and separated by spaces.
+.sp 2
+                           Possible classes:
+.sp 2
+                           LC_AFS - Log AFS messages
+.sp 2
+                           LC_AUTH - Log authentication messages
+.sp 2
+                           LC_CHKPNT - log checkpointing messages
+.sp 2
+                           LC_COMM - Log communication messages
+.sp 2
+                           LC_CONF - Print out all parameters in
+                           lsf.conf (and ego.conf)
+.sp 2
+                           LC_DCE - Log messages pertaining to
+                           DCE support
+.sp 2
+                           LC_EXEC - Log significant steps for
+                           job execution
+.sp 2
+                           LC_FILE - Log file transfer messages
+.sp 2
+                           LC_HANG - Mark where a program might
+                           hang
+.sp 2
+                           LC_LICENCE or LC_LICENSE - Log license
+                           management messages
+.sp 2
+                           LC_MULTI - Log messages pertaining to
+                           MultiCluster
+.sp 2
+                           LC_PIM - Log PIM messages
+.sp 2
+                           LC_SIGNAL - Log messages pertaining to
+                           signals
+.sp 2
+                           LC_TRACE - Log significant program
+                           walk steps
+.sp 2
+                           LC_XDR - Log everything transferred by
+                           XDR
+.sp 2
+                           Default: 0 (no additional classes are
+                           logged)
+.sp 2
+                              \fBNote: \fR
+.sp 2
+                                 Classes are also listed in
+                                 lsf.h.
+.sp 2
+               \fB-l \fIdebug_level\fB\fR
+.br
+                           Specify level of detail in debug
+                           messages. The higher the number, the
+                           more detail that is logged. Higher
+                           levels include all lower levels.
+.sp 2
+                           Possible values:
+.sp 2
+                           \fR0\fR - LOG_DEBUG level in parameter
+                           LSF_LOG_MASK in lsf.conf.
+.sp 2
+                           \fR1\fR - LOG_DEBUG1 level for
+                           extended logging. A higher level
+                           includes lower logging levels. For
+                           example, LOG_DEBUG3 includes
+                           LOG_DEBUG2 LOG_DEBUG1, and LOG_DEBUG
+                           levels.
+.sp 2
+                           \fR2\fR - LOG_DEBUG2 level for
+                           extended logging. A higher level
+                           includes lower logging levels. For
+                           example, LOG_DEBUG3 includes
+                           LOG_DEBUG2 LOG_DEBUG1, and LOG_DEBUG
+                           levels.
+.sp 2
+                           \fR3\fR - LOG_DEBUG3 level for
+                           extended logging. A higher level
+                           includes lower logging levels. For
+                           example, LOG_DEBUG3 includes
+                           LOG_DEBUG2, LOG_DEBUG1, and LOG_DEBUG
+                           levels.
+.sp 2
+                           Default: \fR0\fR (LOG_DEBUG level in
+                           parameter LSF_LOG_MASK)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the name of the file into
+                           which debugging messages are to be
+                           logged. A file name with or without a
+                           full path may be specified.
+.sp 2
+                           If a file name without a path is
+                           specified, the file is saved in the
+                           LSF system log file directory.
+.sp 2
+                           The name of the file created has the
+                           following format:
+.sp 2
+                           \fIlogfile_name\fR\fR.\fR\fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           \fR/tmp\fR directory.
+.sp 2
+                           On Windows, no log file is created.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory,
+                           in the format
+                           \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR\fR.\fR
+.sp 2
+               \fB-o\fR
+.br
+                           Turns off temporary debug settings and
+                           reset them to the daemon starting
+                           state. The message log level is reset
+                           back to the value of LSF_LOG_MASK and
+                           classes are reset to the value of
+                           LSF_DEBUG_RES, LSF_DEBUG_LIM.
+.sp 2
+                           Log file is reset back to the default
+                           log file.
+.sp 2
+               \fB"\fIhost_name\fB ..."\fR
+.br
+                           Sets debug settings on the specified
+                           host or hosts.
+.sp 2
+                           Default: local host (host from which
+                           command was submitted)
+.sp 2
+   \fBresdebug [-c "\fIclass_name\fB"] [-l \fIdebug_level\fB] [-f
+   \fIlogfile_name\fB] [-o] ["\fIhost_name\fB ..."]\fR
+.br
+               Sets the message log level for RES to include
+               additional information in log files. You must be
+               the LSF administrator to use this command, not
+               root.
+.sp 2
+               See description of limdebug for an explanation of
+               options.
+.sp 2
+   \fBlimtime [-l \fItiming_level\fB] [-f \fIlogfile_name\fB]
+   [-o] ["\fIhost_name\fB ..."]\fR
+.br
+               Sets timing level for LIM to include additional
+               timing information in log files. You must be root
+               or the LSF administrator to use this command.
+.sp 2
+               If the command is used without any options, the
+               following default values are used:
+.sp 2
+               \fItiming_level\fR=no timing information is
+               recorded
+.sp 2
+               \fIlogfile_name\fR=current LSF system log file in
+               the LSF system log file directory, in the format
+               \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR
+.sp 2
+               \fIhost_name=\fRlocal host (host from which
+               command was submitted)
+.sp 2
+               In MultiCluster, timing levels can only be set for
+               hosts within the same cluster. For example, you
+               could not set debug or timing levels from a host
+               in \fRclusterA\fR for a host in \fRclusterB\fR.
+               You need to be on a host in \fRclusterB\fR to set
+               up debug or timing levels for \fRclusterB\fR
+               hosts.
+.sp 2
+               \fB-l \fItiming_level\fB\fR
+.br
+                           Specifies detail of timing information
+                           that is included in log files. Timing
+                           messages indicate the execution time
+                           of functions in the software and are
+                           logged in milliseconds.
+.sp 2
+                           Valid values: 1 | 2 | 3 | 4 | 5
+.sp 2
+                           The higher the number, the more
+                           functions in the software that are
+                           timed and whose execution time is
+                           logged. The lower numbers include more
+                           common software functions. Higher
+                           levels include all lower levels.
+.sp 2
+                           Default: undefined (no timing
+                           information is logged)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the name of the file into
+                           which timing messages are to be
+                           logged. A file name with or without a
+                           full path may be specified.
+.sp 2
+                           If a file name without a path is
+                           specified, the file is saved in the
+                           LSF system log file directory.
+.sp 2
+                           The name of the file created has the
+                           following format:
+.sp 2
+                           \fIlogfile_name\fR.\fIdaemon_name\fR.log.\fIhost_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           \fR/tmp\fR directory.
+.sp 2
+                           On Windows, no log file is created.
+.sp 2
+                              \fBNote: \fR
+.sp 2
+                                 Both timing and debug messages
+                                 are logged in the same files.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory,
+                           in the format
+                           \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR.
+.sp 2
+               \fB-o\fR
+.br
+                           Turns off temporary timing settings
+                           and resets them to the daemon starting
+                           state. The timing level is reset back
+                           to the value of the parameter for the
+                           corresponding daemon (LSF_TIME_LIM,
+                           LSF_TIME_RES).
+.sp 2
+                           Log file is reset back to the default
+                           log file.
+.sp 2
+               \fB"\fIhost_name\fB ..." \fR
+.br
+                           Sets the timing level on the specified
+                           host or hosts.
+.sp 2
+                           Default: local host (host from which
+                           command was submitted)
+.sp 2
+   \fBrestime [-l \fItiming_level\fB] [-f \fIlogfile_name\fB]
+   [-o] ["\fIhost_name\fB ..."]\fR
+.br
+               Sets timing level for RES to include additional
+               timing information in log files. You must be the
+               LSF administrator can use this command, not root.
+.sp 2
+               See description of \fRlimtime\fR for an
+               explanation of options.
+.sp 2
+   \fBshowconf lim [ \fIhost_name\fB … | all ]\fR
+.br
+               Display all configured parameters and their values
+               set in lsf.conf or ego.conf that affect lim.
+.sp 2
+               Use lsadmin showconf lim to display the parameters
+               configured in lsf.conf and ego.conf that apply to
+               root LIM. By default, lsadmin displays the local
+               LIM parameters. You can optionally specify the
+               host to display the LIM parameters.
+.sp 2
+               In a MultiCluster environment, lsadmin showconf
+               only displays the parameters of daemons on the
+               local cluster.
+.sp 2
+               Running lsadmin showconf from a master candidate
+               host reaches all server hosts in the cluster.
+               Running lsadmin showconf from a slave-only host
+               may not be able to reach other slave-only hosts.
+.sp 2
+               You cannot run lsadmin showconf lim from client
+               hosts. lsadmin shows only server host
+               configuration, not client host configuration.
+.sp 2
+               lsadmin showconf only displays the values used by
+               LSF.
+.sp 2
+               LIM reads EGO_MASTER_LIST from wherever it is
+               defined. You can define either LSF_MASTER_LIST in
+               lsf.conf or EGO_MASTER_LIST in ego.conf. LIM reads
+               lsf.conf first, and ego.conf if EGO is enabled in
+               the LSF cluster. LIM only takes the value of
+               LSF_MASTER_LIST if EGO_MASTER_LIST is not defined
+               at all in ego.conf.
+.sp 2
+               For example, if EGO is enabled in the LSF cluster,
+               and you define LSF_MASTER_LIST in lsf.conf, and
+               EGO_MASTER_LIST in ego.conf, lsadmin showconf
+               displays the value of EGO_MASTER_LIST in ego.conf.
+.sp 2
+               If EGO is disabled, ego.conf not loaded, so
+               whatever is defined in lsf.conf is displayed.
+.sp 2
+   \fBlsflic [\fIfeature_name\fB | -c |-s | -l]\fR
+.br
+               Displays LSF license usage. The parameter
+               \fBLSF_MONITOR_LICENSE_TOOL\fR in lsf.conf enables
+               data collection for lsflic.
+.sp 2
+               \fB\fIfeature_name\fB\fR
+.br
+                           Displays current LSF license usage. An
+                           example license is \fRlsf_client\fR.
+.sp 2
+               \fB-c\fR
+.br
+                           Displays the licenses by class level
+                           for the cluster. Two numbers display
+                           for each class: number of hosts/number
+                           of cores.
+.sp 2
+                           License class levels are (from most
+                           powerful to least powerful) E, S, and
+                           B. A B license can be substituted by
+                           an S or E license. An S license can be
+                           substituted by an E license.
+.sp 2
+               \fB-s\fR
+.br
+                           Displays license information including
+                           any substitutions made between
+                           licenses.
+.sp 2
+                           License class levels are (from most
+                           powerful to least powerful) E, S, and
+                           B. A B license can be substituted by
+                           an S or E license. An S license can be
+                           substituted by an E license.
+.sp 2
+               \fB-l\fR
+.br
+                           Displays all LSF license usage,
+                           including the class level and any
+                           substitutions.
+.sp 2
+   \fBhelp [\fIsubcommand\fB ...] | ? [\fIsubcommand\fB ...]\fR
+.br
+               Displays the syntax and functionality of the
+               specified commands. The commands must be explicit
+               to lsadmin.
+.sp 2
+               From the command prompt, you may use help or ?.
+.sp 2
+   \fBquit \fR
+.br
+               Exits the lsadmin session.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fRls_limcontrol\fR, \fRls_rescontrol\fR,
+   \fRls_readconfenv\fR, \fRls_gethostinfo\fR, \fRls_connect\fR,
+   \fRls_initrex\fR, lsf.conf, lsf.sudoers, lsf.acct, bmgroup,
+   busers

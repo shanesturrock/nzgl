@@ -1,0 +1,109 @@
+
+.ad l
+
+.ll 72
+
+.TH perfadmin 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBperfadmin\fR
+.sp 2
+   Administer the LSF Reports (PERF) services.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+perfadmin start service_name | all
+.sp 2
+perfadmin stop service_name | all
+.sp 2
+perfadmin [list | -h]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         This command can only be used by LSF administrators.
+.sp 2
+   Starts or stops the PERF services, or shows status.
+.sp 2
+   Run the command on the PERF host to control the following PERF
+   services: loader controller (plc), job data transformer
+   (jobdt), and data purger (purger). Run the command on the
+   Derby database host to control the Derby database service
+   (derbydb).
+.sp 2
+   If PERF services are controlled by EGO, let the EGO service
+   controller start and stop the PERF services.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fBstart \fIservice_name\fB | \fRall\fB\fR
+.br
+               Starts the PERF services on the local host. You
+               must specify the service name or the keyword all.
+               Do not run this command on a host that is not the
+               PERF host or Derby database host, you should only
+               run one set of services per cluster.
+.sp 2
+   \fBstop \fIservice_name\fB | \fRall\fB\fR
+.br
+               Stops the PERF services on the local host. You
+               must specify the service name or the keyword all.
+.sp 2
+   \fBlist \fR
+.br
+               Lists status of PERF services. Run this command on
+               the PERF host or Derby database host.
+.sp 2
+   \fB-h\fR
+.br
+               Outputs command usage and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Status information and prompts are displayed in your command
+   console.
+.sp 2
+   \fBSERVICE\fR
+.br
+               The name of the PERF service.
+.sp 2
+   \fBSTATUS\fR
+.br
+               \fBSTARTED\fR
+.br
+                           Service is running.
+.sp 2
+               \fBSTOPPED\fR
+.br
+                           Service is not running.
+.sp 2
+               \fBUNKNOWN\fR
+.br
+                           Service status is unknown. The local
+                           host may not be the PERF host or Derby
+                           database host.
+.sp 2
+   \fBHOSTNAME\fR
+.br
+               Name of the host.
+.sp 2
+   \fBWSM_PID\fR
+.br
+               Process ID of the running service.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+     o  
+         pmcadmin command: administer the Platform Management
+         Console (PMC)
+.sp 2
+     o  
+         perfsetrc command: enable automatic startup of PERF
+         services on a host
+.sp 2
+     o  
+         perfremoverc command: disable automatic startup of PERF
+         services on a host
+.sp 2

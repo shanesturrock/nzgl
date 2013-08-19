@@ -1,0 +1,372 @@
+
+.ad l
+
+.ll 72
+
+.TH lsb.modules 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsb.modules\fR
+.sp 2
+   The lsb.modules file contains configuration information for
+   LSF scheduler and resource broker modules. The file contains
+   only one section, named PluginModule.
+.sp 2
+   This file is optional. If no scheduler or resource broker
+   modules are configured, LSF uses the default scheduler plugin
+   modules named schmod_default and schmod_fcfs.
+.sp 2
+   The lsb.modules file is stored in the directory
+   LSB_CONFDIR/\fIcluster_name\fR/configdir, where LSB_CONFDIR is
+   defined in lsf.conf.
+.sp 2
+\fBChanging lsb.modules configuration\fR
+.sp 2
+   After making any changes to lsb.modules, run badmin reconfig
+   to reconfigure mbatchd.
+.sp 2
+\fBPluginModule section\fR
+.sp 2
+\fBDescription\fR
+.sp 2
+   Defines the plugin modules for the LSF scheduler and LSF
+   resource broker. If this section is not configured, LSF uses
+   the default scheduler plugin modules named schmod_default and
+   schmod_fcfs, which enable the LSF default scheduling features.
+.sp 2
+\fBExample PluginModule section\fR
+.sp 2
+   The following PluginModule section enables all scheduling
+   policies provided by LSF:
+.sp 2
+   Begin PluginModule 
+.sp 2
+   SCH_PLUGIN              RB_PLUGIN           SCH_DISABLE_PHASES
+.sp 2
+   schmod_default               ()                      () 
+.sp 2
+   schmod_fairshare             ()                      () 
+.sp 2
+   schmod_fcfs                  ()                      () 
+.sp 2
+   schmod_limit                 ()                      () 
+.sp 2
+   schmod_parallel              ()                      () 
+.sp 2
+   schmod_reserve               ()                      () 
+.sp 2
+   schmod_preemption            ()                      ()
+.sp 2
+   schmod_advrsv                ()                      () 
+.sp 2
+   schmod_mc                    ()                      () 
+.sp 2
+   schmod_jobweight             ()                      () 
+.sp 2
+   schmod_cpuset                ()                      () 
+.sp 2
+   schmod_pset                  ()                      ()
+.sp 2
+   schmod_ps                    ()                      () 
+.sp 2
+   schmod_aps                   ()                      () 
+.sp 2
+   End PluginModule
+.sp 2
+\fBPluginModule section structure\fR
+.sp 2
+   The first line consists of the following keywords:
+.sp 2
+     o  
+         SCH_PLUGIN
+.sp 2
+     o  
+         RB_PLUGIN
+.sp 2
+     o  
+         SCH_DISABLE_PHASES
+.sp 2
+   They identify the scheduler plugins, resource broker plugins,
+   and the scheduler phase to be disabled for the plugins that
+   you wish to configure.
+.sp 2
+   Each subsequent line describes the configuration information
+   for one scheduler plugin module, resource broker plugin
+   module, and scheduler phase, if any, to be disabled for the
+   plugin. Each line must contain one entry for each keyword. Use
+   empty parentheses ( ) or a dash (-) to specify the default
+   value for an entry.
+.sp 2
+\fBSCH_PLUGIN\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. The SCH_PLUGIN column specifies the shared module
+   name for the LSF scheduler plugin. Each plugin requires a
+   corresponding license. Scheduler plugins are called in the
+   order they are listed in the PluginModule section.
+.sp 2
+   By default, all shared modules for scheduler plugins are
+   located in LSF_LIBDIR. On UNIX, you can also specify a full
+   path to the name of the scheduler plugin.
+.sp 2
+   The following modules are supplied with LSF:
+.sp 2 .SH "schmod_default"
+\fBschmod_default\fR
+.sp 2
+   Enables the default LSF scheduler features.
+.sp 2
+   Licensed by: LSF_Manager
+.sp 2 .SH "schmod_fcfs"
+\fBschmod_fcfs\fR
+.sp 2
+   Enables the first-come, first-served (FCFS) scheduler
+   features. schmod_fcfs can appear anywhere in the SCH_PLUGIN
+   list. By default, if schmod_fcfs is not configured in
+   lsb.modules, it is loaded automatically along with
+   schmod_default.
+.sp 2
+   Source code (sch.mod.fcfs.c) for the schmod_fcfs scheduler
+   plugin module is installed in the directory
+.sp 2
+   LSF_TOP/7.0/misc/examples/external_plugin/
+.sp 2
+   Use the LSF scheduler plugin SDK to modify the FCFS scheduler
+   module code to suit the job scheduling requirements of your
+   site.
+.sp 2
+   See Platform LSF Programmer’s Guide for more detailed
+   information about writing, building, and configuring your own
+   custom scheduler plugins.
+.sp 2 .SH "schmod_fairshare"
+\fBschmod_fairshare\fR
+.sp 2
+   Enables the LSF fairshare scheduling features.
+.sp 2 .SH "schmod_limit"
+\fBschmod_limit\fR
+.sp 2
+   Enables the LSF resource allocation limit features.
+.sp 2
+   Licensed by: LSF_Manager
+.sp 2 .SH "schmod_parallel"
+\fBschmod_parallel\fR
+.sp 2
+   Enables scheduling of parallel jobs submitted with bsub -n.
+.sp 2 .SH "schmod_reserve"
+\fBschmod_reserve\fR
+.sp 2
+   Enables the LSF resource reservation features.
+.sp 2
+   To enable processor reservation, backfill, and memory
+   reservation for parallel jobs, you must configure both
+   schmod_parallel and schmod_reserve in lsb.modules. If only
+   schmod_reserve is configured, backfill and memory reservation
+   are enabled only for sequential jobs, and processor
+   reservation is not enabled.
+.sp 2 .SH "schmod_preemption"
+\fBschmod_preemption\fR
+.sp 2
+   Enables the LSF preemption scheduler features.
+.sp 2 .SH "schmod_advrsv"
+\fBschmod_advrsv\fR
+.sp 2
+   Handles jobs that use advance reservations (brsvadd, brsvs,
+   brsvdel, bsub -U)
+.sp 2 .SH "schmod_cpuset"
+\fBschmod_cpuset\fR
+.sp 2
+   Handles jobs that use IRIX cpusets (bsub -ext[sched]
+   "CPUSET[\fIcpuset_options\fR]")
+.sp 2
+   The schmod_cpuset plugin name must be configured after the
+   standard LSF plugin names in the PluginModule list.
+.sp 2 .SH "schmod_mc"
+\fBschmod_mc\fR
+.sp 2
+   Enables MultiCluster job forwarding
+.sp 2
+   Licensed by: LSF_MultiCluster
+.sp 2 .SH "schmod_ps"
+\fBschmod_ps\fR
+.sp 2
+   Enables resource ownership functionality of EGO-enabled SLA
+   scheduling policies
+.sp 2 .SH "schmod_pset"
+\fBschmod_pset\fR
+.sp 2
+   Enables scheduling policies required for jobs that use HP-UX
+   processor sets (pset) allocations (bsub -ext[sched]
+   "PSET[\fItopology\fR]")
+.sp 2
+   The schmod_pset plugin name must be configured after the
+   standard LSF plugin names in the PluginModule list.
+.sp 2 .SH "schmod_aps"
+\fBschmod_aps\fR
+.sp 2
+   Enables absolute priority scheduling (APS) policies configured
+   by APS_PRIORITY in lsb.queues.
+.sp 2
+   The schmod_aps plugin name must be configured after the
+   schmod_fairshare plugin name in the PluginModule list, so that
+   the APS value can override the fairshare job ordering
+   decision.
+.sp 2
+   Licensed by: LSF_HPC
+.sp 2 .SH "schmod_jobweight"
+\fBschmod_jobweight\fR
+.sp 2
+   An optional scheduler plugin module to enable Cross-Queue Job
+   Weight scheduling policies. The schmod_jobweight plugin must
+   be listed before schmod_cpuset and schmod_rms, and after all
+   other scheduler plugin modules.
+.sp 2
+   You should not use job weight scheduling together with
+   fairshare scheduling or job preemption. To avoid scheduling
+   conflicts, you should comment out schmod_fairshare and
+   schmod_preemption in lsb.modules.
+.sp 2 .SH "Scheduler plugin SDK"
+\fBScheduler plugin SDK\fR
+.sp 2
+   Use the LSF scheduler plugin SDK to write customized scheduler
+   modules that give you more flexibility and control over job
+   scheduling. Enable your custom scheduling policies by
+   configuring your modules under SCH_PLUGIN in the PluginModules
+   section of lsb.modules.
+.sp 2
+   The directory
+.sp 2
+   LSF_TOP/7.0/misc/examples/external_plugin/
+.sp 2
+   contains sample plugin code. See Platform LSF Programmer’s
+   Guide for more detailed information about writing, building,
+   and configuring your own custom scheduler plugins.
+.sp 2
+\fBRB_PLUGIN\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   RB_PLUGIN specifies the shared module name for resource broker
+   plugins. Resource broker plugins collect and update job
+   resource accounting information, and provide it to the
+   scheduler.
+.sp 2
+   Normally, for each scheduler plugin module, there is a
+   corresponding resource broker plugin module to support it.
+   However, the resource broker also supports multiple plugin
+   modules for one scheduler plugin module.
+.sp 2
+   For example, a fairshare policy may need more than one
+   resource broker plugin module to support it if the policy has
+   multiple configurations.
+.sp 2
+   A scheduler plugin can have one, multiple, or none RB plugins
+   corresponding to it.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   NAME                 RB_PLUGIN 
+.sp 2
+   schmod_default      () 
+.sp 2
+   schmod_fairshare    (rb_fairshare) 
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined
+.sp 2
+\fBSCH_DISABLE_PHASES\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   SCH_DISABLE_PHASES specifies which scheduler phases, if any,
+   to be disabled for the plugin. LSF scheduling has four phases:
+.sp 2
+   1. 
+         Preprocessing — the scheduler checks the readiness of
+         the job for scheduling and prepares a list of ready
+         resource seekers. It also checks the start time of a
+         job, and evaluates any job dependencies.
+.sp 2
+   2. 
+         Match/limit — the scheduler evaluates the job resource
+         requirements and prepares candidate hosts for jobs by
+         matching jobs with resources. It also applies resource
+         allocation limits. Jobs with all required resources
+         matched go on to order/allocation phase. Not all jobs
+         are mapped to all potential available resources. Jobs
+         without any matching resources will not go through the
+         Order/Allocation Phase but can go through the
+         Post-processing phase, where preemption may be applied
+         to get resources the job needs to run.
+.sp 2
+   3. 
+         Order/allocation — the scheduler sorts jobs with matched
+         resources and allocates resources for each job,
+         assigning job slot, memory, and other resources to the
+         job. It also checks if the allocation satisfies all
+         constraints defined in configuration, such as queue slot
+         limit, deadline for the job, etc.
+.sp 2
+         3.a. 
+                 In the order phase, the scheduler applies
+                 policies such as FCFS, Fairshare and
+                 Host-partition and consider job priorities
+                 within user groups and share groups. By default,
+                 job priority within a pool of jobs from the same
+                 user is based on how long the job has been
+                 pending.
+.sp 2
+         3.b. 
+                 For resource intensive jobs (jobs requiring a
+                 lot of CPUs or a large amount of memory),
+                 resource reservation is performed so that these
+                 jobs are not starved.
+.sp 2
+         3.c. 
+                 When all the currently available resources are
+                 allocated, jobs go on to post-processing.
+.sp 2
+   4. 
+         Post-processing — the scheduler prepares jobs from the
+         order/allocation phase for dispatch and applies
+         preemption or backfill policies to obtain resources for
+         the jobs that have completed pre-processing or
+         match/limit phases, but did not have resources available
+         to enter the next scheduling phase.
+.sp 2
+   Each scheduler plugin module invokes one or more scheduler
+   phase. The processing for a give phase can be disabled or
+   skipped if:
+.sp 2
+   The plugin module does not need to do any processing for that
+   phase or the processing has already been done by a previous
+   plugin module in the list.
+.sp 2
+   The scheduler will not invoke phases marked by
+   SCH_DISABLE_PHASES when scheduling jobs.
+.sp 2
+   None of the plugins provided by LSF should require phases to
+   be disabled, but your own custom plugin modules using the
+   scheduler SDK may need to disable one or more scheduler
+   phases.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   In the following configuration, the \fRschmod_custom\fR plugin
+   module disables the order allocation (3) and post-processing
+   (4) phases:
+.sp 2
+   NAME             SCH_DISABLE_PHASES 
+.sp 2
+   schmod_default   ()                
+.sp 2
+   schmod_custom    (3,4)              
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined

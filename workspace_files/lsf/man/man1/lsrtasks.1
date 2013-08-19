@@ -1,0 +1,127 @@
+
+.ad l
+
+.ll 72
+
+.TH lsrtasks 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsrtasks\fR
+.sp 2
+   displays or updates a remote task list
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsrtasks [+ task_name[/res_req] ... | – task_name[/res_req] ...]
+.sp 2
+lsrtasks [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays or updates a user’s remote task list in
+   $HOME/.lsftask.
+.sp 2
+   When no options are specified, displays tasks listed in the
+   system task file lsf.task and the user’s task file (.lsftask).
+.sp 2
+   If there is a conflict between the system task file lsf.task
+   and the user task file, the user task file overrides the
+   system task file.
+.sp 2
+   Tasks in the remote task list are eligible for remote
+   execution. You can associate resource requirements with each
+   task name. Eligibility of tasks not specified in a task list
+   for remote execution depends on the operation mode: local or
+   remote. In local mode, tasks are not eligible for remote
+   execution; in remote mode, tasks are eligible. You can specify
+   the operation mode when deciding the eligibility of a task
+   (see lseligible(1), and \fRls_eligible(3)\fR).
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB+ \fItask_name\fB[/\fIres_req\fB] ...\fR
+.br
+               If plus sign (+) is specified and the specified
+               task names are not already in the user task file
+               (.lsftask), adds the task names to the file with a
+               + sign preceding them.
+.sp 2
+               If any of the task names are already in the
+               .lsftask file, the actual action depends on the
+               entry in the file. If the entry starts with a + or
+               nothing, replaces the entry with the specified
+               content; if the entry starts with a minus sign
+               (–), deletes the entry from the .lsftask file.
+.sp 2
+               Remote tasks can have a resource requirement
+               expression associated with them, separated by a
+               backslash (/). See \fRls_task(3)\fR.
+.sp 2
+   \fB- \fItask_name\fB[/\fIres_req\fB] ...\fR
+.br
+               If – is specified and specified task names are not
+               already in the user task file (.lsftask), adds the
+               task names to the file with a – preceding the task
+               name.
+.sp 2
+               If any of the task names are already in the
+               .lsftask file, the actual action depends on the
+               entry in the file. If the entry starts with a –,
+               no operation is done; if the entry starts with a
+               +, deletes the entry from the .lsftask file.
+.sp 2
+               Remote tasks can have a resource requirement
+               expression associated with them, separated by a
+               backslash /. See \fRls_task\fR(3).
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fR% \fRlsrtasks + task1 task2/"select[cpu && mem]" -
+   task3\fR\fR
+.sp 2
+   or in restricted form:
+.sp 2
+   \fR% lsrtasks + task1 task2/cpu:mem - task3\fR
+.sp 2
+   Adds the command \fRtask1\fR to the remote task list with no
+   resource requirements, adds \fRtask2\fR with the resource
+   requirement \fRcpu:mem\fR, and removes \fRtask3\fR from the
+   remote task list.
+.sp 2
+   % \fRlsrtasks + myjob/swap>=100 && cpu\fR
+.sp 2
+   Adds \fRmyjob\fR to the remote tasks list with its resource
+   requirements.
+.sp 2
+   Running lsrtasks with no arguments displays the resource
+   requirements of tasks in the remote list, separated from the
+   task name by a slash (/):
+.sp 2
+   % lsrtaskscc/cpu              cfd3d/type == SG1 && cpu  compressdir/cpu:memf77/cpu             verilog/cpu && cadence    compress/cpudsim/type == any    hspice/cpu && cadence      nas/swp > 200 && cpucompress/-:cpu:mem  epi/hpux11 sparc           regression/cpucc/type == local    synopsys/swp >150 && cpu
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads the system task file lsf.task, and the user task file
+   (.lsftask). See lsf.task(5) for more details.
+.sp 2
+   The system and user task files contain two sections, one for
+   the remote task list, the other for the local task list. The
+   remote tasks section starts with \fRBegin RemoteTasks\fR and
+   ends with \fREnd RemoteTasks\fR. Each line in the section is
+   an entry consisting of a task name.
+.sp 2
+   A plus sign + or a minus sign – can optionally precede each
+   entry. If no + or – is specified, then + is assumed.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lseligible, ls_task, lsltasks, lsf.task, ls_eligible

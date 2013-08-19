@@ -1,0 +1,415 @@
+
+.ad l
+
+.ll 72
+
+.TH slave.config 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBslave.config\fR
+.sp 2
+
+.sp 2 .SH "About slave.config"
+\fBAbout slave.config\fR
+.sp 2
+   Dynamically added LSF hosts that will not be master candidates
+   are \fIslave hosts\fR. Each dynamic slave host has its own LSF
+   binaries and local lsf.conf and shell environment scripts
+   (cshrc.lsf and profile.lsf). You must install LSF on each
+   slave host.
+.sp 2
+   The slave.config file contains options for installing and
+   configuring a slave host that can be dynamically added or
+   removed.
+.sp 2
+   Use lsfinstall -s -f slave.config to install LSF using the
+   options specified in slave.config.
+.sp 2 .SH "Template location"
+\fBTemplate location\fR
+.sp 2
+   A template slave.config is located in the installation script
+   directory created when you extract the LSF installation script
+   tar file. Edit the file and uncomment the options you want in
+   the template file. Replace the example values with your own
+   settings to specify the options for your new LSF installation.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         The sample values in the slave.config template file are
+         examples only. They are not default installation values.
+.sp 2 .SH "Format"
+\fBFormat\fR
+.sp 2
+   Each entry in slave.config has the form:
+.sp 2
+   NAME="STRING1 STRING2 ..."
+.sp 2
+   The equal sign \fR=\fR must follow each \fRNAME\fR even if no
+   value follows and there should be no spaces around the equal
+   sign.
+.sp 2
+   A value that contains multiple strings separated by spaces
+   must be enclosed in quotation marks.
+.sp 2
+   Blank lines and lines starting with a pound sign (\fR#\fR) are
+   ignored.
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         EGO_DAEMON_CONTROL
+.sp 2
+     o  
+         ENABLE_EGO
+.sp 2
+     o  
+         EP_BACKUP
+.sp 2
+     o  
+         LSF_ADMINS
+.sp 2
+     o  
+         LSF_LIM_PORT
+.sp 2
+     o  
+         LSF_SERVER_HOSTS
+.sp 2
+     o  
+         LSF_TARDIR
+.sp 2
+     o  
+         LSF_LOCAL_RESOURCES
+.sp 2
+     o  
+         LSF_TOP
+.sp 2
+\fBEGO_DAEMON_CONTROL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_DAEMON_CONTROL="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables Platform EGO to control LSF res and sbatchd. Set the
+   value to "Y" if you want EGO Service Controller to start res
+   and sbatchd, and restart if they fail.
+.sp 2
+   All hosts in the cluster must use the same value for this
+   parameter (this means the value of EGO_DAEMON_CONTROL in this
+   file must be the same as the specification for
+   EGO_DAEMON_CONTROL in install.config).
+.sp 2
+   To avoid conflicts, leave this parameter undefined if you use
+   a script to start up LSF daemons.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         If you specify EGO_ENABLE="N", this parameter is
+         ignored.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   EGO_DAEMON_CONTROL="N"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   N (res and sbatchd are started manually)
+.sp 2
+
+.sp 2
+\fBENABLE_EGO\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRENABLE_EGO="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables Platform EGO functionality in the LSF cluster.
+.sp 2
+   ENABLE_EGO="Y" causes lsfinstall uncomment LSF_EGO_ENVDIR and
+   sets LSF_ENABLE_EGO="Y" in lsf.conf.
+.sp 2
+   ENABLE_EGO="N" causes lsfinstall to comment out LSF_EGO_ENVDIR
+   and sets LSF_ENABLE_EGO="N" in lsf.conf.
+.sp 2
+   Set the value to "N" if you do not want to take advantage of
+   the following LSF features that depend on EGO:
+.sp 2
+     o  
+         LSF daemon control by EGO Service Controller
+.sp 2
+     o  
+         EGO-enabled SLA scheduling
+.sp 2
+     o  
+         Platform Management Console (PMC)
+.sp 2
+     o  
+         LSF reporting
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (EGO is enabled in the LSF cluster)
+.sp 2
+\fBEP_BACKUP\fR
+.sp 2
+\fBSyntax\fR
+.sp 2
+   \fREP_BACKUP\fR="Y" | "N"
+.sp 2
+\fBDescription\fR
+.sp 2
+   Enables backup and rollback for enhancement packs. Set the
+   value to "N" to disable backups when installing enhancement
+   packs (you will not be able to roll back to the previous patch
+   level after installing an EP, but you will still be able to
+   roll back any fixes installed on the new EP).
+.sp 2
+   You may disable backups to speed up install time, to save disk
+   space, or because you have your own methods to back up the
+   cluster.
+.sp 2
+\fBDefault\fR
+.sp 2
+   Y (backup and rollback are fully enabled)
+.sp 2
+\fBLSF_ADMINS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_ADMINS="\fR\fIuser_name \fR[ \fIuser_name ...
+   \fR]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. List of LSF administrators.
+.sp 2
+   The first user account name in the list is the primary LSF
+   administrator. It cannot be the root user account.
+.sp 2
+   Typically this account is named lsfadmin. It owns the LSF
+   configuration files and log files for job events. It also has
+   permission to reconfigure LSF and to control batch jobs
+   submitted by other users. It typically does not have authority
+   to start LSF daemons. Usually, only root has permission to
+   start LSF daemons.
+.sp 2
+   All the LSF administrator accounts must exist on all hosts in
+   the cluster before you install LSF. Secondary LSF
+   administrators are optional.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Existing user accounts
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   LSF_ADMINS="lsfadmin user1 user2"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None—required variable
+.sp 2
+\fBLSF_LIM_PORT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_LIM_PORT="\fR\fIport_number\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   TCP service port for slave host.
+.sp 2
+   Use the same port number as LSF_LIM_PORT in lsf.conf on the
+   master host.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   7869
+.sp 2
+\fBLSF_SERVER_HOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_SERVER_HOSTS="\fR\fIhost_name \fR[ \fIhost_name
+   ...\fR]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required for non-shared slave host installation. This
+   parameter defines a list of hosts that can provide host and
+   load information to client hosts. If you do not define this
+   parameter, clients will contact the master LIM for host and
+   load information. List of LSF server hosts in the cluster to
+   be contacted.
+.sp 2
+   Recommended for large clusters to decrease the load on the
+   master LIM. Do not specify the master host in the list. Client
+   commands will query the LIMs on the LSF_SERVER_HOSTS, which
+   off-loads traffic from the master LIM.
+.sp 2
+   Define this parameter to ensure that commands execute
+   successfully when no LIM is running on the local host, or when
+   the local LIM has just started.
+.sp 2
+   You should include the list of hosts defined in
+   LSF_MASTER_LIST in lsf.conf; specify the primary master host
+   last. For example:
+.sp 2
+   LSF_MASTER_LIST="lsfmaster hostE"
+.sp 2
+   LSF_SERVER_HOSTS="hostB hostC hostD hostE lsfmaster"
+.sp 2
+   Specify a list of host names two ways:
+.sp 2
+     o  
+         Host names separated by spaces
+.sp 2
+     o  
+         Name of a file containing a list of host names, one host
+         per line.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Any valid LSF host name
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   List of host names:
+.sp 2
+   LSF_SERVER_HOSTS="hosta hostb hostc hostd"
+.sp 2
+   Host list file:
+.sp 2
+   LSF_SERVER_HOSTS=:lsf_server_hosts
+.sp 2
+   The file lsf_server_hosts contains a list of hosts:
+.sp 2
+   hosta hostb hostc hostd
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBLSF_TARDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_TARDIR="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Full path to the directory containing the LSF distribution tar
+   files.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   LSF_TARDIR="/usr/local/lsf_distrib"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   The parent directory of the current working directory. For
+   example, if lsfinstall is running under
+   usr/share/lsf_distrib/lsf_lsfinstall the LSF_TARDIR default
+   value is usr/share/lsf_distrib.
+.sp 2
+\fBLSF_LOCAL_RESOURCES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_LOCAL_RESOURCES="\fR\fIresource\fR ...\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Defines instances of local resources residing on the slave
+   host.
+.sp 2
+     o  
+         For numeric resources, define name-value pairs:
+.sp 2
+         "[resourcemap value*resource_name]"
+.sp 2
+     o  
+         For Boolean resources, define the resource name in the
+         form:
+.sp 2
+         "[resource resource_name]"
+.sp 2
+   When the slave host calls the master host to add itself, it
+   also reports its local resources. The local resources to be
+   added must be defined in lsf.shared.
+.sp 2
+   If the same resource is already defined in lsf.shared as
+   default or all, it cannot be added as a local resource. The
+   shared resource overrides the local one.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         LSF_LOCAL_RESOURCES is usually set in the slave.config
+         file during installation. If LSF_LOCAL_RESOURCES are
+         already defined in a local lsf.conf on the slave host,
+         lsfinstall does not add resources you define in
+         LSF_LOCAL_RESOURCES in slave.config. You should not have
+         duplicate LSF_LOCAL_RESOURCES entries in lsf.conf. If
+         local resources are defined more than once, only the
+         last definition is valid.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         Resources must already be mapped to hosts in the
+         ResourceMap section of lsf.cluster.\fIcluster_name\fR.
+         If the ResourceMap section does not exist, local
+         resources are not added.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   LSF_LOCAL_RESOURCES="[resourcemap 1*verilog] [resource linux]"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBLSF_TOP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_TOP="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. Full path to the top-level LSF installation
+   directory.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         You must use the same path for every slave host you
+         install.
+.sp 2 .SH "Valid value"
+\fBValid value\fR
+.sp 2
+   The path to LSF_TOP cannot be the root directory (/).
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   LSF_TOP="/usr/local/lsf"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None—required variable 

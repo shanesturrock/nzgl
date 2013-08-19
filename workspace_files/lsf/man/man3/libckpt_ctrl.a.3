@@ -1,0 +1,28 @@
+.\" libckpt_ctrl.a.3ckpt,v 1.1.1.1 1994/07/30 14:13:21 xxue Exp
+.ds ]W %
+.ds ]L
+.TH LIBCKPT_CTRL.A 3CKPT "1 August 1998"
+.SH NAME
+libckpt.a \- the checkpoint control library
+.LP
+.SH SYNOPSIS AND DESCRIPTION
+This library contains the checkpoint control functions that allow
+programs to checkpoint processes, restart processes, and remove
+checkpoint files.
+.PP
+All routines in this library require the header file
+.B <chkpnt.h>
+be included.
+.PP
+Functions in this library are:
+.TP 5
+.BR chkpnt (3),
+.PP
+.BR restart (3),
+and
+.PP
+.BR rmckpt (3).
+.SH SEE ALSO
+chkpnt(3),
+restart(3),
+rmckpt(3)

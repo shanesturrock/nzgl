@@ -1,0 +1,80 @@
+.\" rmckpt.3ckpt,v 1.1.1.1 1994/07/30 14:13:21 xxue Exp
+.ds ]W %
+.ds ]L
+.TH RMCKPT 3CKPT "1 August 1998"
+.SH NAME
+rmckpt \- remove checkpoint files and the directory
+.LP
+.SH SYNOPSIS
+.nf
+.B #include <chkpnt.h>
+.PP
+.nf
+.ft B
+int rmckpt(const char *path);
+.ft
+.fi
+
+.SH DESCRIPTION
+This function removes the checkpoint files under the
+directory specified by
+.BR path .
+The directory will be removed
+if it is empty after the checkpoint files are removed.
+.SH RETURN VALUE
+Upon successful completion,
+.B rmckpt()
+returns
+.BR 0 .
+Otherwise, a value of
+.B -1
+is returned, and 
+.B errno
+is set to indicate the error.
+.SH ERRORS
+If any of the following conditions occur, 
+.B rmckpt()
+shall return
+.B -1
+and set
+.B errno
+to the corresponding value.
+.TP 15
+.SM [EACCES]
+Search permission is denied on a component of the prefix,
+or write permission is denied on the directory containing the
+checkpoint file to be removed.
+.TP
+.SM [ENAMETOOLONG]
+The length of the
+.B path
+string exceeds
+.BR PATH_MAX ,
+or a pathname component is longer than
+.BR NAME_MAX .
+.TP
+.SM [ENOENT]
+The named directory does not exist, or the
+.B path
+argument points to an empty string.
+.TP
+.SM [ENOSYS]
+The
+.B rmckpt()
+function is not supported by the implementation.
+.TP
+.SM [ENOTDIR]
+A component of 
+.B path
+is not a directory.
+.TP
+.SM [EROFS]
+The checkpoint file to be removed resides on a read-only
+file system.
+.SH STANDARD COMFORMANCE
+POSIX.1a
+.SH SEE ALSO
+chkpnt(1),
+restart(1),
+chkpnt(3),
+restart(3).

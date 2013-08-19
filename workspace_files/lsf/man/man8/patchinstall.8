@@ -1,0 +1,162 @@
+
+.ad l
+
+.ll 72
+
+.TH patchinstall 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBpatchinstall\fR
+.sp 2
+   UNIX only. Manage patches in a licensed Platform cluster.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+patchinstall [-f env_file] [--silent] package...
+.sp 2
+patchinstall -c [-f env_file] [--silent] package...
+.sp 2
+patchinstall -r [-f env_file] [--silent] package
+.sp 2
+patchinstall -r [-f env_file] [--silent] build_number
+.sp 2
+patchinstall -h
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Permission required to run this command depends on the package
+   contents and the original cluster installation account; you
+   should normally log on as root, but you can patch some
+   binaries as cluster administrator (lsfadmin).
+.sp 2
+   By default, the command installs one or more packages in an
+   existing cluster.
+.sp 2
+   The cluster location is normally determined by your
+   environment setting, so ensure your environment is set before
+   you run this command (for example, you sourced cshrc.lsf or
+   profile.lsf).
+.sp 2
+   Specify the packages you want to install.
+.sp 2
+   The installer does some checking first. If it does not find a
+   problem, it prompts you to proceed with installation. If you
+   confirm, it backs up the current binaries to the patch backup
+   directory and then installs the specified packages on the
+   cluster, updating or adding new binaries. It does not modify
+   any existing configuration files. If there is any problem
+   during installation of a package, it automatically rolls back
+   to the cluster’s previous state. It records the changes in the
+   patch history directory. This additional checking can take
+   more time than installing with lsfinstall.
+.sp 2
+   The command can also be used to do the following:
+.sp 2
+     o  
+         Check—do the checking for the packages without
+         installing them. For more information, see the -c
+         option.
+.sp 2
+     o  
+         Roll back—remove the most recent patch and return the
+         cluster to the previous patch level. If you want to roll
+         back multiple versions, you must roll back one patch
+         level at a time, in the reverse order of installation.
+         For more information, see the -r option.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-c \fR
+.br
+               Check. Perform checking as if to install, but do
+               not proceed with installation.
+.sp 2
+               Specify each package you want to check. You may
+               specify multiple packages.
+.sp 2
+               Checks that the existing cluster is compatible
+               with the patch (the same version of the product is
+               already installed on the same binary types). Fixes
+               and fix packs may also require that a specific
+               enhancement pack be installed.
+.sp 2
+               Checks that your user account has permission to
+               write to the installation directory, backup
+               directory, and history directory.
+.sp 2
+               Lists existing files that will be overwritten by
+               the patch.
+.sp 2
+               Lists files that to be added by the patch.
+.sp 2
+   \fB-f \fIenv_file\fB\fR
+.br
+               This option should only be used if you cannot set
+               your environment (for example, you cannot source
+               cshrc.lsf or profile.lsf).
+.sp 2
+               Specify the full path and file name of a file
+               (such as your LSF install.config file) that
+               properly defines the parameter LSF_TOP.
+.sp 2
+               If you use this option, the command gets the
+               cluster location from this file, not from the
+               settings in your environment.
+.sp 2
+   \fB-h\fR
+.br
+               Outputs command usage and exits.
+.sp 2
+   \fB-r \fR
+.br
+               Rollback. You must specify the most recently
+               installed patch. The installer checks all binary
+               types and finds all instances where the most
+               recently installed patch has the same build
+               number. These packages are removed and the cluster
+               reverts to the previous patch level.
+.sp 2
+               Specify the build number of the most recent patch
+               or specify full path to the package you used to
+               install the most recent patch, The installer
+               automatically checks the package to determine the
+               build. You cannot specify any other build.
+.sp 2
+               To remove multiple patches and roll back multiple
+               versions, you must run the command multiple times
+               and roll back one patch level at a time.
+.sp 2
+               You cannot roll back if the backup files from the
+               previous patch level are unavailable (if you
+               deleted them from the patch backup directory).
+.sp 2
+   \fB--silent\fR
+.br
+               Silent mode. Install or roll back without any
+               interactive prompts for confirmation.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Status information and prompts are displayed in your command
+   console.
+.sp 2
+   Status information is also logged to patch.log (when patching
+   or rolling back the cluster) or precheck.log (when checking a
+   package).
+.sp 2
+   If there are any problems found when checking a package,
+   errors are displayed in your command console and also logged
+   to patch.err.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+     o  
+         pversions command: displays the patch level of products
+         installed in your cluster
+.sp 2
+     o  
+         install.config file: describes the parameter LSF_TOP
+.sp 2
+     o  
+         patch.conf file: defines backup and history directories

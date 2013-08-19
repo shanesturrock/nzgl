@@ -1,0 +1,102 @@
+
+.ad l
+
+.ll 72
+
+.TH pmcadmin 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBpmcadmin\fR
+.sp 2
+   Administer the HPC Portal.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+pmcadmin [start | stop | list | addrtm URL | -h ]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         This command can only be used by LSF administrators.
+.sp 2
+   Always run this command on the host that runs HPC Portal.
+.sp 2
+   This command is used to administer the HPC Portal.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fBstart\fR
+.br
+               Starts the Platform Management Console on the
+               local host.
+.sp 2
+   \fBstop\fR
+.br
+               Stops the Platform Management Console on the local
+               host.
+.sp 2
+   \fBlist \fR
+.br
+               Status of the HPC Portal service on the local
+               host.
+.sp 2
+   \fBaddrtm \fIURL\fB\fR
+.br
+               RTM only. Integrate RTM web pages with HPC Portal.
+               Specify the RTM main web page access URL. For
+               example, specify http://\fIhost_name\fR/cacti
+.sp 2
+   \fB-h\fR
+.br
+               Outputs command usage and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Output of pmcadmin list.
+.sp 2
+   \fBSERVICE\fR
+.br
+               WEBGUI, the name of the HPC Portal service
+.sp 2
+   \fBSTATUS\fR
+.br
+               \fBSTARTED\fR
+.br
+                           HPC Portal is running.
+.sp 2
+               \fBSTOPPED\fR
+.br
+                           HPC Portal is not running.
+.sp 2
+               \fBUNKNOWN\fR
+.br
+                           HPC Portal status is unknown. The
+                           local host may not be the HPC Portal
+                           host.
+.sp 2
+   \fBHOSTNAME\fR
+.br
+               Name of the host.
+.sp 2
+   \fBWSM_PID\fR
+.br
+               Process ID of the service.
+.sp 2
+   \fBPORT\fR
+.br
+               Web server port.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+     o  
+         perfadmin command: administer PERF services
+.sp 2
+     o  
+         pmcsetrc command: enable automatic startup of HPC Portal
+         on a host
+.sp 2
+     o  
+         pmcremoverc command: disable automatic startup of HPC
+         Portal on a host

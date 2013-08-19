@@ -1,0 +1,44 @@
+.\" restart.1,v 1.2 1994/07/30 15:28:30 xxue Exp
+.ds ]W %
+.ds ]L
+.TH RESTART 1 "1 August 1998"
+.SH NAME
+restart \- restart the execution of a process or a process family
+.LP
+.SH SYNOPSIS
+.nf
+.B restart [-q] chkpntdir 
+.ft
+.fi
+.SH DESCRIPTION
+This command restarts a process or a process family from the
+the checkpoint file(s) under the directory specified by
+.BR chkpntdir .
+.SH OPTIONS
+.PP
+restart recognizes the following options:
+.TP 12
+.B -q
+Quietly inhibit all messages printed by 
+.BR restart .
+.SH RETURN VALUE
+.PP
+Upon completion,
+.B restart
+exits with
+.B 0
+if the process was successfully restarted, and
+.B -1
+on errors.
+.SH NOTES
+.PP
+The current implementation of
+.BR restart (1)
+does not support the restart of a family of processes.
+.PP
+The
+.B restart
+process will not complete until the process being restarted has
+completed.
+.SH SEE ALSO
+chkpnt(1), chkpnt(3), restart(3), rmckpt(3).

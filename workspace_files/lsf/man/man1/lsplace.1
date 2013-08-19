@@ -1,0 +1,115 @@
+
+.ad l
+
+.ll 72
+
+.TH lsplace 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsplace\fR
+.sp 2
+   displays hosts available to execute tasks
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsplace [-L] [-n minimum | -n 0] [-R res_req] [-w maximum | -w 0]
+[host_name ...]
+.sp 2
+lsplace [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays hosts available for the execution of tasks, and
+   temporarily increases the load on these hosts (to avoid
+   sending too many jobs to the same host in quick succession).
+   The inflated load decays slowly over time before the real load
+   produced by the dispatched task is reflected in the LIM’s load
+   information. Host names may be duplicated for multiprocessor
+   hosts, to indicate that multiple tasks can be placed on a
+   single host.
+.sp 2
+   By default, displays only one host name.
+.sp 2
+   By default, uses LSF default resource requirements.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-L \fR
+.br
+               Attempts to place tasks on as few hosts as
+               possible. This is useful for distributed parallel
+               applications to minimize communication costs
+               between tasks.
+.sp 2
+   \fB-n \fIminimum\fB | -n 0 \fR
+.br
+               Displays at least the specified number of hosts.
+               Specify 0 to display as many hosts as possible.
+.sp 2
+               Prints \fRNot enough host(s) currently eligible\fR
+               and exits with status 1 if the required number of
+               hosts holding the required resources cannot be
+               found.
+.sp 2
+   \fB-R \fIres_req\fB \fR
+.br
+               Displays only hosts with the specified resource
+               requirements. When LSF_STRICT_RESREQ=Y in
+               lsf.conf, LSF rejects resource requirement strings
+               where an rusage section contains a non-consumable
+               resource.
+.sp 2
+   \fB-w \fImaximum\fB | -w 0 \fR
+.br
+               Displays no more than the specified number of
+               hosts. Specify 0 to display as many hosts as
+               possible.
+.sp 2
+   \fB\fIhost_name\fB ...\fR
+.br
+               Displays only hosts that are among the specified
+               hosts.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   lsplace is mostly used in backquotes to pick out a host name
+   that is then passed to other commands. The following example
+   issues a command to display a lightly loaded HPPA-RISC host
+   for your program to run on:
+.sp 2
+   lsrun -m ‘lsplace -R hppa‘ myprogram
+.sp 2
+   In order for a job to land on a host with an exclusive
+   resource, you need to explicitly specify that resource for the
+   resource requirements. The following example issues a command
+   to display the host with the bigmem exclusive resource for
+   your program to run on:
+.sp 2
+   \fRlsrun -m ‘lsplace -R "bigmem"‘ myprogram\fR
+.sp 2
+   The -w and -n options can be combined to specify the upper and
+   lower bounds in processors to be returned, respectively. For
+   example, the command
+.sp 2
+   lsplace -n 3 -w 5
+.sp 2
+   returns at least 3 and not more than 5 host names.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   lsplace returns 1 if insufficient hosts are available. The
+   exit status is -10 if a problem is detected in LSF, -1 for
+   other errors, otherwise 0.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsinfo(1), ls_placereq(3), lsload(1), lsrun(1)

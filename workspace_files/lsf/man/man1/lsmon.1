@@ -1,0 +1,283 @@
+
+.ad l
+
+.ll 72
+
+.TH lsmon 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsmon\fR
+.sp 2
+   displays load information for LSF hosts and periodically
+   updates the display
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsmon [-N | -E] [-n num_hosts] [-R res_req] [-I index_list] [-i
+interval] [-L file_name] [host_name ...]
+.sp 2
+lsmon [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   lsmon is a full-screen LSF monitoring utility that displays
+   and updates load information for hosts in a cluster.
+.sp 2
+   By default, displays load information for all hosts in the
+   cluster, up to the number of lines that fit on-screen.
+.sp 2
+   By default, displays raw load indices.
+.sp 2
+   By default, load information is sorted according to CPU and
+   paging load.
+.sp 2
+   By default, load information is updated every 10 seconds.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-N\fR
+.br
+               Displays normalized CPU run queue length load
+               indices.
+.sp 2
+   \fB-E\fR
+.br
+               Displays effective CPU run queue length load
+               indices. Options -N and -E are mutually exclusive.
+.sp 2
+   \fB-n \fInum_hosts\fB\fR
+.br
+               Displays only load information for the requested
+               number of hosts. Information for up to num_hosts
+               hosts that best satisfy resource requirements is
+               displayed.
+.sp 2
+   \fB-R \fIres_req \fB\fR
+.br
+               Displays only load information for hosts that
+               satisfy the specified resource requirements. See
+               Administering Platform LSF for a list of built-in
+               resource names.
+.sp 2
+               Load information for the hosts is sorted according
+               to load on the specified resources.
+.sp 2
+               If res_req contains special resource names, only
+               load information for hosts that provide these
+               resources is displayed (use lshosts to find out
+               what resources are available on each host).
+.sp 2
+               If one or more host names are specified, only load
+               information for the hosts that satisfy the
+               resource requirements is displayed.
+.sp 2
+   \fB-I \fIindex_list\fB\fR
+.br
+               Displays only load information for the specified
+               load indices. Load index names must be separated
+               by a colon (for example, \fRr1m:pg:ut\fR).
+.sp 2
+               If the index list \fIindex_list\fR is too long to
+               fit in the screen of the user who invoked the
+               command, the output is truncated. For example, if
+               the invoker's screen is 80 characters wide, then
+               up to 10 load indices are displayed.
+.sp 2
+   \fB-i \fIinterval\fB\fR
+.br
+               Sets how often load information is updated
+               on-screen, in seconds.
+.sp 2
+   \fB-L \fIfile_name\fB\fR
+.br
+               Saves load information in the specified file while
+               it is displayed on-screen.
+.sp 2
+               If you do not want load information to be
+               displayed on your screen at the same time, use
+               lsmon -L \fIfile_name\fR < /dev/null. The format
+               of the file is described in lim.acct(5).
+.sp 2
+   \fB\fIhost_name\fB ...\fR
+.br
+               Displays only load information for the specified
+               hosts.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   You can use the following commands while lsmon is running:
+.sp 2
+   [^L | i | n | N | E | R | q]
+.sp 2
+   \fB^L\fR
+.br
+               Refreshes the screen.
+.sp 2
+   \fBi\fR
+.br
+               Prompts you to input a new update interval.
+.sp 2
+   \fBn\fR
+.br
+               Prompts you to input a new number of hosts to
+               display.
+.sp 2
+   \fBN\fR
+.br
+               Toggles between displaying raw CPU run queue
+               length load indices and normalized CPU run queue
+               length load indices.
+.sp 2
+   \fBE\fR
+.br
+               Toggles between displaying raw CPU run queue
+               length load indices and effective CPU run queue
+               length load indices.
+.sp 2
+   \fBR\fR
+.br
+               Prompts you to input new resource requirements.
+.sp 2
+   \fBq\fR
+.br
+               Quits lsmon.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   The following fields are displayed by default.
+.sp 2
+   \fBHOST_NAME\fR
+.br
+               Name of specified hosts for which load information
+               is displayed, or if resource requirements were
+               specified, name of hosts that satisfied the
+               specified resource requirement and for which load
+               information is displayed.
+.sp 2
+   \fBstatus\fR
+.br
+               Status of the host. A minus sign (-) may precede
+               the status, indicating that the Remote Execution
+               Server (RES) on the host is not running.
+.sp 2
+               Possible statuses are:
+.sp 2
+               \fBok \fR
+.br
+                           The host is in normal load sharing
+                           state and can accept remote jobs.
+.sp 2
+               \fBbusy\fR
+.br
+                           The host is overloaded because some
+                           load indices exceed configured
+                           thresholds. Load index values that
+                           caused the host to be busy are
+                           preceded by an asterisk (\fR*)\fR.
+                           Built-in load indices include
+                           \fRr15s\fR, \fRr1m\fR, \fRr15m\fR,
+                           \fRut\fR, \fRpg\fR, \fRio\fR,
+                           \fRls\fR, \fRit\fR, \fRswp\fR,
+                           \fRmem\fR and \fRtmp\fR (see below).
+                           External load indices are configured
+                           in the file
+                           \fRlsf.cluster.\fR\fIcluster_name\fR.
+.sp 2
+               \fBlockW \fR
+.br
+                           The host is locked by its run window.
+                           Run windows for a host are specified
+                           in lsf.conf and can be displayed by
+                           lshosts. A locked host does not accept
+                           load shared jobs from other hosts.
+.sp 2
+               \fBlockU \fR
+.br
+                           The host is locked by the LSF
+                           administrator or root.
+.sp 2
+               \fBunavail \fR
+.br
+                           The host is down or the Load
+                           Information Manager (LIM) on the host
+                           is not running.
+.sp 2
+               \fBunlicensed \fR
+.br
+                           The host does not have a valid LSF
+                           license.
+.sp 2
+   \fBr15s\fR
+.br
+               The 15-second exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBr1m\fR
+.br
+               The 1-minute exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBr15m\fR
+.br
+               The 15-minute exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBut\fR
+.br
+               The CPU utilization exponentially averaged over
+               the last minute, between 0 and 1.
+.sp 2
+   \fBpg\fR
+.br
+               The memory paging rate exponentially averaged over
+               the last minute, in pages per second.
+.sp 2
+   \fBls\fR
+.br
+               The number of current login users.
+.sp 2
+   \fBit\fR
+.br
+               On UNIX, the idle time of the host (keyboard not
+               touched on all logged in sessions), in minutes.
+.sp 2
+               On Windows, the \fRit\fR index is based on the
+               time a screen saver has been active on a
+               particular host.
+.sp 2
+   \fBtmp\fR
+.br
+               The amount of free space in \fR/tmp\fR, in
+               megabytes.
+.sp 2
+   \fBswp\fR
+.br
+               The amount of currently available swap space, in
+               megabytes.
+.sp 2
+   \fBmem\fR
+.br
+               The amount of currently available memory, in
+               megabytes.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Specifying an incorrect resource requirement string while
+   lsmon is running (via the R option) causes lsmon to exit with
+   an appropriate error message.
+.sp 2
+   lsmon exits if it does not receive a reply from LIM within the
+   update interval.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lshosts, lsinfo, lsload, lslockhost, lim.acct, ls_load

@@ -1,0 +1,227 @@
+.ds ]W %
+.ds ]L
+.nh
+.TH slamon 1 "LSF Reports Version 7.0 - October 2006"
+.br
+
+.SH NAME
+\fBslamon\fR - displays SLA (service-level agreement) scheduling
+.SH SYNOPSIS
+.BR
+.PP
+.PP
+\fBslamon\fR \fB-f\fR \fIservice_class_name \fR[\fB-b\fR \fB"\fRMM/DD \fIHH\fR:MM"] 
+.br
+[\fB-e "\fRMM/DD \fIHH\fR:MM"] [\fB-n\fR \fInumber_of_jobs\fR] \fB-p\fR [/\fIfile_name\fR]]
+.PP
+\fBslamon \fR[\fB-h\fR|\fB-V\fR] 
+.SH DESCRIPTION
+.BR
+.PP
+.PP
+Requires gnuplot version 3.7.1.
+.PP
+Tracks SLA (service-level agreement) scheduling for each cluster and for the entire 
+system (all clusters together).
+.PP
+By default, displays the actual license usage. By default, the X-axis values range from the 
+time of the first event in the current data file to the current time. By default, the Y-axis 
+values range from 0 to the total number of jobs.
+.PP
+Use Ctrl-C to close and exit \fBslamon\fR.
+.SH OPTIONS
+.BR
+.PP
+.TP 
+\fB-b "\fRMM/DD HH:MM"
+
+.IP
+Specifies the begin time to display in the monitor. Specify time in the format 
+"year/month/day/hour:minute". 
+
+.IP
+For more information, see notes at the end of this document.
+
+
+.TP 
+-e "MM/DD HH:MM"
+
+.IP
+Specifies the end time to display in the monitor. Specify time in the format 
+"year/month/day/hour:minute". 
+
+.IP
+For more information, see notes at the end of this document.
+
+
+.TP 
+-f \fIservice_class_name
+\fR
+.IP
+Retrieves data from the log file for the specified service class, which will be displayed in 
+the monitor.
+
+
+.TP 
+\fB-n \fRnumber_of_jobs
+
+.IP
+Specifies the number of jobs displayed in the y-axis in the monitor.
+
+
+.TP 
+\fB-p\fR [/\fIfile_name\fR]
+
+.IP
+Creates a postscript file in the current working directory. You can specify a file name in 
+the format \fBslaname.slagoal.ps\fR.
+
+.IP
+For example:
+
+.IP
+slamon -f 
+$LSF_ENVDIR/../work/lsf6.0/logdir/SLA/Parma.throughput -p 
+produces Parma.throughput.ps
+
+
+.TP 
+\fB-h
+\fR
+.IP
+Prints command usage to stderr and exits.
+
+
+.TP 
+\fB-V
+\fR
+.IP
+Prints the release version to stderr and exits.
+
+
+.SH TIME INTERVAL FORMAT
+.BR
+.PP
+.PP
+You use the time interval to define a start and end time for collecting the data to be 
+retrieved and displayed. While you can specify both a start and an end time, you can also 
+let one of the values default. You can specify either of the times as an absolute time, by 
+specifying the date or time, or you can specify them relative to the current time.
+.PP
+Specify the time interval is follows:
+.PP
+\fIstart_time\fR,end_time|\fIstart_time\fR,|\fB,\fRend_time|\fIstart_time
+\fR.PP
+Specify \fIstart_time\fR or \fIend_time\fR in the following format:
+.PP
+[\fIyear\fR/][\fImonth\fR/][\fIday\fR][\fB/\fRhour:minute|\fB/\fRhour:]|\fB.\fR|\fB.-\fRrelative_int
+.PP
+Where:
+.RS
+.HP 2
+\(bu \fIyear\fR is a four-digit number representing the calendar year.
+.HP 2
+\(bu \fImonth\fR is a number from 1 to 12, where 1 is January and 12 is December.
+.HP 2
+\(bu \fIday\fR is a number from 1 to 31, representing the day of the month.
+.HP 2
+\(bu \fIhour\fR is an integer from 0 to 23, representing the hour of the day on a 24-hour clock.
+.HP 2
+\(bu \fIminute\fR is an integer from 0 to 59, representing the minute of the hour.
+.HP 2
+\(bu \fB.\fR (period) represents the current month/day/hour:minute. 
+.HP 2
+\(bu \fB.-\fRrelative_int is a number, from 1 to 31, specifying a relative start or end time prior 
+to now.
+.RE
+.SS \fIstart_time\fR,end_time
+.BR
+.PP
+.IP
+Specifies both the start and end times of the interval.
+
+.RE
+.SS \fIstart_time\fR\fB,\fR
+.BR
+.PP
+.IP
+Specifies a start time, and lets the end time default to now.
+
+.RE
+.SS \fB,\fRend_time
+.BR
+.PP
+.IP
+Specifies to start with the first logged occurrence, and end at the time specified.
+
+.RE
+.SS \fIstart_time\fR
+.BR
+.PP
+.IP
+Starts at the beginning of the most specific time period specified, and ends at 
+the maximum value of the time period specified. For example, 2/ specifies the 
+month of February--start February 1 at 00:00 a.m. and end at the last possible 
+minute in February: February 28th at midnight.
+
+.RE
+.SS ABSOLUTE TIME EXAMPLES
+.BR
+.PP
+
+.IP
+Assume the current time is May 9 17:06 2002:
+
+.IP
+\fB1,8 \fR= May 1 00:00 2002 to May 8 23:59 2002
+
+.IP
+\fB,4\fR = the time of the first occurrence to May 4 23:59 2002
+
+.IP
+\fB6 \fR= May 6 00:00 2002 to May 6 23:59 2002
+
+.IP
+\fB2/\fR = Feb 1 00:00 2002 to Feb 28 23:59 2002
+
+.IP
+\fB/12:\fR = May 9 12:00 2002 to May 9 12:59 2002
+
+.IP
+\fB2/1\fR = Feb 1 00:00 2002 to Feb 1 23:59 2002
+
+.IP
+\fB2/1, \fR= Feb 1 00:00 to the current time
+
+.IP
+\fB,.\fR = the time of the first occurrence to the current time
+
+.IP
+\fB,2/10:\fR = the time of the first occurrence to May 2 10:59 2002
+
+.IP
+\fB2001/12/31,2002/5/1\fR = from Dec 31, 2001 00:00:00 to May 1st 2002 23:59:59
+
+
+.SS RELATIVE TIME EXAMPLES
+.BR
+.PP
+
+.IP
+Assume the current time is May 9 17:06 2002:
+
+.IP
+\fB.-9,\fR = April 30 17:06 2002 to the current time
+
+.IP
+\fB,.-2/\fR = the time of the first occurrence to Mar 7 17:06 2002
+
+.IP
+\fB.-9,.-2\fR = nine days ago to two days ago (April 30, 2002 17:06 to May 7, 2002 
+17:06)
+
+.IP
+
+.\" Generated by Quadralay WebWorks Publisher Professional Edition 6.0.7
+.\" Based on template lsf_manpage_tem
+.\" Copyright 1994-2003 Platform Computing Corporation

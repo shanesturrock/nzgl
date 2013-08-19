@@ -1,0 +1,258 @@
+.ds ]W %
+.ds ]L
+.nh
+.TH blmon 1 "LSF Reports Version 7.0 - October 2006"
+.br
+
+.SH NAME
+\fBblmon\fR - displays license usage 
+.SH SYNOPSIS
+.BR
+.PP
+.PP
+\fBblmon\fR [\fB-a\fR| \fB-s\fR] [\fB-f ps\fR [\fB/\fRfile_name]] [\fB-t "\fRtoken_name[\fB/\fRservice_domain]...\fB"\fR] 
+.br
+[\fB-T\fR \fIstart_time\fR,end_time | \fB-w\fR \fIhours\fR | \fB-w\fR \fIminutes\fRm] [\fB-Y\fR \fItokens\fR] 
+.PP
+\fBblmon \fR[\fB-h\fR|\fB-V\fR] 
+.SH DESCRIPTION
+.BR
+.PP
+.PP
+Requires gnuplot version 3.7.1.
+.PP
+Displays the license usage for each cluster and for the entire system (all clusters 
+together).
+.PP
+By default, displays the actual license usage. By default, the X-axis values range from the 
+time of the first event in the current data file to the current time. By default, the Y-axis 
+values range from 0 to the total number of licenses. By default, generates one graph for 
+each service domain. By default, displays data about the first 4 license tokens returned 
+from \fBblinfo\fR.
+.PP
+Use Ctrl-C to close and exit \fBblmon\fR.
+.SH OPTIONS
+.BR
+.PP
+.TP 
+\fB-a
+\fR
+.IP
+Displays the average license usage. By default, averages from the first event logged to 
+the current time. If -T is used with this option, averages from the start time.
+
+.IP
+Not compatible with -s option.
+
+
+.TP 
+\fB-s
+\fR
+.IP
+Displays the license usage after instant data is treated by gnuplot smooth.
+
+.IP
+Not compatible with -a option.
+
+
+.TP 
+\fB-f ps\fR [\fB/\fRfile_name]
+
+.IP
+Creates a postscript file in the current working directory. You can specify a file name in 
+the format token.server.ps.
+
+.IP
+For example:
+
+.IP
+blmon -t "myjob1/LanServer.ps" -f ps produces myjob1.LanServer.ps
+
+
+.TP 
+\fB-t "\fRtoken_name[\fB/\fRservice_domain]...\fB"
+\fR
+.IP
+Displays data about the specified licenses. If you specify a service domain, displays 
+information for the specified service domain only. Separate multiple items with space. 
+Enclose the list in quotes. 
+
+
+.TP 
+\fB-T "\fRstart_time,end_time"
+
+.IP
+Displays information about license usage within the specified static time interval.
+
+.IP
+Specify time in the format "year/month/day/hour:minute". 
+
+.IP
+For more information, see notes at the end of this document.
+
+
+.TP 
+-w \fIhours\fR | \fB-w\fR \fIminutes\fRm
+
+.IP
+Displays dynamically updated information about license usage over the specified time 
+interval, computed according to following formulae:
+
+.IP
+start_time = (current time) - (time interval)
+
+.IP
+end_time = current time
+
+.IP
+For time interval, specify an integer representing a number of hours or minutes; append 
+m to indicate minutes instead of hours.
+
+
+.TP 
+\fB-Y\fR tokens
+
+.IP
+Sets the maximum value of the Y-axis to the specified number of tokens.
+
+
+.TP 
+\fB-h
+\fR
+.IP
+Prints command usage to stderr and exits.
+
+
+.TP 
+\fB-V
+\fR
+.IP
+Prints the release version to stderr and exits.
+
+
+.SH TIME INTERVAL FORMAT
+.BR
+.PP
+.PP
+You use the time interval to define a start and end time for collecting the data to be 
+retrieved and displayed. While you can specify both a start and an end time, you can also 
+let one of the values default. You can specify either of the times as an absolute time, by 
+specifying the date or time, or you can specify them relative to the current time.
+.PP
+Specify the time interval is follows:
+.PP
+\fIstart_time\fR,end_time|\fIstart_time\fR,|\fB,\fRend_time|\fIstart_time
+\fR.PP
+Specify \fIstart_time\fR or \fIend_time\fR in the following format:
+.PP
+[\fIyear\fR/][\fImonth\fR/][\fIday\fR][\fB/\fRhour:minute|\fB/\fRhour:]|\fB.\fR|\fB.-\fRrelative_int
+.PP
+Where:
+.RS
+.HP 2
+\(bu \fIyear\fR is a four-digit number representing the calendar year.
+.HP 2
+\(bu \fImonth\fR is a number from 1 to 12, where 1 is January and 12 is December.
+.HP 2
+\(bu \fIday\fR is a number from 1 to 31, representing the day of the month.
+.HP 2
+\(bu \fIhour\fR is an integer from 0 to 23, representing the hour of the day on a 24-hour clock.
+.HP 2
+\(bu \fIminute\fR is an integer from 0 to 59, representing the minute of the hour.
+.HP 2
+\(bu \fB.\fR (period) represents the current month/day/hour:minute. 
+.HP 2
+\(bu \fB.-\fRrelative_int is a number, from 1 to 31, specifying a relative start or end time prior 
+to now.
+.RE
+.SS \fIstart_time\fR,end_time
+.BR
+.PP
+.IP
+Specifies both the start and end times of the interval.
+
+.RE
+.SS \fIstart_time\fR\fB,\fR
+.BR
+.PP
+.IP
+Specifies a start time, and lets the end time default to now.
+
+.RE
+.SS \fB,\fRend_time
+.BR
+.PP
+.IP
+Specifies to start with the first logged occurrence, and end at the time specified.
+
+.RE
+.SS \fIstart_time\fR
+.BR
+.PP
+.IP
+Starts at the beginning of the most specific time period specified, and ends at 
+the maximum value of the time period specified. For example, 2/ specifies the 
+month of February--start February 1 at 00:00 a.m. and end at the last possible 
+minute in February: February 28th at midnight.
+
+.RE
+.SS ABSOLUTE TIME EXAMPLES
+.BR
+.PP
+
+.IP
+Assume the current time is May 9 17:06 2002:
+
+.IP
+\fB1,8 \fR= May 1 00:00 2002 to May 8 23:59 2002
+
+.IP
+\fB,4\fR = the time of the first occurrence to May 4 23:59 2002
+
+.IP
+\fB6 \fR= May 6 00:00 2002 to May 6 23:59 2002
+
+.IP
+\fB2/\fR = Feb 1 00:00 2002 to Feb 28 23:59 2002
+
+.IP
+\fB/12:\fR = May 9 12:00 2002 to May 9 12:59 2002
+
+.IP
+\fB2/1\fR = Feb 1 00:00 2002 to Feb 1 23:59 2002
+
+.IP
+\fB2/1, \fR= Feb 1 00:00 to the current time
+
+.IP
+\fB,.\fR = the time of the first occurrence to the current time
+
+.IP
+\fB,2/10:\fR = the time of the first occurrence to May 2 10:59 2002
+
+.IP
+\fB2001/12/31,2002/5/1\fR = from Dec 31, 2001 00:00:00 to May 1st 2002 23:59:59
+
+
+.SS RELATIVE TIME EXAMPLES
+.BR
+.PP
+
+.IP
+Assume the current time is May 9 17:06 2002:
+
+.IP
+\fB.-9,\fR = April 30 17:06 2002 to the current time
+
+.IP
+\fB,.-2/\fR = the time of the first occurrence to Mar 7 17:06 2002
+
+.IP
+\fB \.-9,.-2\fR = nine days ago to two days ago (April 30, 2002 17:06 to May 7, 2002 
+17:06)
+
+.IP
+
+.\" Generated by Quadralay WebWorks Publisher Professional Edition 6.0.7
+.\" Based on template lsf_manpage_tem
+.\" Copyright 1994-2003 Platform Computing Corporation

@@ -1,0 +1,160 @@
+
+.ad l
+
+.ll 72
+
+.TH ch 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBch\fR
+.sp 2
+   changes the host on which subsequent commands are to be
+   executed
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+ch [-S] [-t] [host_name]
+.sp 2
+ch [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Changes the host on which subsequent commands are to be
+   executed.
+.sp 2
+   By default, if no arguments are specified, changes the current
+   host to the home host, the host from which the ch command was
+   issued.
+.sp 2
+   By default, executes commands on the home host.
+.sp 2
+   By default, shell mode support is not enabled.
+.sp 2
+   By default, does not display execution time of tasks.
+.sp 2
+   The ch command allows you to quickly change to a designated
+   host with the same execution environment. A simple shell is
+   started that delivers all subsequent commands (except built-in
+   commands) to the designated host for execution.
+.sp 2
+   When the simple shell starts, it is in the current working
+   directory and has the same command execution environment as
+   that of the parent shell. Every remotely dispatched command is
+   executed with the same environment as that on the home host.
+   The syntax of the ch command is similar to that of the Bourne
+   shell. However, there are some important differences.
+.sp 2
+   The ampersand (\fR&)\fR following a command line (representing
+   a background job in the Bourne shell) is ignored by ch. You
+   can submit background jobs in ch with the built-in post
+   command and bring them into the foreground with the built-in
+   contact command (see below for details).
+.sp 2
+   ch recognizes a ~ (tilde) as a special path name. If a ~
+   (tilde) is followed by a space, tab, new line or / (slash)
+   character, then the ~ character is translated into the user’s
+   home directory. Otherwise, the ~ is translated as the home
+   directory of the user name given by the string following the ~
+   character. Pipelines, lists of commands and redirection of
+   standard input/output are all handled by invoking /bin/sh.
+.sp 2
+   The following sequence of commands illustrates the behavior of
+   the ch command. For example, the user is currently on
+   \fRhostA\fR:
+.sp 2
+   ch hostBhostB> ch hostChostC> chhostA> ... ...
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-S\fR
+.br
+               Starts remote tasks with shell mode support. Shell
+               mode support is required for running interactive
+               shells or applications that redefine the CTRL-C
+               and CTRL-Z keys (for example, jove).
+.sp 2
+   \fB-t\fR
+.br
+               Turns on the timing option. The amount of time
+               each subsequent command takes to execute is
+               displayed.
+.sp 2
+   \fB\fIhost_name\fB\fR
+.br
+               Executes subsequent commands on the specified
+               host.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   The ch command interprets the following built-in commands:
+.sp 2
+   \fBcd [\fIdirectory_name\fB] \fR
+.br
+               Changes the current working directory to the
+               specified directory. If a directory is not
+               specified, changes to the user’s home directory by
+               default.
+.sp 2
+   \fBch [\fIhost_name\fB] \fR
+.br
+               Changes the current working host to the specified
+               host. If a host is not specified, changes to the
+               home host by default.
+.sp 2
+   \fBpost [\fIcommand\fB [\fIargument\fB ...]] \fR
+.br
+               Posts the specified command for execution in the
+               background on the current working host. ch assigns
+               a unique task ID to this command and displays this
+               ID, then continues to interact with the user.
+               However, the output of background jobs may disturb
+               the screen. You can post multiple commands on one
+               host or on different hosts. When a previously
+               posted command is completed, ch reports its status
+               to the standard error. If a command is not
+               specified, ch displays all currently running
+               background commands.
+.sp 2
+   \fBcontact \fItask_ID\fB \fR
+.br
+               Brings a previously posted background command into
+               the foreground. task_ID is the ID returned by the
+               post command. Standard input is now passed to this
+               foreground command. You cannot put an active
+               foreground job into the background. A command that
+               has been brought into the foreground with the
+               contact command cannot be put back into the
+               background.
+.sp 2
+   \fBexit \fR
+.br
+               Exits ch if there are no posted commands running.
+               Typing an EOF character (usually CTRL-D but may be
+               set otherwise, see stty(1)) forces ch to exit;
+               uncompleted posted commands are killed.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   Currently, the ch command does not support script, history,
+   nor alias.
+.sp 2
+   The ch prompt is always the current working host:current
+   working directory followed by a > (right angle bracket)
+   character. If the ch session is invoked by a shell that
+   supports job control (such as \fRtcsh\fR or \fRksh\fR), CTRL-Z
+   suspends the whole ch session. The exit status of a command
+   line is printed to stderr if the status is non-zero.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsrun(1), \fRrsh\fR(1), \fRstty\fR(1)
+.sp 2

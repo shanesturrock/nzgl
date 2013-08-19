@@ -1,0 +1,2110 @@
+
+.ad l
+
+.ll 72
+
+.TH lsb.resources 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsb.resources\fR
+.sp 2
+   The lsb.resources file contains configuration information for
+   resource allocation limits, exports, and resource usage
+   limits. This file is optional.
+.sp 2
+   The lsb.resources file is stored in the directory
+   LSB_CONFDIR/\fIcluster_name\fR/configdir, where LSB_CONFDIR is
+   defined in lsf.conf.
+.sp 2 .SH "Changing lsb.resources configuration"
+\fBChanging lsb.resources configuration\fR
+.sp 2
+   After making any changes to lsb.resources, run badmin reconfig
+   to reconfigure mbatchd.
+.sp 2
+\fBLimit section\fR
+.sp 2
+   The Limit section sets limits for the maximum amount of the
+   specified resources that must be available for different
+   classes of jobs to start, and which resource consumers the
+   limits apply to. Limits are enforced during job resource
+   allocation.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         For limits to be enforced, jobs must specify rusage
+         resource requirements (bsub -R or RES_REQ in
+         lsb.queues).
+.sp 2
+   The blimits command displays view current usage of resource
+   allocation limits configured in Limit sections in
+   lsb.resources:
+.sp 2 .SH "Limit section structure"
+\fBLimit section structure\fR
+.sp 2
+   Each set of limits is defined in a Limit section enclosed by
+   Begin Limit and End Limit.
+.sp 2
+   A Limit section has two formats:
+.sp 2
+     o  
+         Vertical tabular
+.sp 2
+     o  
+         Horizontal
+.sp 2
+   The file can contain sections in both formats. In either
+   format, you must configure a limit for at least one consumer
+   and one resource. The Limit section cannot be empty.
+.sp 2 .SH "Vertical tabular format"
+\fBVertical tabular format\fR
+.sp 2
+   Use the vertical format for simple configuration conditions
+   involving only a few consumers and resource limits.
+.sp 2
+   The first row consists of an optional NAME and the following
+   keywords for:
+.sp 2
+     o  
+         Resource types:
+.sp 2
+           o  
+               SLOTS or SLOTS_PER_PROCESSOR
+.sp 2
+           o  
+               MEM (MB or percentage)
+.sp 2
+           o  
+               SWP (MB or percentage)
+.sp 2
+           o  
+               TMP (MB or percentage)
+.sp 2
+           o  
+               LICENSE
+.sp 2
+           o  
+               JOBS
+.sp 2
+           o  
+               RESOURCE
+.sp 2
+     o  
+         Consumer types:
+.sp 2
+           o  
+               USERS or PER_USER
+.sp 2
+           o  
+               QUEUES or PER_QUEUE
+.sp 2
+           o  
+               HOSTS or PER_HOST
+.sp 2
+           o  
+               PROJECTS or PER_PROJECT
+.sp 2
+   Each subsequent row describes the configuration information
+   for resource consumers and the limits that apply to them. Each
+   line must contain an entry for each keyword. Use empty
+   parentheses () or a dash (-) to specify the default value for
+   an entry. Fields cannot be left blank. For resources, the
+   default is no limit; for consumers, the default is all
+   consumers.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         Multiple entries must be enclosed in parentheses. For
+         RESOURCE and LICENSE limits, resource and license names
+         must be enclosed in parentheses.
+.sp 2 .SH "Horizontal format"
+\fBHorizontal format\fR
+.sp 2
+   Use the horizontal format to give a name for your limits and
+   to configure more complicated combinations of consumers and
+   resource limits.
+.sp 2
+   The first line of the Limit section gives the name of the
+   limit configuration.
+.sp 2
+   Each subsequent line in the Limit section consists of keywords
+   identifying the resource limits:
+.sp 2
+     o  
+         Job slots and per-processor job slots
+.sp 2
+     o  
+         Memory (MB or percentage)
+.sp 2
+     o  
+         Swap space (MB or percentage)
+.sp 2
+     o  
+         Tmp space (MB or percentage)
+.sp 2
+     o  
+         Software licenses
+.sp 2
+     o  
+         Running and suspended (RUN, SSUSP, USUSP) jobs
+.sp 2
+     o  
+         Other shared resources
+.sp 2
+   and the resource \fIconsumers\fR to which the limits apply:
+.sp 2
+     o  
+         Users and user groups
+.sp 2
+     o  
+         Hosts and host groups
+.sp 2
+     o  
+         Queues
+.sp 2
+     o  
+         Projects
+.sp 2 .SH "Example: Vertical tabular format"
+\fBExample: Vertical tabular format\fR
+.sp 2
+   In the following limit configuration:
+.sp 2
+     o  
+         Jobs from \fRuser1\fR and \fRuser3\fR are limited to 2
+         job slots on \fRhostA\fR
+.sp 2
+     o  
+         Jobs from \fRuser2\fR on queue \fRnormal\fR are limited
+         to 20 MB of memory
+.sp 2
+     o  
+         The short queue can have at most 200 running and
+         suspended jobs
+.sp 2
+   Begin Limit
+.sp 2
+   NAME    USERS           QUEUES   HOSTS     SLOTS  MEM   SWP  TMP  JOBS
+.sp 2
+   limit1  (user1 user3)    -       hostA     2       -     -    -     -
+.sp 2
+    -       user2           normal       -     -      20     -    -     -
+.sp 2
+    -       -               short        -     -       -     -    -    200
+.sp 2
+   End Limit
+.sp 2
+   Jobs that do not match these limits; that is, all users except
+   \fRuser1\fR and \fRuser3\fR running jobs on \fRhostA\fR and
+   all users except \fRuser2\fR submitting jobs to queue
+   \fRnormal\fR, have no limits.
+.sp 2 .SH "Example: Horizontal format"
+\fBExample: Horizontal format\fR
+.sp 2
+   All users in user group \fRugroup1\fR except \fRuser1\fR using
+   \fRqueue1\fR and \fRqueue2\fR and running jobs on hosts in
+   host group \fRhgroup1\fR are limited to 2 job slots per
+   processor on each host:
+.sp 2
+   Begin Limit 
+.sp 2
+   # ugroup1 except user1 uses queue1 and queue2 with 2 job slots 
+.sp 2
+   # on each host in hgroup1 
+.sp 2
+   NAME          = limit1 
+.sp 2
+   # Resources 
+.sp 2
+   SLOTS_PER_PROCESSOR = 2 
+.sp 2
+   #Consumers
+.sp 2
+   QUEUES       = queue1 queue2 
+.sp 2
+   USERS        = ugroup1 ~user1 
+.sp 2
+   PER_HOST     = hgroup1 
+.sp 2
+   End Limit
+.sp 2 .SH "Compatibility with lsb.queues, lsb.users, and lsb.hosts"
+\fBCompatibility with lsb.queues, lsb.users, and lsb.hosts\fR
+.sp 2
+   The Limit section of lsb.resources does not support the
+   keywords or format used in lsb.users, lsb.hosts, and
+   lsb.queues. However, your existing job slot limit
+   configuration in these files will continue to apply.
+.sp 2
+   Job slot limits are the only type of limit you can configure
+   in lsb.users, lsb.hosts, and lsb.queues. You cannot configure
+   limits for user groups, host groups, and projects in
+   lsb.users, lsb.hosts, and lsb.queues. You should not configure
+   any new resource allocation limits in lsb.users, lsb.hosts,
+   and lsb.queues. Use lsb.resources to configure all new
+   resource allocation limits, including job slot limits. Limits
+   on running and suspended jobs can only be set in
+   lsb.resources.
+.sp 2
+   Existing limits in lsb.users, lsb.hosts, and lsb.queues with
+   the same scope as a new limit in lsb.resources, but with a
+   different value are ignored. The value of the new limit in
+   lsb.resources is used. Similar limits with different scope
+   enforce the most restrictive limit.
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         HOSTS
+.sp 2
+     o  
+         JOBS
+.sp 2
+     o  
+         LICENSE
+.sp 2
+     o  
+         MEM
+.sp 2
+     o  
+         NAME
+.sp 2
+     o  
+         PER_HOST
+.sp 2
+     o  
+         PER_PROJECT
+.sp 2
+     o  
+         PER_QUEUE
+.sp 2
+     o  
+         PER_USER
+.sp 2
+     o  
+         PROJECTS
+.sp 2
+     o  
+         QUEUES
+.sp 2
+     o  
+         RESOURCE
+.sp 2
+     o  
+         SLOTS
+.sp 2
+     o  
+         SLOTS_PER_PROCESSOR
+.sp 2
+     o  
+         SWP
+.sp 2
+     o  
+         TMP
+.sp 2
+     o  
+         USERS
+.sp 2
+\fBHOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHOSTS=all\fR [\fR~\fR]\fIhost_name\fR ... | \fRall\fR
+   [\fR~\fR]\fIhost_group\fR ...
+.sp 2
+   \fRHOSTS\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIhost_name\fR ... |
+   \fRall\fR [\fR~\fR]\fIhost_group\fR ... \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of hosts, host groups defined in
+   lsb.hosts on which limits are enforced. Limits are enforced on
+   all hosts or host groups listed.
+.sp 2
+   If a group contains a subgroup, the limit also applies to each
+   member in the subgroup recursively.
+.sp 2
+   To specify a per-host limit, use the PER_HOST keyword. Do not
+   configure HOSTS and PER_HOST limits in the same Limit section.
+.sp 2
+   If you specify MEM, TMP, or SWP as a percentage, you must
+   specify PER_HOST and list the hosts that the limit is to be
+   enforced on. You cannot specify HOSTS.
+.sp 2
+   In horizontal format, use only one HOSTS line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to all
+   hosts in a cluster.
+.sp 2
+   Use the not operator (~) to exclude hosts from the all
+   specification in the limit. This is useful if you have a large
+   cluster but only want to exclude a few hosts from the limit
+   definition.
+.sp 2
+   In vertical tabular format, multiple host names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate all hosts. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (limits are enforced on all hosts in the cluster).
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   HOSTS=Group1 ~hostA hostB hostC
+.sp 2
+   Enforces limits on \fRhostB\fR, \fRhostC\fR, and all hosts in
+   \fRGroup1\fR except for \fRhostA\fR.
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   HOSTS=all ~group2 ~hostA
+.sp 2
+   Enforces limits on all hosts in the cluster, except for
+   \fRhostA\fR and the hosts in \fRgroup2\fR.
+.sp 2 .SH "Example 3"
+\fBExample 3\fR
+.sp 2
+   HOSTS                        SWP (all ~hostK ~hostM)           10
+.sp 2
+   Enforces a 10 MB swap limit on all hosts in the cluster,
+   except for \fRhostK\fR and \fRhostM\fR
+.sp 2
+
+.sp 2
+\fBJOBS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOBS=\fR\fIinteger\fR
+.sp 2
+   \fRJOBS\fR
+.sp 2
+   \fR-\fR | \fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum number of running or suspended (RUN, SSUSP, USUSP)
+   jobs available to resource consumers. Specify a positive
+   integer greater than or equal 0. Job limits can be defined in
+   both vertical and horizontal limit formats.
+.sp 2
+   With MultiCluster resource lease model, this limit applies
+   only to local hosts being used by the local cluster. The job
+   limit for hosts exported to a remote cluster is determined by
+   the host export policy, not by this parameter. The job limit
+   for borrowed hosts is determined by the host export policy of
+   the remote cluster.
+.sp 2
+   If SLOTS are configured in the Limit section, the most
+   restrictive limit is applied.
+.sp 2
+   If HOSTS are configured in the Limit section, JOBS is the
+   number of running and suspended jobs on a host. If preemptive
+   scheduling is used, the suspended jobs are not counted against
+   the job limit.
+.sp 2
+   Use this parameter to prevent a host from being overloaded
+   with too many jobs, and to maximize the throughput of a
+   machine.
+.sp 2
+   If only QUEUES are configured in the Limit section, JOBS is
+   the maximum number of jobs that can run in the listed queues
+   for any hosts, users, or projects.
+.sp 2
+   If only USERS are configured in the Limit section, JOBS is the
+   maximum number of jobs that the users or user groups can run
+   on any hosts, queues, or projects.
+.sp 2
+   If only HOSTS are configured in the Limit section, JOBS is the
+   maximum number of jobs that can run on the listed hosts for
+   any users, queues, or projects.
+.sp 2
+   If only PROJECTS are configured in the Limit section, JOBS is
+   the maximum number of jobs that can run under the listed
+   projects for any users, queues, or hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, HOSTS or PER_HOST,
+   and PROJECTS or PER_PROJECT in combination to further limit
+   jobs available to resource consumers.
+.sp 2
+   In horizontal format, use only one JOBS line per Limit
+   section.
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate the default value (no limit). Fields cannot be left
+   blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOBS=20
+.sp 2
+\fBLICENSE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLICENSE=\fR[\fIlicense_name\fR\fR,\fR\fIinteger\fR]
+   [[\fIlicense_name\fR\fR,\fR\fIinteger\fR] ...]
+.sp 2
+   \fRLICENSE\fR
+.sp 2
+   \fR(\fR [\fIlicense_name\fR\fR,\fR\fIinteger\fR]
+   [[\fIlicense_name\fR\fR,\fR\fIinteger\fR] ...] \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum number of specified software licenses available to
+   resource consumers. The value must be a positive integer
+   greater than or equal to zero.
+.sp 2
+   Software licenses must be defined as decreasing numeric shared
+   resources in lsf.shared.
+.sp 2
+   The RESOURCE keyword is a synonym for the LICENSE keyword. You
+   cannot specify RESOURCE and LICENSE in the same Limit section.
+.sp 2
+   In horizontal format, use only one LICENSE line per Limit
+   section.
+.sp 2
+   In vertical tabular format, license entries must be enclosed
+   in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate the default value (no limit). Fields cannot be
+   left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   LICENSE=[verilog,4] [spice,2]
+.sp 2
+   Begin Limit
+.sp 2
+   LICENSE                    PER_HOST
+.sp 2
+   ([verilog, 1])             (all ~hostA)
+.sp 2
+   ([verilog, 1] [spice,2])   (hostA)
+.sp 2
+   End Limit
+.sp 2
+\fBMEM\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMEM=\fR\fIinteger\fR[\fR%\fR]
+.sp 2
+   \fRMEM\fR
+.sp 2
+   \fR-\fR | \fIinteger\fR[\fR%\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum amount of memory available to resource consumers.
+   Specify a value in MB or a percentage (%) as a positive
+   integer greater than or equal 0. If you specify a percentage,
+   you must also specify PER_HOST and list the hosts that the
+   limit is to be enforced on.
+.sp 2
+   The Limit section is ignored if MEM is specified as a
+   percentage:
+.sp 2
+     o  
+         Without PER_HOST, or
+.sp 2
+     o  
+         With HOSTS
+.sp 2
+   In horizontal format, use only one MEM line per Limit section.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate the default value (no limit). Fields cannot be
+   left blank.
+.sp 2
+   If only QUEUES are configured in the Limit section, MEM must
+   be an integer value. MEM is the maximum amount of memory
+   available to the listed queues for any hosts, users, or
+   projects.
+.sp 2
+   If only USERS are configured in the Limit section, MEM must be
+   an integer value. MEM is the maximum amount of memory that the
+   users or user groups can use on any hosts, queues, or
+   projects.
+.sp 2
+   If only HOSTS are configured in the Limit section, MEM must be
+   an integer value. It cannot be a percentage. MEM is the
+   maximum amount of memory available to the listed hosts for any
+   users, queues, or projects.
+.sp 2
+   If only PROJECTS are configured in the Limit section, MEM must
+   be an integer value. MEM is the maximum amount of memory
+   available to the listed projects for any users, queues, or
+   hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, HOSTS or PER_HOST,
+   and PROJECTS or PER_PROJECT in combination to further limit
+   memory available to resource consumers.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   MEM=20
+.sp 2
+\fBNAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNAME=\fR\fIlimit_name\fR
+.sp 2
+   \fRNAME\fR
+.sp 2
+   \fR-\fR | \fIlimit_name\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Name of the Limit section
+.sp 2
+   Specify any ASCII string 40 characters or less. You can use
+   letters, digits, underscores (_) or dashes (-). You cannot use
+   blank spaces.
+.sp 2
+   If duplicate limit names are defined, the Limit section is
+   ignored. If value of NAME is not defined in vertical format,
+   or defined as (-), blimtis displays \fRNONAME\fInnn\fR\fR.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. In horizontal format, you must provide a name for the
+   Limit section. NAME is optional in the vertical format.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   NAME=short_limits
+.sp 2
+\fBPER_HOST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPER_HOST=all\fR [~]\fIhost_name\fR ... | all
+   [\fR~\fR]\fIhost_group\fR ...
+.sp 2
+   \fRPER_HOST\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIhost_name\fR ... |
+   \fRall \fR[\fR~\fR]\fIhost_group\fR ... \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of host or host groups defined in
+   lsb.hosts on which limits are enforced. Limits are enforced on
+   each host or individually to each host of the host group
+   listed. If a group contains a subgroup, the limit also applies
+   to each member in the subgroup recursively.
+.sp 2
+   Do not configure PER_HOST and HOSTS limits in the same Limit
+   section.
+.sp 2
+   In horizontal format, use only one PER_HOST line per Limit
+   section.
+.sp 2
+   If you specify MEM, TMP, or SWP as a percentage, you must
+   specify PER_HOST and list the hosts that the limit is to be
+   enforced on. You cannot specify HOSTS.
+.sp 2
+   Use the keyword all to configure limits that apply to each
+   host in a cluster. If host groups are configured, the limit
+   applies to each member of the host group, not the group as a
+   whole.
+.sp 2
+   Use the not operator (~) to exclude hosts or host groups from
+   the all specification in the limit. This is useful if you have
+   a large cluster but only want to exclude a few hosts from the
+   limit definition.
+.sp 2
+   In vertical tabular format, multiple host names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate each host or host group member. Fields cannot
+   be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. If no limit is specified for PER_HOST or HOST, no limit
+   is enforced on any host or host group.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PER_HOST=hostA hgroup1 ~hostC
+.sp 2
+\fBPER_PROJECT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPER_PROJECT=all\fR [\fR~\fR]\fIproject_name\fR ...
+.sp 2
+   \fRPER_PROJECT\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIproject_name\fR ...
+   \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of project names on which limits are
+   enforced. Limits are enforced on each project listed.
+.sp 2
+   Do not configure PER_PROJECT and PROJECTS limits in the same
+   Limit section.
+.sp 2
+   In horizontal format, use only one PER_PROJECT line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to each
+   project in a cluster.
+.sp 2
+   Use the not operator (~) to exclude projects from the all
+   specification in the limit.
+.sp 2
+   In vertical tabular format, multiple project names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate each project. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. If no limit is specified for PER_PROJECT or PROJECTS, no
+   limit is enforced on any project.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PER_PROJECT=proj1 proj2
+.sp 2
+\fBPER_QUEUE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPER_QUEUE=all\fR [\fR~\fR]\fIqueue_name\fR ..
+.sp 2
+   \fRPER_QUEUE\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIqueue_name\fR ...
+   \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of queue names on which limits are
+   enforced. Limits are enforced on jobs submitted to each queue
+   listed.
+.sp 2
+   Do not configure PER_QUEUE and QUEUES limits in the same Limit
+   section.
+.sp 2
+   In horizontal format, use only one PER_QUEUE line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to each
+   queue in a cluster.
+.sp 2
+   Use the not operator (~) to exclude queues from the all
+   specification in the limit. This is useful if you have a large
+   number of queues but only want to exclude a few queues from
+   the limit definition.
+.sp 2
+   In vertical tabular format, multiple queue names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate each queue. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. If no limit is specified for PER_QUEUE or QUEUES, no
+   limit is enforced on any queue.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PER_QUEUE=priority night
+.sp 2
+\fBPER_USER\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPER_USER=all\fR [\fR~\fR]\fIuser_name\fR ... | \fRall\fR
+   [\fR~\fR]\fIuser_group\fR ...
+.sp 2
+   \fRPER_USER\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIuser_name\fR ... |
+   \fRall\fR [\fR~\fR]\fIuser_group\fR ... \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of user names or user groups on which
+   limits are enforced. Limits are enforced on each user or
+   individually to each user in the user group listed. If a user
+   group contains a subgroup, the limit also applies to each
+   member in the subgroup recursively.
+.sp 2
+   User names must be valid login names. User group names can be
+   LSF user groups or UNIX and Windows user groups. Note that for
+   LSF and UNIX user groups, the groups must be specified in a
+   UserGroup section in lsb.users first.
+.sp 2
+   Do not configure PER_USER and USERS limits in the same Limit
+   section.
+.sp 2
+   In horizontal format, use only one PER_USER line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to each
+   user in a cluster. If user groups are configured, the limit
+   applies to each member of the user group, not the group as a
+   whole.
+.sp 2
+   Use the not operator (~) to exclude users or user groups from
+   the all specification in the limit. This is useful if you have
+   a large number of users but only want to exclude a few users
+   from the limit definition.
+.sp 2
+   In vertical tabular format, multiple user names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate user or user group member. Fields cannot be
+   left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. If no limit is specified for PER_USER or USERS, no limit
+   is enforced on any user or user group.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PER_USER=user1 user2 ugroup1 ~user3
+.sp 2
+\fBPROJECTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPROJECTS=all\fR [\fR~\fR]\fIproject_name\fR ...
+.sp 2
+   \fRPROJECTS\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIproject_name\fR ...
+   \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of project names on which limits are
+   enforced. Limits are enforced on all projects listed.
+.sp 2
+   To specify a per-project limit, use the PER_PROJECT keyword.
+   Do not configure PROJECTS and PER_PROJECT limits in the same
+   Limit section.
+.sp 2
+   In horizontal format, use only one PROJECTS line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to all
+   projects in a cluster.
+.sp 2
+   Use the not operator (~) to exclude projects from the all
+   specification in the limit. This is useful if you have a large
+   number of projects but only want to exclude a few projects
+   from the limit definition.
+.sp 2
+   In vertical tabular format, multiple project names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate all projects. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (limits are enforced on all projects in the cluster)
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PROJECTS=projA projB
+.sp 2
+\fBQUEUES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRQUEUES=all\fR [\fR~\fR]\fIqueue_name\fR ...
+.sp 2
+   \fRQUEUES\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIqueue_name\fR ...
+   \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of queue names on which limits are
+   enforced. Limits are enforced on all queues listed.
+.sp 2
+   The list must contain valid queue names defined in lsb.queues.
+.sp 2
+   To specify a per-queue limit, use the PER_QUEUE keyword. Do
+   not configure QUEUES and PER_QUEUE limits in the same Limit
+   section.
+.sp 2
+   In horizontal format, use only one QUEUES line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to all
+   queues in a cluster.
+.sp 2
+   Use the not operator (~) to exclude queues from the all
+   specification in the limit. This is useful if you have a large
+   number of queues but only want to exclude a few queues from
+   the limit definition.
+.sp 2
+   In vertical tabular format, multiple queue names must be
+   enclosed in parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate all queues. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (limits are enforced on all queues in the cluster)
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   QUEUES=normal night
+.sp 2
+\fBRESOURCE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRESOURCE=\fR[\fIshared_resource\fR\fR,\fR\fIinteger\fR]
+   [[\fIshared_resource\fR\fR,\fR\fIinteger\fR] ...]
+.sp 2
+   \fRRESOURCE\fR
+.sp 2
+   \fR(\fR [[\fIshared_resource\fR\fR,\fR\fIinteger\fR]
+   [[\fIshared_resource\fR\fR,\fR\fIinteger\fR] ...] \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum amount of any user-defined shared resource available
+   to consumers.
+.sp 2
+   The RESOURCE keyword is a synonym for the LICENSE keyword. You
+   can use RESOURCE to configure software licenses. You cannot
+   specify RESOURCE and LICENSE in the same Limit section.
+.sp 2
+   In horizontal format, use only one RESOURCE line per Limit
+   section.
+.sp 2
+   In vertical tabular format, resource names must be enclosed in
+   parentheses.
+.sp 2
+   In vertical tabular format, use empty parentheses () or a dash
+   (-) to indicate all queues. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   RESOURCE=[stat_shared,4]
+.sp 2
+   Begin Limit
+.sp 2
+   RESOURCE                       PER_HOST
+.sp 2
+   ([stat_shared,4])              (all ~hostA)
+.sp 2
+   ([dyn_rsrc,1] [stat_rsrc,2])  (hostA)
+.sp 2
+   End Limit
+.sp 2
+\fBSLOTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOTS=\fR\fIinteger\fR
+.sp 2
+   \fRSLOTS\fR
+.sp 2
+   \fR-\fR | \fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum number of job slots available to resource consumers.
+   Specify a positive integer greater than or equal 0.
+.sp 2
+   With MultiCluster resource lease model, this limit applies
+   only to local hosts being used by the local cluster. The job
+   slot limit for hosts exported to a remote cluster is
+   determined by the host export policy, not by this parameter.
+   The job slot limit for borrowed hosts is determined by the
+   host export policy of the remote cluster.
+.sp 2
+   If JOBS are configured in the Limit section, the most
+   restrictive limit is applied.
+.sp 2
+   If HOSTS are configured in the Limit section, SLOTS is the
+   number of running and suspended jobs on a host. If preemptive
+   scheduling is used, the suspended jobs are not counted as
+   using a job slot.
+.sp 2
+   To fully use the CPU resource on multiprocessor hosts, make
+   the number of job slots equal to or greater than the number of
+   processors.
+.sp 2
+   Use this parameter to prevent a host from being overloaded
+   with too many jobs, and to maximize the throughput of a
+   machine.
+.sp 2
+   Use “!” to make the number of job slots equal to the number of
+   CPUs on a host.
+.sp 2
+   If the number of CPUs in a host changes dynamically, mbatchd
+   adjusts the maximum number of job slots per host accordingly.
+   Allow the mbatchd up to 10 minutes to get the number of CPUs
+   for a host. During this period the value of SLOTS is 1.
+.sp 2
+   If only QUEUES are configured in the Limit section, SLOTS is
+   the maximum number of job slots available to the listed queues
+   for any hosts, users, or projects.
+.sp 2
+   If only USERS are configured in the Limit section, SLOTS is
+   the maximum number of job slots that the users or user groups
+   can use on any hosts, queues, or projects.
+.sp 2
+   If only HOSTS are configured in the Limit section, SLOTS is
+   the maximum number of job slots that are available to the
+   listed hosts for any users, queues, or projects.
+.sp 2
+   If only PROJECTS are configured in the Limit section, SLOTS is
+   the maximum number of job slots that are available to the
+   listed projects for any users, queues, or hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, HOSTS or PER_HOST,
+   and PROJECTS or PER_PROJECT in combination to further limit
+   job slots per processor available to resource consumers.
+.sp 2
+   In horizontal format, use only one SLOTS line per Limit
+   section.
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate the default value (no limit). Fields cannot be left
+   blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   SLOTS=20
+.sp 2
+\fBSLOTS_PER_PROCESSOR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOTS_PER_PROCESSOR=\fR\fInumber\fR
+.sp 2
+   \fRSLOTS_PER_PROCESSOR\fR
+.sp 2
+   \fR-\fR | \fInumber\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Per processor job slot limit, based on the number of
+   processors on each host affected by the limit.
+.sp 2
+   Maximum number of job slots that each resource consumer can
+   use per processor. This job slot limit is configured per
+   processor so that multiprocessor hosts will automatically run
+   more jobs.
+.sp 2
+   You must also specify PER_HOST and list the hosts that the
+   limit is to be enforced on. The Limit section is ignored if
+   SLOTS_PER_PROCESSOR is specified:
+.sp 2
+     o  
+         Without PER_HOST, or
+.sp 2
+     o  
+         With HOSTS
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate the default value (no limit). Fields cannot be left
+   blank.
+.sp 2
+   To fully use the CPU resource on multiprocessor hosts, make
+   the number of job slots equal to or greater than the number of
+   processors.
+.sp 2
+   Use this parameter to prevent a host from being overloaded
+   with too many jobs, and to maximize the throughput of a
+   machine.
+.sp 2
+   This number can be a fraction such as 0.5, so that it can also
+   serve as a per-CPU limit on multiprocessor machines. This
+   number is rounded up to the nearest integer equal to or
+   greater than the total job slot limits for a host. For
+   example, if SLOTS_PER_PREOCESSOR is 0.5, on a 4-CPU
+   multiprocessor host, users can only use up to 2 job slots at
+   any time. On a single-processor machine, users can use 1 job
+   slot.
+.sp 2
+   Use “!” to make the number of job slots equal to the number of
+   CPUs on a host.
+.sp 2
+   If the number of CPUs in a host changes dynamically, mbatchd
+   adjusts the maximum number of job slots per host accordingly.
+   Allow the mbatchd up to 10 minutes to get the number of CPUs
+   for a host. During this period the number of CPUs is 1.
+.sp 2
+   If only QUEUES and PER_HOST are configured in the Limit
+   section, SLOTS_PER_PROCESSOR is the maximum amount of job
+   slots per processor available to the listed queues for any
+   hosts, users, or projects.
+.sp 2
+   If only USERS and PER_HOST are configured in the Limit
+   section, SLOTS_PER_PROCESSOR is the maximum amount of job
+   slots per processor that the users or user groups can use on
+   any hosts, queues, or projects.
+.sp 2
+   If only PER_HOST is configured in the Limit section,
+   SLOTS_PER_PROCESSOR is the maximum amount of job slots per
+   processor available to the listed hosts for any users, queues,
+   or projects.
+.sp 2
+   If only PROJECTS and PER_HOST are configured in the Limit
+   section, SLOTS_PER_PROCESSOR is the maximum amount of job
+   slots per processor available to the listed projects for any
+   users, queues, or hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, PER_HOST, and
+   PROJECTS or PER_PROJECT in combination to further limit job
+   slots per processor available to resource consumers.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   SLOTS_PER_PROCESSOR=2
+.sp 2
+\fBSWP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSWP=\fR\fIinteger\fR[\fR%\fR]
+.sp 2
+   \fRSWP\fR
+.sp 2
+   \fR-\fR | \fIinteger\fR[\fR%\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum amount of swap space available to resource consumers.
+   Specify a value in MB or a percentage (%) as a positive
+   integer greater than or equal 0. If you specify a percentage,
+   you must also specify PER_HOST and list the hosts that the
+   limit is to be enforced on.
+.sp 2
+   The Limit section is ignored if SWP is specified as a
+   percentage:
+.sp 2
+     o  
+         Without PER_HOST, or
+.sp 2
+     o  
+         With HOSTS
+.sp 2
+   In horizontal format, use only one SWP line per Limit section.
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate the default value (no limit). Fields cannot be left
+   blank.
+.sp 2
+   If only QUEUES are configured in the Limit section, SWP must
+   be an integer value. SWP is the maximum amount of swap space
+   available to the listed queues for any hosts, users, or
+   projects.
+.sp 2
+   If only USERS are configured in the Limit section, SWP must be
+   an integer value. SWP is the maximum amount of swap space that
+   the users or user groups can use on any hosts, queues, or
+   projects.
+.sp 2
+   If only HOSTS are configured in the Limit section, SWP must be
+   an integer value. SWP is the maximum amount of swap space
+   available to the listed hosts for any users, queues, or
+   projects.
+.sp 2
+   If only PROJECTS are configured in the Limit section, SWP must
+   be an integer value. SWP is the maximum amount of swap space
+   available to the listed projects for any users, queues, or
+   hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, HOSTS or PER_HOST,
+   and PROJECTS or PER_PROJECT in combination to further limit
+   swap space available to resource consumers.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   SWP=60
+.sp 2
+\fBTMP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRTMP=\fR\fIinteger\fR[\fR%\fR]
+.sp 2
+   \fRTMP\fR
+.sp 2
+   \fR-\fR | \fIinteger\fR[\fR%\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum amount of tmp space available to resource consumers.
+   Specify a value in MB or a percentage (%) as a positive
+   integer greater than or equal 0. If you specify a percentage,
+   you must also specify PER_HOST and list the hosts that the
+   limit is to be enforced on.
+.sp 2
+   The Limit section is ignored if TMP is specified as a
+   percentage:
+.sp 2
+     o  
+         Without PER_HOST, or
+.sp 2
+     o  
+         With HOSTS
+.sp 2
+   In horizontal format, use only one TMP line per Limit section.
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate the default value (no limit). Fields cannot be left
+   blank.
+.sp 2
+   If only QUEUES are configured in the Limit section, TMP must
+   be an integer value. TMP is the maximum amount of tmp space
+   available to the listed queues for any hosts, users, or
+   projects.
+.sp 2
+   If only USERS are configured in the Limit section, TMP must be
+   an integer value. TMP is the maximum amount of tmp space that
+   the users or user groups can use on any hosts, queues, or
+   projects.
+.sp 2
+   If only HOSTS are configured in the Limit section, TMP must be
+   an integer value. TMP is the maximum amount of tmp space
+   available to the listed hosts for any users, queues, or
+   projects.
+.sp 2
+   If only PROJECTS are configured in the Limit section, TMP must
+   be an integer value. TMP is the maximum amount of tmp space
+   available to the listed projects for any users, queues, or
+   hosts.
+.sp 2
+   Use QUEUES or PER_QUEUE, USERS or PER_USER, HOSTS or PER_HOST,
+   and PROJECTS or PER_PROJECT in combination to further limit
+   tmp space available to resource consumers.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No limit
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   TMP=20%
+.sp 2
+\fBUSERS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUSERS=all\fR [\fR~\fR]\fIuser_name\fR ... | \fRall\fR
+   [\fR~\fR]\fIuser_group\fR ...
+.sp 2
+   \fRUSERS\fR
+.sp 2
+   \fR(\fR [\fR-\fR] | \fRall\fR [\fR~\fR]\fIuser_name\fR ... |
+   \fRall\fR [\fR~\fR]\fIuser_group\fR ... \fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of user names or user groups on which
+   limits are enforced. Limits are enforced on all users or
+   groups listed. Limits apply to a group as a whole.
+.sp 2
+   If a group contains a subgroup, the limit also applies to each
+   member in the subgroup recursively.
+.sp 2
+   User names must be valid login names. User group names can be
+   LSF user groups or UNIX and Windows user groups.
+.sp 2
+   To specify a per-user limit, use the PER_USER keyword. Do not
+   configure USERS and PER_USER limits in the same Limit section.
+.sp 2
+   In horizontal format, use only one USERS line per Limit
+   section.
+.sp 2
+   Use the keyword all to configure limits that apply to all
+   users or user groups in a cluster.
+.sp 2
+   Use the not operator (~) to exclude users or user groups from
+   the all specification in the limit. This is useful if you have
+   a large number of users but only want to exclude a few users
+   or groups from the limit definition.
+.sp 2
+   In vertical format, multiple user names must be enclosed in
+   parentheses.
+.sp 2
+   In vertical format, use empty parentheses () or a dash (-) to
+   indicate all users or groups. Fields cannot be left blank.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (limits are enforced on all users in the cluster)
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   USERS=user1 user2
+.sp 2
+\fBHostExport section\fR
+.sp 2
+   Defines an export policy for a host or a group of related
+   hosts. Defines how much of each host’s resources are exported,
+   and how the resources are distributed among the consumers.
+.sp 2
+   Each export policy is defined in a separate HostExport
+   section, so it is normal to have multiple HostExport sections
+   in lsb.resources.
+.sp 2 .SH "HostExport section structure"
+\fBHostExport section structure\fR
+.sp 2
+   Use empty parentheses ( ) or a dash (-) to specify the default
+   value for an entry. Fields cannot be left blank.
+.sp 2 .SH "Example HostExport section"
+\fBExample HostExport section\fR
+.sp 2
+   Begin HostExport PER_HOST= hostA hostB SLOTS= 4 DISTRIBUTION= [cluster1, 1] [cluster2, 3] MEM= 100 SWAP= 100 End HostExport
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         PER_HOST
+.sp 2
+     o  
+         RES_SELECT
+.sp 2
+     o  
+         NHOSTS
+.sp 2
+     o  
+         DISTRIBUTION
+.sp 2
+     o  
+         MEM
+.sp 2
+     o  
+         SLOTS
+.sp 2
+     o  
+         SWAP
+.sp 2
+     o  
+         TYPE
+.sp 2
+\fBPER_HOST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPER_HOST=\fR\fIhost_name\fR...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required when exporting special hosts.
+.sp 2
+   Determines which hosts to export. Specify one or more LSF
+   hosts by name. Separate names by space.
+.sp 2
+\fBRES_SELECT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRES_SELECT=\fR\fIres_req \fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required when exporting workstations.
+.sp 2
+   Determines which hosts to export. Specify the selection part
+   of the resource requirement string (without quotes or
+   parentheses), and LSF will automatically select hosts that
+   meet the specified criteria. For this parameter, if you do not
+   specify the required host type, the default is type==any.
+.sp 2
+   When LSF_STRICT_RESREQ=Y is configured in lsf.conf, resource
+   requirement strings in select sections must conform to a more
+   strict syntax. The strict resource requirement syntax only
+   applies to the select section. It does not apply to the other
+   resource requirement sections (order, rusage, same, span, or
+   cu). When LSF_STRICT_RESREQ=Y in lsf.conf, LSF rejects
+   resource requirement strings where an rusage section contains
+   a non-consumable resource.
+.sp 2
+   The criteria is only evaluated once, when a host is exported.
+.sp 2
+\fBNHOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNHOSTS=\fR\fIinteger \fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required when exporting workstations.
+.sp 2
+   Maximum number of hosts to export. If there are not this many
+   hosts meeting the selection criteria, LSF exports as many as
+   it can.
+.sp 2
+\fBDISTRIBUTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDISTRIBUTION=(\fR[\fIcluster_name\fR,
+   \fInumber_shares\fR]...\fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. Specifies how the exported resources are distributed
+   among consumer clusters.
+.sp 2
+   The syntax for the distribution list is a series of share
+   assignments. The syntax of each share assignment is the
+   cluster name, a comma, and the number of shares, all enclosed
+   in square brackets, as shown. Use a space to separate multiple
+   share assignments. Enclose the full distribution list in a set
+   of round brackets.
+.sp 2
+   \fIcluster_name\fR
+.sp 2
+   Specify the name of a remote cluster that will be allowed to
+   use the exported resources. If you specify a local cluster,
+   the assignment is ignored.
+.sp 2
+   \fInumber_shares\fR
+.sp 2
+   Specify a positive integer representing the number of shares
+   of exported resources assigned to the cluster.
+.sp 2
+   The number of shares assigned to a cluster is only meaningful
+   when you compare it to the number assigned to other clusters,
+   or to the total number. The total number of shares is just the
+   sum of all the shares assigned in each share assignment.
+.sp 2
+\fBMEM\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMEM=\fR\fImegabytes \fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Used when exporting special hosts. Specify the amount of
+   memory to export on each host, in MB.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   - (provider and consumer clusters compete for available
+   memory)
+.sp 2
+\fBSLOTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOTS=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required when exporting special hosts. Specify the number of
+   job slots to export on each host.
+.sp 2
+   To avoid overloading a partially exported host, you can reduce
+   the number of job slots in the configuration of the local
+   cluster.
+.sp 2
+\fBSWAP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSWAP=\fR\fImegabytes \fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Used when exporting special hosts. Specify the amount of swap
+   space to export on each host, in MB.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   - (provider and consumer clusters compete for available swap
+   space)
+.sp 2
+\fBTYPE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRTYPE=shared\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Changes the lease type from exclusive to shared.
+.sp 2
+   If you export special hosts with a shared lease (using
+   PER_HOST), you cannot specify multiple consumer clusters in
+   the distribution policy.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined (the lease type is exclusive; exported resources are
+   never available to the provider cluster)
+.sp 2
+\fBSharedResourceExport section\fR
+.sp 2
+   Optional. Requires HostExport section. Defines an export
+   policy for a shared resource. Defines how much of the shared
+   resource is exported, and the distribution among the
+   consumers.
+.sp 2
+   The shared resource must be available on hosts defined in the
+   HostExport sections.
+.sp 2 .SH "SharedResourceExport section structure"
+\fBSharedResourceExport section structure\fR
+.sp 2
+   All parameters are required.
+.sp 2 .SH "Example SharedResourceExport section"
+\fBExample SharedResourceExport section\fR
+.sp 2
+   Begin SharedResourceExport 
+.sp 2
+   NAME= AppLicense 
+.sp 2
+   NINSTANCES= 10 
+.sp 2
+   DISTRIBUTION= ([C1, 30] [C2, 70]) 
+.sp 2
+   End SharedResourceExport
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         NAME
+.sp 2
+     o  
+         NINSTANCES
+.sp 2
+     o  
+         DISTRIBUTION
+.sp 2
+\fBNAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNAME=\fR\fIshared_resource_name\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Shared resource to export. This resource must be available on
+   the hosts that are exported to the specified clusters; you
+   cannot export resources without hosts.
+.sp 2
+\fBNINSTANCES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNINSTANCES=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum quantity of shared resource to export. If the total
+   number available is less than the requested amount, LSF
+   exports all that are available.
+.sp 2
+\fBDISTRIBUTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDISTRIBUTION=(\fR[\fIcluster_name\fR,
+   \fInumber_shares\fR]...\fR)\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies how the exported resources are distributed among
+   consumer clusters.
+.sp 2
+   The syntax for the distribution list is a series of share
+   assignments. The syntax of each share assignment is the
+   cluster name, a comma, and the number of shares, all enclosed
+   in square brackets, as shown. Use a space to separate multiple
+   share assignments. Enclose the full distribution list in a set
+   of round brackets.
+.sp 2
+   \fIcluster_name\fR
+.sp 2
+   Specify the name of a cluster allowed to use the exported
+   resources.
+.sp 2
+   \fInumber_shares\fR
+.sp 2
+   Specify a positive integer representing the number of shares
+   of exported resources assigned to the cluster.
+.sp 2
+   The number of shares assigned to a cluster is only meaningful
+   when you compare it to the number assigned to other clusters,
+   or to the total number. The total number of shares is the sum
+   of all the shares assigned in each share assignment.
+.sp 2
+\fBResourceReservation section\fR
+.sp 2
+   By default, only LSF administrators or root can add or delete
+   advance reservations.
+.sp 2
+   The ResourceReservation section defines an advance reservation
+   policy. It specifies:
+.sp 2
+     o  
+         Users or user groups that can create reservations
+.sp 2
+     o  
+         Hosts that can be used for the reservation
+.sp 2
+     o  
+         Time window when reservations can be created
+.sp 2
+   Each advance reservation policy is defined in a separate
+   ResourceReservation section, so it is normal to have multiple
+   ResourceReservation sections in lsb.resources.
+.sp 2 .SH "Example ResourceReservation section"
+\fBExample ResourceReservation section\fR
+.sp 2
+   Only \fRuser1\fR and \fRuser2\fR can make advance reservations
+   on \fRhostA\fR and \fRhostB\fR. The reservation time window is
+   between 8:00 a.m. and 6:00 p.m. every day:
+.sp 2
+   Begin ResourceReservation 
+.sp 2
+   NAME        = dayPolicy 
+.sp 2
+   USERS       = user1 user2     # optional 
+.sp 2
+   HOSTS       = hostA hostB     # optional 
+.sp 2
+   TIME_WINDOW = 8:00-18:00      # weekly recurring reservation 
+.sp 2
+   End ResourceReservation 
+.sp 2
+   \fRuser1\fR can add the following reservation for user
+   \fRuser2\fR to use on \fRhostA\fR every Friday between 9:00
+   a.m. and 11:00 a.m.:
+.sp 2
+   % user1@hostB> brsvadd -m "hostA" -n 1 -u "user2" -t "5:9:0-5:11:0" Reservation "user2#2" is created
+.sp 2
+   Users can only delete reservations they created themselves. In
+   the example, only user \fRuser1\fR can delete the reservation;
+   \fRuser2\fR cannot. Administrators can delete any reservations
+   created by users.
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         HOSTS
+.sp 2
+     o  
+         NAME
+.sp 2
+     o  
+         TIME_WINDOW
+.sp 2
+     o  
+         USERS
+.sp 2
+\fBHOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHOSTS=\fR[\fR~\fR]\fIhost_name\fR |
+   [\fR~\fR]\fIhost_group\fR | \fRall\fR | \fRallremote\fR |
+   \fRall@\fR\fIcluster_name\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of hosts, host groups defined in
+   lsb.hosts on which administrators or users specified in the
+   USERS parameter can create advance reservations.
+.sp 2
+   The hosts can be local to the cluster or hosts leased from
+   remote clusters.
+.sp 2
+   If a group contains a subgroup, the reservation configuration
+   applies to each member in the subgroup recursively.
+.sp 2
+   Use the keyword all to configure reservation policies that
+   apply to all local hosts in a cluster not explicitly excluded.
+   This is useful if you have a large cluster but you want to use
+   the not operator (~) to exclude a few hosts from the list of
+   hosts where reservations can be created.
+.sp 2
+   Use the keyword allremote to specify all hosts borrowed from
+   all remote clusters.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         You cannot specify host groups or host partitions that
+         contain the allremote keyword.
+.sp 2
+   Use all@\fIcluster_name\fR to specify the group of all hosts
+   borrowed from one remote cluster. You cannot specify a host
+   group or partition that includes remote resources.
+.sp 2
+   With MultiCluster resource leasing model, the not operator (~)
+   can be used to exclude local hosts or host groups. You cannot
+   use the not operator (~) with remote hosts.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   HOSTS=hgroup1 ~hostA hostB hostC
+.sp 2
+   Advance reservations can be created on \fRhostB\fR,
+   \fRhostC\fR, and all hosts in \fRhgroup1\fR except for
+   \fRhostA\fR.
+.sp 2
+   HOSTS=all ~group2 ~hostA
+.sp 2
+   Advance reservations can be created on all hosts in the
+   cluster, except for \fRhostA\fR and the hosts in \fRgroup2\fR.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all allremote (users can create reservations on all server
+   hosts in the local cluster, and all leased hosts in a remote
+   cluster).
+.sp 2
+\fBNAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNAME=\fR\fItext\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. Name of the ResourceReservation section
+.sp 2
+   Specify any ASCII string 40 characters or less. You can use
+   letters, digits, underscores (_) or dashes (-). You cannot use
+   blank spaces.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   NAME=reservation1
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. You must provide a name for the ResourceReservation
+   section.
+.sp 2
+\fBTIME_WINDOW\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRTIME_WINDOW=\fR\fItime_window\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Time window for users to create advance
+   reservations. The time for reservations that users create must
+   fall within this time window.
+.sp 2
+   Use the same format for \fItime_window\fR as the recurring
+   reservation option (-t) of brsvadd. To specify a time window,
+   specify two time values separated by a hyphen (-), with no
+   space in between:
+.sp 2
+   time_window = begin_time-end_time
+.sp 2 .SH "Time format"
+\fBTime format\fR
+.sp 2
+   Times are specified in the format:
+.sp 2
+   [day:]hour[:minute]
+.sp 2
+   where all fields are numbers with the following ranges:
+.sp 2
+     o  
+         \fIday of the week\fR: 0-6 (0 is Sunday)
+.sp 2
+     o  
+         \fIhour\fR: 0-23
+.sp 2
+     o  
+         \fIminute\fR: 0-59
+.sp 2
+   Specify a time window one of the following ways:
+.sp 2
+     o  
+         \fIhour\fR-\fIhour\fR
+.sp 2
+     o  
+         \fIhour\fR:\fIminute\fR-\fIhour\fR:\fIminute\fR
+.sp 2
+     o  
+         \fIday\fR:\fIhour\fR:\fIminute\fR-\fIday\fR:\fIhour\fR:\fIminute\fR
+.sp 2
+   The default value for minute is 0 (on the hour); the default
+   value for day is every day of the week.
+.sp 2
+   You must specify at least the hour. Day of the week and minute
+   are optional. Both the start time and end time values must use
+   the same syntax. If you do not specify a minute, LSF assumes
+   the first minute of the hour (\fR:00\fR). If you do not
+   specify a day, LSF assumes every day of the week. If you do
+   specify the day, you must also specify the minute.
+.sp 2
+   You can specify multiple time windows, but they cannot
+   overlap. For example:
+.sp 2
+   timeWindow(8:00-14:00 18:00-22:00)
+.sp 2
+   is correct, but
+.sp 2
+   timeWindow(8:00-14:00 11:00-15:00)
+.sp 2
+   is not valid.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   TIME_WINDOW=8:00-14:00
+.sp 2
+   Users can create advance reservations with begin time (brsvadd
+   -b), end time (brsvadd -e), or time window (brsvadd -t) on any
+   day between 8:00 a.m. and 2:00 p.m.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined (any time)
+.sp 2
+\fBUSERS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUSERS=\fR[\fR~\fR]\fIuser_name\fR |
+   [\fR~\fR]\fIuser_group\fR ... | \fRall\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of user names or user groups who are
+   allowed to create advance reservations. Administrators, root,
+   and all users or groups listed can create reservations.
+.sp 2
+   If a group contains a subgroup, the reservation policy applies
+   to each member in the subgroup recursively.
+.sp 2
+   User names must be valid login names. User group names can be
+   LSF user groups or UNIX and Windows user groups.
+.sp 2
+   Use the keyword all to configure reservation policies that
+   apply to all users or user groups in a cluster. This is useful
+   if you have a large number of users but you want to exclude a
+   few users or groups from the reservation policy.
+.sp 2
+   Use the not operator (~) to exclude users or user groups from
+   the list of users who can create reservations.
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         The not operator does not exclude LSF administrators
+         from the policy.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   USERS=user1 user2
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (all users in the cluster can create reservations)
+.sp 2
+\fBReservationUsage section\fR
+.sp 2
+   To enable greater flexibility for reserving numeric resources
+   that are reserved by jobs, configure the ReservationUsage
+   section in lsb.resources to reserve resources like license
+   tokens per resource as PER_JOB, PER_SLOT, or PER_HOST. For
+   example:
+.sp 2 .SH "Example ReservationUsage section"
+\fBExample ReservationUsage section\fR
+.sp 2
+   Begin ReservationUsage 
+.sp 2
+   RESOURCE             METHOD        RESERVE
+.sp 2
+   licenseX             PER_JOB           Y
+.sp 2
+   licenseY             PER_HOST          N
+.sp 2
+   licenseZ             PER_SLOT          N
+.sp 2
+   End ReservationUsage
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         RESOURCE
+.sp 2
+     o  
+         METHOD
+.sp 2
+     o  
+         RESERVE
+.sp 2
+\fBRESOURCE\fR
+.sp 2
+   The name of the resource to be reserved. User-defined numeric
+   resources can be reserved, but only if they are shared (they
+   are not specific to one host).
+.sp 2
+   The following built-in resources can be configured in the
+   ReservationUsage section and reserved:
+.sp 2
+     o  
+         mem
+.sp 2
+     o  
+         tmp
+.sp 2
+     o  
+         swp
+.sp 2
+   Any custom resource can also be reserved if it is shared
+   (defined in the Resource section of lsf.shared) or host based
+   (listed in the Host section of the lsf.cluster file in the
+   resource column).
+.sp 2
+\fBMETHOD\fR
+.sp 2
+   The resource reservation method. One of:
+.sp 2
+     o  
+         PER_JOB
+.sp 2
+     o  
+         PER_HOST
+.sp 2
+     o  
+         PER_SLOT
+.sp 2
+   The cluster-wide RESOURCE_RESERVE_PER_SLOT parameter in
+   lsb.params is obsolete.
+.sp 2
+   RESOURCE_RESERVE_PER_SLOT parameter still controls resources
+   not configured in lsb.resources. Resources not reserved in
+   lsb.resources are reserved per job.
+.sp 2
+   PER_HOST reservation means that for the parallel job, LSF
+   reserves one instance of a for each host. For example, some
+   application licenses are charged only once no matter how many
+   applications are running provided those applications are
+   running on the same host under the same user.
+.sp 2
+   Use no method ("-") when setting mem, swp, or tmp as
+   \fRRESERVE=Y\fR.
+.sp 2
+\fBRESERVE\fR
+.sp 2
+   Reserves the resource for pending jobs that are waiting for
+   another resource to become available.
+.sp 2
+   For example, job A requires resources X, Y, and Z to run, but
+   resource Z is a high demand or scarce resource. This job pends
+   until Z is available. In the meantime, other jobs requiring
+   only X and Y resources run. If X and Y are set as reservable
+   resources (the \fBRESERVE\fR parameter is set to "Y"), as soon
+   as Z resource is available, job A runs. If they are not, job A
+   may never be able to run because all resources are never
+   available at the same time.
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         Only the following built-in resources can be defined as
+         reservable:
+.sp 2
+           o  
+               mem
+.sp 2
+           o  
+               swp
+.sp 2
+           o  
+               tmp
+.sp 2
+   Use no method ("-") when setting mem, swp, or tmp as
+   \fRRESERVE=Y\fR.
+.sp 2
+   When submitting a job, the queue must have RESOURCE_RESERVE
+   defined.
+.sp 2
+   Backfill of the reservable resources is also supported when
+   you submit a job with reservable resources to a queue with
+   BACKFILL defined.
+.sp 2
+   Valid values are Y and N. If not specified, resources are not
+   reserved.
+.sp 2 .SH "Assumptions and limitations"
+\fBAssumptions and limitations\fR
+.sp 2
+     o  
+         Per-resource configuration defines resource usage for
+         individual resources, but it does not change any
+         existing resource limit behavior (PER_JOB, PER_SLOT).
+.sp 2
+     o  
+         In a MultiCluster environment, you should configure
+         resource usage in the scheduling cluster (submission
+         cluster in lease model or receiving cluster in job
+         forward model).
+.sp 2
+\fBAutomatic time-based configuration\fR
+.sp 2
+   Variable configuration is used to automatically change LSF
+   configuration based on time windows. You define automatic
+   configuration changes in lsb.resources by using if-else
+   constructs and time expressions. After you change the files,
+   reconfigure the cluster with the badmin reconfig command.
+.sp 2
+   The expressions are evaluated by LSF every 10 minutes based on
+   mbatchd start time. When an expression evaluates true, LSF
+   dynamically changes the configuration based on the associated
+   configuration statements. Reconfiguration is done in real time
+   without restarting mbatchd, providing continuous system
+   availability.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   # limit usage of hosts in 'license1' group and time 
+.sp 2
+   # based configuration
+.sp 2
+   # - 10 jobs can run from normal queue
+.sp 2
+   # - any number can run from short queue between 18:30 
+.sp 2
+   #   and 19:30
+.sp 2
+   #   all other hours you are limited to 100 slots in the 
+.sp 2
+   #   short queue
+.sp 2
+   # - each other queue can run 30 jobs
+.sp 2
+
+.sp 2
+   Begin Limit
+.sp 2
+   PER_QUEUE               HOSTS       SLOTS     # Example
+.sp 2
+   normal                  license1    10
+.sp 2
+   # if time(18:30-19:30)     
+.sp 2
+   short                   license1    -  
+.sp 2
+   #else
+.sp 2
+   short                   license1    100
+.sp 2
+   #endif    
+.sp 2
+   (all ~normal ~short)    license1    30     
+.sp 2
+   End Limit

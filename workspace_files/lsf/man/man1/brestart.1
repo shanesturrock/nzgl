@@ -1,0 +1,124 @@
+
+.ad l
+
+.ll 72
+
+.TH brestart 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrestart\fR
+.sp 2
+   restarts checkpointed jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brestart [bsub_options] [-f] checkpoint_dir [job_ID |
+"job_ID[index]"]
+.sp 2
+brestart [-h | -V]
+.sp 2 .SH "Option List"
+\fBOption List\fR
+.sp 2
+-B
+.sp 2
+-f
+.sp 2
+-N
+.sp 2
+-x
+.sp 2
+-b begin_time
+.sp 2
+-C core_limit
+.sp 2
+-c [hour:]minute[/host_name | /host_model]
+.sp 2
+-D data_limit
+.sp 2
+-E "pre_exec_command [argument ...]"
+.sp 2
+-F file_limit
+.sp 2
+-m "host_name[+[pref_level]] | host_group[+[pref_level]] ..."
+.sp 2
+-G user_group
+.sp 2
+-M mem_limit
+.sp 2
+-q "queue_name ..."
+.sp 2
+-S stack_limit
+.sp 2
+-t term_time
+.sp 2
+-w 'dependency_expression'
+.sp 2
+-W run_limit[/host_name| /host_model]
+.sp 2
+checkpoint_dir [job_ID | "job_ID[index]"]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Restarts a checkpointed job using the checkpoint files saved
+   in \fIcheckpoint_dir/last_job_ID/\fR. Only jobs that have been
+   successfully checkpointed can be restarted.
+.sp 2
+   Jobs are re-submitted and assigned a new job ID. The
+   checkpoint directory is renamed using the new job ID,
+   \fIcheckpoint_dir/new_job_ID/. \fR
+.sp 2
+   The file path of the checkpoint directory can contain up to
+   4094 characters for UNIX and Linux, or up to 255 characters
+   for Windows, including the directory and file name.
+.sp 2
+   By default, jobs are restarted with the same output file and
+   file transfer specifications, job name, window signal value,
+   checkpoint directory and period, and rerun options as the
+   original job.
+.sp 2
+   To restart a job on another host, both hosts must be binary
+   compatible, run the same OS version, have access to the
+   executable, have access to all open files (LSF must locate
+   them with an absolute path name), and have access to the
+   checkpoint directory.
+.sp 2
+   The environment variable LSB_RESTART is set to Y when a job is
+   restarted.
+.sp 2
+   LSF invokes the erestart(8) executable found in LSF_SERVERDIR
+   to perform the restart.
+.sp 2
+   Only the bsub options listed here can be used with brestart.
+.sp 2
+   Like bsub, brestart calls the master esub (mesub), which
+   invokes any mandatory esub executables configured by an LSF
+   administrator, and any executable named esub (without
+   \fI.application\fR) if it exists in \fBLSF_SERVERDIR\fR. Only
+   esub executables invoked by bsub can change the job
+   environment on the submission host. An esub invoked by
+   brestart cannot change the job environment.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   The following option applies only to brestart.
+.sp 2
+   \fB-f\fR
+.br
+               Forces the job to be restarted even if
+               non-restartable conditions exist (these conditions
+               are operating system specific).
+.sp 2
+   See bsub(1) for a description of all other options.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   In kernel-level checkpointing, you cannot change the value of
+   core limit, CPU limit, stack limit or memory limit with
+   brestart.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsub(1), bjobs(1), bmod(1), bqueues(1), bhosts(1), bchkpnt(1),
+   lsbqueues(5), \fRechkpnt\fR(8), \fRerestart\fR(8),
+   \fRmbatchd\fR(8)

@@ -1,0 +1,110 @@
+
+.ad l
+
+.ll 72
+
+.TH lsloadadj 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsloadadj\fR
+.sp 2
+   adjusts load indices on hosts
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsloadadj [-R res_req] [host_name[:num_task] ...]
+.sp 2
+lsloadadj [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Adjusts load indices on hosts. This is useful if a task
+   placement decision is made outside LIM by another application.
+.sp 2
+   By default, assumes tasks are CPU-intensive and
+   memory-intensive. This means the CPU and memory load indices
+   are adjusted to a higher number than other load indices.
+.sp 2
+   By default, adjusts load indices on the local host, the host
+   from which the command was submitted.
+.sp 2
+   By default, starts 1 task.
+.sp 2
+   Upon receiving a load adjustment request, LIM temporarily
+   increases the load on hosts according to resource
+   requirements. This helps LIM avoid sending too many jobs to
+   the same host in quick succession. The adjusted load decays
+   over time before the real load produced by the dispatched task
+   is reflected in LIM’s load information.
+.sp 2
+   lsloadadj adjusts all indices except for \fRls\fR (login
+   sessions), \fRit\fR (idle time), \fRr15m\fR (15-minute run
+   queue length) and external load indices. Other load indices
+   can only be adjusted beyond specific maximum values.
+.sp 2
+     o  
+         tmp is -0.5
+.sp 2
+     o  
+         swp is -1.5
+.sp 2
+     o  
+         mem is -1.0
+.sp 2
+     o  
+         r1m is 0.4
+.sp 2
+     o  
+         ut is 15%
+.sp 2
+     o  
+         r15s is 0.1
+.sp 2
+     o  
+         pg is 0.3
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-R \fIres_req\fB\fR
+.br
+               Specify resource requirements for tasks. Only the
+               resource usage (rusage) section of the resource
+               requirement string is considered. This is used by
+               LIM to determine by how much individual load
+               indices are to be adjusted.
+.sp 2
+               For example, if a task is swap-space-intensive,
+               load adjustment on the \fRswp\fR load index is
+               higher; other indices are increased only slightly.
+.sp 2
+   \fB\fIhost_name\fB[:\fInum_task\fB] ... \fR
+.br
+               Specify a list of hosts for which load is to be
+               adjusted. num_task indicates the number of tasks
+               to be started on the host.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fRlsloadadj -R "rusage[swp=20:mem=10]"\fR
+.sp 2
+   Adjusts the load indices \fRswp\fR and \fRmem\fR on the host
+   from which the command was submitted.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Returns -1 if a bad parameter is specified; otherwise returns
+   0.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsinfo(1), lsplace(1), lsload(1), \fRls_loadadj(3)\fR
+.sp 2

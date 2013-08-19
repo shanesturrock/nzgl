@@ -1,0 +1,197 @@
+
+.ad l
+
+.ll 72
+
+.TH blusers 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblusers\fR
+.sp 2
+   displays license usage information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blusers [-J | -l | -P -j job_ID -u user_name -m host_name | -P -c
+cluster_name -j job_ID -u user_name -m host_name]
+.sp 2
+blusers [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, displays summarized information about usage of
+   licenses.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-J\fR
+.br
+               Displays detailed license resource request
+               information about each job.
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays additional license usage
+               information.
+.sp 2
+   \fB-P -j \fIjob_ID\fB -u \fIuser_name\fB -m \fIhost_name\fB\fR
+.br
+   \fB-P -c \fIcluster_name\fB -j \fIjob_ID\fB -u \fIuser_name\fB
+   -m \fIhost_name\fB\fR
+.br
+               This string of options is designed to be used in a
+               customized preemption script. To identify a job,
+               specify the LSF job ID, the user name, and the
+               name of the host where the job is running.
+.br
+               (If the job is an interactive task submitted using
+               taskman, do not specify \fI-c cluster_name\fR.)
+.sp 2
+               You see the display terminal used by the job, the
+               licenses it has checked out, and the license
+               servers that provided the licenses. There is one
+               line of output for each license feature from each
+               FLEXnet license server, in the format:
+.sp 2
+               \fIport_number\fR@\fIhost_name token_name
+               user_name host_name display\fR
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints License Scheduler release version to stderr
+               and exits.
+.sp 2 .SH "Default Output"
+\fBDefault Output\fR
+.sp 2
+   \fBFEATURE \fR
+.br
+               The license name. This becomes the license token
+               name.
+.sp 2
+   \fBSERVICE_DOMAIN\fR
+.br
+               The name of the service domain that provided the
+               license.
+.sp 2
+   \fBUSER \fR
+.br
+               The name of the user who submitted the jobs.
+.sp 2
+   \fBHOST \fR
+.br
+               The name of the host where jobs have started.
+.sp 2
+   \fBNLICS\fR
+.br
+               The number of licenses checked out from FLEXnet.
+.sp 2
+   \fBNTASKS\fR
+.br
+               The number of running tasks using these licenses.
+.sp 2 .SH "-J Output"
+\fB-J Output\fR
+.sp 2
+   Displays the following summary information for each job:
+.sp 2
+   \fBJOBID \fR
+.br
+               The job ID assigned by LSF.
+.sp 2
+   \fBUSER \fR
+.br
+               The name of the user who submitted the job.
+.sp 2
+   \fBHOST \fR
+.br
+               The name of the host where the job has been
+               started.
+.sp 2
+   \fBPROJECT \fR
+.br
+               The name of the license project that the job is
+               associated with.
+.sp 2
+   \fBCLUSTER \fR
+.br
+               The name of the LSF cluster that the job is
+               associated with. Displays “-” for an interactive
+               job.
+.sp 2
+   \fBSTART_TIME \fR
+.br
+               The job start time.
+.sp 2
+               Displays the following information for each
+               license in use by the job:
+.sp 2
+   \fBRESOURCE\fR
+.br
+               The name of the license requested by the job.
+.sp 2
+   \fBRUSAGE \fR
+.br
+               The number of licenses requested by the job.
+.sp 2
+   \fBSERVICE_DOMAIN\fR
+.br
+               The name of the service domain that provided the
+               license.
+.sp 2
+               The keyword UNKNOWN means the job requested a
+               license from License Scheduler but has not checked
+               out the license from FLEXnet.
+.sp 2 .SH "Long Output (-l)"
+\fBLong Output (-l)\fR
+.sp 2
+   Displays the default output and the following additional
+   information for each job:
+.sp 2
+   \fBOTHERS\fR
+.br
+               License usage for non-managed or non-LSF workload.
+.sp 2
+   \fBDISPLAYS\fR
+.br
+               Terminal display associated with the license
+               feature.
+.sp 2 .SH "Viewing license feature locality"
+\fBViewing license feature locality\fR
+.sp 2
+   When LOCAL_TO is configured for a feature in
+   lsf.licensescheduler, blusers shows the cluster locality
+   information for the license features. For example:
+.sp 2
+   blusers
+.sp 2
+   FEATURE          SERVICE_DOMAIN  USER     HOST       NLICS    NTASKS
+.sp 2
+   hspice@clusterA  SD1             user1    host1      1        1
+.sp 2
+   hspice@siteB     SD2             user2    host2      1        1
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   blusers -l
+.sp 2
+   FEATURE  SERVICE_DOMAIN  USER   HOST    NLICS   NTASKS OTHERS  DISPLAYS 
+.sp 2
+   feat1    LanServer       user1  hostA   1       1      0     (/dev/tty) 
+.sp 2
+   blusers -J
+.sp 2
+   JOBID   USER      HOST      PROJECT             CLUSTER        START_TIME
+.sp 2
+   553     user1     hostA     p3                  cluster1       Oct  5 15:47:14
+.sp 2
+   RESOURCE        RUSAGE        SERVICE_DOMAIN
+.sp 2
+   p1_f1           1             app_1
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   blhosts, blinfo, blstat

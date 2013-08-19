@@ -1,0 +1,5 @@
+cp /home/shane/workspace_files/lsf/bin/* /usr/bin
+cp /home/shane/workspace_files/lsf/man/man1/* /usr/share/man/man1
+cp /home/shane/workspace_files/lsf/man/man3/* /usr/share/man/man3
+cp /home/shane/workspace_files/lsf/man/man5/* /usr/share/man/man5
+cp /home/shane/workspace_files/lsf/man/man8/* /usr/share/man/man8

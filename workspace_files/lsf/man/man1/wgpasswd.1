@@ -1,0 +1,52 @@
+
+.ad l
+
+.ll 72
+
+.TH wgpasswd 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBwgpasswd\fR
+.sp 2
+   changes a user’s password for an entire Microsoft Windows
+   workgroup
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+wgpasswd [user_name]
+.sp 2
+wgpasswd [-h]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   You must run this command on a host in a Windows workgroup.
+   You must have administrative privileges to change another
+   user’s password.
+.sp 2
+   Prompts for old and new passwords, then changes the password
+   on every host in the workgroup.
+.sp 2
+   By default, modifies your own user account.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIuser_name\fB\fR
+.br
+               Specifies the account to modify. You must have
+               administrative privileges to change another user’s
+               password.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   For each host in the workgroup, returns the status of the
+   operation (SUCCESS or FAILED).
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Modifies the LSF password file.
+.sp 2

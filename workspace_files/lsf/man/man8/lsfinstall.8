@@ -1,0 +1,190 @@
+
+.ad l
+
+.ll 72
+
+.TH lsfinstall 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsfinstall\fR
+.sp 2
+   runs lsfinstall, the Platform LSF installation and
+   configuration script
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsfinstall -f install.configlsfinstall -s -f
+slave.configlsfinstall -h
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   lsfinstall runs the LSF installation scripts and configuration
+   utilities to install a new Platform LSF cluster or upgrade LSF
+   from a previous release.
+.sp 2
+   To install a fully operational LSF cluster that all users can
+   access, you should install as root.
+.sp 2
+   You can run lsfinstall as a non-root user, with limitations.
+.sp 2 .SH "Required install.config variables"
+\fBRequired install.config variables\fR
+.sp 2
+     o  
+         LSF_TOP="/\fIpath\fR"
+.sp 2
+     o  
+         LSF_ADMINS="\fIuser_name\fR [\fIuser_name\fR...]"
+.sp 2
+     o  
+         LSF_CLUSTER_NAME="\fIcluster_name\fR"
+.sp 2 .SH "Required slave.config variables"
+\fBRequired slave.config variables\fR
+.sp 2
+   If you use slave.config for dynamic slave host installation,
+   the following parameters are required:
+.sp 2
+     o  
+         LSF_TOP="/\fIpath\fR"
+.sp 2
+     o  
+         LSF_TARDIR="/\fIpath\fR"
+.sp 2
+     o  
+         LSF_SERVER_HOSTS="\fIhost_name\fR [\fIhost_name\fR ...]"
+.sp 2 .SH "Variables that require an absolute path"
+\fBVariables that require an absolute path\fR
+.sp 2
+     o  
+         LSF_LICENSE="/\fIpath\fR/\fIlicense_file\fR"
+.sp 2
+     o  
+         LSF_TOP="\fI/path\fR"
+.sp 2
+     o  
+         LSF_TARDIR="/\fIpath\fR"
+.sp 2 .SH "What lsfinstall does"
+\fBWhat lsfinstall does\fR
+.sp 2
+   Before installing and configuring LSF, lsfinstall checks the
+   installation prerequisites, and outputs the results to
+   lsfprechk.rpt. lsfinstall writes any unrecoverable errors to
+   the Install.err file and exits. You must correct these errors
+   before continuing to install and configure LSF.
+.sp 2
+   During installation, lsfinstall logs installation progress in
+   the Install.log file, calls other utilities to uncompress,
+   extract and copy product files, installs a license, and
+   configures the cluster.
+.sp 2
+   After installation, you should run hostsetup to set up each
+   server host in the cluster. After setting up the server hosts,
+   you should start your cluster and test the installation by
+   running some basic commands.
+.sp 2 .SH "Where lsfinstall is located"
+\fBWhere lsfinstall is located\fR
+.sp 2
+   lsfinstall is included in the LSF installation script tar file
+   lsf7Update4_lsfinstall.tar.Z and is located in the
+   lsf7Update4_lsfinstall directory created when you uncompress
+   and extract installation script tar file.
+.sp 2
+   After installation, lsfinstall is located in
+   LSF_TOP/7.0/install/.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-f \fIoption_file\fB\fR
+.br
+               Name of the file containing the installation
+               options. The file can be any name you choose. The
+               name of the default template file for normal
+               installation is install.config. To install slave
+               hosts for dynamic host configuration, use the
+               template file slave.config.
+.sp 2
+   \fB-s\fR
+.br
+               Install a dynamic slave host.
+.sp 2
+               Specify installation options in the slave.config
+               file.
+.sp 2
+               Required parameters:
+.sp 2
+                 o  
+                     LSF_SERVER_HOSTS="\fIhost_name\fR
+                     [\fIhost_name\fR ...]"
+.sp 2
+                 o  
+                     LSF_TOP="/\fIpath\fR"
+.sp 2
+                 o  
+                     LSF_TARDIR="/\fIpath\fR"
+.sp 2
+               Optional parameters:
+.sp 2
+               LSF_LIM_PORT=\fIport_number\fR
+.sp 2
+               If the master host does not use the default
+               LSF_LIM_PORT, you must specify the same
+               LSF_LIM_PORT defined in lsf.conf on the master
+               host.
+.sp 2
+               LSF_LOCAL_RESOURCES="\fIresource\fR ..."
+.sp 2
+               Defines the local resources for a dynamic host.
+.sp 2
+                 o  
+                     For numeric resources, defined name-value
+                     pairs:
+.sp 2
+                     "[resourcemap value*resource_name]"
+.sp 2
+                 o  
+                     For Boolean resources, the value is the
+                     resource name in the form:
+.sp 2
+                     "[resource resource_name]"
+.sp 2
+               For example:
+.sp 2
+               LSF_LOCAL_RESOURCES="[hostname hostA] [server 1] [resourcemap 1*verilog] [resource linux]"
+.sp 2
+                  \fBTip: \fR
+.sp 2
+                     If LSF_LOCAL_RESOURCES are already defined
+                     in a local lsf.conf on the slave host,
+                     lsfinstall does not add resources you define
+                     in LSF_LOCAL_RESOURCES in slave.config.
+.sp 2
+               lsfinstall creates a local lsf.conf for the slave
+               host, which sets the following parameters:
+.sp 2
+                 o  
+                     LSF_CONFDIR="/\fIpath\fR"
+.sp 2
+                 o  
+                     LSF_GET_CONF=lim
+.sp 2
+                 o  
+                     LSF_LIM_PORT=\fIport_number \fR
+.sp 2
+                 o  
+                     LSF_LOCAL_RESOURCES="\fIresource\fR ..."
+.sp 2
+                 o  
+                     LSF_SERVER_HOSTS="\fIhost_name\fR
+                     [\fIhost_name\fR ...]"
+.sp 2
+                 o  
+                     LSF_VERSION=7.0
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsf.conf, install.config, slave.config
+.sp 2

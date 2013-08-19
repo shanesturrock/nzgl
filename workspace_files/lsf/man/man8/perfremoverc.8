@@ -1,0 +1,37 @@
+
+.ad l
+
+.ll 72
+
+.TH perfremoverc 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBperfremoverc.sh\fR
+.sp 2
+   Prevents automatic startup of the LSF Reporting (PERF) daemons
+   on a UNIX host.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+perfremoverc.sh
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   This is an administrative command. You must be logged on as
+   root to issue this command.
+.sp 2
+   Prevents automatic startup of PERF daemons on a UNIX host when
+   a system reboot command is issued. After this script/command
+   is issued, PERF daemons no longer start automatically if the
+   host gets rebooted. In such a case, you must manually start
+   daemons after the host has started up.
+.sp 2
+   Removes the file perf created in the system startup directory
+   by perfsetrc.sh.
+.sp 2
+   Run the command on the PERF host to control the following PERF
+   services: loader controller (plc), job data transformer
+   (jobdt), and data purger (purger). Run the command on the
+   Derby database host to control the Derby database service
+   (derbydb).

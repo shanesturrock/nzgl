@@ -1,0 +1,109 @@
+
+.ad l
+
+.ll 72
+
+.TH bstatus 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbstatus\fR
+.sp 2
+   gets current external job status or sets new job status
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bstatus [-d "description"] job_ID | "job_ID[index]" | -J job_name
+.sp 2
+bstatus [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Gets and displays the message description text of a job, or
+   changes the contents of the message description text with the
+   -d option. Always operates on the message with index 0.
+.sp 2
+   You can set the external status of a job until it completes.
+   You cannot change the status of done or exited jobs. You can
+   display the status of a job until it is cleaned from the
+   system.
+.sp 2
+   If a you specify a job ID:
+.sp 2
+     o  
+         You can get the external job status of jobs submitted by
+         other users, but you cannot set job status of jobs
+         submitted by other users.
+.sp 2
+     o  
+         You can only set external status on your own jobs.
+.sp 2
+     o  
+         Only root and LSF administrators can set external job
+         status on jobs submitted by other users.
+.sp 2
+   Job names are not unique; if you specify -J \fIjob_name\fR:
+.sp 2
+     o  
+         You can only get or set the external status on your own
+         jobs.
+.sp 2
+     o  
+         You cannot get or set external job status on jobs
+         submitted by other users.
+.sp 2
+     o  
+         Root and the LSF administrators can only get or set the
+         external status on their own jobs.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-d "\fIdescription\fB"\fR
+.br
+               Updates the job status with specified message
+               description text.
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex\fB]" | -J
+   \fIjob_name\fB\fR
+.br
+               Required. Operates on the specified job.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   bstatus 2500
+.sp 2
+   JOBID    FROM    UPDATE_TIME   STATUS
+.sp 2
+   2500     user1   Sep 14 16:54  step 1
+.sp 2
+   Displays the message description text of message index 0 of
+   job 2500.
+.sp 2
+   bstatus -d "step 2" 2500
+.sp 2
+   Changes the message description text of message index 0 of job
+   2500 to \fRstep 2\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fR\fRbpost(1), \fR\fRbread(1)

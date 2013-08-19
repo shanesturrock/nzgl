@@ -1,0 +1,95 @@
+
+.ad l
+
+.ll 72
+
+.TH bld.license.acct 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbld.license.acct\fR
+.sp 2
+   The bld.license.acct file is the license and accounting file
+   for LSF License Scheduler.
+.sp 2 .SH "bld.license.acct structure"
+\fBbld.license.acct structure\fR
+.sp 2
+   The license accounting log file is an ASCII file with one
+   record per line. The fields of a record are separated by
+   blanks. LSF License Scheduler adds a new record to the file
+   every hour.
+.sp 2 .SH "File properties"
+\fBFile properties\fR
+.sp 2
+   \fBLocation\fR
+.br
+               The default location of this file is
+               LSF_SHAREDIR/db. Use LSF_LICENSE_ACCT_PATH in
+               lsf.conf to specify another location.
+.sp 2
+   \fBOwner\fR
+.br
+               The primary LSF License Scheduler admin is the
+               owner of this file.
+.sp 2
+   \fBPermissions\fR
+.br
+               -rw-r--r--
+.sp 2 .SH "Records and fields"
+\fBRecords and fields\fR
+.sp 2
+   The fields in order of occurrence are as follows:
+.sp 2
+   \fBtimestamp (%d)\fR
+.br
+               Time stamp of the logged event (in seconds since
+               the epoch).
+.sp 2
+   \fBtype (%s)\fR
+.br
+               The LSF product type. For LSF License Scheduler,
+               this is \fRLICENSE_SCHEDULER\fR.
+.sp 2
+   \fBversion (%s)\fR
+.br
+               The version of the LSF License Scheduler product.
+.sp 2
+   \fBvalue (%d)\fR
+.br
+               The total number of tokens that LSF License
+               Scheduler is using.
+.sp 2
+   \fBstatus (%s)\fR
+.br
+               The results of the license usage check. The valid
+               values are as follows:
+.sp 2
+                 o  
+                     \fROK\fR
+.sp 2
+                     Token usage is less than the currently
+                     licensed amount
+.sp 2
+                 o  
+                     \fROVERUSE\fR
+.sp 2
+                     Token usage is more than the currently
+                     licensed amount
+.sp 2
+   \fBhash (%s)\fR
+.br
+               Line encryption used to authenticate the record.
+.sp 2 .SH "Example record format"
+\fBExample record format\fR
+.sp 2
+   1107961731 LICENSE_SCHEDULER 7.0 0 OK 335a33c2bd9c9428140a61e57bd06da02b623a42 1107961792 LICENSE_SCHEDULER 7.0 2 OK 58e45b891f371811edfcceb6f5270059a74ee31a 1126639979 LICENSE_SCHEDULER 7.0 0 5 OK b3efd43ee28346f2d125b445fd16aa96875da35 1126640028 LICENSE_SCHEDULER 7.0 6 5 OVERUSE 2865775920372225fa7f8ed4b9a8eb2b15
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+     o  
+         LSF_LOGDIR in lsf.conf
+.sp 2
+     o  
+         LSF_LICENSE_ACCT_PATH in lsf.conf
+.sp 2
+     o  
+         lsf.cluster_name.license.acct
+.sp 2

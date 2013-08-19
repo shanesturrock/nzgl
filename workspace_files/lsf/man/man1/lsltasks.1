@@ -1,0 +1,96 @@
+
+.ad l
+
+.ll 72
+
+.TH lsltasks 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsltasks\fR
+.sp 2
+   displays or updates a local task list
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsltasks [+ task_name ... | – task_name ...]
+.sp 2
+lsltasks [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays or updates a user local task list in $HOME/.lsftask.
+.sp 2
+   When no options are specified, displays tasks listed in the
+   system task file lsf.task and the user task file .lsftask.
+.sp 2
+   If there is a conflict between the system task file lsf.task
+   and the user task file (.lsftask), the user task file
+   overrides the system task file.
+.sp 2
+   Tasks in the local task list are not eligible for remote
+   execution, either because they are trivial tasks or because
+   they need resources on the local host.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB+ \fItask_name\fB\fR
+.br
+               If + is specified and the specified task names are
+               not already in the user task file (.lsftask), adds
+               the task names to the file with a plus sign (+)
+               preceding them.
+.sp 2
+               If any of the task names are already in the
+               .lsftask file, the actual action depends on the
+               entry in the file. If the entry starts with a
+               \fR+\fR or nothing, replaces the entry with the
+               specified content; if the entry starts with a
+               minus sign (-), deletes the entry from the
+               .lsftask file.
+.sp 2
+   \fB- \fItask_name\fB\fR
+.br
+               If – is specified and specified task names are not
+               already in the user .lsftask file, adds the task
+               names to the file with a – preceding the task
+               name.
+.sp 2
+               If any of the task names are already in the
+               .lsftask file, the actual action depends on the
+               entry in the file. If the entry starts with a –,
+               no operation is done; if the entry starts with a
+               +, deletes the entry from the .lsftask file.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fR\fRlsltasks + foo\fR\fR
+.sp 2
+   Adds the command \fRfoo\fR to the local task list.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads the system task file lsf.task, and the user .lsftask
+   file. See lsf.task(5) for more details.
+.sp 2
+   The system and user task files contain two sections, one for
+   the remote task list, the other for the local task list. The
+   local tasks section starts with \fRBegin LocalTasks\fR and
+   ends with \fREnd LocalTasks\fR. Each line in the section is an
+   entry consisting of a task name.
+.sp 2
+   A plus sign (+) or a minus sign (–) can optionally precede
+   each entry. If no + or – is specified, then + is assumed.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lseligible, ls_task, lsrtasks, lsf.task, ls_eligible
+.sp 2

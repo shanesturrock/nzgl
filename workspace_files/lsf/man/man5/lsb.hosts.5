@@ -1,0 +1,1324 @@
+
+.ad l
+
+.ll 72
+
+.TH lsb.hosts 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsb.hosts\fR
+.sp 2
+   The lsb.hosts file contains host-related configuration
+   information for the server hosts in the cluster. It is also
+   used to define host groups, host partitions, and compute
+   units.
+.sp 2
+   This file is optional. All sections are optional.
+.sp 2
+   By default, this file is installed in
+   LSB_CONFDIR/\fIcluster_name\fR/configdir.
+.sp 2 .SH "Changing lsb.hosts configuration"
+\fBChanging lsb.hosts configuration\fR
+.sp 2
+   After making any changes to lsb.hosts, run badmin reconfig to
+   reconfigure mbatchd.
+.sp 2
+\fBHost section\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Defines the hosts, host types, and host models used
+   as server hosts, and contains per-host configuration
+   information. If this section is not configured, LSF uses all
+   hosts in the cluster (the hosts listed in
+   lsf.cluster.\fIcluster_name\fR) as server hosts.
+.sp 2
+   Each host, host model or host type can be configured to:
+.sp 2
+     o  
+         Limit the maximum number of jobs run in total
+.sp 2
+     o  
+         Limit the maximum number of jobs run by each user
+.sp 2
+     o  
+         Run jobs only under specific load conditions
+.sp 2
+     o  
+         Run jobs only under specific time windows
+.sp 2
+   The entries in a line for a host override the entries in a
+   line for its model or type.
+.sp 2
+   When you modify the cluster by adding or removing hosts, no
+   changes are made to lsb.hosts. This does not affect the
+   default configuration, but if hosts, host models, or host
+   types are specified in this file, you should check this file
+   whenever you make changes to the cluster and update it
+   manually if necessary.
+.sp 2 .SH "Host section structure"
+\fBHost section structure\fR
+.sp 2
+   The first line consists of keywords identifying the load
+   indices that you wish to configure on a per-host basis. The
+   keyword HOST_NAME must be used; the others are optional. Load
+   indices not listed on the keyword line do not affect
+   scheduling decisions.
+.sp 2
+   Each subsequent line describes the configuration information
+   for one host, host model or host type. Each line must contain
+   one entry for each keyword. Use empty parentheses ( ) or a
+   dash (-) to specify the default value for an entry.
+.sp 2
+\fBHOST_NAME\fR
+.sp 2
+   \fIRequired.\fR Specify the name, model, or type of a host, or
+   the keyword default.
+.sp 2 .SH "host name"
+\fBhost name\fR
+.sp 2
+   The name of a host defined in lsf.cluster.\fIcluster_name\fR.
+.sp 2 .SH "host model"
+\fBhost model\fR
+.sp 2
+   A host model defined in lsf.shared.
+.sp 2 .SH "host type"
+\fBhost type\fR
+.sp 2
+   A host type defined in lsf.shared.
+.sp 2 .SH "default"
+\fBdefault\fR
+.sp 2
+   The reserved host name default indicates all hosts in the
+   cluster not otherwise referenced in the section (by name or by
+   listing its model or type).
+.sp 2
+
+.sp 2
+\fBCHKPNT\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If C, checkpoint copy is enabled. With checkpoint copy, all
+   opened files are automatically copied to the checkpoint
+   directory by the operating system when a process is
+   checkpointed.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   HOST_NAME  CHKPNT hostA         C
+.sp 2 .SH "Compatibility"
+\fBCompatibility\fR
+.sp 2
+   Checkpoint copy is only supported on Cray systems.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No checkpoint copy
+.sp 2
+\fBDISPATCH_WINDOW\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The time windows in which jobs from this host, host model, or
+   host type are dispatched. Once dispatched, jobs are no longer
+   affected by the dispatch window.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined (always open)
+.sp 2
+\fBEXIT_RATE\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies a threshold for exited jobs. If the job exit rate is
+   exceeded for 5 minutes or the period specified by
+   JOB_EXIT_RATE_DURATION in lsb.params, LSF invokes
+   LSF_SERVERDIR/eadmin to trigger a host exception.
+.sp 2
+   EXIT_RATE for a specific host overrides a default
+   GLOBAL_EXIT_RATE specified in lsb.params.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following Host section defines a job exit rate of 20 jobs
+   for all hosts, and an exit rate of 10 jobs on \fRhostA\fR.
+.sp 2
+   Begin Host 
+.sp 2
+   HOST_NAME    MXJ      EXIT_RATE  # Keywords 
+.sp 2
+   Default      !        20 
+.sp 2
+   hostA        !        10 
+.sp 2
+   End Host
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBJL/U\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Per-user job slot limit for the host. Maximum number of job
+   slots that each user can use on this host.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   HOST_NAME  JL/U hostA         2
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBMIG\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+MIG=minutes
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables automatic job migration and specifies the migration
+   threshold for checkpointable or rerunnable jobs, in minutes.
+.sp 2
+   LSF automatically migrates jobs that have been in the SSUSP
+   state for more than the specified number of minutes. Specify a
+   value of 0 to migrate jobs immediately upon suspension. The
+   migration threshold applies to all jobs running on the host.
+.sp 2
+   Job-level command line migration threshold overrides threshold
+   configuration in application profile and queue. Application
+   profile configuration overrides queue level configuration.
+   When a host migration threshold is specified, and is lower
+   than the value for the job, the queue, or the application, the
+   host value is used.
+.sp 2
+   Does not affect MultiCluster jobs that are forwarded to a
+   remote cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. LSF does not migrate checkpointable or rerunnable
+   jobs automatically.
+.sp 2
+\fBMXJ\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The number of job slots on the host.
+.sp 2
+   With MultiCluster resource leasing model, this is the number
+   of job slots on the host that are available to the local
+   cluster.
+.sp 2
+   Use “!” to make the number of job slots equal to the number of
+   CPUs on a host.
+.sp 2
+   For the reserved host name default, “!” makes the number of
+   job slots equal to the number of CPUs on all hosts in the
+   cluster not otherwise referenced in the section.
+.sp 2
+   By default, the number of running and suspended jobs on a host
+   cannot exceed the number of job slots. If preemptive
+   scheduling is used, the suspended jobs are not counted as
+   using a job slot.
+.sp 2
+   On multiprocessor hosts, to fully use the CPU resource, make
+   the number of job slots equal to or greater than the number of
+   processors.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fB\fIload_index\fB\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   load_index loadSched[/loadStop]
+.sp 2
+   Specify \fRio\fR, \fRit\fR, \fRls\fR, \fRmem\fR, \fRpg\fR,
+   \fRr15s\fR, \fRr1m\fR, \fRr15m\fR, \fRswp\fR, \fRtmp\fR,
+   \fRut\fR, or a non-shared custom external load index as a
+   column. Specify multiple columns to configure thresholds for
+   multiple load indices.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Scheduling and suspending thresholds for dynamic load indices
+   supported by LIM, including external load indices.
+.sp 2
+   Each load index column must contain either the default entry
+   or two numbers separated by a slash ‘/’, with no white space.
+   The first number is the scheduling threshold for the load
+   index; the second number is the suspending threshold.
+.sp 2
+   Queue-level scheduling and suspending thresholds are defined
+   in lsb.queues. If both files specify thresholds for an index,
+   those that apply are the most restrictive ones.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   HOST_NAME    mem     swp
+.sp 2
+   hostA        100/10  200/30
+.sp 2
+   This example translates into a \fRloadSched\fR condition of
+.sp 2
+   mem>=100 && swp>=200 
+.sp 2
+   and a \fRloadStop\fR condition of
+.sp 2
+   mem < 10 || swp < 30
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBExample of a Host section\fR
+.sp 2
+   Begin Host 
+.sp 2
+   HOST_NAME   MXJ   JL/U r1m         pg       DISPATCH_WINDOW 
+.sp 2
+   hostA        1      -   0.6/1.6   10/20  (5:19:00-1:8:30 20:00-8:30)
+.sp 2
+   SUNSOL       1      -   0.5/2.5 -             23:00-8:00 
+.sp 2
+   default      2      1   0.6/1.6   20/40            ()
+.sp 2
+   End Host
+.sp 2
+   SUNSOL is a host type defined in lsf.shared. This example
+   \fRHost\fR section configures one host and one host type
+   explicitly and configures default values for all other
+   load-sharing hosts.
+.sp 2
+   \fRHostA\fR runs one batch job at a time. A job will only be
+   started on \fRhostA\fR if the \fRr1m\fR index is below 0.6 and
+   the \fRpg\fR index is below 10; the running job is stopped if
+   the \fRr1m\fR index goes above 1.6 or the \fRpg\fR index goes
+   above 20. \fRHostA\fR only accepts batch jobs from 19:00 on
+   Friday evening until 8:30 Monday morning and overnight from
+   20:00 to 8:30 on all other days.
+.sp 2
+   For hosts of type SUNSOL, the \fRpg\fR index does not have
+   host-specific thresholds and such hosts are only available
+   overnight from 23:00 to 8:00.
+.sp 2
+   The entry with host name default applies to each of the other
+   hosts in the cluster. Each host can run up to two jobs at the
+   same time, with at most one job from each user. These hosts
+   are available to run jobs at all times. Jobs may be started if
+   the \fRr1m\fR index is below 0.6 and the \fRpg\fR index is
+   below 20, and a job from the lowest priority queue is
+   suspended if \fRr1m\fR goes above 1.6 or \fRpg\fR goes above
+   40.
+.sp 2
+\fBHostGroup section\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Defines host groups.
+.sp 2
+   The name of the host group can then be used in other host
+   group, host partition, and queue definitions, as well as on
+   the command line. Specifying the name of a host group has
+   exactly the same effect as listing the names of all the hosts
+   in the group.
+.sp 2 .SH "Structure"
+\fBStructure\fR
+.sp 2
+   Host groups are specified in the same format as user groups in
+   lsb.users.
+.sp 2
+   The first line consists of two mandatory keywords, GROUP_NAME
+   and GROUP_MEMBER, as well as an optional keywords, CONDENSE
+   and GROUP_ADMIN. Subsequent lines name a group and list its
+   membership.
+.sp 2
+   The sum of all host groups, compute groups, and host
+   partitions cannot be more than 1024.
+.sp 2
+\fBGROUP_NAME\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   An alphanumeric string representing the name of the host
+   group.
+.sp 2
+   You cannot use the reserved name all, and group names must not
+   conflict with host names.
+.sp 2
+\fBCONDENSE\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Defines condensed host groups.
+.sp 2
+   Condensed host groups are displayed in a condensed output
+   format for the bhosts and bjobs commands.
+.sp 2
+   If you configure a host to belong to more than one condensed
+   host group, bjobs can display any of the host groups as
+   execution host name.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Y or N.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   \fRN\fR (the specified host group is not condensed)
+.sp 2
+\fBGROUP_MEMBER\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-delimited list of host names or previously defined
+   host group names, enclosed in one pair of parentheses.
+.sp 2
+   You cannot use more than one pair of parentheses to define the
+   list.
+.sp 2
+   The names of hosts and host groups can appear on multiple
+   lines because hosts can belong to multiple groups. The
+   reserved name all specifies all hosts in the cluster. An
+   exclamation mark (\fR!\fR) indicates an externally-defined
+   host group, which the egroup executable retrieves.
+.sp 2 .SH "Pattern definition"
+\fBPattern definition\fR
+.sp 2
+   You can use string literals and special characters when
+   defining host group members. Each entry cannot contain any
+   spaces, as the list itself is space delimited.
+.sp 2
+   When a leased-in host joins the cluster, the host name is in
+   the form of \fIhost\fR\fR@\fR\fIcluster\fR. For these hosts,
+   only the host part of the host name is subject to pattern
+   definitions.
+.sp 2
+   You can use the following special characters to specify host
+   group members:
+.sp 2
+     o  
+         Use a tilde (\fR~\fR) to exclude specified hosts or host
+         groups from the list.
+.sp 2
+     o  
+         Use an asterisk (\fR*\fR) as a wildcard character to
+         represent any number of characters.
+.sp 2
+     o  
+         Use square brackets with a hyphen ([\fIinteger1\fR -
+         \fIinteger2\fR]) to define a range of non-negative
+         integers at the end of a host name. The first integer
+         must be less than the second integer.
+.sp 2
+     o  
+         Use square brackets with commas ([\fIinteger1\fR,
+         \fIinteger2\fR ...]) to define individual non-negative
+         integers at the end of a host name.
+.sp 2
+     o  
+         Use square brackets with commas and hyphens (for
+         example, [\fIinteger1\fR - \fIinteger2\fR,\fI
+         integer3\fR, \fIinteger4\fR - \fIinteger5\fR]) to define
+         different ranges of non-negative integers at the end of
+         a host name.
+.sp 2 .SH "Restrictions"
+\fBRestrictions\fR
+.sp 2
+     o  
+         You cannot use more than one set of square brackets in a
+         single host group definition.
+.sp 2
+           o  
+               The following example is \fInot\fR correct:
+.sp 2
+               ... (hostA[1-10]B[1-20] hostC[101-120])
+.sp 2
+           o  
+               The following example is correct:
+.sp 2
+               ... (hostA[1-20] hostC[101-120])
+.sp 2
+     o  
+         You cannot define subgroups that contain wildcards and
+         special characters.
+.sp 2
+\fBGROUP_ADMIN\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Host group administrators have the ability to open or close
+   the member hosts for the group they are administering.
+.sp 2
+   the \fRGROUP_ADMIN\fR field is a space-delimited list of user
+   names or previously defined user group names, enclosed in one
+   pair of parentheses.
+.sp 2
+   You cannot use more than one pair of parentheses to define the
+   list.
+.sp 2
+   The names of users and user groups can appear on multiple
+   lines because users can belong to and administer multiple
+   groups.
+.sp 2
+   When host group administrators (who are not also cluster
+   administrators) open or close a host, they must specify a
+   comment with the -C option.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   Any existing user or user group can be specified. A user group
+   that specifies an external list is also allowed; however, in
+   this location, you use the user group name that has been
+   defined with (!) rather than (!) itself.
+.sp 2 .SH "Restrictions"
+\fBRestrictions\fR
+.sp 2
+     o  
+         You cannot specify any wildcards or special characters
+         (for example: *, !, $, #, &, ~).
+.sp 2
+     o  
+         You cannot specify an external group (egroup).
+.sp 2
+     o  
+         You cannot use the keyword \fRALL\fR and you cannot
+         administer any group that has ALL as its members.
+.sp 2
+     o  
+         User names and user group names cannot have spaces.
+.sp 2
+\fBExample HostGroup sections\fR
+.sp 2
+
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   Begin HostGroup 
+.sp 2
+   GROUP_NAME  GROUP_MEMBER GROUP_ADMIN
+.sp 2
+   groupA      (hostA hostD) (user1 user10)
+.sp 2
+   groupB      (hostF groupA hostK) ()
+.sp 2
+   groupC      (!) ()
+.sp 2
+   End HostGroup
+.sp 2
+   This example defines three host groups:
+.sp 2
+     o  
+         \fRgroupA\fR includes \fRhostA\fR and \fRhostD\fR and
+         can be administered by user1 and user10.
+.sp 2
+     o  
+         \fRgroupB\fR includes \fRhostF\fR and \fRhostK\fR, along
+         with all hosts in \fRgroupA\fR. It has no administrators
+         (only the cluster administrator can control the member
+         hosts).
+.sp 2
+     o  
+         The group membership of \fRgroupC\fR is defined
+         externally and retrieved by the egroup executable.
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   Begin HostGroup 
+.sp 2
+   GROUP_NAME   GROUP_MEMBER GROUP_ADMIN
+.sp 2
+   groupA       (all) ()
+.sp 2
+   groupB       (groupA ~hostA ~hostB) (user11 user14)
+.sp 2
+   groupC       (hostX hostY hostZ) ()
+.sp 2
+   groupD       (groupC ~hostX) usergroupB
+.sp 2
+   groupE       (all ~groupC ~hostB) ()
+.sp 2
+   groupF       (hostF groupC hostK) ()
+.sp 2
+   End HostGroup
+.sp 2
+   This example defines the following host groups:
+.sp 2
+     o  
+         \fRgroupA\fR contains all hosts in the cluster and is
+         administered by the cluster administrator.
+.sp 2
+     o  
+         \fRgroupB\fR contains all the hosts in the cluster
+         except for \fRhostA\fR and \fRhostB\fR and is
+         administered by user11 and user14.
+.sp 2
+     o  
+         \fRgroupC\fR contains only \fRhostX\fR, \fRhostY\fR, and
+         \fRhostZ\fR and is administered by the cluster
+         administrator.
+.sp 2
+     o  
+         \fRgroupD\fR contains the hosts in \fRgroupC\fR except
+         for \fRhostX\fR. Note that \fRhostX\fR must be a member
+         of host group \fRgroupC\fR to be excluded from
+         \fRgroupD\fR. \fRusergroupB\fR is the administrator for
+         \fRgroupD\fR.
+.sp 2
+     o  
+         \fRgroupE\fR contains all hosts in the cluster excluding
+         the hosts in \fRgroupC\fR and \fRhostB\fR and is
+         administered by the cluster administrator.
+.sp 2
+     o  
+         \fRgroupF\fR contains \fRhostF\fR, \fRhostK\fR, and the
+         3 hosts in \fRgroupC\fR and is administered by the
+         cluster administrator.
+.sp 2 .SH "Example 3"
+\fBExample 3\fR
+.sp 2
+   Begin HostGroup 
+.sp 2
+   GROUP_NAME   CONDENSE   GROUP_MEMBER GROUP_ADMIN
+.sp 2
+   groupA          N       (all) ()
+.sp 2
+   groupB          N       (hostA, hostB) (usergroupC user1)
+.sp 2
+   groupC          Y       (all)()
+.sp 2
+   End HostGroup
+.sp 2
+   This example defines the following host groups:
+.sp 2
+     o  
+         \fRgroupA\fR shows uncondensed output and contains all
+         hosts in the cluster and is administered by the cluster
+         administrator.
+.sp 2
+     o  
+         \fRgroupB\fR shows uncondensed output, and contains
+         \fRhostA\fR and \fRhostB\fR. It is administered by all
+         members of usergroupC and user1.
+.sp 2
+     o  
+         \fRgroupC\fR shows condensed output and contains all
+         hosts in the cluster and is administered by the cluster
+         administrator.
+.sp 2 .SH "Example 4"
+\fBExample 4\fR
+.sp 2
+   Begin HostGroup 
+.sp 2
+   GROUP_NAME CONDENSE GROUP_MEMBER GROUP_ADMIN
+.sp 2
+   groupA          Y (host*) (user7)
+.sp 2
+   groupB          N (*A) ()
+.sp 2
+   groupC          N (hostB* ~hostB[1-50]) ()
+.sp 2
+   groupD          Y (hostC[1-50] hostC[101-150]) (usergroupJ)
+.sp 2
+   groupE          N (hostC[51-100] hostC[151-200]) ()
+.sp 2
+   groupF          Y (hostD[1,3] hostD[5-10]) ()
+.sp 2
+   groupG          N (hostD[11-50] ~hostD[15,20,25] hostD2) ()
+.sp 2
+   End HostGroup
+.sp 2
+   This example defines the following host groups:
+.sp 2
+     o  
+         \fRgroupA\fR shows condensed output, and contains all
+         hosts starting with the string \fRhost\fR. It is
+         administered by user7.
+.sp 2
+     o  
+         \fRgroupB\fR shows uncondensed output, and contains all
+         hosts ending with the string \fRA\fR, such as
+         \fRhostA\fR and is administered by the cluster
+         administrator.
+.sp 2
+     o  
+         \fRgroupC\fR shows uncondensed output, and contains all
+         hosts starting with the string \fRhostB\fR except for
+         the hosts from \fRhostB1\fR to \fRhostB50\fR and is
+         administered by the cluster administrator.
+.sp 2
+     o  
+         \fRgroupD\fR shows condensed output, and contains all
+         hosts from \fRhostC1\fR to \fRhostC50\fR and all hosts
+         from \fRhostC101\fR to \fRhostC150\fR and is
+         administered by the the members of \fRusergroupJ\fR.
+.sp 2
+     o  
+         \fRgroupE\fR shows uncondensed output, and contains all
+         hosts from \fRhostC51\fR to \fRhostC100\fR and all hosts
+         from \fRhostC151\fR to \fRhostC200\fR and is
+         administered by the cluster administrator.
+.sp 2
+     o  
+         \fRgroupF\fR shows condensed output, and contains
+         \fRhostD1\fR, \fRhostD3\fR, and all hosts from
+         \fRhostD5\fR to \fRhostD10 and is administered by the
+         cluster administrator\fR.
+.sp 2
+     o  
+         \fRgroupG\fR shows uncondensed output, and contains all
+         hosts from \fRhostD11\fR to \fRhostD50\fR except for
+         \fRhostD15\fR, \fRhostD20\fR, and \fRhostD25\fR.
+         \fRgroupG\fR also includes \fRhostD2\fR. It is
+         administered by the cluster administrator.
+.sp 2
+\fBHostPartition section\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Used with host partition user-based fairshare
+   scheduling. Defines a host partition, which defines a
+   user-based fairshare policy at the host level.
+.sp 2
+   Configure multiple sections to define multiple partitions.
+.sp 2
+   The members of a host partition form a host group with the
+   same name as the host partition.
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         You cannot use host partitions and host preference
+         simultaneously.
+.sp 2 .SH "Limitations on queue configuration"
+\fBLimitations on queue configuration\fR
+.sp 2
+     o  
+         If you configure a host partition, you cannot configure
+         fairshare at the queue level.
+.sp 2
+     o  
+         If a queue uses a host that belongs to a host partition,
+         it should not use any hosts that don’t belong to that
+         partition. All the hosts in the queue should belong to
+         the same partition. Otherwise, you might notice
+         unpredictable scheduling behavior:
+.sp 2
+           o  
+               Jobs in the queue sometimes may be dispatched to
+               the host partition even though hosts not belonging
+               to any host partition have a lighter load.
+.sp 2
+           o  
+               If some hosts belong to one host partition and
+               some hosts belong to another, only the priorities
+               of one host partition are used when dispatching a
+               parallel job to hosts from more than one host
+               partition.
+.sp 2 .SH "Shared resources and host partitions"
+\fBShared resources and host partitions\fR
+.sp 2
+     o  
+         If a resource is shared among hosts included in host
+         partitions and hosts that are not included in any host
+         partition, jobs in queues that use the host partitions
+         will always get the shared resource first, regardless of
+         queue priority.
+.sp 2
+     o  
+         If a resource is shared among host partitions, jobs in
+         queues that use the host partitions listed first in the
+         \fRHostPartition \fRsection of lsb.hosts will always
+         have priority to get the shared resource first. To
+         allocate shared resources among host partitions, LSF
+         considers host partitions in the order they are listed
+         in lsb.hosts.
+.sp 2 .SH "Structure"
+\fBStructure\fR
+.sp 2
+   Each host partition always consists of 3 lines, defining the
+   name of the partition, the hosts included in the partition,
+   and the user share assignments.
+.sp 2
+\fBHPART_NAME \fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHPART_NAME\fR=\fIpartition_name\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies the name of the partition. The name must be 59
+   characters or less.
+.sp 2
+\fBHOSTS \fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHOSTS\fR=[[~]\fIhost_name | \fR[~]\fIhost_group |\fR
+   all]...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies the hosts in the partition, in a space-separated
+   list.
+.sp 2
+   A host cannot belong to multiple partitions.
+.sp 2
+   A host group cannot be empty.
+.sp 2
+   Hosts that are not included in any host partition are
+   controlled by the FCFS scheduling policy instead of the
+   fairshare scheduling policy.
+.sp 2
+   Optionally, use the reserved host name all to configure a
+   single partition that applies to all hosts in a cluster.
+.sp 2
+   Optionally, use the not operator (~) to exclude hosts or host
+   groups from the list of hosts in the host partition.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   HOSTS=all ~hostK ~hostM
+.sp 2
+   The partition includes all the hosts in the cluster, except
+   for \fRhostK\fR and \fRhostM\fR.
+.sp 2
+   HOSTS=groupA ~hostL
+.sp 2
+   The partition includes all the hosts in host group
+   \fRgroupA\fR except for \fRhostL\fR.
+.sp 2
+\fBUSER_SHARES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUSER_SHARES\fR=[\fIuser\fR, \fInumber_shares\fR]...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies user share assignments
+.sp 2
+     o  
+         Specify at least one user share assignment.
+.sp 2
+     o  
+         Enclose each user share assignment in square brackets,
+         as shown.
+.sp 2
+     o  
+         Separate a list of multiple share assignments with a
+         space between the square brackets.
+.sp 2
+     o  
+         \fIuser—\fRSpecify users who are also configured to use
+         the host partition. You can assign the shares:
+.sp 2
+           o  
+               To a single user (specify \fIuser_name\fR). To
+               specify a Windows user account, include the domain
+               name in uppercase letters
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR).
+.sp 2
+           o  
+               To users in a group, individually (specify
+               \fIgroup_name\fR@) or collectively (specify
+               \fIgroup_name\fR). To specify a Windows user
+               group, include the domain name in uppercase
+               letters (\fIDOMAIN_NAME\fR\\\fIgroup_name\fR).
+.sp 2
+           o  
+               To users not included in any other share
+               assignment, individually (specify the keyword
+               default) or collectively (specify the keyword
+               others).
+.sp 2
+   By default, when resources are assigned collectively to a
+   group, the group members compete for the resources according
+   to FCFS scheduling. You can use hierarchical fairshare to
+   further divide the shares among the group members.
+.sp 2
+   When resources are assigned to members of a group
+   individually, the share assignment is recursive. Members of
+   the group and of all subgroups always compete for the
+   resources according to FCFS scheduling, regardless of
+   hierarchical fairshare policies.
+.sp 2
+     o  
+         \fInumber_shares\fR
+.sp 2
+           o  
+               Specify a positive integer representing the number
+               of shares of the cluster resources assigned to the
+               user.
+.sp 2
+           o  
+               The number of shares assigned to each user is only
+               meaningful when you compare it to the shares
+               assigned to other users or to the total number of
+               shares. The total number of shares is just the sum
+               of all the shares assigned in each share
+               assignment.
+.sp 2 .SH "Example of a HostPartition section"
+\fBExample of a HostPartition section\fR
+.sp 2
+   Begin HostPartition
+.sp 2
+   HPART_NAME = Partition1 HOSTS = hostA hostB USER_SHARES = [groupA@, 3] [groupB, 7] [default, 1] 
+.sp 2
+   End HostPartition
+.sp 2
+\fBComputeUnit section\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Defines compute units.
+.sp 2
+   Once defined, the compute unit can be used in other compute
+   unit and queue definitions, as well as in the command line.
+   Specifying the name of a compute unit has the same effect as
+   listing the names of all the hosts in the compute unit.
+.sp 2
+   Compute units are similar to host groups, with the added
+   feature of granularity allowing the construction of structures
+   that mimic the network architecture. Job scheduling using
+   compute unit resource requirements effectively spreads jobs
+   over the cluster based on the configured compute units.
+.sp 2
+   To enforce consistency, compute unit configuration has the
+   following requirements:
+.sp 2
+     o  
+         Hosts and host groups appear in the finest granularity
+         compute unit type, and nowhere else.
+.sp 2
+     o  
+         Hosts appear in only one compute unit of the finest
+         granularity.
+.sp 2
+     o  
+         All compute units of the same type have the same type of
+         compute units (or hosts) as members.
+.sp 2 .SH "Structure"
+\fBStructure\fR
+.sp 2
+   Compute units are specified in the same format as host groups
+   in lsb.hosts.
+.sp 2
+   The first line consists of three mandatory keywords, NAME,
+   MEMBER, and TYPE, as well as an optional keywords CONDENSE and
+   ADMIN. Subsequent lines name a compute unit and list its
+   membership.
+.sp 2
+   The sum of all host groups, compute groups, and host
+   partitions cannot be more than 1024.
+.sp 2
+\fBNAME\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   An alphanumeric string representing the name of the compute
+   unit.
+.sp 2
+   You cannot use the reserved names all, allremote, others, and
+   default. Compute unit names must not conflict with host names,
+   host partitions, or host group names.
+.sp 2
+\fBCONDENSE\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Defines condensed compute units.
+.sp 2
+   Condensed compute units are displayed in a condensed output
+   format for the bhosts and bjobs commands. The condensed
+   compute unit format includes the slot usage for each compute
+   unit.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Y or N.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   \fRN\fR (the specified host group is not condensed)
+.sp 2
+\fBMEMBER\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-delimited list of host names or previously defined
+   compute unit names, enclosed in one pair of parentheses.
+.sp 2
+   You cannot use more than one pair of parentheses to define the
+   list.
+.sp 2
+   The names of hosts and host groups can appear only once, and
+   only in a compute unit type of the finest granularity.
+.sp 2
+   An exclamation mark (\fR!\fR) indicates an externally-defined
+   host group, which the egroup executable retrieves.
+.sp 2 .SH "Pattern definition"
+\fBPattern definition\fR
+.sp 2
+   You can use string literals and special characters when
+   defining compute unit members. Each entry cannot contain any
+   spaces, as the list itself is space delimited.
+.sp 2
+   You can use the following special characters to specify host
+   and host group compute unit members:
+.sp 2
+     o  
+         Use a tilde (\fR~\fR) to exclude specified hosts or host
+         groups from the list.
+.sp 2
+     o  
+         Use an asterisk (\fR*\fR) as a wildcard character to
+         represent any number of characters.
+.sp 2
+     o  
+         Use square brackets with a hyphen ([\fIinteger1\fR -
+         \fIinteger2\fR]) to define a range of non-negative
+         integers at the end of a host name. The first integer
+         must be less than the second integer.
+.sp 2
+     o  
+         Use square brackets with commas ([\fIinteger1\fR,
+         \fIinteger2\fR...]) to define individual non-negative
+         integers at the end of a host name.
+.sp 2
+     o  
+         Use square brackets with commas and hyphens (for
+         example, [\fIinteger1\fR - \fIinteger2\fR,\fI
+         integer3\fR, \fIinteger4\fR - \fIinteger5\fR]) to define
+         different ranges of non-negative integers at the end of
+         a host name.
+.sp 2 .SH "Restrictions"
+\fBRestrictions\fR
+.sp 2
+     o  
+         You cannot use more than one set of square brackets in a
+         single compute unit definition.
+.sp 2
+           o  
+               The following example is \fInot\fR correct:
+.sp 2
+               ... (enclA[1-10]B[1-20] enclC[101-120])
+.sp 2
+           o  
+               The following example is correct:
+.sp 2
+               ... (enclA[1-20] enclC[101-120])
+.sp 2
+     o  
+         Compute unit names cannot be used in compute units of
+         the finest granularity.
+.sp 2
+     o  
+         You cannot include host or host group names except in
+         compute units of the finest granularity.
+.sp 2
+     o  
+         You must not skip levels of granularity. For example:
+.sp 2
+         If lsb.params contains \fRCOMPUTE_UNIT_TYPES=enclosure
+         rack cabinet\fR then a compute unit of type
+         \fRcabinet\fR can contain compute units of type
+         \fRrack\fR, but not of type \fRenclosure\fR.
+.sp 2
+     o  
+         The keywords all, allremote, all@cluster, other and
+         default cannot be used when defining compute units.
+.sp 2
+\fBTYPE\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The type of the compute unit, as defined in the
+   \fBCOMPUTE_UNIT_TYPES\fR parameter of lsb.params.
+.sp 2
+\fBADMIN\fR
+.sp 2
+
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Host group administrators have the ability to open or close
+   the member hosts for the compute unit they are administering.
+.sp 2
+   the \fRADMIN\fR field is a space-delimited list of user names
+   or previously defined user group names, enclosed in one pair
+   of parentheses.
+.sp 2
+   You cannot use more than one pair of parentheses to define the
+   list.
+.sp 2
+   The names of users and user groups can appear on multiple
+   lines because users can belong to and administer multiple
+   compute units.
+.sp 2
+   When host group administrators (who are not also cluster
+   administrators) open or close a host, they must specify a
+   comment with the -C option.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   Any existing user or user group can be specified. A user group
+   that specifies an external list is also allowed; however, in
+   this location, you use the user group name that has been
+   defined with (!) rather than (!) itself.
+.sp 2 .SH "Restrictions"
+\fBRestrictions\fR
+.sp 2
+     o  
+         You cannot specify any wildcards or special characters
+         (for example: *, !, $, #, &, ~).
+.sp 2
+     o  
+         You cannot specify an external group (egroup).
+.sp 2
+     o  
+         You cannot use the keyword \fRALL\fR and you cannot
+         administer any group that has ALL as its members.
+.sp 2
+     o  
+         User names and user group names cannot have spaces.
+.sp 2
+\fBExample ComputeUnit sections\fR
+.sp 2
+
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   (For the lsb.params entry \fRCOMPUTE_UNIT_TYPES=enclosure rack
+   cabinet\fR)
+.sp 2
+   Begin ComputeUnit 
+.sp 2
+   NAME   MEMBER        TYPE
+.sp 2
+   encl1  (host1 host2) enclosure
+.sp 2
+   encl2  (host3 host4) enclosure
+.sp 2
+   encl3  (host5 host6) enclosure
+.sp 2
+   encl4  (host7 host8) enclosure
+.sp 2
+   rack1  (encl1 encl2) rack
+.sp 2
+   rack2  (encl3 encl4) rack
+.sp 2
+   cbnt1  (rack1 rack2) cabinet
+.sp 2
+   End ComputeUnit
+.sp 2
+   This example defines seven compute units:
+.sp 2
+     o  
+         \fRencl1\fR, \fRencl2\fR, \fRencl3\fR and \fRencl4\fR
+         are the finest granularity, and each contain two hosts.
+.sp 2
+     o  
+         \fRrack1\fR is of coarser granularity and contains two
+         levels. At the enclosure level \fRrack1\fR contains
+         \fRencl1\fR and \fRencl2\fR. At the lowest level
+         \fRrack1\fR contains \fRhost1\fR, \fRhost2\fR,
+         \fRhost3\fR, and \fRhost4\fR.
+.sp 2
+     o  
+         \fRrack2\fR has the same structure as \fRrack1\fR, and
+         contains \fRencl3\fR and \fRencl4\fR.
+.sp 2
+     o  
+         \fRcbnt1\fR contains two racks (\fRrack1\fR and
+         \fRrack2\fR), four enclosures (\fRencl1\fR, \fRencl2\fR,
+         \fRencl3\fR, and \fRencl4\fR) and all eight hosts.
+         Compute unit \fRcbnt1\fR is the coarsest granularity in
+         this example.
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   (For the lsb.params entry \fRCOMPUTE_UNIT_TYPES=enclosure rack
+   cabinet\fR)
+.sp 2
+   Begin ComputeUnit 
+.sp 2
+   NAME  CONDENSE MEMBER                   TYPE      ADMIN
+.sp 2
+   encl1 Y        (hg123 ~hostA ~hostB)    enclosure (user11 user14)
+.sp 2
+   encl2 Y        (hg456)                  enclosure ()
+.sp 2
+   encl3 N        (hostA hostB)            enclosure usergroupB
+.sp 2
+   encl4 N        (hgroupX ~hostB)         enclosure ()
+.sp 2
+   encl5 Y        (hostC* ~hostC[101-150]) enclosure usergroupJ
+.sp 2
+   encl6 N        (hostC[101-150])         enclosure ()
+.sp 2
+   rack1 Y        (encl1 encl2 encl3)      rack      ()
+.sp 2
+   rack2 N        (encl4 encl5)            rack      usergroupJ
+.sp 2
+   rack3 N        (encl6)                  rack      ()
+.sp 2
+   cbnt1 Y        (rack1 rack2)            cabinet   ()
+.sp 2
+   cbnt2 N        (rack3)                  cabinet   user14
+.sp 2
+   End ComputeUnit
+.sp 2
+   This example defines 11 compute units:
+.sp 2
+     o  
+         All six enclosures (finest granularity) contain only
+         hosts and host groups. All three racks contain only
+         enclosures. Both cabinets (coarsest granularity) contain
+         only racks.
+.sp 2
+     o  
+         \fRencl1\fR contains all the hosts in host group
+         \fRhg123\fR except for \fRhostA\fR and \fRhostB\fR and
+         is administered by user11 and user14. Note that
+         \fRhostA\fR and \fRhostB\fR must be members of host
+         group \fRhg123\fR to be excluded from \fRencl1\fR.
+         \fRencl1\fR shows condensed output.
+.sp 2
+     o  
+         \fRencl2\fR contains host group \fRhg456\fR and is
+         administered by the cluster administrator. \fRencl2\fR
+         shows condensed output.
+.sp 2
+     o  
+         \fRencl3\fR contains \fRhostA\fR and \fRhostB\fR.
+         \fRusergroupB\fR is the administrator for \fRencl3\fR.
+         \fRencl3\fR shows uncondensed output.
+.sp 2
+     o  
+         \fRencl4\fR contains host group \fRhgroupX\fR except for
+         \fRhostB\fR. Since each host can appear in only one
+         enclosure and \fRhostB\fR is already in \fRencl3\fR, it
+         cannot be in \fRencl4\fR. \fRencl4\fR is administered by
+         the cluster administrator. \fRencl4\fR shows uncondensed
+         output.
+.sp 2
+     o  
+         \fRencl5\fR contains all hosts starting with the string
+         \fRhostC\fR except for hosts \fRhostC101\fR to
+         \fRhostC150\fR, and is administered by \fRusergroupJ\fR.
+         \fRencl5\fR shows condensed output.
+.sp 2
+     o  
+         \fRrack1\fR contains \fRencl1\fR, \fRencl2\fR, and
+         \fRencl3\fR. \fRrack1\fR shows condensed output.
+.sp 2
+     o  
+         \fRrack2\fR contains \fRencl4\fR, and \fRencl5\fR.
+         \fRrack2\fR shows uncondensed output.
+.sp 2
+     o  
+         \fRrack3\fR contains \fRencl6\fR. \fRrack3\fR shows
+         uncondensed output.
+.sp 2
+     o  
+         cbnt1 contains \fRrack1\fR and \fRrack2\fR. \fRcbnt1\fR
+         shows condensed output.
+.sp 2
+     o  
+         \fRcbnt2\fR contains \fRrack3\fR. Even though
+         \fRrack3\fR only contains encl6, \fRcbnt3\fR cannot
+         contain \fRencl6\fR directly because that would mean
+         skipping the level associated with compute unit type
+         \fRrack\fR. \fRcbnt2\fR shows uncondensed output.
+.sp 2
+\fBAutomatic time-based configuration\fR
+.sp 2
+   Variable configuration is used to automatically change LSF
+   configuration based on time windows. You define automatic
+   configuration changes in lsb.hosts by using if-else constructs
+   and time expressions. After you change the files, reconfigure
+   the cluster with the badmin reconfig command.
+.sp 2
+   The expressions are evaluated by LSF every 10 minutes based on
+   mbatchd start time. When an expression evaluates true, LSF
+   dynamically changes the configuration based on the associated
+   configuration statements. Reconfiguration is done in real time
+   without restarting mbatchd, providing continuous system
+   availability.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   In the following example, the #if, #else, #endif are not
+   interpreted as comments by LSF but as if-else constructs.
+.sp 2
+   Begin Host
+.sp 2
+   HOST_NAME   r15s   r1m   pg
+.sp 2
+   host1       3/5    3/5   12/20
+.sp 2
+   #if time(5:16:30-1:8:30 20:00-8:30)
+.sp 2
+   host2       3/5    3/5   12/20
+.sp 2
+   #else
+.sp 2
+   0host2       2/3    2/3   10/12
+.sp 2
+   #endif
+.sp 2
+   host3       3/5    3/5   12/20
+.sp 2
+   End Host

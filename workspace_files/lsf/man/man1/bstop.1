@@ -1,0 +1,173 @@
+
+.ad l
+
+.ll 72
+
+.TH bstop 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbstop\fR
+.sp 2
+   suspends unfinished jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bstop [-a] [-app application_profile_name] [-g job_group_name]
+[-sla service_class_name] [-J job_name] [-m host_name | -m
+host_group] [-q queue_name] [-u user_name | -u user_group | -u
+all] [0] [job_ID ... | "job_ID[index]"] ...
+.sp 2
+bstop [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Suspends unfinished jobs.
+.sp 2
+   Sends the SIGSTOP signal to sequential jobs and the SIGTSTP
+   signal to parallel jobs to suspend them.
+.sp 2
+   You must specify a job ID or -g, -J, -m, -u, or -q. You cannot
+   suspend a job that is already suspended. Specify job ID 0
+   (zero) to stop multiple jobs.
+.sp 2
+   Only root and LSF administrators can operate on jobs submitted
+   by other users.
+.sp 2
+   Use bresume to resume suspended jobs.
+.sp 2
+   An administrator can use bstop on a job stopped by the user
+   (in the state USUSP) to prevent the user from resuming the
+   job.
+.sp 2
+   You can also use bkill -s STOP to send the suspend signal to a
+   job or use bkill -s TSTP to suspend one or more parallel jobs.
+   Use bkill -s CONT to send a resume signal to a job.
+.sp 2
+   If a signal request fails to reach the job execution host, LSF
+   retries the operation later when the host becomes reachable.
+   LSF retries the most recent signal request.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB0\fR
+.br
+               Suspends all the jobs that satisfy other options
+               (-g, -m, -q, -u, and -J).
+.sp 2
+   \fB-a \fR
+.br
+               Suspends all jobs.
+.sp 2
+   \fB-app \fIapplication_profile_name\fB\fR
+.br
+               Suspends only jobs associated with the specified
+               application profile. You must specify an existing
+               application profile.
+.sp 2
+   \fB-g \fIjob_group_name\fB\fR
+.br
+               Suspends only jobs in the specified job group.
+.sp 2
+   \fB-J \fIjob_name\fB \fR
+.br
+               Suspends only jobs with the specified name.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-m \fIhost_name\fB | -m \fIhost_group\fB\fR
+.br
+               Suspends only jobs dispatched to the specified
+               host or host group.
+.sp 2
+   \fB-q \fIqueue_name\fB\fR
+.br
+               Suspends only jobs in the specified queue.
+.sp 2
+   \fB-sla \fIservice_class_name\fB\fR
+.br
+               Suspends jobs belonging to the specified service
+               class.
+.br
+               Use bsla to display the properties of service
+               classes configured in
+               LSB_CONFDIR/\fIcluster_name\fR/configdir/lsb.serviceclasses
+               (see lsb.serviceclasses(5)) and dynamic
+               information about the state of each configured
+               service class.
+.sp 2
+   \fB-u \fIuser_name\fB | -u \fIuser_group\fB | -u all\fR
+.br
+               Suspends only jobs owned by the specified user or
+               user group, or all users if the keyword all is
+               specified. To specify a Windows user account,
+               include the domain name in uppercase letters and
+               use a single backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB\fIjob_ID\fB ... | "\fIjob_ID\fB[\fIindex\fB]" ... \fR
+.br
+               Suspends only the specified jobs. Jobs submitted
+               by any user can be specified here without using
+               the \fR-u\fR option.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   bstop 314
+.sp 2
+   Suspends job number 314.
+.sp 2
+   bstop -m hostA
+.sp 2
+   Suspends the invoker’s last job that was dispatched to host
+   \fRhostA\fR.
+.sp 2
+   bstop -u jsmith 0
+.sp 2
+   Suspends all the jobs submitted by user \fRjsmith\fR.
+.sp 2
+   bstop -u all 
+.sp 2
+   Suspends the last submitted job in the LSF system.
+.sp 2
+   bstop -u all 0 
+.sp 2
+   Suspends all jobs for all users in the LSF system.
+.sp 2
+   bstop -g /risk_group/consolidate 0
+.sp 2
+   Suspends all jobs in the job group
+   \fR/risk_group/consolidate\fR.
+.sp 2
+   bstop -app fluent 0
+.sp 2
+   Suspends all jobs associated with the application profile
+   \fRfluent\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsub(1), bjobs(1), bqueues(1), bhosts(1), bresume(1),
+   bkill(1), bapp(1), bgadd(1), bgdel(1), bjgroup(1), bparams(5),
+   mbatchd(8), \fRkill\fR(1), \fRsignal\fR(2) lsb.params(5)
+.sp 2

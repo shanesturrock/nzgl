@@ -1,0 +1,418 @@
+.ds ]W %
+.ds ]L
+.hy 0
+.nh
+.na
+.TH rsdeploy 8 "June 2007   Platform EGO 1.2.2"
+.br
+
+.SH NAME
+\fBrsdeploy\fR - Deploys and removes middleware packages. You must be a cluster administrator to 
+run this command.
+
+.SH Synopsis
+.BR
+.PP
+ rsdeploy subcommand [options]  rsdeploy -h  rsdeploy -V 
+.SH Description
+.BR
+.PP
+
+.PP
+Use rsdeploy command to remotely deploy middleware and upgrade packages to 
+a specified host or group of hosts, view the status of current deployment or details 
+about past deployments, cancel a deployment, or remotely uninstall a package.
+
+.PP
+restriction:  
+
+.PP
+Middleware deployment is not intended to work on NFS installations.
+
+.PP
+Subcommands can be grouped by function: package management and package 
+installation.
+
+.SS -h
+.BR
+.PP
+
+.PP
+Outputs command usage and exits.
+
+.SS -V
+.BR
+.PP
+
+.PP
+Outputs product version and exits.
+
+.SH Subcommand synopsis
+.BR
+.PP
+
+.PP
+Package management functions:
+ add package_name -p package_file [-o os_type] [-n] [-u user_name] [-x password]  remove package_name [-o os_type] [-u user_name] [-x password]  view [-u user_name] [-x password] 
+.PP
+
+
+.PP
+Package installation functions:
+ install package_name [-c consumer_name -r resource_group] [-t host_name] [-f] [-u user_name] [-x password]  cancel package_name [-u user_name] [-x password]  status package_name [-s all | allocating | waiting | active | done | error | cancelled] [-u user_name] [-x password]  uninstall package_name [-c consumer_name -r resource_group] [-t host_name] [-u user_name] [-x password] 
+.SH add package_name -p package_file [-o os_type] [-n] [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Adds the middleware package to the repository server.
+ package_name	  
+.PP
+Specifies the package name. 
+
+.PP
+The package name is used when running other rsdeploy commands. Enter a 
+meaningful name, as this name, not the file name, identifies the package in the 
+repository service.
+
+.PP
+The package name can contain up to 1024 alphanumeric characters, including the 
+characters "." and "_". Spaces and symbols are not allowed.
+
+.PP
+note:  
+
+.PP
+A Windows limitation prohibits package names ending with ". .". 
+For example, running the command mkdir a . . only creates the directory "a".
+
+.SS -p package_file	 
+.BR
+.PP
+
+.PP
+Specifies the package file to upload.
+
+.PP
+Package types can be one of the following: tar.Z, tar.gz, tgz, gz, taz, tar, 
+jar, tar.zip, or zip.
+
+.SS -o os_type
+.BR
+.PP
+
+.PP
+Specifies the operating system type, as matched to the host resource type.
+
+.PP
+Typical usage is to indicate an OS type. You do not need to indicate an OS type for 
+homogeneous clusters (where all hosts in the cluster are either Windows hosts, or 
+all hosts are running the same Linux kernel).
+
+.SS -n 
+.BR
+.PP
+
+.PP
+Indicates that package verification is not required. 
+
+.PP
+By default, all packages are validated to ensure they are acceptable for deployment. 
+Packages provided by Platform Computing do not require verification. 
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.SH remove package_name [-o os_type]
+.BR
+.PP
+
+.PP
+Removes the middleware package from the repository server.
+ package_name	  
+.PP
+Specifies the package name. 
+
+.SS -o os_type
+.BR
+.PP
+
+.PP
+Specifies the operating system type, as matched to the host resource type.
+
+.PP
+Typical usage is to indicate an OS type. You do not need to indicate an OS type for 
+homogeneous clusters (where all hosts in the cluster are either Windows hosts, or 
+all hosts are running the same Linux kernel).
+
+.SH view [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Lists the packages in the repository and their creation date.
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.SH install package_name [-c consumer_name -r resource_group] [-r resource_group] [-t host_name] [-f] [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Initiates deployment of the middleware package across specified hosts.
+ package_name	  
+.PP
+Specifies the package name. 
+
+.PP
+The name was assigned when the package was first added to the repository server.
+
+.SS -c consumer_name	 
+.BR
+.PP
+
+.PP
+Specifies the consumer used to get an allocation to initiate the activity. The full 
+consumer path is required, and must be preceded by a slash (for example, 
+/ClusterServices/EGOClusterServices). The consumer path must be to a leaf 
+consumer.
+
+.PP
+The consumer needs appropriate privileges/permissions to start a activity on the 
+remote host. (Only a cluster administrator has access to all target hosts.)
+
+.PP
+note:  
+
+.PP
+If you specify a consumer name in the command, you are required to also specify a 
+resource group.
+
+.SS -r resource_group
+.BR
+.PP
+
+.PP
+Specifies the resource group containing all target hosts.
+
+.SS -t host_name	 
+.BR
+.PP
+
+.PP
+Specifies host to which to install the package.
+
+.SS -f
+.BR
+.PP
+
+.PP
+Clears the package status for every host prior to installation.
+
+.PP
+Use this option to update the package status in cases where a manual change may 
+have been done outside by circumventing the rsdeploy command. Ensures cached 
+status is cleared, and the actual status is explicitly discovered. This is important as 
+the package is installed only on those hosts that do not have the status "installed"; 
+therefore, if a host reports an outdated status of "installed", then the package will not 
+be installed when the command is issued.
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.SH cancel package_name [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Cancels the remote deployment. Does not cancel in the middle of a package 
+installation on a host, but stops installation on other hosts awaiting package 
+installation. 
+ package_name	  
+.PP
+Specifies the package name.
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.SH status package_name [-s all | allocating | waiting | active | done | error | cancelled] [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Gets the status of deployments, including pending and completed deployments. 
+Lists deployment errors.
+ package_name	  
+.PP
+Specifies the package name.
+
+.SS -s 
+.BR
+.PP
+
+.PP
+Specifies for filtering criteria for retrieving the status of deployments.
+.RS
+.HP 3
+o  
+all: Default filter. Retrieves the status on all deployments.
+.HP 3
+o  
+allocating: Retrieves the status on deployments awaiting an allocation from 
+Platform EGO.
+.HP 3
+o  
+waiting: Retrieves the status on deployments waiting for the remote agent to 
+start.
+.HP 3
+o  
+active: Retrieves the status on deployments with agents started on remote 
+machines.
+.HP 3
+o  
+done: Retrieves the status on deployments that have completed their package 
+installations.
+.HP 3
+o  
+error: Retrieves thee status on deployments that have received error messages.
+.HP 3
+o  
+cancelled: Retrieves the status on deployments that were canceled. 
+.RE
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.SH uninstall package_name [-c consumer_name -r resource_group] [-r resource_group] [-t host_name] [-u user_name] [-x password]
+.BR
+.PP
+
+.PP
+Uninstalls a middleware package from the hosts.
+ package_name	  
+.PP
+Specifies the package name to uninstall.
+
+.SS -c consumer_name	 
+.BR
+.PP
+
+.PP
+Specifies the consumer used to get an allocation to initiate the activity. The full 
+consumer path is required, and must be preceded by a slash (for example, 
+/ClusterServices/EGOClusterServices). The consumer path must be to a leaf 
+consumer.
+
+.PP
+The consumer needs appropriate privileges/permissions to start a activity on the 
+remote host. (Only a cluster administrator has access to all target hosts.)
+
+.PP
+note:  
+
+.PP
+If you specify a consumer name in the command, you are required to also specify a 
+resource group.
+
+.SS -r resource_group
+.BR
+.PP
+
+.PP
+Specifies the resource group containing all target hosts.
+
+.SS -t host_name	 
+.BR
+.PP
+
+.PP
+Specifies host to which to uninstall the package.
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user name of the Platform EGO system to which you 
+are issuing this command.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+Specifies the Platform EGO user password of the Platform EGO system to which 
+you are issuing this command.
+
+.\" Generated by Quadralay WebWorks Publisher 2003 for FrameMaker 8.0.5.1556
+.\" Generated on June 21, 2007 
+.\" Man section: 8 
+.\" File Name: rsdeploy 
+.\" Based on template structured_wwp8_man_page
+.\" Copyright 1994-2007 Platform Computing Corporation

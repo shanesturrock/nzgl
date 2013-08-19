@@ -1,0 +1,99 @@
+
+.ad l
+
+.ll 72
+
+.TH bgdel 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbgdel\fR
+.sp 2
+   deletes job groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bgdel [-u user_name | -u all] job_group_name | 0
+.sp 2
+bgdel -c job_group_name
+.sp 2
+bgdel [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Deletes a job group with the job group name specified by
+   \fIjob_group_name\fR and all its subgroups.
+.sp 2
+   You must provide full group path name for the job group to be
+   deleted. Deletion only takes effect after all jobs belonging
+   to the group are cleaned out of mbatchd memory after the clean
+   period.
+.sp 2
+   Users can only delete their own job groups. LSF administrators
+   can delete any job groups.
+.sp 2
+   Job groups can be created explicitly or implicitly:
+.sp 2
+     o  
+         A job group is created explicitly with the bgadd
+         command.
+.sp 2
+     o  
+         A job group is created implicitly by the bsub -g or bmod
+         -g command when the specified group does not exist. Job
+         groups are also created implicitly when a default job
+         group is configured (DEFAULT_JOBGROUP in lsb.params or
+         LSB_DEFAULT_JOBGROUP environment variable).
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB0\fR
+.br
+               Delete the empty job groups. These groups can be
+               explicit or implicit.
+.sp 2
+   \fB -u \fIuser_name\fB\fR
+.br
+               Delete empty job groups owned by the specified
+               user. Only administrators can use this option.
+               These groups can be explicit or implicit. If you
+               specify a job group name, the -u option is
+               ignored.
+.sp 2
+   \fB-u all \fR
+.br
+               Delete empty job groups and their sub groups for
+               all users. Only administrators can use this
+               option. These groups can be explicit or implicit.
+               If you specify a job group name, the -u option is
+               ignored.
+.sp 2
+   \fB-c \fIjob_group_name\fB\fR
+.br
+               Delete all the empty groups below the requested
+               \fIjob_group_name\fR including the
+               \fIjob_group_name\fR itself. These groups can be
+               explicit or implicit.
+.sp 2
+   \fB\fIjob_group_name\fB\fR
+.br
+               Full path of the job group name.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   bgdel /risk_groupJob group /risk_group is deleted.
+.sp 2
+   deletes the job group /risk_group and all its subgroups.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bgadd, bjgroup
+.sp 2

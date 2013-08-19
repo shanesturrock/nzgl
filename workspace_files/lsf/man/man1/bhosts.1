@@ -1,0 +1,583 @@
+
+.ad l
+
+.ll 72
+
+.TH bhosts 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbhosts\fR
+.sp 2
+   displays hosts and their static and dynamic resources
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bhosts [-e | -l | -w] [-x] [-X] [-R "res_req"] [host_name |
+host_group | compute_unit] ...
+.sp 2
+bhosts [-e | -l | -w] [-X] [-R "res_req"] [cluster_name]
+.sp 2
+bhosts [-e ] -s [resource_name ...]
+.sp 2
+bhosts [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, returns the following information about all hosts:
+   host name, host status, job state statistics, and job slot
+   limits.
+.sp 2
+   bhosts displays output for condensed host groups and compute
+   units. These host groups and compute units are defined by
+   CONDENSE in the HostGroup and ComputeUnit sectiosn of
+   lsb.hosts. Condensed host groups and compute units are
+   displayed as a single entry with the name as defined by
+   GROUP_NAME or NAME in lsb.hosts.
+.sp 2
+   When LSF adds more resources to a running resizable job,
+   bhosts displays the added resources. When LSF removes
+   resources from a running resizable job, bhosts displays the
+   updated resources.
+.sp 2
+   The -l and -X options display uncondensed output.
+.sp 2
+   The -s option displays information about the numeric resources
+   (shared or host-based) and their associated hosts.
+.sp 2
+   With MultiCluster, displays the information about hosts
+   available to the local cluster. Use -e to view information
+   about exported hosts.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-e\fR
+.br
+               MultiCluster only. Displays information about
+               resources that have been exported to another
+               cluster.
+.sp 2
+   \fB-l\fR
+.br
+               Displays host information in a (long) multi-line
+               format. In addition to the default fields,
+               displays information about the CPU factor, the
+               current load, and the load thresholds.
+.sp 2
+               Also displays information about the dispatch
+               windows.
+.sp 2
+               If you specified an administrator comment with the
+               -C option of the host control commands hclose or
+               hopen, -l displays the comment text.
+.sp 2
+   \fB-w\fR
+.br
+               Displays host information in wide format. Fields
+               are displayed without truncation.
+.sp 2
+               For condensed host groups and compute units , the
+               -w option displays the overall status and the
+               number of hosts with the \fRok\fR, \fRunavail\fR,
+               \fRunreach\fR, and \fRbusy\fR status in the
+               following format:
+.sp 2
+               \fIhost_group_status\fR
+               \fInum_ok\fR/\fInum_unavail\fR/\fInum_unreach\fR/\fInum_busy\fR
+.sp 2
+               where
+.sp 2
+                 o  
+                     \fIhost_group_status\fR is the overall
+                     status of the host group or compute unit. If
+                     a single host in the group or unit is
+                     \fRok\fR, the overall status is also
+                     \fRok\fR.
+.sp 2
+                 o  
+                     \fInum_ok\fR, \fInum_unavail\fR,
+                     \fInum_unreach\fR, and \fInum_busy\fR are
+                     the number of hosts that are \fRok\fR,
+                     \fRunavail\fR, \fRunreach\fR, and
+                     \fRbusy\fR, respectively.
+.sp 2
+               For example, if there are five \fRok\fR, two
+               \fRunavail\fR, one \fRunreach\fR, and three
+               \fRbusy\fR hosts in a condensed host group
+               \fRhg1\fR, its status is displayed as the
+               following:
+.sp 2
+               hg1 ok 5/2/1/3
+.sp 2
+               If any hosts in the host group or compute unit are
+               closed, the status for the host group is displayed
+               as closed, with no status for the other states:
+.sp 2
+               hg1 closed
+.sp 2
+   \fB-x\fR
+.br
+               Display hosts whose job exit rate has exceeded the
+               threshold configured by EXIT_RATE in lsb.hosts for
+               longer than JOB_EXIT_RATE_DURATION configured in
+               lsb.params, and are still high. By default, these
+               hosts are closed the next time LSF checks host
+               exceptions and invokes eadmin.
+.sp 2
+               Use with the -l option to show detailed
+               information about host exceptions.
+.sp 2
+               If no hosts exceed the job exit rate, bhosts -x
+               displays:
+.sp 2
+               There is no exceptional host found
+.sp 2
+   \fB-X\fR
+.br
+               Displays uncondensed output for host groups and
+               compute units.
+.sp 2
+   \fB-R "\fIres_req\fB"\fR
+.br
+               Only displays information about hosts that satisfy
+               the resource requirement expression. For more
+               information about resource requirements, see
+               Administering Platform LSF. The size of the
+               resource requirement string is limited to 512
+               bytes.
+.sp 2
+               LSF supports ordering of resource requirements on
+               all load indices, including external load indices,
+               either static or dynamic.
+.sp 2
+   \fB-s [\fIresource_name\fB ...]\fR
+.br
+               Displays information about the specified resources
+               (shared or host-based). The resources must have
+               numeric values. Returns the following information:
+               the resource names, the total and reserved
+               amounts, and the resource locations.
+.sp 2
+               bhosts -s only shows consumable resources.
+.sp 2
+               When LOCAL_TO is configured for a license feature
+               in lsf.licensescheduler, bhosts -s shows different
+               resource information depending on the cluster
+               locality of the features. For example:
+.sp 2
+               From clusterA:
+.sp 2
+               bhosts -s RESOURCE                 TOTAL       RESERVED       LOCATIONhspice                   36.0        0.0            host1
+.sp 2
+               From clusterB in siteB:
+.sp 2
+               bhosts -s RESOURCE                 TOTAL       RESERVED       LOCATIONhspice                   76.0        0.0            host2
+.sp 2
+   \fB\fIhost_name\fB ... | \fIhost_group\fB ... | \fIcompute
+   unit\fB ...\fR
+.br
+               Only displays information about the specified
+               hosts. Do not use quotes when specifying multiple
+               hosts.
+.sp 2
+               For host groups and compute units, the names of
+               the member hosts are displayed instead of the name
+               of the host group or compute unit. Do not use
+               quotes when specifying multiple host groups or
+               compute units.
+.sp 2
+   \fB\fIcluster_name\fB\fR
+.br
+               MultiCluster only. Displays information about
+               hosts in the specified cluster.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output: Host-Based Default"
+\fBOutput: Host-Based Default\fR
+.sp 2
+   Displays the following fields:
+.sp 2
+   \fBHOST_NAME \fR
+.br
+               The name of the host. If a host has batch jobs
+               running and the host is removed from the
+               configuration, the host name is displayed as
+               lost_and_found.
+.sp 2
+               For condensed host groups, this is the name of
+               host group.
+.sp 2
+   \fBSTATUS\fR
+.br
+               With MultiCluster, not shown for fully exported
+               hosts.
+.sp 2
+               The current status of the host and the sbatchd
+               daemon. Batch jobs can only be dispatched to hosts
+               with an \fRok\fR status. The possible values for
+               host status are as follows:
+.sp 2
+               \fBok \fR
+.br
+                           The host is available to accept batch
+                           jobs.
+.sp 2
+                           For condensed host groups, if a single
+                           host in the host group is \fRok\fR,
+                           the overall status is also shown as
+                           \fRok\fR.
+.sp 2
+                           If any host in the host group or
+                           compute unit is not ok, bhosts
+                           displays the first host status it
+                           encounters as the overall status for
+                           the condensed host group. Use bhosts
+                           -X to see the status of individual
+                           hosts in the host group or compute
+                           unit.
+.sp 2
+               \fBunavail \fR
+.br
+                           The host is down, or LIM and sbatchd
+                           on the host are unreachable.
+.sp 2
+               \fBunreach \fR
+.br
+                           LIM on the host is running but sbatchd
+                           is unreachable.
+.sp 2
+               \fBclosed \fR
+.br
+                           The host is not allowed to accept any
+                           remote batch jobs. There are several
+                           reasons for the host to be closed (see
+                           Host-Based -l Options).
+.sp 2
+               \fBunlicensed\fR
+.br
+                           The host does not have a valid LSF
+                           license.
+.sp 2
+               \fBclosed_Cu_excl\fR
+.br
+                           This host is a member of a compute
+                           unit running an exclusive compute unit
+                           job.
+.sp 2
+   \fBJL/U\fR
+.br
+               With MultiCluster, not shown for fully exported
+               hosts.
+.sp 2
+               The maximum number of job slots that the host can
+               process on a per user basis. If a dash (-) is
+               displayed, there is no limit.
+.sp 2
+               For condensed host groups or compute units, this
+               is the total number of job slots that all hosts in
+               the group or unit can process on a per user basis.
+.sp 2
+               The host does not allocate more than JL/U job
+               slots for one user at the same time. These job
+               slots are used by running jobs, as well as by
+               suspended or pending jobs that have slots reserved
+               for them.
+.sp 2
+               For preemptive scheduling, the accounting is
+               different. These job slots are used by running
+               jobs and by pending jobs that have slots reserved
+               for them (see the description of PREEMPTIVE in
+               lsb.queues(5) and JL/U in lsb.hosts(5)).
+.sp 2
+   \fBMAX\fR
+.br
+               The maximum number of job slots available. If a
+               dash (-) is displayed, there is no limit.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total maximum number of job slots available
+               in all hosts in the host group or compute unit.
+.sp 2
+               These job slots are used by running jobs, as well
+               as by suspended or pending jobs that have slots
+               reserved for them.
+.sp 2
+               If preemptive scheduling is used, suspended jobs
+               are not counted (see the description of PREEMPTIVE
+               in lsb.queues(5) and MXJ in lsb.hosts(5)).
+.sp 2
+               A host does not always have to allocate this many
+               job slots if there are waiting jobs; the host must
+               also satisfy its configured load conditions to
+               accept more jobs.
+.sp 2
+   \fBNJOBS \fR
+.br
+               The number of job slots used by jobs dispatched to
+               the host. This includes running, suspended, and
+               chunk jobs.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total number of job slots used by jobs
+               dispatched to any host in the host group or
+               compute unit.
+.sp 2
+   \fBRUN\fR
+.br
+               The number of job slots used by jobs running on
+               the host.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total number of job slots used by jobs
+               running on any host in the host group or compute
+               unit.
+.sp 2
+   \fBSSUSP \fR
+.br
+               The number of job slots used by system suspended
+               jobs on the host.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total number of job slots used by system
+               suspended jobs on any host in the host group or
+               compute unit.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The number of job slots used by user suspended
+               jobs on the host. Jobs can be suspended by the
+               user or by the LSF administrator.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total number of job slots used by user
+               suspended jobs on any host in the host group or
+               compute unit.
+.sp 2
+   \fBRSV\fR
+.br
+               The number of job slots used by pending jobs that
+               have jobs slots reserved on the host.
+.sp 2
+               For condensed host groups and compute units, this
+               is the total number of job slots used by pending
+               jobs that have job slots reserved on any host in
+               the host group or compute unit.
+.sp 2 .SH "Output: Host-Based -l Option"
+\fBOutput: Host-Based -l Option\fR
+.sp 2
+   In addition to the above fields, the -l option also displays
+   the following:
+.sp 2
+   \fBloadSched, loadStop\fR
+.br
+               The scheduling and suspending thresholds for the
+               host. If a threshold is not defined, the threshold
+               from the queue definition applies. If both the
+               host and the queue define a threshold for a load
+               index, the most restrictive threshold is used.
+.sp 2
+               The migration threshold is the time that a job
+               dispatched to this host can remain suspended by
+               the system before LSF attempts to migrate the job
+               to another host.
+.sp 2
+               If the host’s operating system supports checkpoint
+               copy, this is indicated here. With checkpoint
+               copy, the operating system automatically copies
+               all open files to the checkpoint directory when a
+               process is checkpointed. Checkpoint copy is
+               currently supported only on Cray systems.
+.sp 2
+   \fBSTATUS\fR
+.br
+               The long format shown by the -l option gives the
+               possible reasons for a host to be closed:
+.sp 2
+               \fBclosed_Adm \fR
+.br
+                           The host is closed by the LSF
+                           administrator or root (see badmin(8)).
+                           No job can be dispatched to the host,
+                           but jobs that are executing on the
+                           host are not affected.
+.sp 2
+               \fBclosed_Lock \fR
+.br
+                           The host is locked by the LSF
+                           administrator or root (see
+                           lsadmin(8)). All batch jobs on the
+                           host are suspended by LSF.
+.sp 2
+               \fBclosed_Wind \fR
+.br
+                           The host is closed by its dispatch
+                           windows, which are defined in the
+                           configuration file lsb.hosts(5). Jobs
+                           already started are not affected by
+                           the dispatch windows.
+.sp 2
+               \fBclosed_Full \fR
+.br
+                           The configured maximum number of batch
+                           job slots on the host has been reached
+                           (see MAX field below).
+.sp 2
+               \fBclosed_Excl \fR
+.br
+                           The host is currently running an
+                           exclusive job.
+.sp 2
+               \fBclosed_Cu_Excl \fR
+.br
+                           This host is a member of a compute
+                           unit running an exclusive compute unit
+                           job.
+.sp 2
+               \fBclosed_Busy \fR
+.br
+                           The host is overloaded, because some
+                           load indices go beyond the configured
+                           thresholds (see lsb.hosts(5)). The
+                           displayed thresholds that cause the
+                           host to be busy are preceded by an
+                           asterisk (*).
+.sp 2
+               \fBclosed_LIM\fR
+.br
+                           LIM on the host is unreachable, but
+                           sbatchd is ok.
+.sp 2
+               \fBclosed_EGO\fR
+.br
+                           For EGO-enabled SLA scheduling, host
+                           is closed because it has not been
+                           allocated by EGO to run LSF jobs.
+                           Hosts allocated from EGO display
+                           status ok.
+.sp 2
+   \fBCPUF\fR
+.br
+               Displays the CPU normalization factor of the host
+               (see lshosts(1)).
+.sp 2
+   \fBDISPATCH_WINDOW\fR
+.br
+               Displays the dispatch windows for each host.
+               Dispatch windows are the time windows during the
+               week when batch jobs can be run on each host. Jobs
+               already started are not affected by the dispatch
+               windows. When the dispatch windows close, jobs are
+               not suspended. Jobs already running continue to
+               run, but no new jobs are started until the windows
+               reopen. The default for the dispatch window is no
+               restriction or always open (that is, twenty-four
+               hours a day and seven days a week). For the
+               dispatch window specification, see the description
+               for the DISPATCH_WINDOWS keyword under the
+               \fR-l\fR option in \fRbqueues(1)\fR.
+.sp 2
+   \fBCURRENT LOAD\fR
+.br
+               Displays the total and reserved host load.
+.sp 2
+               \fBReserved\fR
+.br
+                           You specify reserved resources by
+                           using bsub -R. These resources are
+                           reserved by jobs running on the host.
+.sp 2
+               \fBTotal\fR
+.br
+                           The total load has different meanings
+                           depending on whether the load index is
+                           increasing or decreasing.
+.sp 2
+                           For increasing load indices, such as
+                           run queue lengths, CPU utilization,
+                           paging activity, logins, and disk I/O,
+                           the total load is the consumed plus
+                           the reserved amount. The total load is
+                           calculated as the sum of the current
+                           load and the reserved load. The
+                           current load is the load seen by
+                           lsload(1).
+.sp 2
+                           For decreasing load indices, such as
+                           available memory, idle time, available
+                           swap space, and available space in
+                           tmp, the total load is the available
+                           amount. The total load is the
+                           difference between the current load
+                           and the reserved load. This difference
+                           is the available resource as seen by
+                           lsload(1).
+.sp 2
+   \fBLOAD THRESHOLD\fR
+.br
+               Displays the scheduling threshold \fRloadSched
+               \fRand the suspending threshold \fRloadStop\fR.
+               Also displays the migration threshold if defined
+               and the checkpoint support if the host supports
+               checkpointing.
+.sp 2
+               The format for the thresholds is the same as for
+               batch job queues (see bqueues(1)) and
+               lsb.queues(5)). For an explanation of the
+               thresholds and load indices, see the description
+               for the "QUEUE SCHEDULING PARAMETERS" keyword
+               under the -l option in bqueues(1).
+.sp 2
+   \fBTHRESHOLD AND LOAD USED FOR EXCEPTIONS\fR
+.br
+               Displays the configured threshold of EXIT_RATE for
+               the host and its current load value for host
+               exceptions.
+.sp 2
+   \fBADMIN ACTION COMMENT\fR
+.br
+               If the LSF administrator specified an
+               administrator comment with the -C option of the
+               badmin host control commands hclose or hopen, the
+               comment text is displayed.
+.sp 2 .SH "Output: Resource-Based -s Option"
+\fBOutput: Resource-Based -s Option\fR
+.sp 2
+   The -s option displays the following: the amounts used for
+   scheduling, the amounts reserved, and the associated hosts for
+   the resources. Only resources (shared or host-based) with
+   numeric values are displayed. See \fRlim(8)\fR, and
+   lsf.cluster(5) on how to configure shared resources.
+.sp 2
+   The following fields are displayed:
+.sp 2
+   \fBRESOURCE\fR
+.br
+               The name of the resource.
+.sp 2
+   \fBTOTAL\fR
+.br
+               The total amount free of a resource used for
+               scheduling.
+.sp 2
+   \fBRESERVED\fR
+.br
+               The amount reserved by jobs. You specify the
+               reserved resource using \fRbsub -R\fR.
+.sp 2
+   \fBLOCATION\fR
+.br
+               The hosts that are associated with the resource.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads lsb.hosts.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsb.hosts, bqueues, lshosts, badmin, lsadmin

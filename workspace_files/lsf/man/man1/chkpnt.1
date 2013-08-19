@@ -1,0 +1,83 @@
+.\" chkpnt.1,v 1.2 1994/07/30 15:28:26 xxue Exp
+.ds ]W %
+.ds ]L
+.TH CHKPNT 1 "1 August 1998"
+.SH NAME
+chkpnt \- checkpoint a process or a set of processes
+.LP
+.SH SYNOPSIS
+.nf
+.B chkpnt [-kq] process-id chkpntdir 
+.ft
+.fi
+.SH DESCRIPTION
+This command checkpoints the process or the process family specified by
+.BR process-id ,
+makes checkpoint files that
+contain information necessary to restart the process(es), and
+puts them under the directory specified by
+.BR chkpntdir .
+If the
+.B chkpntdir
+does not exist, it will be created.
+.SH OPTIONS
+.B chkpnt
+recognizes the following options:
+.TP 12
+.B -k
+To kill all the target processes if the checkpoint operation
+is successful. Default is that the process(es) continue execution
+after being checkpointed. If this option is specified and the checkpoint
+fails for any reason the target process(es) continue normal
+execution.
+.TP 12
+.B -q
+Quietly inhibit all messages printed by 
+.B chkpnt.
+.SH RETURN VALUE
+.PP
+.B chkpnt
+exits with
+.B 0
+if the process was successfully checkpointed, and
+.B -1
+on errors
+.SH NOTES
+.PP
+The current implementation of
+.BR chkpnt (1)
+does not support the checkpointing of a familiy of processes.
+.PP
+.B SIGHUP
+is used internally to implement checkpointing. Do not
+use the same signal in programs to be checkpointed.
+.PP
+Programs to be checkpointed should be linked with the checkpoint user
+library
+.B libckpt.a
+and with the special checkpoint startup routine
+.B ckpt_crt0.o
+rather than
+.B crt0.o
+as the startup routine.
+Two shell scripts
+.B ckpt_ld
+and
+.B ckpt_ld_f
+are provided as replacements for
+.B ld
+which
+accept the same parameters as
+.B ld
+does and will link the application program
+with
+.B libckpt.a
+and
+.B ckpt_crt0.o
+automatically.
+.B ckpt_ld
+is for linking C programs and
+.B ckpt_ld_f
+is for linking Fortran programs.
+.SH SEE ALSO
+ckpt_ld(1), ckpt_ld_f(1), libckpt.a(3), ckpt_crt0.o(3), chkpnt(3), rmckpt(3).

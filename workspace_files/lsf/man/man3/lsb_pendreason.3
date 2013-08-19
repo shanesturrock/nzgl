@@ -1,0 +1,2667 @@
+.TH "lsb_pendreason" 3 "3 Sep 2009" "Version 7.0" "Platform LSF 7.0.6 C API Reference" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lsb_pendreason \- lsb_pendreason 
+Explains why a job is pending.
+.PP
+Use \fBlsb_pendreason\fP to determine why a job is pending. Each pending reason is associated with one or more hosts.
+.PP
+\fB#include <lsf/lsbatch.h>\fP
+.PP
+\fB char *lsb_pendreason (int numReasons, int *rsTb, struct \fBjobInfoHead\fP *jInfoH, struct \fBloadIndexLog\fP *ld, int clusterId)\fP
+.PP
+.SH "Parameters:"
+\fInumReasons\fP The number of reasons in the rsTb reason table. 
+.br
+\fI*rsTb\fP The reason table. Each entry in the table contains one of \fBpending_reasons\fP 
+.br
+\fI*jInfoH\fP jInfoH contains job information. 
+.br
+\fI*ld\fP From \fBlsb_suspreason\fP, when reasons is SUSP_LOAD_REASON, ld is used to determine the name of any external load indices. ld uses the most recent load index log in the lsb.events file. 
+.br
+\fIclusterId\fP MultiCluster cluster ID. If clusterId is greater than or equal to 0, the job is a pending remote job, and \fBlsb_pendreason\fP checks for host_name@cluster_name. If host name is needed, it should be found in jInfoH->remoteHosts. If the remote host name is not available, the constant string remoteHost is used.
+.PP
+.SH "Data Structures:" 
+.PP
+\fBjobInfoHead\fP 
+.br
+\fBloadIndexLog\fP
+.PP
+.SH "Define Statements:" 
+.PP
+\fBpending_reasons\fP 
+.br
+\fBsuspending_reasons\fP 
+.br
+\fBsuspending_subreasons\fP
+.PP
+.SH "Returns:"
+char *:reasons 
+.br
+ The function is successful. It returns a reason why the job is pending. 
+.PP
+NULL 
+.br
+ The function fails. The reason code is bad.
+.PP
+.SH "Errors:" 
+.PP
+If no PEND reason is found, the function fails and lsberrno is set to indicate the error.
+.PP
+.SH "Equivalent line command:" 
+.PP
+bjobs -p
+.PP
+.SH "Files:" 
+.PP
+${LSF_ENVDIR:-/etc}/lsf.conf
+.PP
+.SH "See also:"
+\fBlsb_geteventrec\fP 
+.PP
+
+.ad l
+.nh
+.SH NAME
+jobInfoHead \- job information head.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBnumJobs\fP"
+.br
+.ti -1c
+.RI "LS_LONG_INT * \fBjobIds\fP"
+.br
+.ti -1c
+.RI "int \fBnumHosts\fP"
+.br
+.ti -1c
+.RI "char ** \fBhostNames\fP"
+.br
+.ti -1c
+.RI "int \fBnumClusters\fP"
+.br
+.ti -1c
+.RI "char ** \fBclusterNames\fP"
+.br
+.ti -1c
+.RI "int * \fBnumRemoteHosts\fP"
+.br
+.ti -1c
+.RI "char *** \fBremoteHosts\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+job information head. 
+.SH "Field Documentation"
+.PP 
+.SS "int \fBjobInfoHead::numJobs\fP"
+.PP
+The number of jobs in the connection. 
+.PP
+.SS "LS_LONG_INT* \fBjobInfoHead::jobIds\fP"
+.PP
+An array of job identification numbers in the conection. 
+.PP
+.SS "int \fBjobInfoHead::numHosts\fP"
+.PP
+The number of hosts in the connection. 
+.PP
+.SS "char** \fBjobInfoHead::hostNames\fP"
+.PP
+An array of host names in the connection. 
+.PP
+.SS "int \fBjobInfoHead::numClusters\fP"
+.PP
+The number of clusters in the connection. 
+.PP
+.SS "char** \fBjobInfoHead::clusterNames\fP"
+.PP
+An array of cluster names in the connection. 
+.PP
+.SS "int* \fBjobInfoHead::numRemoteHosts\fP"
+.PP
+The number of remoteHosts in the connection. 
+.PP
+.SS "char*** \fBjobInfoHead::remoteHosts\fP"
+.PP
+An array of remoteHost names in the connection. 
+.PP
+
+
+.ad l
+.nh
+.SH NAME
+loadIndexLog \- load index log.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBnIdx\fP"
+.br
+.ti -1c
+.RI "char ** \fBname\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+load index log. 
+.SH "Field Documentation"
+.PP 
+.SS "int \fBloadIndexLog::nIdx\fP"
+.PP
+The number of load indices. 
+.PP
+.SS "char** \fBloadIndexLog::name\fP"
+.PP
+The array of load index names. 
+.PP
+
+
+.ad l
+.nh
+.SH NAME
+pending_reasons \- Each entry in the table contains one of the following pending reasons.  
+
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPEND_JOB_REASON\fP   0"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_NEW\fP   1"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_START_TIME\fP   2"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_DEPEND\fP   3"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_DEP_INVALID\fP   4"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_MIG\fP   5"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_PRE_EXEC\fP   6"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_NO_FILE\fP   7"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_ENV\fP   8"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_PATHS\fP   9"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_OPEN_FILES\fP   10"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_EXEC_INIT\fP   11"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RESTART_FILE\fP   12"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_DELAY_SCHED\fP   13"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_SWITCH\fP   14"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_DEP_REJECT\fP   15"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_JS_DISABLED\fP   16"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_NO_PASSWD\fP   17"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_LOGON_FAIL\fP   18"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_MODIFY\fP   19"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_TIME_INVALID\fP   20"
+.br
+.ti -1c
+.RI "#define \fBPEND_TIME_EXPIRED\fP   21"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_REQUEUED\fP   23"
+.br
+.ti -1c
+.RI "#define \fBPEND_WAIT_NEXT\fP   24"
+.br
+.ti -1c
+.RI "#define \fBPEND_JGRP_HOLD\fP   25"
+.br
+.ti -1c
+.RI "#define \fBPEND_JGRP_INACT\fP   26"
+.br
+.ti -1c
+.RI "#define \fBPEND_JGRP_WAIT\fP   27"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RCLUS_UNREACH\fP   28"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_QUE_REJECT\fP   29"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RSCHED_START\fP   30"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RSCHED_ALLOC\fP   31"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_FORWARDED\fP   32"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RMT_ZOMBIE\fP   33"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_ENFUGRP\fP   34"
+.br
+.ti -1c
+.RI "#define \fBPEND_SYS_UNABLE\fP   35"
+.br
+.ti -1c
+.RI "#define \fBPEND_JGRP_RELEASE\fP   36"
+.br
+.ti -1c
+.RI "#define \fBPEND_HAS_RUN\fP   37"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_ARRAY_JLIMIT\fP   38"
+.br
+.ti -1c
+.RI "#define \fBPEND_CHKPNT_DIR\fP   39"
+.br
+.ti -1c
+.RI "#define \fBPEND_CHUNK_FAIL\fP   40"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_SLA_MET\fP   41"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_APP_NOEXIST\fP   42"
+.br
+.ti -1c
+.RI "#define \fBPEND_APP_PROCLIMIT\fP   43"
+.br
+.ti -1c
+.RI "#define \fBPEND_EGO_NO_HOSTS\fP   44"
+.br
+.ti -1c
+.RI "#define \fBPEND_JGRP_JLIMIT\fP   45"
+.br
+.ti -1c
+.RI "#define \fBPEND_PREEXEC_LIMIT\fP   46"
+.br
+.ti -1c
+.RI "#define \fBPEND_REQUEUE_LIMIT\fP   47"
+.br
+.ti -1c
+.RI "#define \fBPEND_BAD_RESREQ\fP   48"
+.br
+.ti -1c
+.RI "#define \fBPEND_RSV_INACTIVE\fP   49"
+.br
+.ti -1c
+.RI "#define \fBPEND_WAITING_RESUME\fP   50"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLOT_COMPOUND\fP   51"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_INACT\fP   301"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_WINDOW\fP   302"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_JOB_LIMIT\fP   303"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_USR_JLIMIT\fP   304"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_USR_PJLIMIT\fP   305"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_PRE_FAIL\fP   306"
+.br
+.ti -1c
+.RI "#define \fBPEND_NQS_RETRY\fP   307"
+.br
+.ti -1c
+.RI "#define \fBPEND_NQS_REASONS\fP   308"
+.br
+.ti -1c
+.RI "#define \fBPEND_NQS_FUN_OFF\fP   309"
+.br
+.ti -1c
+.RI "#define \fBPEND_SYS_NOT_READY\fP   310"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_JOB_REQUEUE\fP   311"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_SPREAD_TASK\fP   312"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_SPREAD_TASK\fP   313"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_PJOB_LIMIT\fP   314"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_WINDOW_WILL_CLOSE\fP   315"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_PROCLIMIT\fP   316"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_PLUGIN\fP   317"
+.br
+.ti -1c
+.RI "#define \fBPEND_WAIT_SIGN_LEASE\fP   318"
+.br
+.ti -1c
+.RI "#define \fBPEND_USER_JOB_LIMIT\fP   601"
+.br
+.ti -1c
+.RI "#define \fBPEND_UGRP_JOB_LIMIT\fP   602"
+.br
+.ti -1c
+.RI "#define \fBPEND_USER_PJOB_LIMIT\fP   603"
+.br
+.ti -1c
+.RI "#define \fBPEND_UGRP_PJOB_LIMIT\fP   604"
+.br
+.ti -1c
+.RI "#define \fBPEND_USER_RESUME\fP   605"
+.br
+.ti -1c
+.RI "#define \fBPEND_USER_STOP\fP   607"
+.br
+.ti -1c
+.RI "#define \fBPEND_NO_MAPPING\fP   608"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_PERMISSION\fP   609"
+.br
+.ti -1c
+.RI "#define \fBPEND_ADMIN_STOP\fP   610"
+.br
+.ti -1c
+.RI "#define \fBPEND_MLS_INVALID\fP   611"
+.br
+.ti -1c
+.RI "#define \fBPEND_MLS_CLEARANCE\fP   612"
+.br
+.ti -1c
+.RI "#define \fBPEND_MLS_RHOST\fP   613"
+.br
+.ti -1c
+.RI "#define \fBPEND_MLS_DOMINATE\fP   614"
+.br
+.ti -1c
+.RI "#define \fBPEND_MLS_FATAL\fP   615"
+.br
+.ti -1c
+.RI "#define \fBPEND_INTERNAL_STOP\fP   616"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_RES_REQ\fP   1001"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_NONEXCLUSIVE\fP   1002"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_JOB_SSUSP\fP   1003"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_PART_PRIO\fP   1004"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_GETPID\fP   1005"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_LOCK\fP   1006"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_ZOMBIE\fP   1007"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_ROOT\fP   1008"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_WIN_WILL_CLOSE\fP   1009"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_MISS_DEADLINE\fP   1010"
+.br
+.ti -1c
+.RI "#define \fBPEND_FIRST_HOST_INELIGIBLE\fP   1011"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_EXCLUSIVE_RESERVE\fP   1012"
+.br
+.ti -1c
+.RI "#define \fBPEND_FIRST_HOST_REUSE\fP   1013"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_DISABLED\fP   1301"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LOCKED\fP   1302"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LESS_SLOTS\fP   1303"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_WINDOW\fP   1304"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_JOB_LIMIT\fP   1305"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_PROC_JLIMIT\fP   1306"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_HOST_JLIMIT\fP   1307"
+.br
+.ti -1c
+.RI "#define \fBPEND_USER_PROC_JLIMIT\fP   1308"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_USR_JLIMIT\fP   1309"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_QUE_MEMB\fP   1310"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_USR_SPEC\fP   1311"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_PART_USER\fP   1312"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_NO_USER\fP   1313"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_ACCPT_ONE\fP   1314"
+.br
+.ti -1c
+.RI "#define \fBPEND_LOAD_UNAVAIL\fP   1315"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_NO_LIM\fP   1316"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_UNLICENSED\fP   1317"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_QUE_RESREQ\fP   1318"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_SCHED_TYPE\fP   1319"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_NO_SPAN\fP   1320"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_NO_SPAN\fP   1321"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_EXCLUSIVE\fP   1322"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_JS_DISABLED\fP   1323"
+.br
+.ti -1c
+.RI "#define \fBPEND_UGRP_PROC_JLIMIT\fP   1324"
+.br
+.ti -1c
+.RI "#define \fBPEND_BAD_HOST\fP   1325"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUEUE_HOST\fP   1326"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LOCKED_MASTER\fP   1327"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LESS_RSVSLOTS\fP   1328"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LESS_DURATION\fP   1329"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_NO_RSVID\fP   1330"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LEASE_INACTIVE\fP   1331"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_ADRSV_ACTIVE\fP   1332"
+.br
+.ti -1c
+.RI "#define \fBPEND_QUE_RSVID_NOMATCH\fP   1333"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_GENERAL\fP   1334"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_RSV\fP   1335"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_NOT_CU\fP   1336"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_CU_EXCL\fP   1337"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_CU_OCCUPIED\fP   1338"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_USABLE_CU\fP   1339"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_FIRST_CU\fP   1340"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_CU_EXCL_RSV\fP   1341"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_CU_MAXCUS\fP   1342"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_CU_BALANCE\fP   1343"
+.br
+.ti -1c
+.RI "#define \fBPEND_CU_TOPLIB_HOST\fP   1344"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_UNREACH\fP   1601"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_JOB_QUOTA\fP   1602"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_START_FAIL\fP   1603"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_START_UNKNWN\fP   1604"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_NO_MEM\fP   1605"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_NO_PROCESS\fP   1606"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_SOCKETPAIR\fP   1607"
+.br
+.ti -1c
+.RI "#define \fBPEND_SBD_JOB_ACCEPT\fP   1608"
+.br
+.ti -1c
+.RI "#define \fBPEND_LEASE_JOB_REMOTE_DISPATCH\fP   1609"
+.br
+.ti -1c
+.RI "#define \fBPEND_JOB_RESTART_FAIL\fP   1610"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_LOAD\fP   2001"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_QUE_RUSAGE\fP   2301"
+.br
+.ti -1c
+.RI "#define \fBPEND_HOST_JOB_RUSAGE\fP   2601"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_JOB_FORGOTTEN\fP   2901"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_IMPT_JOBBKLG\fP   2902"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_MAX_RSCHED_TIME\fP   2903"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_MAX_PREEXEC_RETRY\fP   2904"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_CLOSED\fP   2905"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_INACTIVE\fP   2906"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_CONGESTED\fP   2907"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_DISCONNECT\fP   2908"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_NOPERMISSION\fP   2909"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_BAD_TIME\fP   2910"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_PERMISSIONS\fP   2911"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_PROC_NUM\fP   2912"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_USE\fP   2913"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_NO_INTERACTIVE\fP   2914"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_ONLY_INTERACTIVE\fP   2915"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_PROC_LESS\fP   2916"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_OVER_LIMIT\fP   2917"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_BAD_RESREQ\fP   2918"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_CREATE_JOB\fP   2919"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_RERUN\fP   2920"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_EXIT_REQUEUE\fP   2921"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_REQUEUE\fP   2922"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_JOB_FORWARDING\fP   2923"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_INVALID\fP   2924"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_QUEUE_NO_EXCLUSIVE\fP   2925"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_UGROUP_MEMBER\fP   2926"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_INTERACTIVE_RERUN\fP   2927"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_JOB_START_FAIL\fP   2928"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_FORWARD_FAIL_UGROUP_MEMBER\fP   2930"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_HOST_NO_RSVID\fP   2931"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_APP_NULL\fP   2932"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_BAD_RUNLIMIT\fP   2933"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_OVER_QUEUE_LIMIT\fP   2934"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMT_WHEN_NO_SLOTS\fP   2935"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_USER\fP   3201"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_QUEUE\fP   3501"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_PROJECT\fP   3801"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_CLUSTER\fP   4101"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_HOST\fP   4401"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_JOBS_USER\fP   4701"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_JOBS_QUEUE\fP   4702"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_JOBS_PROJECT\fP   4703"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_JOBS_CLUSTER\fP   4704"
+.br
+.ti -1c
+.RI "#define \fBPEND_GENERAL_LIMIT_JOBS_HOST\fP   4705"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_PLUGIN_INTERNAL\fP   4900"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_PLUGIN_RLA_COMM\fP   4901"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_NOT_AVAILABLE\fP   4902"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_FAIL_TOPOLOGY\fP   4903"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_FAIL_ALLOC\fP   4904"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_SPECIAL_NO_PREEMPT_BACKFILL\fP   4905"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_SPECIAL_NO_RESERVE\fP   4906"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RLA_INTERNAL\fP   4907"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_NO_SLOTS_SPECIAL\fP   4908"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RLA_NO_SUCH_USER\fP   4909"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RLA_NO_SUCH_HOST\fP   4910"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_CHUNKJOB\fP   4911"
+.br
+.ti -1c
+.RI "#define \fBPEND_RLA_PROTOMISMATCH\fP   4912"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_BAD_TOPOLOGY\fP   4913"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_MCONT\fP   4914"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_PTILE\fP   4915"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_NODES\fP   4916"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_BASE\fP   4917"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_RAILS\fP   4918"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMS_RESREQ_RAILMASK\fP   4919"
+.br
+.ti -1c
+.RI "#define \fBPEND_MAUI_UNREACH\fP   5000"
+.br
+.ti -1c
+.RI "#define \fBPEND_MAUI_FORWARD\fP   5001"
+.br
+.ti -1c
+.RI "#define \fBPEND_MAUI_REASON\fP   5030"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_ATTACH\fP   5200"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_NOT_CPUSETHOST\fP   5201"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_INIT\fP   5202"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_TIME_OUT\fP   5203"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_FAIL_ALLOC\fP   5204"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_BAD_REQUEST\fP   5205"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_INTERNAL\fP   5206"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_SYSAPI_ERR\fP   5207"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_NOSUCH_NAME\fP   5208"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_JOB_EXIST\fP   5209"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_NO_MEMORY\fP   5210"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_INVALID_USER\fP   5211"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_PERM_DENY\fP   5212"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_UNREACH\fP   5213"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_TOPD_COMM_ERR\fP   5214"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_PLUGIN_INTERNAL\fP   5215"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_CHUNKJOB\fP   5216"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_CPULIST\fP   5217"
+.br
+.ti -1c
+.RI "#define \fBPEND_CPUSET_MAXRADIUS\fP   5218"
+.br
+.ti -1c
+.RI "#define \fBPEND_NODE_ALLOC_FAIL\fP   5300"
+.br
+.ti -1c
+.RI "#define \fBPEND_RMSRID_UNAVAIL\fP   5400"
+.br
+.ti -1c
+.RI "#define \fBPEND_NO_FREE_CPUS\fP   5450"
+.br
+.ti -1c
+.RI "#define \fBPEND_TOPOLOGY_UNKNOWN\fP   5451"
+.br
+.ti -1c
+.RI "#define \fBPEND_BAD_TOPOLOGY\fP   5452"
+.br
+.ti -1c
+.RI "#define \fBPEND_RLA_COMM\fP   5453"
+.br
+.ti -1c
+.RI "#define \fBPEND_RLA_NO_SUCH_USER\fP   5454"
+.br
+.ti -1c
+.RI "#define \fBPEND_RLA_INTERNAL\fP   5455"
+.br
+.ti -1c
+.RI "#define \fBPEND_RLA_NO_SUCH_HOST\fP   5456"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESREQ_TOOFEWSLOTS\fP   5457"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_PLUGIN_INTERNAL\fP   5500"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_RESREQ_PTILE\fP   5501"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_RESREQ_CELLS\fP   5502"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_CHUNKJOB\fP   5503"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_NOTSUPPORT\fP   5504"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_BIND_FAIL\fP   5505"
+.br
+.ti -1c
+.RI "#define \fBPEND_PSET_RESREQ_CELLLIST\fP   5506"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_PLUGIN_INTERNAL\fP   5550"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_NODES\fP   5551"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_NODE_ATTR\fP   5552"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_EXCLUDE\fP   5553"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_NODELIST\fP   5554"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_CONTIGUOUS\fP   5555"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_ALLOC_UNAVAIL\fP   5556"
+.br
+.ti -1c
+.RI "#define \fBPEND_SLURM_RESREQ_BAD_CONSTRAINT\fP   5557"
+.br
+.ti -1c
+.RI "#define \fBPEND_CRAYX1_SSP\fP   5600"
+.br
+.ti -1c
+.RI "#define \fBPEND_CRAYX1_MSP\fP   5601"
+.br
+.ti -1c
+.RI "#define \fBPEND_CRAYX1_PASS_LIMIT\fP   5602"
+.br
+.ti -1c
+.RI "#define \fBPEND_CRAYXT3_ASSIGN_FAIL\fP   5650"
+.br
+.ti -1c
+.RI "#define \fBPEND_BLUEGENE_PLUGIN_INTERNAL\fP   5700"
+.br
+.ti -1c
+.RI "#define \fBPEND_BLUEGENE_ALLOC_UNAVAIL\fP   5701"
+.br
+.ti -1c
+.RI "#define \fBPEND_BLUEGENE_NOFREEMIDPLANES\fP   5702"
+.br
+.ti -1c
+.RI "#define \fBPEND_BLUEGENE_NOFREEQUARTERS\fP   5703"
+.br
+.ti -1c
+.RI "#define \fBPEND_BLUEGENE_NOFREENODECARDS\fP   5704"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_FIRSTHOSTUNAVAIL\fP   5705"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_MASTERSUSP\fP   5706"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_MASTER_SAME\fP   5707"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_SPAN_PTILE\fP   5708"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_SPAN_HOSTS\fP   5709"
+.br
+.ti -1c
+.RI "#define \fBPEND_RESIZE_LEASE_HOST\fP   5710"
+.br
+.ti -1c
+.RI "#define \fBPEND_COMPOUND_RESREQ_OLD_LEASE_HOST\fP   5800"
+.br
+.ti -1c
+.RI "#define \fBPEND_COMPOUND_RESREQ_TOPLIB_HOST\fP   5801"
+.br
+.ti -1c
+.RI "#define \fBPEND_MULTIPHASE_RESREQ_OLD_LEASE_HOST\fP   5900"
+.br
+.ti -1c
+.RI "#define \fBPEND_PS_PLUGIN_INTERNAL\fP   5750"
+.br
+.ti -1c
+.RI "#define \fBPEND_PS_MBD_SYNC\fP   5751"
+.br
+.ti -1c
+.RI "#define \fBPEND_CUSTOMER_MIN\fP   20001"
+.br
+.ti -1c
+.RI "#define \fBPEND_CUSTOMER_MAX\fP   25000"
+.br
+.ti -1c
+.RI "#define \fBPEND_MAX_REASONS\fP   25001"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Each entry in the table contains one of the following pending reasons. 
+.SH "Define Documentation"
+.PP 
+.SS "#define PEND_JOB_REASON   0"
+.PP
+Virtual code; not a reason. 
+.PP
+.SS "#define PEND_JOB_NEW   1"
+.PP
+A new job is waiting to be scheduled. 
+.PP
+.SS "#define PEND_JOB_START_TIME   2"
+.PP
+The job is held until its specified start time. 
+.PP
+.SS "#define PEND_JOB_DEPEND   3"
+.PP
+The job is waiting for its dependency condition(s) to be satisfied. 
+.PP
+.SS "#define PEND_JOB_DEP_INVALID   4"
+.PP
+The dependency condition is invalid or never satisfied. 
+.PP
+.SS "#define PEND_JOB_MIG   5"
+.PP
+The migrating job is waiting to be rescheduled. 
+.PP
+.SS "#define PEND_JOB_PRE_EXEC   6"
+.PP
+The job's pre-exec command exited with non-zero status. 
+.PP
+.SS "#define PEND_JOB_NO_FILE   7"
+.PP
+Unable to access jobfile. 
+.PP
+.SS "#define PEND_JOB_ENV   8"
+.PP
+Unable to set job's environment variables. 
+.PP
+.SS "#define PEND_JOB_PATHS   9"
+.PP
+Unable to determine the job's home or working directories. 
+.PP
+.SS "#define PEND_JOB_OPEN_FILES   10"
+.PP
+Unable to open the job's input and output files. 
+.PP
+.SS "#define PEND_JOB_EXEC_INIT   11"
+.PP
+Job execution initialization failed. 
+.PP
+.SS "#define PEND_JOB_RESTART_FILE   12"
+.PP
+Unable to copy restarting job's checkpoint files. 
+.PP
+.SS "#define PEND_JOB_DELAY_SCHED   13"
+.PP
+Scheduling of the job is delayed. 
+.PP
+.SS "#define PEND_JOB_SWITCH   14"
+.PP
+Waiting for the re-scheduling of the job after switching queues. 
+.PP
+.SS "#define PEND_JOB_DEP_REJECT   15"
+.PP
+An event is rejected by eeventd due to a syntax error. 
+.PP
+.SS "#define PEND_JOB_JS_DISABLED   16"
+.PP
+A JobScheduler feature is not enabled. 
+.PP
+.SS "#define PEND_JOB_NO_PASSWD   17"
+.PP
+Failed to get user password. 
+.PP
+.SS "#define PEND_JOB_LOGON_FAIL   18"
+.PP
+The job is pending due to logon failure. 
+.PP
+.SS "#define PEND_JOB_MODIFY   19"
+.PP
+The job is waiting to be re-scheduled after its parameters have been changed. 
+.PP
+.SS "#define PEND_JOB_TIME_INVALID   20"
+.PP
+The job time event is invalid. 
+.PP
+.SS "#define PEND_TIME_EXPIRED   21"
+.PP
+The job time event has expired. 
+.PP
+.SS "#define PEND_JOB_REQUEUED   23"
+.PP
+The job has been requeued. 
+.PP
+.SS "#define PEND_WAIT_NEXT   24"
+.PP
+Waiting for the next time event. 
+.PP
+.SS "#define PEND_JGRP_HOLD   25"
+.PP
+The parent group is held. 
+.PP
+.SS "#define PEND_JGRP_INACT   26"
+.PP
+The parent group is inactive. 
+.PP
+.SS "#define PEND_JGRP_WAIT   27"
+.PP
+The group is waiting for scheduling. 
+.PP
+.SS "#define PEND_JOB_RCLUS_UNREACH   28"
+.PP
+The remote cluster(s) are unreachable. 
+.PP
+.SS "#define PEND_JOB_QUE_REJECT   29"
+.PP
+SNDJOBS_TO queue rejected by remote clusters. 
+.PP
+.SS "#define PEND_JOB_RSCHED_START   30"
+.PP
+Waiting for new remote scheduling session. 
+.PP
+.SS "#define PEND_JOB_RSCHED_ALLOC   31"
+.PP
+Waiting for allocation reply from remote clusters. 
+.PP
+.SS "#define PEND_JOB_FORWARDED   32"
+.PP
+The job is forwarded to a remote cluster. 
+.PP
+.SS "#define PEND_JOB_RMT_ZOMBIE   33"
+.PP
+The job running remotely is in a zombie state. 
+.PP
+.SS "#define PEND_JOB_ENFUGRP   34"
+.PP
+Job's enforced user group share account not selected. 
+.PP
+.SS "#define PEND_SYS_UNABLE   35"
+.PP
+The system is unable to schedule the job. 
+.PP
+.SS "#define PEND_JGRP_RELEASE   36"
+.PP
+The parent group has just been released. 
+.PP
+.SS "#define PEND_HAS_RUN   37"
+.PP
+The job has run since group active. 
+.PP
+.SS "#define PEND_JOB_ARRAY_JLIMIT   38"
+.PP
+The job has reached its running element limit. 
+.PP
+.SS "#define PEND_CHKPNT_DIR   39"
+.PP
+Checkpoint directory is invalid. 
+.PP
+.SS "#define PEND_CHUNK_FAIL   40"
+.PP
+The first job in the chunk failed (all other jobs in the chunk are set to PEND). 
+.PP
+.SS "#define PEND_JOB_SLA_MET   41"
+.PP
+Optimum number of running jobs for SLA has been reached. 
+.PP
+.SS "#define PEND_JOB_APP_NOEXIST   42"
+.PP
+Specified application profile does not exist. 
+.PP
+.SS "#define PEND_APP_PROCLIMIT   43"
+.PP
+Job no longer satisfies application PROCLIMIT configuration. 
+.PP
+.SS "#define PEND_EGO_NO_HOSTS   44"
+.PP
+No hosts for the job from EGO. 
+.PP
+.SS "#define PEND_JGRP_JLIMIT   45"
+.PP
+The specified job group has reached its job limit. 
+.PP
+.SS "#define PEND_PREEXEC_LIMIT   46"
+.PP
+Job pre-exec retry limit. 
+.PP
+.SS "#define PEND_REQUEUE_LIMIT   47"
+.PP
+Job re-queue limit. 
+.PP
+.SS "#define PEND_BAD_RESREQ   48"
+.PP
+Job has bad res req. 
+.PP
+.SS "#define PEND_RSV_INACTIVE   49"
+.PP
+Job's reservation is inactive. 
+.PP
+.SS "#define PEND_WAITING_RESUME   50"
+.PP
+Job was in PSUSP with bad res req, after successful bmod waiting for the user to bresume. 
+.PP
+.SS "#define PEND_SLOT_COMPOUND   51"
+.PP
+Job slot request cannot satisfy compound resource requirement. 
+.PP
+.SS "#define PEND_QUE_INACT   301"
+.PP
+The queue is inactivated by the administrator. 
+.PP
+.SS "#define PEND_QUE_WINDOW   302"
+.PP
+The queue is inactivated by its time windows. 
+.PP
+.SS "#define PEND_QUE_JOB_LIMIT   303"
+.PP
+The queue has reached its job slot limit. 
+.PP
+.SS "#define PEND_QUE_USR_JLIMIT   304"
+.PP
+The user has reached the per-user job slot limit of the queue. 
+.PP
+.SS "#define PEND_QUE_USR_PJLIMIT   305"
+.PP
+Not enough per-user job slots of the queue for the parallel job. 
+.PP
+.SS "#define PEND_QUE_PRE_FAIL   306"
+.PP
+The queue's pre-exec command exited with non-zero status. 
+.PP
+.SS "#define PEND_NQS_RETRY   307"
+.PP
+The job was not accepted by the NQS host, Attempt again later. 
+.PP
+.SS "#define PEND_NQS_REASONS   308"
+.PP
+Unable to send the job to an NQS host. 
+.PP
+.SS "#define PEND_NQS_FUN_OFF   309"
+.PP
+Unable to contact NQS host. 
+.PP
+.SS "#define PEND_SYS_NOT_READY   310"
+.PP
+The system is not ready for scheduling after reconfiguration. 
+.PP
+.SS "#define PEND_SBD_JOB_REQUEUE   311"
+.PP
+The requeued job is waiting for rescheduling. 
+.PP
+.SS "#define PEND_JOB_SPREAD_TASK   312"
+.PP
+Not enough hosts to meet the job's spanning requirement. 
+.PP
+.SS "#define PEND_QUE_SPREAD_TASK   313"
+.PP
+Not enough hosts to meet the queue's spanning requirement. 
+.PP
+.SS "#define PEND_QUE_PJOB_LIMIT   314"
+.PP
+The queue has not enough job slots for the parallel job. 
+.PP
+.SS "#define PEND_QUE_WINDOW_WILL_CLOSE   315"
+.PP
+The job will not finish before queue's run window is closed. 
+.PP
+.SS "#define PEND_QUE_PROCLIMIT   316"
+.PP
+Job no longer satisfies queue PROCLIMIT configuration. 
+.PP
+.SS "#define PEND_SBD_PLUGIN   317"
+.PP
+Job requeued due to plug-in failure. 
+.PP
+.SS "#define PEND_WAIT_SIGN_LEASE   318"
+.PP
+Waiting for lease signing. 
+.PP
+.SS "#define PEND_USER_JOB_LIMIT   601"
+.PP
+The job slot limit is reached. 
+.PP
+.SS "#define PEND_UGRP_JOB_LIMIT   602"
+.PP
+A user group has reached its job slot limit. 
+.PP
+.SS "#define PEND_USER_PJOB_LIMIT   603"
+.PP
+The job slot limit for the parallel job is reached. 
+.PP
+.SS "#define PEND_UGRP_PJOB_LIMIT   604"
+.PP
+A user group has reached its job slot limit for the parallel job. 
+.PP
+.SS "#define PEND_USER_RESUME   605"
+.PP
+Waiting for scheduling after resumed by user. 
+.PP
+.SS "#define PEND_USER_STOP   607"
+.PP
+The job was suspended by the user while pending. 
+.PP
+.SS "#define PEND_NO_MAPPING   608"
+.PP
+Unable to determine user account for execution. 
+.PP
+.SS "#define PEND_RMT_PERMISSION   609"
+.PP
+The user has no permission to run the job on remote host/cluster. 
+.PP
+.SS "#define PEND_ADMIN_STOP   610"
+.PP
+The job was suspended by LSF admin or root while pending. 
+.PP
+.SS "#define PEND_MLS_INVALID   611"
+.PP
+The requested label is not valid. 
+.PP
+.SS "#define PEND_MLS_CLEARANCE   612"
+.PP
+The requested label is above user allowed range. 
+.PP
+.SS "#define PEND_MLS_RHOST   613"
+.PP
+The requested label rejected by /etc/rhost.conf. 
+.PP
+.SS "#define PEND_MLS_DOMINATE   614"
+.PP
+The requested label does not dominate current label. 
+.PP
+.SS "#define PEND_MLS_FATAL   615"
+.PP
+The requested label problem. 
+.PP
+.SS "#define PEND_INTERNAL_STOP   616"
+.PP
+LSF internally bstoped a pending job. 
+.PP
+.SS "#define PEND_HOST_RES_REQ   1001"
+.PP
+The job's resource requirements not satisfied. 
+.PP
+.SS "#define PEND_HOST_NONEXCLUSIVE   1002"
+.PP
+The job's requirement for exclusive execution not satisfied. 
+.PP
+.SS "#define PEND_HOST_JOB_SSUSP   1003"
+.PP
+Higher or equal priority jobs already suspended by system. 
+.PP
+.SS "#define PEND_HOST_PART_PRIO   1004"
+.PP
+The job failed to compete with other jobs on host partition. 
+.PP
+.SS "#define PEND_SBD_GETPID   1005"
+.PP
+Unable to get the PID of the restarting job. 
+.PP
+.SS "#define PEND_SBD_LOCK   1006"
+.PP
+Unable to lock the host for exclusively executing the job. 
+.PP
+.SS "#define PEND_SBD_ZOMBIE   1007"
+.PP
+Cleaning up zombie job. 
+.PP
+.SS "#define PEND_SBD_ROOT   1008"
+.PP
+Can't run jobs submitted by root. 
+.PP
+The job is rejected by the sbatchd 
+.SS "#define PEND_HOST_WIN_WILL_CLOSE   1009"
+.PP
+Job can't finish on the host before queue's run window is closed. 
+.PP
+.SS "#define PEND_HOST_MISS_DEADLINE   1010"
+.PP
+Job can't finish on the host before job's termination deadline. 
+.PP
+.SS "#define PEND_FIRST_HOST_INELIGIBLE   1011"
+.PP
+The specified first execution host is not eligible for this job at this time. 
+.PP
+.SS "#define PEND_HOST_EXCLUSIVE_RESERVE   1012"
+.PP
+Exclusive job reserves slots on host. 
+.PP
+.SS "#define PEND_FIRST_HOST_REUSE   1013"
+.PP
+Resized shadow job or non-first resReq of a compound resReq job try to reuse the first execution host. 
+.PP
+.SS "#define PEND_HOST_DISABLED   1301"
+.PP
+The host is closed by the LSF administrator. 
+.PP
+.SS "#define PEND_HOST_LOCKED   1302"
+.PP
+The host is locked by the LSF administrator. 
+.PP
+.SS "#define PEND_HOST_LESS_SLOTS   1303"
+.PP
+Not enough job slots for the parallel job. 
+.PP
+.SS "#define PEND_HOST_WINDOW   1304"
+.PP
+Dispatch windows are closed. 
+.PP
+.SS "#define PEND_HOST_JOB_LIMIT   1305"
+.PP
+The job slot limit reached. 
+.PP
+.SS "#define PEND_QUE_PROC_JLIMIT   1306"
+.PP
+The queue's per-CPU job slot limit is reached. 
+.PP
+.SS "#define PEND_QUE_HOST_JLIMIT   1307"
+.PP
+The queue's per-host job slot limit is reached. 
+.PP
+.SS "#define PEND_USER_PROC_JLIMIT   1308"
+.PP
+The user's per-CPU job slot limit is reached. 
+.PP
+.SS "#define PEND_HOST_USR_JLIMIT   1309"
+.PP
+The host's per-user job slot limit is reached. 
+.PP
+.SS "#define PEND_HOST_QUE_MEMB   1310"
+.PP
+Not a member of the queue. 
+.PP
+.SS "#define PEND_HOST_USR_SPEC   1311"
+.PP
+Not a user-specified host. 
+.PP
+.SS "#define PEND_HOST_PART_USER   1312"
+.PP
+The user has no access to the host partition. 
+.PP
+.SS "#define PEND_HOST_NO_USER   1313"
+.PP
+There is no such user account. 
+.PP
+.SS "#define PEND_HOST_ACCPT_ONE   1314"
+.PP
+Just started a job recently. 
+.PP
+.SS "#define PEND_LOAD_UNAVAIL   1315"
+.PP
+Load info unavailable. 
+.PP
+.SS "#define PEND_HOST_NO_LIM   1316"
+.PP
+The LIM is unreachable by the sbatchd. 
+.PP
+.SS "#define PEND_HOST_UNLICENSED   1317"
+.PP
+The host does not have a valid LSF software license. 
+.PP
+.SS "#define PEND_HOST_QUE_RESREQ   1318"
+.PP
+The queue's resource requirements are not satisfied. 
+.PP
+.SS "#define PEND_HOST_SCHED_TYPE   1319"
+.PP
+The submission host type is not the same. 
+.PP
+.SS "#define PEND_JOB_NO_SPAN   1320"
+.PP
+There are not enough processors to meet the job's spanning requirement. 
+.PP
+The job level locality is unsatisfied. 
+.SS "#define PEND_QUE_NO_SPAN   1321"
+.PP
+There are not enough processors to meet the queue's spanning requirement. 
+.PP
+The queue level locality is unsatisfied. 
+.SS "#define PEND_HOST_EXCLUSIVE   1322"
+.PP
+An exclusive job is running. 
+.PP
+.SS "#define PEND_HOST_JS_DISABLED   1323"
+.PP
+Job Scheduler is disabled on the host. 
+.PP
+It is not licensed to accept repetitive jobs. 
+.SS "#define PEND_UGRP_PROC_JLIMIT   1324"
+.PP
+The user group's per-CPU job slot limit is reached. 
+.PP
+.SS "#define PEND_BAD_HOST   1325"
+.PP
+Incorrect host, group or cluster name. 
+.PP
+.SS "#define PEND_QUEUE_HOST   1326"
+.PP
+Host is not used by the queue. 
+.PP
+.SS "#define PEND_HOST_LOCKED_MASTER   1327"
+.PP
+Host is locked by master LIM. 
+.PP
+.SS "#define PEND_HOST_LESS_RSVSLOTS   1328"
+.PP
+Not enough reserved job slots at this time for specified reservation ID. 
+.PP
+.SS "#define PEND_HOST_LESS_DURATION   1329"
+.PP
+Not enough slots or resources for whole duration of the job. 
+.PP
+.SS "#define PEND_HOST_NO_RSVID   1330"
+.PP
+Specified reservation has expired or has been deleted. 
+.PP
+.SS "#define PEND_HOST_LEASE_INACTIVE   1331"
+.PP
+The host is closed due to lease is inactive. 
+.PP
+.SS "#define PEND_HOST_ADRSV_ACTIVE   1332"
+.PP
+Not enough job slot(s) while advance reservation is active. 
+.PP
+.SS "#define PEND_QUE_RSVID_NOMATCH   1333"
+.PP
+This queue is not configured to send jobs to the cluster specified in the advance. 
+.PP
+.SS "#define PEND_HOST_GENERAL   1334"
+.PP
+Individual host based reasons. 
+.PP
+.SS "#define PEND_HOST_RSV   1335"
+.PP
+Host does not belong to the specified advance reservation. 
+.PP
+.SS "#define PEND_HOST_NOT_CU   1336"
+.PP
+Host does not belong to a compute unit of the required type. 
+.PP
+.SS "#define PEND_HOST_CU_EXCL   1337"
+.PP
+A compute unit containing the host is used exclusively. 
+.PP
+.SS "#define PEND_HOST_CU_OCCUPIED   1338"
+.PP
+CU-level excl. 
+.PP
+job cannot start since CU is occupied 
+.SS "#define PEND_HOST_USABLE_CU   1339"
+.PP
+Insufficiently many usable slots on the host's compute unit. 
+.PP
+.SS "#define PEND_JOB_FIRST_CU   1340"
+.PP
+No first execution compute unit satisfies CU 'usablepercu' requirement. 
+.PP
+
+.SS "#define PEND_HOST_CU_EXCL_RSV   1341"
+.PP
+A CU containing the host is reserved exclusively. 
+.PP
+.SS "#define PEND_JOB_CU_MAXCUS   1342"
+.PP
+Maxcus cannot be satisfied. 
+.PP
+.SS "#define PEND_JOB_CU_BALANCE   1343"
+.PP
+Balance cannot be satisfied. 
+.PP
+.SS "#define PEND_CU_TOPLIB_HOST   1344"
+.PP
+Cu not supported on toplib integration hosts. 
+.PP
+.SS "#define PEND_SBD_UNREACH   1601"
+.PP
+Cannot reach sbatchd. 
+.PP
+.SS "#define PEND_SBD_JOB_QUOTA   1602"
+.PP
+Number of jobs exceed quota. 
+.PP
+.SS "#define PEND_JOB_START_FAIL   1603"
+.PP
+The job failed in talking to the server to start the job. 
+.PP
+.SS "#define PEND_JOB_START_UNKNWN   1604"
+.PP
+Failed in receiving the reply from the server when starting the job. 
+.PP
+.SS "#define PEND_SBD_NO_MEM   1605"
+.PP
+Unable to allocate memory to run job. 
+.PP
+There is no memory on the sbatchd. 
+.SS "#define PEND_SBD_NO_PROCESS   1606"
+.PP
+Unable to fork process to run the job. 
+.PP
+There are no more processes on the sbatchd. 
+.SS "#define PEND_SBD_SOCKETPAIR   1607"
+.PP
+Unable to communicate with the job process. 
+.PP
+.SS "#define PEND_SBD_JOB_ACCEPT   1608"
+.PP
+The slave batch server failed to accept the job. 
+.PP
+.SS "#define PEND_LEASE_JOB_REMOTE_DISPATCH   1609"
+.PP
+Lease job remote dispatch failed. 
+.PP
+.SS "#define PEND_JOB_RESTART_FAIL   1610"
+.PP
+Failed to restart job from last checkpoint. 
+.PP
+.SS "#define PEND_HOST_LOAD   2001"
+.PP
+The load threshold is reached. 
+.PP
+.SS "#define PEND_HOST_QUE_RUSAGE   2301"
+.PP
+The queue's requirements for resource reservation are not satisfied. 
+.PP
+
+.SS "#define PEND_HOST_JOB_RUSAGE   2601"
+.PP
+The job's requirements for resource reservation are not satisfied. 
+.PP
+
+.SS "#define PEND_RMT_JOB_FORGOTTEN   2901"
+.PP
+Remote job not recongized by remote cluster, waiting for rescheduling. 
+.PP
+.SS "#define PEND_RMT_IMPT_JOBBKLG   2902"
+.PP
+Remote import limit reached, waiting for rescheduling. 
+.PP
+.SS "#define PEND_RMT_MAX_RSCHED_TIME   2903"
+.PP
+Remote schedule time reached, waiting for rescheduling. 
+.PP
+.SS "#define PEND_RMT_MAX_PREEXEC_RETRY   2904"
+.PP
+Remote pre-exec retry limit reached, waiting for rescheduling. 
+.PP
+.SS "#define PEND_RMT_QUEUE_CLOSED   2905"
+.PP
+Remote queue is closed. 
+.PP
+.SS "#define PEND_RMT_QUEUE_INACTIVE   2906"
+.PP
+Remote queue is inactive. 
+.PP
+.SS "#define PEND_RMT_QUEUE_CONGESTED   2907"
+.PP
+Remote queue is congested. 
+.PP
+.SS "#define PEND_RMT_QUEUE_DISCONNECT   2908"
+.PP
+Remote queue is disconnected. 
+.PP
+.SS "#define PEND_RMT_QUEUE_NOPERMISSION   2909"
+.PP
+Remote queue is not configured to accept jobs from this cluster. 
+.PP
+.SS "#define PEND_RMT_BAD_TIME   2910"
+.PP
+Job's termination time exceeds the job creation time on remote cluster. 
+.PP
+.SS "#define PEND_RMT_PERMISSIONS   2911"
+.PP
+Permission denied on the execution cluster. 
+.PP
+.SS "#define PEND_RMT_PROC_NUM   2912"
+.PP
+Job's required on number of processors cannot be satisfied on the remote cluster. 
+.PP
+.SS "#define PEND_RMT_QUEUE_USE   2913"
+.PP
+User is not defined in the fairshare policy of the remote queue. 
+.PP
+.SS "#define PEND_RMT_NO_INTERACTIVE   2914"
+.PP
+Remote queue is a non-interactive queue. 
+.PP
+.SS "#define PEND_RMT_ONLY_INTERACTIVE   2915"
+.PP
+Remote queue is an interactive-only queue. 
+.PP
+.SS "#define PEND_RMT_PROC_LESS   2916"
+.PP
+Job's required maximum number of processors is less then the minimum number. 
+.PP
+.SS "#define PEND_RMT_OVER_LIMIT   2917"
+.PP
+Job's required resource limit exceeds that of the remote queue. 
+.PP
+.SS "#define PEND_RMT_BAD_RESREQ   2918"
+.PP
+Job's resource requirements do not match with those of the remote queue. 
+.PP
+.SS "#define PEND_RMT_CREATE_JOB   2919"
+.PP
+Job failed to be created on the remote cluster. 
+.PP
+.SS "#define PEND_RMT_RERUN   2920"
+.PP
+Job is requeued for rerun on the execution cluster. 
+.PP
+.SS "#define PEND_RMT_EXIT_REQUEUE   2921"
+.PP
+Job is requeued on the execution cluster due to exit value. 
+.PP
+.SS "#define PEND_RMT_REQUEUE   2922"
+.PP
+Job was killed and requeued on the execution cluster. 
+.PP
+.SS "#define PEND_RMT_JOB_FORWARDING   2923"
+.PP
+Job was forwarded to remote cluster. 
+.PP
+.SS "#define PEND_RMT_QUEUE_INVALID   2924"
+.PP
+Remote import queue defined for the job in lsb.queues is either not ready or not valid. 
+.PP
+.SS "#define PEND_RMT_QUEUE_NO_EXCLUSIVE   2925"
+.PP
+Remote queue is a non-exclusive queue. 
+.PP
+.SS "#define PEND_RMT_UGROUP_MEMBER   2926"
+.PP
+Job was rejected; submitter does not belong to the specified User Group in the remote cluster or the user group does not exist in the remote cluster. 
+.PP
+.SS "#define PEND_RMT_INTERACTIVE_RERUN   2927"
+.PP
+Remote queue is rerunnable: can not accept interactive jobs. 
+.PP
+.SS "#define PEND_RMT_JOB_START_FAIL   2928"
+.PP
+Remote cluster failed in talking to server to start the job. 
+.PP
+.SS "#define PEND_RMT_FORWARD_FAIL_UGROUP_MEMBER   2930"
+.PP
+Job was rejected; submitter does not belong to the specified User Group in the remote cluster or the user group does not exist in the remote cluster. 
+.PP
+.SS "#define PEND_RMT_HOST_NO_RSVID   2931"
+.PP
+Specified remote reservation has expired or has been deleted. 
+.PP
+.SS "#define PEND_RMT_APP_NULL   2932"
+.PP
+Application profile could not be found in the remote cluster. 
+.PP
+
+.SS "#define PEND_RMT_BAD_RUNLIMIT   2933"
+.PP
+Job's required RUNLIMIT exceeds RUNTIME * JOB_RUNLIMIT_RATIO of the remote cluster. 
+.PP
+
+.SS "#define PEND_RMT_OVER_QUEUE_LIMIT   2934"
+.PP
+Job's required RUNTIME exceeds the hard runtime limit in the remote queue. 
+.PP
+
+.SS "#define PEND_RMT_WHEN_NO_SLOTS   2935"
+.PP
+Job will be pend when no slots available among remote queues. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_USER   3201"
+.PP
+Resource limit defined on user or user group has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_QUEUE   3501"
+.PP
+Resource (s) limit defined on queue has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_PROJECT   3801"
+.PP
+Resource limit defined on project has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_CLUSTER   4101"
+.PP
+Resource (s) limit defined cluster wide has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_HOST   4401"
+.PP
+Resource (s) limit defined on host and/or host group has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_JOBS_USER   4701"
+.PP
+JOBS limit defined for the user or user group has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_JOBS_QUEUE   4702"
+.PP
+JOBS limit defined for the queue has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_JOBS_PROJECT   4703"
+.PP
+JOBS limit defined for the project has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_JOBS_CLUSTER   4704"
+.PP
+JOBS limit defined cluster-wide has been reached. 
+.PP
+
+.SS "#define PEND_GENERAL_LIMIT_JOBS_HOST   4705"
+.PP
+JOBS limit defined on host or host group has been reached. 
+.PP
+
+.SS "#define PEND_RMS_PLUGIN_INTERNAL   4900"
+.PP
+RMS scheduler plugin internal error. 
+.PP
+
+.SS "#define PEND_RMS_PLUGIN_RLA_COMM   4901"
+.PP
+RLA communication failure. 
+.PP
+
+.SS "#define PEND_RMS_NOT_AVAILABLE   4902"
+.PP
+RMS is not available. 
+.PP
+
+.SS "#define PEND_RMS_FAIL_TOPOLOGY   4903"
+.PP
+Cannot satisfy the topology requirement. 
+.PP
+
+.SS "#define PEND_RMS_FAIL_ALLOC   4904"
+.PP
+Cannot allocate an RMS resource. 
+.PP
+
+.SS "#define PEND_RMS_SPECIAL_NO_PREEMPT_BACKFILL   4905"
+.PP
+RMS job with special topology requirements cannot be preemptive or backfill job. 
+.PP
+
+.SS "#define PEND_RMS_SPECIAL_NO_RESERVE   4906"
+.PP
+RMS job with special topology requirements cannot reserve slots. 
+.PP
+
+.SS "#define PEND_RMS_RLA_INTERNAL   4907"
+.PP
+RLA internal error. 
+.PP
+
+.SS "#define PEND_RMS_NO_SLOTS_SPECIAL   4908"
+.PP
+Not enough slots for job. 
+.PP
+Job with RMS topology requirements cannot reserve slots, be preemptive, or be a backfill job. 
+.SS "#define PEND_RMS_RLA_NO_SUCH_USER   4909"
+.PP
+User account does not exist on the execution host. 
+.PP
+
+.SS "#define PEND_RMS_RLA_NO_SUCH_HOST   4910"
+.PP
+Unknown host and/or partition unavailable. 
+.PP
+
+.SS "#define PEND_RMS_CHUNKJOB   4911"
+.PP
+Cannot schedule chunk jobs to RMS hosts. 
+.PP
+
+.SS "#define PEND_RLA_PROTOMISMATCH   4912"
+.PP
+RLA protocol mismatch. 
+.PP
+
+.SS "#define PEND_RMS_BAD_TOPOLOGY   4913"
+.PP
+Contradictory topology requirements specified. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_MCONT   4914"
+.PP
+Not enough slots to satisfy manditory contiguous requirement. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_PTILE   4915"
+.PP
+Not enough slots to satisfy RMS ptile requirement. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_NODES   4916"
+.PP
+Not enough slots to satisfy RMS nodes requirement. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_BASE   4917"
+.PP
+Cannot satisfy RMS base node requirement. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_RAILS   4918"
+.PP
+Cannot satisfy RMS rails requirement. 
+.PP
+
+.SS "#define PEND_RMS_RESREQ_RAILMASK   4919"
+.PP
+Cannot satisfy RMS railmask requirement. 
+.PP
+
+.SS "#define PEND_MAUI_UNREACH   5000"
+.PP
+Unable to communicate with external Maui scheduler. 
+.PP
+
+.SS "#define PEND_MAUI_FORWARD   5001"
+.PP
+Job is pending at external Maui scheduler. 
+.PP
+
+.SS "#define PEND_MAUI_REASON   5030"
+.PP
+External Maui scheduler sets detail reason. 
+.PP
+
+.SS "#define PEND_CPUSET_ATTACH   5200"
+.PP
+CPUSET attach failed. 
+.PP
+Job requeued 
+.SS "#define PEND_CPUSET_NOT_CPUSETHOST   5201"
+.PP
+Not a cpuset host. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_INIT   5202"
+.PP
+Topd initialization failed. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_TIME_OUT   5203"
+.PP
+Topd communication timeout. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_FAIL_ALLOC   5204"
+.PP
+Cannot satisfy the cpuset allocation requirement. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_BAD_REQUEST   5205"
+.PP
+Bad cpuset allocation request. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_INTERNAL   5206"
+.PP
+Topd internal error. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_SYSAPI_ERR   5207"
+.PP
+Cpuset system API failure. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_NOSUCH_NAME   5208"
+.PP
+Specified static cpuset does not exist on the host. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_JOB_EXIST   5209"
+.PP
+Cpuset is already allocated for this job. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_NO_MEMORY   5210"
+.PP
+Topd malloc failure. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_INVALID_USER   5211"
+.PP
+User account does not exist on the cpuset host. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_PERM_DENY   5212"
+.PP
+User does not have permission to run job within cpuset. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_UNREACH   5213"
+.PP
+Topd is not available. 
+.PP
+.SS "#define PEND_CPUSET_TOPD_COMM_ERR   5214"
+.PP
+Topd communication failure. 
+.PP
+.SS "#define PEND_CPUSET_PLUGIN_INTERNAL   5215"
+.PP
+CPUSET scheduler plugin internal error. 
+.PP
+.SS "#define PEND_CPUSET_CHUNKJOB   5216"
+.PP
+Cannot schedule chunk jobs to cpuset hosts. 
+.PP
+.SS "#define PEND_CPUSET_CPULIST   5217"
+.PP
+Can't satisfy CPU_LIST requirement. 
+.PP
+.SS "#define PEND_CPUSET_MAXRADIUS   5218"
+.PP
+Cannot satisfy CPUSET MAX_RADIUS requirement. 
+.PP
+.SS "#define PEND_NODE_ALLOC_FAIL   5300"
+.PP
+Node allocation failed. 
+.PP
+.SS "#define PEND_RMSRID_UNAVAIL   5400"
+.PP
+RMS resource is not available. 
+.PP
+.SS "#define PEND_NO_FREE_CPUS   5450"
+.PP
+Not enough free cpus to satisfy job requirements. 
+.PP
+.SS "#define PEND_TOPOLOGY_UNKNOWN   5451"
+.PP
+Topology unknown or recently changed. 
+.PP
+.SS "#define PEND_BAD_TOPOLOGY   5452"
+.PP
+Contradictory topology requirement specified. 
+.PP
+.SS "#define PEND_RLA_COMM   5453"
+.PP
+RLA communications failure. 
+.PP
+.SS "#define PEND_RLA_NO_SUCH_USER   5454"
+.PP
+User account does not exist on execution host. 
+.PP
+.SS "#define PEND_RLA_INTERNAL   5455"
+.PP
+RLA internal error. 
+.PP
+.SS "#define PEND_RLA_NO_SUCH_HOST   5456"
+.PP
+Unknown host and/or partition unavailable. 
+.PP
+.SS "#define PEND_RESREQ_TOOFEWSLOTS   5457"
+.PP
+Too few slots for specified topology requirement. 
+.PP
+.SS "#define PEND_PSET_PLUGIN_INTERNAL   5500"
+.PP
+PSET scheduler plugin internal error. 
+.PP
+.SS "#define PEND_PSET_RESREQ_PTILE   5501"
+.PP
+Cannot satisfy PSET ptile requirement. 
+.PP
+.SS "#define PEND_PSET_RESREQ_CELLS   5502"
+.PP
+Cannot satisfy PSET cells requirement. 
+.PP
+.SS "#define PEND_PSET_CHUNKJOB   5503"
+.PP
+Cannot schedule chunk jobs to PSET hosts. 
+.PP
+.SS "#define PEND_PSET_NOTSUPPORT   5504"
+.PP
+Host does not support processor set functionality. 
+.PP
+.SS "#define PEND_PSET_BIND_FAIL   5505"
+.PP
+PSET bind failed. 
+.PP
+Job requeued 
+.SS "#define PEND_PSET_RESREQ_CELLLIST   5506"
+.PP
+Cannot satisfy PSET CELL_LIST requirement. 
+.PP
+.SS "#define PEND_SLURM_PLUGIN_INTERNAL   5550"
+.PP
+SLURM scheduler plugin internal error. 
+.PP
+.SS "#define PEND_SLURM_RESREQ_NODES   5551"
+.PP
+Not enough resource to satisfy SLURM nodes requirment. 
+.PP
+.SS "#define PEND_SLURM_RESREQ_NODE_ATTR   5552"
+.PP
+Not enough resource to satisfy SLURM node attributes requirment. 
+.PP
+
+.SS "#define PEND_SLURM_RESREQ_EXCLUDE   5553"
+.PP
+Not enough resource to satisfy SLURM exclude requirment. 
+.PP
+
+.SS "#define PEND_SLURM_RESREQ_NODELIST   5554"
+.PP
+Not enough resource to satisfy SLURM nodelist requirment. 
+.PP
+
+.SS "#define PEND_SLURM_RESREQ_CONTIGUOUS   5555"
+.PP
+Not enough resource to satisfy SLURM contiguous requirment. 
+.PP
+
+.SS "#define PEND_SLURM_ALLOC_UNAVAIL   5556"
+.PP
+SLURM allocation is not available. 
+.PP
+Job requeued. 
+.SS "#define PEND_SLURM_RESREQ_BAD_CONSTRAINT   5557"
+.PP
+Invalid grammar in SLURM constraints option, job will never run. 
+.PP
+
+.SS "#define PEND_CRAYX1_SSP   5600"
+.PP
+Not enough SSPs for job. 
+.PP
+.SS "#define PEND_CRAYX1_MSP   5601"
+.PP
+Not enough MSPs for job. 
+.PP
+.SS "#define PEND_CRAYX1_PASS_LIMIT   5602"
+.PP
+Unable to pass limit information to psched. 
+.PP
+
+.SS "#define PEND_CRAYXT3_ASSIGN_FAIL   5650"
+.PP
+Unable to create or assign a partition by CPA. 
+.PP
+.SS "#define PEND_BLUEGENE_PLUGIN_INTERNAL   5700"
+.PP
+BG/L: Scheduler plug-in internal error. 
+.PP
+
+.SS "#define PEND_BLUEGENE_ALLOC_UNAVAIL   5701"
+.PP
+BG/L: Allocation is not available. 
+.PP
+Job requeued. 
+.SS "#define PEND_BLUEGENE_NOFREEMIDPLANES   5702"
+.PP
+BG/L: No free base partitions available for a full block allocation. 
+.PP
+
+.SS "#define PEND_BLUEGENE_NOFREEQUARTERS   5703"
+.PP
+BG/L: No free quarters available for a small block allocation. 
+.PP
+
+.SS "#define PEND_BLUEGENE_NOFREENODECARDS   5704"
+.PP
+BG/L: No free node cards available for a small block allocation. 
+.PP
+
+.SS "#define PEND_RESIZE_FIRSTHOSTUNAVAIL   5705"
+.PP
+First execution host unavailable. 
+.PP
+.SS "#define PEND_RESIZE_MASTERSUSP   5706"
+.PP
+Master is not in the RUN state. 
+.PP
+.SS "#define PEND_RESIZE_MASTER_SAME   5707"
+.PP
+Host is not same as for master. 
+.PP
+.SS "#define PEND_RESIZE_SPAN_PTILE   5708"
+.PP
+Host already used by master. 
+.PP
+.SS "#define PEND_RESIZE_SPAN_HOSTS   5709"
+.PP
+The job can only use first host. 
+.PP
+.SS "#define PEND_RESIZE_LEASE_HOST   5710"
+.PP
+The job cannot get slots on remote hosts. 
+.PP
+.SS "#define PEND_COMPOUND_RESREQ_OLD_LEASE_HOST   5800"
+.PP
+The job cannot get slots on pre-7Update5 remote hosts. 
+.PP
+.SS "#define PEND_COMPOUND_RESREQ_TOPLIB_HOST   5801"
+.PP
+Hosts using LSF HPC system integrations do not support compound resource requirements. 
+.PP
+
+.SS "#define PEND_MULTIPHASE_RESREQ_OLD_LEASE_HOST   5900"
+.PP
+The job cannot get slots on pre-7Update6 remote hosts. 
+.PP
+.SS "#define PEND_PS_PLUGIN_INTERNAL   5750"
+.PP
+Host does not have enough slots for this SLA job. 
+.PP
+
+.SS "#define PEND_PS_MBD_SYNC   5751"
+.PP
+EGO SLA: Failed to synchronize resource with MBD. 
+.PP
+
+.SS "#define PEND_CUSTOMER_MIN   20001"
+.PP
+Customized pending reason number between min and max. 
+.PP
+
+.SS "#define PEND_CUSTOMER_MAX   25000"
+.PP
+Customized pending reason number between min and max. 
+.PP
+
+.SS "#define PEND_MAX_REASONS   25001"
+.PP
+The maximum number of reasons. 
+.PP
+.ad l
+.nh
+.SH NAME
+suspending_reasons \- suspending_reasons is part of pending_reasons  
+
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSUSP_USER_REASON\fP   0x00000000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_USER_RESUME\fP   0x00000001"
+.br
+.ti -1c
+.RI "#define \fBSUSP_USER_STOP\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBSUSP_QUEUE_REASON\fP   0x00000004"
+.br
+.ti -1c
+.RI "#define \fBSUSP_QUEUE_WINDOW\fP   0x00000008"
+.br
+.ti -1c
+.RI "#define \fBSUSP_RESCHED_PREEMPT\fP   0x00000010"
+.br
+.ti -1c
+.RI "#define \fBSUSP_HOST_LOCK\fP   0x00000020"
+.br
+.ti -1c
+.RI "#define \fBSUSP_LOAD_REASON\fP   0x00000040"
+.br
+.ti -1c
+.RI "#define \fBSUSP_MBD_PREEMPT\fP   0x00000080"
+.br
+.ti -1c
+.RI "#define \fBSUSP_SBD_PREEMPT\fP   0x00000100"
+.br
+.ti -1c
+.RI "#define \fBSUSP_QUE_STOP_COND\fP   0x00000200"
+.br
+.ti -1c
+.RI "#define \fBSUSP_QUE_RESUME_COND\fP   0x00000400"
+.br
+.ti -1c
+.RI "#define \fBSUSP_PG_IT\fP   0x00000800"
+.br
+.ti -1c
+.RI "#define \fBSUSP_REASON_RESET\fP   0x00001000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_LOAD_UNAVAIL\fP   0x00002000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_ADMIN_STOP\fP   0x00004000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_RES_RESERVE\fP   0x00008000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_MBD_LOCK\fP   0x00010000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_RES_LIMIT\fP   0x00020000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_SBD_STARTUP\fP   0x00040000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_HOST_LOCK_MASTER\fP   0x00080000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_HOST_RSVACTIVE\fP   0x00100000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_DETAILED_SUBREASON\fP   0x00200000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_GLB_LICENSE_PREEMPT\fP   0x00400000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_CRAYX1_POSTED\fP   0x00800000"
+.br
+.ti -1c
+.RI "#define \fBSUSP_ADVRSV_EXPIRED\fP   0x01000000"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+suspending_reasons is part of pending_reasons 
+.SH "Define Documentation"
+.PP 
+.SS "#define SUSP_USER_REASON   0x00000000"
+.PP
+Virtual code. 
+.PP
+Not a reason 
+.SS "#define SUSP_USER_RESUME   0x00000001"
+.PP
+The job is waiting to be re-scheduled after being resumed by the user. 
+.PP
+
+.SS "#define SUSP_USER_STOP   0x00000002"
+.PP
+The user suspended the job. 
+.PP
+
+.SS "#define SUSP_QUEUE_REASON   0x00000004"
+.PP
+Virtual code. 
+.PP
+Not a reason 
+.SS "#define SUSP_QUEUE_WINDOW   0x00000008"
+.PP
+The run window of the queue is closed. 
+.PP
+
+.SS "#define SUSP_RESCHED_PREEMPT   0x00000010"
+.PP
+Suspended after preemption. 
+.PP
+The system needs to re-allocate CPU utilization by job priority. 
+.SS "#define SUSP_HOST_LOCK   0x00000020"
+.PP
+The LSF administrator has locked the execution host. 
+.PP
+
+.SS "#define SUSP_LOAD_REASON   0x00000040"
+.PP
+A load index exceeds its threshold. 
+.PP
+The subreasons field indicates which indices. 
+.SS "#define SUSP_MBD_PREEMPT   0x00000080"
+.PP
+The job was preempted by mbatchd because of a higher priorty job. 
+.PP
+
+.SS "#define SUSP_SBD_PREEMPT   0x00000100"
+.PP
+Preempted by sbatchd. 
+.PP
+The job limit of the host/user has been reached. 
+.SS "#define SUSP_QUE_STOP_COND   0x00000200"
+.PP
+The suspend conditions of the queue, as specified by the STOP_COND parameter in lsb.queues, are true. 
+.PP
+
+.SS "#define SUSP_QUE_RESUME_COND   0x00000400"
+.PP
+The resume conditions of the queue, as specified by the RESUME_COND parameter in lsb.queues, are false. 
+.PP
+
+.SS "#define SUSP_PG_IT   0x00000800"
+.PP
+The job was suspended due to the paging rate and the host is not idle yet. 
+.PP
+
+.SS "#define SUSP_REASON_RESET   0x00001000"
+.PP
+Resets the previous reason. 
+.PP
+
+.SS "#define SUSP_LOAD_UNAVAIL   0x00002000"
+.PP
+Load information on the execution hosts is unavailable. 
+.PP
+
+.SS "#define SUSP_ADMIN_STOP   0x00004000"
+.PP
+The job was suspened by root or the LSF administrator. 
+.PP
+
+.SS "#define SUSP_RES_RESERVE   0x00008000"
+.PP
+The job is terminated due to resource limit. 
+.PP
+
+.SS "#define SUSP_MBD_LOCK   0x00010000"
+.PP
+The job is locked by the mbatchd. 
+.PP
+
+.SS "#define SUSP_RES_LIMIT   0x00020000"
+.PP
+The job's requirements for resource reservation are not satisfied. 
+.PP
+
+.SS "#define SUSP_SBD_STARTUP   0x00040000"
+.PP
+The job is suspended while the sbatchd is restarting. 
+.PP
+
+.SS "#define SUSP_HOST_LOCK_MASTER   0x00080000"
+.PP
+The execution host is locked by the master LIM. 
+.PP
+
+.SS "#define SUSP_HOST_RSVACTIVE   0x00100000"
+.PP
+An advance reservation using the host is active. 
+.PP
+.SS "#define SUSP_DETAILED_SUBREASON   0x00200000"
+.PP
+There is a detailed reason in the subreason field. 
+.PP
+.SS "#define SUSP_GLB_LICENSE_PREEMPT   0x00400000"
+.PP
+The job is preempted by glb. 
+.PP
+.SS "#define SUSP_CRAYX1_POSTED   0x00800000"
+.PP
+Job not placed by Cray X1 psched. 
+.PP
+.SS "#define SUSP_ADVRSV_EXPIRED   0x01000000"
+.PP
+Job suspended when its advance reservation expired. 
+.PP
+.ad l
+.nh
+.SH NAME
+suspending_subreasons \- suspending_subreasons has the following options:  
+
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSUB_REASON_RUNLIMIT\fP   0x00000001"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_DEADLINE\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_PROCESSLIMIT\fP   0x00000004"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CPULIMIT\fP   0x00000008"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_MEMLIMIT\fP   0x00000010"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_THREADLIMIT\fP   0x00000020"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_SWAPLIMIT\fP   0x00000040"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_ACCOUNTID\fP   0x00000001"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_ATTRIBUTE\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_BLOCKED\fP   0x00000004"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_RESTART\fP   0x00000008"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_DEPTH\fP   0x00000010"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_GID\fP   0x00000020"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_GASID\fP   0x00000040"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_HARDLABEL\fP   0x00000080"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_LIMIT\fP   0x00000100"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_MEMORY\fP   0x00000200"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_SOFTLABEL\fP   0x00000400"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_SIZE\fP   0x00000800"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_TIME\fP   0x00001000"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_UID\fP   0x00002000"
+.br
+.ti -1c
+.RI "#define \fBSUB_REASON_CRAYX1_WIDTH\fP   0x00004000"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+suspending_subreasons has the following options: 
+.SH "Define Documentation"
+.PP 
+.SS "#define SUB_REASON_RUNLIMIT   0x00000001"
+.PP
+Sub reason of SUSP_RES_LIMIT: RUNLIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_DEADLINE   0x00000002"
+.PP
+Sub reason of SUSP_RES_LIMIT: DEADLINE is reached. 
+.PP
+
+.SS "#define SUB_REASON_PROCESSLIMIT   0x00000004"
+.PP
+Sub reason of SUSP_RES_LIMIT: PROCESSLIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_CPULIMIT   0x00000008"
+.PP
+Sub reason of SUSP_RES_LIMIT: CPULIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_MEMLIMIT   0x00000010"
+.PP
+Sub reason of SUSP_RES_LIMIT: MEMLIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_THREADLIMIT   0x00000020"
+.PP
+Sub reason of SUSP_RES_LIMIT: THREADLIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_SWAPLIMIT   0x00000040"
+.PP
+Sub reason of SUSP_RES_LIMIT: SWAPLIMIT is reached. 
+.PP
+
+.SS "#define SUB_REASON_CRAYX1_ACCOUNTID   0x00000001"
+.PP
+Account ID does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_ATTRIBUTE   0x00000002"
+.PP
+Attribute does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_BLOCKED   0x00000004"
+.PP
+Blocked by one or more gates. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_RESTART   0x00000008"
+.PP
+Application is in the process of being restarted and it is under the control of CPR. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_DEPTH   0x00000010"
+.PP
+Depth does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_GID   0x00000020"
+.PP
+GID does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_GASID   0x00000040"
+.PP
+No GASID is available. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_HARDLABEL   0x00000080"
+.PP
+Hard label does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_LIMIT   0x00000100"
+.PP
+Limit exceeded in regions or domains. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_MEMORY   0x00000200"
+.PP
+Memory size does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_SOFTLABEL   0x00000400"
+.PP
+Soft label does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_SIZE   0x00000800"
+.PP
+Size gate (width times depth larger than gate allows). 
+.PP
+.SS "#define SUB_REASON_CRAYX1_TIME   0x00001000"
+.PP
+Time limit does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_UID   0x00002000"
+.PP
+UID does not match those allowed by the gate. 
+.PP
+.SS "#define SUB_REASON_CRAYX1_WIDTH   0x00004000"
+.PP
+Width does not match those allowed by the gate. 
+.PP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Platform LSF 7.0.6 C API Reference from the source code.

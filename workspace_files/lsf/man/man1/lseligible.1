@@ -1,0 +1,85 @@
+
+.ad l
+
+.ll 72
+
+.TH lseligible 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlseligible\fR
+.sp 2
+   displays whether a task is eligible for remote execution
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lseligible [-r] [-q] [-s] task
+.sp 2
+lseligible [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays whether the specified task is eligible for remote
+   execution.
+.sp 2
+   By default, only tasks in the remote task list are considered
+   eligible for remote execution.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-q \fR
+.br
+               Quiet mode. Displays only the resource requirement
+               string defined for the task. The string ELIGIBLE
+               or NON-ELIGIBLE is omitted.
+.sp 2
+   \fB-r\fR
+.br
+               Remote mode. Considers eligible for remote
+               execution any task not included in the local task
+               list.
+.sp 2
+   \fB-s\fR
+.br
+               Silent mode. No output is produced. The -q and -s
+               options are useful for shell scripts that operate
+               by testing the exit status (see DIAGNOSTICS).
+.sp 2
+   \fB\fItask\fB\fR
+.br
+               Specify a command.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   If the task is eligible, the string ELIGIBLE followed by the
+   resource requirements associated with the task are printed to
+   stdout. Otherwise, the string NON-ELIGIBLE is printed to
+   stdout.
+.sp 2
+   If lseligible prints ELIGIBLE with no resource requirements,
+   the task has the default requirements of CPU consumption and
+   memory usage.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   lseligible has the following exit statuses:
+.sp 2
+   0 Task is eligible for remote execution
+.sp 2
+   1 Command is to be executed locally
+.sp 2
+   -1 Syntax errors
+.sp 2
+   -10 A failure is detected in the LSF system
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   ls_eligible(3), lsrtasks(1), lsf.task(5)

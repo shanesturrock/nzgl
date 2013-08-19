@@ -1,0 +1,323 @@
+
+.ad l
+
+.ll 72
+
+.TH blimits 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblimits\fR
+.sp 2
+   displays information about resource allocation limits of
+   running jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blimits [-w] [-n limit_name ...] [-m host_name | -m host_group |
+-m cluster_name ...] [-P project_name ...] [-q queue_name ...]
+[-u user_name |-u user_group ...]
+.sp 2
+blimits -c
+.sp 2
+blimits -h | -V
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays current usage of resource allocation limits
+   configured in Limit sections in lsb.resources:
+.sp 2
+     o  
+         Configured limit policy name
+.sp 2
+     o  
+         Users (-u option)
+.sp 2
+     o  
+         Queues (-q option)
+.sp 2
+     o  
+         Hosts (-m option)
+.sp 2
+     o  
+         Project names (-P option)
+.sp 2
+     o  
+         Limits (SLOTS, MEM, TMP, SWP, JOBS)
+.sp 2
+     o  
+         Limit configuration (-c option). This is the same as
+         bresources with no options.
+.sp 2
+   Resources that have no configured limits or no limit usage are
+   indicated by a dash (-). Limits are displayed in a USED/LIMIT
+   format. For example, if a limit of 10 slots is configured and
+   3 slots are in use, then blimits displays the limit for SLOTS
+   as 3/10.
+.sp 2
+   Note that if there are no jobs running against resource
+   allocation limits, LSF indicates that there is no information
+   to be displayed:
+.sp 2
+   No resource usage found.
+.sp 2
+   If limits MEM, SWP, or TMP are configured as percentages, both
+   the limit and the amount used are displayed in MB. For
+   example, lshosts displays maxmem of 249 MB, and MEM is limited
+   to 10% of available memory. If 10 MB out of 25 MB are used,
+   blimits displays the limit for MEM as 10/25 (10 MB USED from a
+   25 MB LIMIT).
+.sp 2
+   Limits are displayed for both the vertical tabular format and
+   the horizontal format for Limit sections. If a vertical format
+   Limit section has no name, blimits displays NONAME\fInnn\fR
+   under the NAME column for these limits, where the unnamed
+   limits are numbered in the order the vertical-format Limit
+   sections appear in the lsb.resources file.
+.sp 2
+   If a resource consumer is configured as all, the limit usage
+   for that consumer is indicated by a dash (-)
+.sp 2
+   PER_HOST slot limits are not displayed. The bhosts commands
+   displays these as MXJ limits.
+.sp 2
+   When LSF adds more resources to a running resizable job,
+   blimits displays the added resources. When LSF removes
+   resources from a running resizable job, blimits displays the
+   updated resources.
+.sp 2
+   In MultiCluster, blimits returns the information about all
+   limits in the local cluster.
+.sp 2
+   Limit names and policies are set up by the LSF administrator.
+   See lsb.resources(5) for more information.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-c\fR
+.br
+               Displays all resource configurations in
+               lsb.resources. This is the same as bresources with
+               no options.
+.sp 2
+   \fB-w \fR
+.br
+               Displays resource allocation limits information in
+               a wide format. Fields are displayed without
+               truncation.
+.sp 2
+   \fB-n \fIlimit_name ...\fB\fR
+.br
+               Displays resource allocation limits the specified
+               named Limit sections. If a list of limit sections
+               is specified, Limit section names must be
+               separated by spaces and enclosed in quotation
+               marks (") or (’).
+.sp 2
+   \fB-m \fIhost_name\fB | -m \fIhost_group\fB | -m
+   \fIcluster_name\fB ...\fR
+.br
+               Displays resource allocation limits for the
+               specified hosts. Do not use quotes when specifying
+               multiple hosts.
+.sp 2
+               To see the available hosts, use bhosts.
+.sp 2
+               For host groups:
+.sp 2
+                 o  
+                     If the limits are configured with HOSTS, the
+                     name of the host group is displayed.
+.sp 2
+                 o  
+                     If the limits are configured with PER_HOST,
+                     the names of the hosts belonging to the
+                     group are displayed instead of the name of
+                     the host group.
+.sp 2
+                  \fBTip: \fR
+.sp 2
+                     PER_HOST slot limits are not displayed. The
+                     bhosts command displays these as MXJ limits.
+.sp 2
+               For a list of host groups see bmgroup(1).
+.sp 2
+               In MultiCluster, if a cluster name is specified,
+               displays resource allocation limits in the
+               specified cluster.
+.sp 2
+   \fB-P \fIproject_name \fB... \fR
+.br
+               Displays resource allocation limits for the
+               specified projects.
+.sp 2
+               If a list of projects is specified, project names
+               must be separated by spaces and enclosed in
+               quotation marks (") or (’).
+.sp 2
+   \fB-q \fIqueue_name\fB ... \fR
+.br
+               Displays resource allocation limits for the
+               specified queues.
+.sp 2
+               The command \fRbqueues\fR returns a list of queues
+               configured in the system, and information about
+               the configurations of these queues.
+.sp 2
+               In MultiCluster, you cannot specify remote queues.
+.sp 2
+   \fB-u \fIuser_name\fB | -u \fIuser_group\fB ...\fR
+.br
+               Displays resource allocation limits for the
+               specified users.
+.sp 2
+               If a list of users is specified, user names must
+               be separated by spaces and enclosed in quotation
+               marks (") or (’). You can specify both user names
+               and user IDs in the list of users.
+.sp 2
+               If a user group is specified, displays the
+               resource allocation limits that include that group
+               in their configuration. For a list of user groups
+               see bugroup(1)).
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Configured limits and resource usage for built-in resources
+   (slots, mem, tmp, and swp load indices, and running and
+   suspended job limits) are displayed as INTERNAL RESOURCE
+   LIMITS separately from custom external resources, which are
+   shown as EXTERNAL RESOURCE LIMITS.
+.sp 2 .SH "Output: Resource Consumers"
+\fBOutput: Resource Consumers\fR
+.sp 2
+   blimits displays the following fields for resource consumers:
+.sp 2
+   \fBNAME\fR
+.br
+               The name of the limit policy as specified by the
+               Limit section NAME parameter.
+.sp 2
+   \fBUSERS\fR
+.br
+               List of user names or user groups on which the
+               displayed limits are enforced, as specified by the
+               Limit section parameters USERS or PER_USER.
+.sp 2
+               User group names have a slash (/) added at the end
+               of the group name. See bugroup(1).
+.sp 2
+   \fBQUEUES\fR
+.br
+               The name of the queue to which the limits apply,
+               as specified by the Limit section parameters
+               QUEUES or PER_QUEUES.
+.sp 2
+               If the queue has been removed from the
+               configuration, the queue name is displayed as
+               lost_and_found. Use bhist to get the original
+               queue name. Jobs in the \fRlost_and_found\fR queue
+               remain pending until they are switched with the
+               bswitch command into another queue.
+.sp 2
+               In a MultiCluster resource leasing environment,
+               jobs scheduled by the consumer cluster display the
+               remote queue name in the format
+               \fIqueue_name\fR@\fIcluster_name\fR. By default,
+               this field truncates at 10 characters, so you
+               might not see the cluster name unless you use -w
+               or -l.
+.sp 2
+   \fBHOSTS\fR
+.br
+               List of hosts and host groups on which the
+               displayed limits are enforced, as specified by the
+               Limit section parameters HOSTS or PER_HOSTS.
+.sp 2
+               Host group names have a slash (/) added at the end
+               of the group name. See bmgroup(1).
+.sp 2
+                  \fBTip: \fR
+.sp 2
+                     PER_HOST slot limits are not displayed. The
+                     bhosts command displays these as MXJ limits.
+.sp 2
+   \fBPROJECTS\fR
+.br
+               List of project names on which limits are
+               enforced., as specified by the Limit section
+               parameters PROJECTS or PER_PROJECT.
+.sp 2 .SH "Output: Resource Limits"
+\fBOutput: Resource Limits\fR
+.sp 2
+   blimits displays resource allocation limits for the following
+   resources:
+.sp 2
+   \fBSLOTS\fR
+.br
+               Number of slots currently used and maximum number
+               of slots configured for the limit policy, as
+               specified by the Limit section SLOTS parameter.
+.sp 2
+   \fBMEM\fR
+.br
+               Amount of memory currently used and maximum
+               configured for the limit policy, as specified by
+               the Limit section MEM parameter.
+.sp 2
+   \fBTMP\fR
+.br
+               Amount of tmp space currently used and maximum
+               amount of tmp space configured for the limit
+               policy, as specified by the Limit section TMP
+               parameter.
+.sp 2
+   \fBSWP\fR
+.br
+               Amount of swap space currently used and maximum
+               amount of swap space configured for the limit
+               policy, as specified by the Limit section SWP
+               parameter.
+.sp 2
+   \fBJOBS\fR
+.br
+               Number of currently running and suspended jobs and
+               the maximum number of jobs configured for the
+               limit policy, as specified by the Limit section
+               JOBS parameter.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following command displays limit configuration and dynamic
+   usage information for project \fRproj1\fR:
+.sp 2
+   blimits -P proj1
+.sp 2
+   INTERNAL RESOURCE LIMITS:
+.sp 2
+   NAME      USERS      QUEUES     HOSTS     PROJECTS   SLOTS   MEM    TMP   SWP   JOBS
+.sp 2
+   limit1    user1           -     hostA        proj1     2/6    -      -     -      -
+.sp 2
+   NONAME022    -            -     hostB  proj1 proj2     1/3    -      -     -      -
+.sp 2
+
+.sp 2
+   EXTERNAL RESOURCE LIMITS:
+.sp 2
+   NAME      USERS      QUEUES     HOSTS     PROJECTS     tmp1
+.sp 2
+   limit1    user1           -     hostA proj1      1/1
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bclusters, bhosts, bhist, bmgroup, bqueues, bugroup,
+   lsb.resources

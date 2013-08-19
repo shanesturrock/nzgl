@@ -1,0 +1,140 @@
+
+.ad l
+
+.ll 72
+
+.TH bhpart 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbhpart\fR
+.sp 2
+   displays information about host partitions
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bhpart [-r] [host_partition_name ...]
+.sp 2
+bhpart [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, displays information about all host partitions.
+   Host partitions are used to configure host-partition fairshare
+   scheduling.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-r \fR
+.br
+               Displays the entire information tree associated
+               with the host partition recursively.
+.sp 2
+   \fB\fIhost_partition_name ... \fB\fR
+.br
+               Displays information about the specified host
+               partitions only.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   The following fields are displayed for each host partition:
+.sp 2
+   \fBHOST_PARTITION_NAME \fR
+.br
+               Name of the host partition.
+.sp 2
+   \fBHOSTS \fR
+.br
+               Hosts or host groups that are members of the host
+               partition. The name of a host group is appended by
+               a slash (\fR/\fR) (see bmgroup(1)).
+.sp 2
+   \fBUSER/GROUP\fR
+.br
+               Name of users or user groups who have access to
+               the host partition (see bugroup(1)).
+.sp 2
+   \fBSHARES \fR
+.br
+               Number of shares of resources assigned to each
+               user or user group in this host partition, as
+               configured in the file lsb.hosts. The shares
+               affect dynamic user priority for when fairshare
+               scheduling is configured at the host level.
+.sp 2
+   \fBPRIORITY \fR
+.br
+               Dynamic user priority for the user or user group.
+               Larger values represent higher priorities. Jobs
+               belonging to the user or user group with the
+               highest priority are considered first for
+               dispatch.
+.sp 2
+               In general, users or user groups with larger
+               SHARES, fewer STARTED and RESERVED, and a lower
+               CPU_TIME and RUN_TIME have higher PRIORITY.
+.sp 2
+   \fBSTARTED \fR
+.br
+               Number of job slots used by running or suspended
+               jobs owned by users or user groups in the host
+               partition.
+.sp 2
+   \fBRESERVED \fR
+.br
+               Number of job slots reserved by the jobs owned by
+               users or user groups in the host partition.
+.sp 2
+   \fBCPU_TIME \fR
+.br
+               Cumulative CPU time used by jobs of users or user
+               groups executed in the host partition. Measured in
+               seconds, to one decimal place.
+.sp 2
+               LSF calculates the cumulative CPU time using the
+               actual (not normalized) CPU time and a decay
+               factor such that 1 hour of recently-used CPU time
+               decays to 0.1 hours after an interval of time
+               specified by HIST_HOURS in lsb.params (5 hours by
+               default).
+.sp 2
+   \fBRUN_TIME \fR
+.br
+               Wall-clock run time plus historical run time of
+               jobs of users or user groups that are executed in
+               the host partition. Measured in seconds.
+.sp 2
+               LSF calculates the historical run time using the
+               actual run time of finished jobs and a decay
+               factor such that 1 hour of recently-used run time
+               decays to 0.1 hours after an interval of time
+               specified by HIST_HOURS in lsb.params (5 hours by
+               default). Wall-clock run time is the run time of
+               running jobs.
+.sp 2
+   \fBADJUST \fR
+.br
+               Dynamic priority calculation adjustment made by
+               the user-defined fairshare
+               plugin(libfairshareadjust.*).
+.sp 2
+               The fairshare adjustment is enabled and weighted
+               by the parameter \fBFAIRSHARE_ADJUSTMENT_FACTOR\fR
+               in lsb.params.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads lsb.hosts.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bugroup(1), bmgroup(1), lsb.hosts(5)
+.sp 2

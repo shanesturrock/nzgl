@@ -1,0 +1,142 @@
+
+.ad l
+
+.ll 72
+
+.TH tssub 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBtssub\fR
+.sp 2
+   submits a Terminal Services job to LSF
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+tssub [bsub_options] command [arguments]
+.sp 2
+tssub [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Submits a Terminal Services job for batch execution and
+   assigns it a unique numerical job ID.
+.sp 2
+   tssub is a wrapper around the bsub command that only submits
+   jobs to hosts that have Microsoft Terminal Services installed.
+   For bsub options, see the bsub command.
+.sp 2
+   You submit Terminal Services job with tssub instead of bsub.
+   If the terminal window is closed, the job remains running. You
+   can reconnect to view the job with tspeek.
+.sp 2
+   tssub is supported on Windows and Linux. You cannot use tssub
+   to submit Terminal Services jobs from UNIX.
+.sp 2
+   If the job is dispatched to a host in which Terminal Services
+   is not installed or properly configured, the job is set to the
+   PEND state and a pending reason is written in
+   sbatchd.log.\fIhost_name\fR.
+.sp 2
+   If tssub -I is specified, a terminal display is visible on the
+   submission host after the job has been started.
+.sp 2
+   If the job is not a GUI job, LSF runs a command window and
+   output is displayed in the command window when something is
+   written to stdout.
+.sp 2
+   Pre- and post-execution commands are executed within the
+   terminal session. The job does not complete until
+   post-execution commands complete.
+.sp 2
+   If you use bjobs -l to monitor the job, you see a message
+   similar to \fR“External Message 2 was posted from
+   LSF\\lsfadmin to message box 2”\fR. The body of the message
+   contains the ID of the terminal session that was created.
+.sp 2
+   Use tspeek to view job output.
+.sp 2
+   tssub sets the LSB_TSJOB and LSF_LOGON_DESKTOP environment
+   variables. These variables are then transferred to the
+   execution host:
+.sp 2
+   \fBLSF_LOGON_DESKTOP\fR
+.br
+               When LSF_LOGON_DESKTOP=1, jobs run in interactive
+               foreground sessions. This allows GUIs to be
+               displayed on the execution host. If this parameter
+               is not defined, jobs run in the background.
+.sp 2
+   \fBLSB_TSJOB\fR
+.br
+               When the LSB_TSJOB variable is defined to any
+               value, it indicates to LSF that the job is a
+               Terminal Services job.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+     o  
+         You cannot use bmod to modify a job submitted as a
+         Terminal Services job to become a non-Terminal Services
+         job
+.sp 2
+     o  
+         The bsub option -o \fIout_file\fR is not supported for
+         tssub
+.sp 2
+     o  
+         Only Windows bsub options are supported for tssub. For
+         example, you cannot use the options -Ip, -Is, -L
+         \fIlogin_shell\fR of bsub with tssub.
+.sp 2
+     o  
+         Interactive bsub options (-I, -Ip, -Is) are not
+         supported with tssub on Linux
+.sp 2
+     o  
+         If user mapping is defined, the user who invokes tspeek
+         must have the required privileges to access the session
+.sp 2
+     o  
+         MultiCluster is not supported
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIbsub_options\fB\fR
+.br
+               Only Windows bsub options are supported for tssub.
+               For example, you cannot use the options -Ip, -Is,
+               -L \fIlogin_shell\fR of bsub with tssub.
+.sp 2
+               For bsub options, see the bsub command.
+.sp 2
+   \fB\fIcommand\fB [\fIargument\fB]\fR
+.br
+               The job can be specified by a command line
+               argument command, or through the standard input if
+               the command is not present on the command line.
+               The\fI command\fR is assumed to begin with the
+               first word that is not part of a tssub option. All
+               arguments that follow \fIcommand\fR are provided
+               as the arguments to the \fIcommand\fR.
+.sp 2
+               The job command can be up to 4094 characters long
+               for UNIX and Linux or up to 255 characters for
+               Windows. If no job name is specified with -J,
+               bjobs, bhist and bacct displays the command as the
+               job name.
+.sp 2
+               The commands are executed in the order in which
+               they are given.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsub, tspeek

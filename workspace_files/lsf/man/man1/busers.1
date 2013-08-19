@@ -1,0 +1,142 @@
+
+.ad l
+
+.ll 72
+
+.TH busers 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbusers\fR
+.sp 2
+   displays information about users and user groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+busers [-w] [user_name ... | user_group ... | all]
+.sp 2
+busers [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays information about users and user groups.
+.sp 2
+   By default, displays information about the user who runs the
+   command.
+.sp 2
+   When a resizable job has a resize allocation request, busers
+   displays pending requests. When LSF adds more resources to a
+   running resizable job, busers decreases job PEND counts and
+   displays the added resources. When LSF removes resources from
+   a running resizable job, busers displays the updated
+   resources.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIuser_name\fB ... | \fIuser_group\fB ... | all\fR
+.br
+               Displays information about the specified users or
+               user groups, or about all users if you specify
+               \fRall\fR. To specify a Windows user account,
+               include the domain name in uppercase letters and
+               use a single backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2
+   \fB-w\fR
+.br
+               Prints user and user group pending job thresholds
+               and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   A listing of the users and user groups is displayed with the
+   following fields:
+.sp 2
+   \fBUSER/GROUP \fR
+.br
+               The name of the user or user group.
+.sp 2
+   \fBJL/P \fR
+.br
+               The maximum number of job slots that can be
+               processed simultaneously for the specified users
+               on each processor. For non-preemptive scheduling,
+               these job slots are used by running and suspended
+               jobs or by pending jobs that have jobs slots
+               reserved for them. For preemptive scheduling,
+               these job slots are used by running jobs or by
+               pending jobs that have slots reserved for them.
+               This job limit is configured per processor so that
+               multiprocessor hosts have more job slots. If the
+               dash character (-) is displayed, there is no
+               limit. JL/P is defined in the LSF configuration
+               file lsb.users.
+.sp 2
+   \fBMAX \fR
+.br
+               The maximum number of job slots that can be
+               processed concurrently for the specified users’
+               jobs. For non-preemptive scheduling, these job
+               slots are used by running and suspended jobs or by
+               pending jobs that have job slots reserved for
+               them. For preemptive scheduling, these job slots
+               are used by running jobs or by pending jobs that
+               have job slots reserved for them. If the character
+               ‘–’ is displayed, there is no limit. MAX is
+               defined by the MAX_JOBS parameter in the
+               configuration file lsb.users(5).
+.sp 2
+   \fBNJOBS \fR
+.br
+               The current number of job slots used by specified
+               users’ jobs. A parallel job that is pending is
+               counted as \fIn\fR job slots for it uses \fIn\fR
+               job slots in the queue when it is dispatched.
+.sp 2
+   \fBPEND \fR
+.br
+               The number of pending job slots used by jobs of
+               the specified users.
+.sp 2
+   \fBRUN \fR
+.br
+               The number of job slots used by running jobs of
+               the specified users.
+.sp 2
+   \fBSSUSP \fR
+.br
+               The number of job slots used by the
+               system-suspended jobs of the specified users.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The number of job slots used by user-suspended
+               jobs of the specified users.
+.sp 2
+   \fBRSV \fR
+.br
+               The number of job slots used by pending jobs of
+               the specified users that have job slots reserved
+               for them.
+.sp 2
+   \fBMPEND \fR
+.br
+               The pending job threshold for the specified users
+               or user groups. MPEND is defined by the
+               MAX_PEND_JOBS parameter in the configuration file
+               lsb.users.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fR\fRbugroup, \fR\fRlsb.users, \fR\fRlsb.queues

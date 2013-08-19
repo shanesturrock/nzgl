@@ -1,0 +1,149 @@
+
+.ad l
+
+.ll 72
+
+.TH lsinfo 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsinfo\fR
+.sp 2
+   displays load sharing configuration information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsinfo [-l] [-m | -M] [-r] [-t] [resource_name ...]
+.sp 2
+lsinfo [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, displays all load sharing configuration
+   information including resource names and their meanings, host
+   types and models, and associated CPU factors known to the
+   system.
+.sp 2
+   By default, displays information about all resources. Resource
+   information includes resource name, resource type,
+   description, and the default sort order for the resource.
+.sp 2
+   You can use resource names in task placement requests.
+.sp 2
+   Use this command with options to selectively view configured
+   resources, host types, and host models.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l \fR
+.br
+               Displays resource information in a long multi-line
+               format. Additional parameters are displayed
+               including whether a resource is built-in or
+               configured, and whether the resource value changes
+               dynamically or is static. If the resource value
+               changes dynamically then the interval indicates
+               how often it is evaluated.
+.sp 2
+   \fB-M\fR
+.br
+               Displays information about all host models in the
+               file lsf.shared.
+.sp 2
+   \fB-m \fR
+.br
+               Displays only information about host models that
+               exist in the cluster.
+.sp 2
+   \fB-r \fR
+.br
+               Displays only information about configured
+               resources.
+.sp 2
+   \fB-t \fR
+.br
+               Displays only information about configured host
+               types. See lsload(1) and lshosts(1).
+.sp 2
+   \fB\fIresource_name\fB ...\fR
+.br
+               Displays only information about the specified
+               resources.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output: -l option"
+\fBOutput: -l option\fR
+.sp 2
+   The -l option displays all information available about load
+   indices.
+.sp 2
+   \fBTYPE\fR
+.br
+               Indicates whether the resource is numeric, string,
+               or Boolean.
+.sp 2
+   \fBORDER\fR
+.br
+                 o  
+                     Inc—If the numeric value of the load index
+                     increases as the load it measures increases,
+                     such as CPU utilization (\fRut\fR).
+.sp 2
+                 o  
+                     Dec—If the numeric value decreases as the
+                     load increases.
+.sp 2
+                 o  
+                     N/A—If the resource is not numeric.
+.sp 2
+   \fBINTERVAL\fR
+.br
+               The number of seconds between updates of that
+               index. Load indices are updated every INTERVAL
+               seconds. A value of 0 means the value never
+               changes.
+.sp 2
+   \fBBUILTIN\fR
+.br
+               If BUILTIN is \fRYes\fR, the resource name is
+               defined internally by LIM. If BUILTIN is \fRNo\fR,
+               the resource name is site-specific defined
+               externally by the LSF administrator.
+.sp 2
+   \fBDYNAMIC\fR
+.br
+               If DYNAMIC is \fRYes\fR the resource is a load
+               index that changes over time. If DYNAMIC is
+               \fRNo\fR the resource represents information that
+               is fixed such as the total swap space on a host.
+               Resources are Static or Boolean.
+.sp 2
+   \fBRELEASE\fR
+.br
+               Applies to numeric shared resources only, such as
+               floating licenses. Indicates whether LSF releases
+               the resource when a job using the resource is
+               suspended. When a job using a shared resource is
+               suspended, the resource is held or released by the
+               job depending on the configuration of the RELEASE
+               parameter in lsf.shared.
+.sp 2
+               \fRNo\fR indicates the resource is held. \fRYes\fR
+               indicates the resource is released.
+.sp 2
+   \fBCONSUMABLE\fR
+.br
+               If CONSUMABLE is Yes the resource is a static or
+               dynamic numeric resource that is specified as
+               consumable in the Resource section of lsf.shared.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lshosts, lsload, lsf.shared, ls_info, ls_policy
+.sp 2

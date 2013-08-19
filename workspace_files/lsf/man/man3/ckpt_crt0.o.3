@@ -1,0 +1,55 @@
+.\" ckpt_crt0.o.3ckpt,v 1.2 1994/07/30 15:28:28 xxue Exp
+.ds ]W %
+.ds ]L
+.TH CKPT_CRT0.O 3CKPT "1 August 1998"
+.SH NAME
+ckpt_crt0.o \- an execution startup routine for checkpointing
+.LP
+.SH DESCRIPTION
+This is a replacement startup routine for the standard startup routine
+.BR crt0.o .
+It provides startup capabilities and environment for program execution.
+It also initializes the data structures for the checkpointing facility.
+For a restarted process, it restores the execution environment.
+Programs to be checkpointed
+should be linked with
+.B ckpt_crt0.o
+rather than
+.B crt0.o
+as the startup routine.
+.PP
+Two shell scripts
+.B ckpt_ld
+and
+.B ckpt_ld_f
+are provided as replacements for
+.B ld
+which 
+accept the same parameters as
+.B ld
+does and will link application programs
+with
+.B ckpt_crt0.o
+and the checkpoint user library
+.B libckpt.a
+automatically.
+.B ckpt_ld
+is for linking C programs and
+.B ckpt_ld_f
+is for Fortran programs.
+.PP
+For IRIX 6, there are 5 sets of the checkpoint user library
+and the checkpoint startup routine,
+\fBlibckpt.mips[2|3|4]-[32|64].a\fR,
+\fBckpt_crt0.mips[2|3|4]-[32|64].o\fR. They are to be linked with object files
+compiled under option "-mips2", "-mips3", or "-mips4", and option "-32", "-n32",
+or "-64" for 32-bit or 64-bit code (see
+.BR cc(1)).
+\fBckpt_ld\fR and \fBckpt_ld_f\fR accept these compiler options and will
+choose the correct checkpoint library and startup routine automatically.
+The default is "-mips3 -32".
+.PP
+.SH SEE ALSO
+.BR ckpt_ld (1),
+.BR ckpt_ld_f (1), 
+.BR libckpt.a (3)

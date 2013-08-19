@@ -1,0 +1,103 @@
+.TH "lsb_movejob" 3 "3 Sep 2009" "Version 7.0" "Platform LSF 7.0.6 C API Reference" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lsb_movejob \- lsb_movejob 
+Changes the position of a pending job in a queue.
+.PP
+Use \fBlsb_movejob\fP to move a pending job to a new position that you specify in a queue. Position the job in a queue by first specifying the job ID. Next, count, beginning at 1, from either the top or the bottom of the queue, to the position you want to place the job.
+.PP
+To position a job at the top of a queue, choose the top of a queue parameter and a postion of 1.To position a job at the bottom of a queue, choose the bottom of the queue parameter and a position of 1.
+.PP
+By default, LSF dispatches jobs in a queue in order of their arrival (such as first-come-first-served), subject to the availability of suitable server hosts.
+.PP
+\fB#include <lsf/lsbatch.h>\fP
+.PP
+\fB int lsb_movejob (LS_LONG_INT jobId, int *position, int opCode)\fP
+.PP
+.SH "Parameters:"
+\fIjobId\fP The job ID that the LSF system assigns to the job. If a job in a job array is to be moved, use the array form jobID[ i ] where jobID is the job array name, and i is the index value. 
+.br
+\fI*position\fP The new position of the job in a queue. position must be a value of 1 or more. 
+.br
+\fIopCode\fP The top or bottom position of a queue. 
+.br
+ \fBTO_TOP\fP 
+.br
+ The top position of a queue. 
+.br
+ \fBTO_BOTTOM\fP 
+.br
+ The bottom position of a queue. 
+.br
+ If an opCode is not specified for the top or bottom position, the function fails.
+.PP
+.SH "Data Structures:" 
+.PP
+none
+.PP
+.SH "Define Statements:" 
+.PP
+\fBmovejob_options\fP
+.PP
+.SH "Returns:"
+int:0 
+.br
+ The function is successful. 
+.PP
+int:-1 
+.br
+ The function failed.
+.PP
+.SH "Errors:" 
+.PP
+If the function fails, lsberrno is set to indicate the error.
+.PP
+.SH "Equivalent line command:" 
+.PP
+btop 
+.br
+ bbot 
+.br
+ bjobs -q
+.PP
+.SH "Files:" 
+.PP
+${LSF_ENVDIR:-/etc}/lsf.conf
+.PP
+.SH "See also:"
+\fBlsb_pendreason\fP 
+.PP
+
+.ad l
+.nh
+.SH NAME
+movejob_options \- options for \fBlsb_movejob\fP call  
+
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTO_TOP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBTO_BOTTOM\fP   2"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+options for \fBlsb_movejob\fP call 
+.SH "Define Documentation"
+.PP 
+.SS "#define TO_TOP   1"
+.PP
+To top. 
+.PP
+.SS "#define TO_BOTTOM   2"
+.PP
+To bottom. 
+.PP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Platform LSF 7.0.6 C API Reference from the source code.

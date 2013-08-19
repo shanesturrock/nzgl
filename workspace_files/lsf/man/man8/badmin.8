@@ -1,0 +1,1193 @@
+
+.ad l
+
+.ll 72
+
+.TH badmin 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbadmin\fR
+.sp 2
+   Administrative tool for LSF.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+badmin subcommand
+.sp 2
+badmin [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         This command can only be used by LSF administrators.
+.sp 2
+   badmin provides a set of subcommands to control and monitor
+   LSF. If no subcommands are supplied for badmin, badmin prompts
+   for a subcommand from standard input.
+.sp 2
+   Information about each subcommand is available through the
+   help command.
+.sp 2
+   The badmin subcommands include privileged and non-privileged
+   subcommands. Privileged subcommands can only be invoked by
+   root or LSF administrators. Privileged subcommands are:
+.sp 2
+   reconfig
+.sp 2
+   mbdrestart
+.sp 2
+   qopen
+.sp 2
+   qclose
+.sp 2
+   qact
+.sp 2
+   qinact
+.sp 2
+   hopen
+.sp 2
+   hclose
+.sp 2
+   hrestart
+.sp 2
+   \fRhshutdown\fR
+.sp 2
+   hstartup
+.sp 2
+   hghostadd
+.sp 2
+   hghostdel
+.sp 2
+   diagnose
+.sp 2
+   The configuration file lsf.sudoers(5) must be set to use the
+   privileged command hstartup by a non-root user.
+.sp 2
+   All other commands are non-privileged commands and can be
+   invoked by any LSF user. If the privileged commands are to be
+   executed by the LSF administrator, badmin must be installed,
+   because it needs to send the request using a privileged port.
+.sp 2
+   For subcommands for which multiple hosts can be specified, do
+   not enclose the host names in quotation marks.
+.sp 2 .SH "Subcommand synopsis"
+\fBSubcommand synopsis\fR
+.sp 2
+ckconfig [-v]
+.sp 2
+diagnose [job_ID ... | "job_ID[index]" ...]
+.sp 2
+reconfig [-v] [-f]
+.sp 2
+mbdrestart [-C comment] [-v] [-f]
+.sp 2
+qopen [-C comment] [queue_name ... | all]
+.sp 2
+qclose [-C comment] [queue_name ... | all]
+.sp 2
+qact [-C comment] [queue_name ... | all]
+.sp 2
+qinact [-C comment] [queue_name ... | all]
+.sp 2
+qhist [-t time0,time1] [-f logfile_name] [queue_name ...]
+.sp 2
+hopen [-C comment] [host_name ... | host_group ... | compute_unit
+... | all]
+.sp 2
+hclose [-C comment] [host_name ... | host_group ... |
+compute_unit ... | all]
+.sp 2
+hrestart [-f] [host_name ... | all]
+.sp 2
+hshutdown [-f] [host_name ... | all]
+.sp 2
+hstartup [-f] [host_name ... | all]
+.sp 2
+hhist [-t time0,time1] [-f logfile_name] [host_name ...]
+.sp 2
+mbdhist [-t time0,time1] [-f logfile_name]
+.sp 2
+hist [-t time0,time1] [-f logfile_name]
+.sp 2
+hghostadd [-C comment] host_group | compute_unit | host_name
+[host_name ...]
+.sp 2
+hghostdel [-f] [-C comment] host_group | compute_unit | host_name
+[host_name ...]
+.sp 2
+help [command ...] | ? [command ...]
+.sp 2
+quit
+.sp 2
+mbddebug [-c class_name ...] [-l debug_level] [-f logfile_name]
+[-o]
+.sp 2
+mbdtime [-l timing_level] [-f logfile_name] [-o]
+.sp 2
+sbddebug [-c class_name ...] [-l debug_level] [-f logfile_name]
+[-o] [host_name ...]
+.sp 2
+sbdtime [-l timing_level] [-f logfile_name] [-o] [host_name ...]
+.sp 2
+schddebug [-c class_name ...] [-l debug_level] [-f logfile_name]
+[-o]
+.sp 2
+schdtime [-l timing_level] [-f logfile_name] [-o]
+.sp 2
+showconf mbd | [sbd [ host_name … | all ]]
+.sp 2
+perfmon start [sample_period]| stop | view | setperiod
+sample_period
+.sp 2
+-h
+.sp 2
+-V
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIsubcommand\fB\fR
+.br
+               Executes the specified subcommand. See Usage
+               section.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   \fBckconfig [-v]\fR
+.br
+               Checks LSF configuration files located in the
+               LSB_CONFDIR/cluster_name/configdir directory, and
+               checks LSF_ENVDIR/lsf.licensescheduler.
+.sp 2
+               The LSB_CONFDIR variable is defined in lsf.conf
+               (see lsf.conf(5)), which is in LSF_ENVDIR or /etc
+               (if LSF_ENVDIR is not defined).
+.sp 2
+               By default, badmin ckconfig displays only the
+               result of the configuration file check. If warning
+               errors are found, badmin prompts you to display
+               detailed messages.
+.sp 2
+               \fB-v\fR
+.br
+                           Verbose mode. Displays detailed
+                           messages about configuration file
+                           checking to stderr.
+.sp 2
+   \fBdiagnose [\fIjob_ID\fB ... | "\fIjob_ID\fB]" ...][\fR
+.br
+               Displays full pending reason list if
+               CONDENSE_PENDING_REASONS=Y is set in lsb.params.
+               For example:
+.sp 2
+               badmin diagnose 1057
+.sp 2
+   \fBreconfig [-v] [-f]\fR
+.br
+               Dynamically reconfigures LSF.
+.sp 2
+               Configuration files are checked for errors and the
+               results displayed to stderr. If no errors are
+               found in the configuration files, a
+               reconfiguration request is sent to mbatchd and
+               configuration files are reloaded.
+.sp 2
+               With this option, mbatchd is not restarted and
+               lsb.events is not replayed. To restart mbatchd and
+               replay lsb.events, use badmin mbdrestart.
+.sp 2
+               When you issue this command, mbatchd is available
+               to service requests while reconfiguration files
+               are reloaded. Configuration changes made since
+               system boot or the last reconfiguration take
+               effect.
+.sp 2
+               If warning errors are found, badmin prompts you to
+               display detailed messages. If fatal errors are
+               found, reconfiguration is not performed, and
+               badmin exits.
+.sp 2
+               If you add a host to a queue or to a host group or
+               compute unit, the new host is not recognized by
+               jobs that were submitted before you reconfigured.
+               If you want the new host to be recognized, you
+               must use the command badmin mbdrestart.
+.sp 2
+               Resource requirements determined by the queue no
+               longer apply to a running job after running badmin
+               reconfig, For example, if you change the RES_REQ
+               parameter in a queue and reconfigure the cluster,
+               the previous queue-level resource requirements for
+               running jobs are lost.
+.sp 2
+               \fB-v\fR
+.br
+                           Verbose mode. Displays detailed
+                           messages about the status of the
+                           configuration files. Without this
+                           option, the default is to display the
+                           results of configuration file
+                           checking. All messages from the
+                           configuration file check are printed
+                           to stderr.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and proceeds with
+                           reconfiguration if configuration files
+                           contain no fatal errors.
+.sp 2
+   \fBmbdrestart [-C \fIcomment\fB] [-v] [-f]\fR
+.br
+               Dynamically reconfigures LSF and restarts mbatchd
+               and mbschd.
+.sp 2
+               Configuration files are checked for errors and the
+               results printed to stderr. If no errors are found,
+               configuration files are reloaded, mbatchd and
+               mbschd are restarted, and events in lsb.events are
+               replayed to recover the running state of the last
+               mbatchd. While mbatchd restarts, it is unavailable
+               to service requests.
+.sp 2
+               If warning errors are found, badmin prompts you to
+               display detailed messages. If fatal errors are
+               found, mbatchd and mbschd restart is not
+               performed, and badmin exits.
+.sp 2
+               If lsb.events is large, or many jobs are running,
+               restarting mbatchd can take several minutes. If
+               you only need to reload the configuration files,
+               use badmin reconfig.
+.sp 2
+               \fB-C comment\fR
+.br
+                           Logs the text of comment as an
+                           administrator comment record to
+                           lsb.events. The maximum length of the
+                           comment string is 512 characters.
+.sp 2
+               \fB-v \fR
+.br
+                           Verbose mode. Displays detailed
+                           messages about the status of
+                           configuration files. All messages from
+                           configuration checking are printed to
+                           stderr.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and forces
+                           reconfiguration and mbatchd restart to
+                           proceed if configuration files contain
+                           no fatal errors.
+.sp 2
+   \fBqopen [-C \fIcomment\fB] [\fIqueue_name\fB ... | all]\fR
+.br
+               Opens specified queues, or all queues if the
+               reserved word all is specified. If no queue is
+               specified, the system default queue is assumed. A
+               queue can accept batch jobs only if it is open.
+.sp 2
+               \fB-C \fIcomment\fB\fR
+.br
+                           Logs the text of comment as an
+                           administrator comment record to
+                           lsb.events. The maximum length of the
+                           comment string is 512 characters.
+.sp 2
+   \fBqclose [-C \fIcomment\fB] [\fIqueue_name\fB ... | all]\fR
+.br
+               Closes specified queues, or all queues if the
+               reserved word all is specified. If no queue is
+               specified, the system default queue is assumed. A
+               queue does not accept any job if it is closed.
+.sp 2
+               \fB-C \fIcomment\fB\fR
+.br
+                           Logs the text as an administrator
+                           comment record to lsb.events. The
+                           maximum length of the comment string
+                           is 512 characters.
+.sp 2
+   \fBqact [-C \fIcomment\fB] [\fIqueue_name\fB ... | all]\fR
+.br
+               Activates specified queues, or all queues if the
+               reserved word all is specified. If no queue is
+               specified, the system default queue is assumed.
+               Jobs in a queue can be dispatched if the queue is
+               activated.
+.sp 2
+               A queue inactivated by its run windows cannot be
+               reactivated by this command.
+.sp 2
+               \fB-C \fIcomment\fB\fR
+.br
+                           Logs the text of the comment as an
+                           administrator comment record to
+                           lsb.events. The maximum length of the
+                           comment string is 512 characters.
+.sp 2
+   \fBqinact [-C \fIcomment\fB] [\fIqueue_name\fB ... | all]\fR
+.br
+               Inactivates specified queues, or all queues if the
+               reserved word all is specified. If no queue is
+               specified, the system default queue is assumed. No
+               job in a queue can be dispatched if the queue is
+               inactivated.
+.sp 2
+               \fB-C \fIcomment\fB\fR
+.br
+                           Logs the text as an administrator
+                           comment record to lsb.events. The
+                           maximum length of the comment string
+                           is 512 characters.
+.sp 2
+   \fBqhist [-t \fItime0\fB,\fItime1\fB] [-f \fIlogfile_name\fB]
+   [\fIqueue_name\fB ...]\fR
+.br
+               Displays historical events for specified queues,
+               or for all queues if no queue is specified. Queue
+               events are queue opening, closing, activating and
+               inactivating.
+.sp 2
+               \fB-t \fItime0\fB,\fItime1\fB\fR
+.br
+                           Displays only those events that
+                           occurred during the period from
+                           \fItime0\fR to \fItime1\fR. See
+                           bhist(1) for the time format. The
+                           default is to display all queue events
+                           in the event log file.
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the file name of the event log
+                           file. Either an absolute or a relative
+                           path name may be specified. The
+                           default is to use the event log file
+                           currently used by the LSF system:
+                           LSB_SHAREDIR/\fIcluster_name\fR/logdir/lsb.events.
+                           Option -f is useful for offline
+                           analysis.
+.sp 2
+               If you specified an administrator comment with the
+               -C option of the queue control commands qclose,
+               qopen, qact, and qinact, qhist displays the
+               comment text.
+.sp 2
+   \fBhopen [-C \fIcomment\fB] [\fIhost_name\fB ... |
+   \fIhost_group\fB ... | \fIcompute_unit\fB ... | all]\fR
+.br
+               Opens batch server hosts. Specify the names of any
+               server hosts, host groups, or compute units. All
+               batch server hosts are opened if the reserved word
+               all is specified. If no host, host group, or
+               compute unit is specified, the local host is
+               assumed. A host accepts batch jobs if it is open.
+.sp 2
+                  \fBImportant: \fR
+.sp 2
+                     If EGO-enabled SLA scheduling is configured
+                     through ENABLE_DEFAULT_EGO_SLA in
+                     lsb.params, and a host is closed by EGO, it
+                     cannot be reopened by badmin hopen. Hosts
+                     closed by EGO have status closed_EGO in
+                     bhosts -l output.
+.sp 2
+   \fB-C \fIcomment\fB\fR
+.br
+               Logs the text as an administrator comment record
+               to lsb.events. The maximum length of the comment
+               string is 512 characters.
+.sp 2
+               If you open a host group or compute unit, each
+               member displays with the same comment string.
+.sp 2
+   \fBhclose [-C \fIcomment\fB] [\fIhost_name\fB ... |
+   \fIhost_group\fB ... | \fIcompute_unit\fB ... | all]\fR
+.br
+               Closes batch server hosts. Specify the names of
+               any server hosts, host groups, or compute units.
+               All batch server hosts are closed if the reserved
+               word all is specified. If no argument is
+               specified, the local host is assumed. A closed
+               host does not accept any new job, but jobs already
+               dispatched to the host are not affected. Note that
+               this is different from a host closed by a window;
+               all jobs on it are suspended in that case.
+.sp 2
+   \fB-C \fIcomment\fB\fR
+.br
+               Logs the text as an administrator comment record
+               to lsb.events. The maximum length of the comment
+               string is 512 characters.
+.sp 2
+               If you close a host group or compute unit, each
+               member displays with the same comment string.
+.sp 2
+   \fBhghostadd [-C \fIcomment\fB] \fIhost_group\fB |
+   \fIcompute_unit\fB |\fIhost_name\fB [\fIhost_name\fB ...]\fR
+.br
+               If dynamic host configuration is enabled,
+               dynamically adds hosts to a host group or compute
+               unit. After receiving the host information from
+               the master LIM, mbatchd dynamically adds the host
+               without triggering a reconfig.
+.sp 2
+               Once the host is added to the host group or
+               compute unit, it is considered part of that group
+               with respect to scheduling decision making for
+               both newly submitted jobs and for existing pending
+               jobs.
+.sp 2
+               This command fails if any of the specified host
+               groups, compute units, or host names are not
+               valid.
+.sp 2
+                  \fBRestriction: \fR
+.sp 2
+                     If EGO-enabled SLA scheduling is configured
+                     through ENABLE_DEFAULT_EGO_SLA in
+                     lsb.params, you cannot use hghostadd because
+                     all host allocation is under control of
+                     Platform EGO.
+.sp 2
+   \fB-C \fIcomment\fB\fR
+.br
+               Logs the text\fI\fR as an administrator comment
+               record to lsb.events. The maximum length of the
+               comment string is 512 characters.
+.sp 2
+   \fBhghostdel [-f] [-C \fIcomment\fB] \fIhost_group\fB |
+   \fIcompute_unit\fB |\fIhost_name\fB [\fIhost_name\fB ...]\fR
+.br
+               Dynamically deletes hosts from a host group or
+               compute unit by triggering an mbatchd reconfig.
+.sp 2
+               This command fails if any of the specified host
+               groups, compute units, or host names are not
+               valid.
+.sp 2
+                  \fBCAUTION: \fR
+.sp 2
+                     If you want to change a dynamic host to a
+                     static host, first use the command badmin
+                     hghostdel to remove the dynamic host from
+                     any host group or compute unit that it
+                     belongs to, and then configure the host as a
+                     static host in
+                     lsf.cluster.\fIcluster_name\fR.
+.sp 2
+                  \fBRestriction: \fR
+.sp 2
+                     If EGO-enabled SLA scheduling is configured
+                     through ENABLE_DEFAULT_EGO_SLA in
+                     lsb.params, you cannot use hghostdel because
+                     all host allocation is under control of
+                     Platform EGO.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation when reconfiguring
+                           the mbatchd.
+.sp 2
+               \fB-C \fIcomment\fB\fR
+.br
+                           Logs the text\fI\fR as an
+                           administrator comment record to
+                           lsb.events. The maximum length of the
+                           comment string is 512 characters.
+.sp 2
+   \fBhrestart [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Restarts sbatchd on the specified hosts, or on all
+               server hosts if the reserved word all is
+               specified. If no host is specified, the local host
+               is assumed. sbatchd reruns itself from the
+               beginning. This allows new sbatchd binaries to be
+               used.
+.sp 2
+               \fB-f\fR
+.br
+                           Specify the name of the file into
+                           which timing messages are to be
+                           logged. A file name with or without a
+                           full path may be specified.
+.sp 2
+                           If a file name without a path is
+                           specified, the file is saved in the
+                           LSF system log file directory.
+.sp 2
+                           The name of the file created has the
+                           following format:
+.sp 2
+                           \fIlogfile_name.daemon_name.\fRlog\fI.host_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           /tmp directory.
+.sp 2
+                           On Windows, if the specified path is
+                           not valid, no log file is created.
+.sp 2
+                           \fINote: \fRBoth timing and debug
+                           messages are logged in the same files.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory,
+                           in the format
+                           \fIdaemon_name.\fRlog\fI.host_name\fR.
+.sp 2
+   \fBhshutdown [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Shuts down sbatchd on the specified hosts, or on
+               all batch server hosts if the reserved word all is
+               specified. If no host is specified, the local host
+               is assumed. sbatchd exits upon receiving the
+               request.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for shutting down
+                           sbatchd.
+.sp 2
+   \fBhstartup [-f] [\fIhost_name\fB ... | all]\fR
+.br
+               Starts sbatchd on the specified hosts, or on all
+               batch server hosts if the reserved word all is
+               specified. Only root and users listed in the file
+               lsf.sudoers(5) can use the all and -f options.
+               These users must be able to use rsh or ssh on all
+               LSF hosts without having to type in passwords. If
+               no host is specified, the local host is assumed.
+.sp 2
+               The shell command specified by LSF_RSH in lsf.conf
+               is used before rsh is tried.
+.sp 2
+               \fB-f\fR
+.br
+                           Disables interaction and does not ask
+                           for confirmation for starting sbatchd.
+.sp 2
+   \fBhhist [-t \fItime0\fB,\fItime1\fB] [-f \fIlogfile_name\fB]
+   [\fIhost_name\fB ...]\fR
+.br
+               Displays historical events for specified hosts, or
+               for all hosts if no host is specified. Host events
+               are host opening and closing.
+.sp 2
+               \fB-t \fItime0\fB,\fItime1\fB\fR
+.br
+                           Displays only those events that
+                           occurred during the period from
+                           \fItime0\fR to \fItime1\fR. See
+                           bhist(1) for the time format. The
+                           default is to display all queue events
+                           in the event log file.
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the file name of the event log
+                           file. Either an absolute or a relative
+                           path name may be specified. The
+                           default is to use the event log file
+                           currently used by the LSF system:
+                           LSB_SHAREDIR/\fIcluster_name\fR/logdir/lsb.events.
+                           Option -f is useful for offline
+                           analysis.
+.sp 2
+               If you specified an administrator comment with the
+               -C option of the host control commands hclose or
+               hopen, hhist displays the comment text.
+.sp 2
+   \fBmbdhist [-t \fItime0\fB,\fItime1\fB] [-f
+   \fIlogfile_name\fB]\fR
+.br
+               Displays historical events for mbatchd. Events
+               describe the starting and exiting of mbatchd.
+.sp 2
+               \fB-t \fItime0\fB,\fItime1\fB\fR
+.br
+                           Displays only those events that
+                           occurred during the period from
+                           \fItime0\fR to \fItime1\fR. See
+                           bhist(1) for the time format. The
+                           default is to display all queue events
+                           in the event log file.
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the file name of the event log
+                           file. Either an absolute or a relative
+                           path name may be specified. The
+                           default is to use the event log file
+                           currently used by the LSF system:
+                           LSB_SHAREDIR/\fIcluster_name\fR/logdir/lsb.events.
+                           Option -f is useful for offline
+                           analysis.
+.sp 2
+               If you specified an administrator comment with the
+               -C option of the mbdrestart command, mbdhist
+               displays the comment text.
+.sp 2
+   \fBhist [-t \fItime0\fB,\fItime1\fB] [-f
+   \fIlogfile_name\fB]\fR
+.br
+               Displays historical events for all the queues,
+               hosts and mbatchd.
+.sp 2
+               \fB-t \fItime0\fB,\fItime1\fB\fR
+.br
+                           Displays only those events that
+                           occurred during the period from
+                           \fItime0\fR to \fItime1\fR. See
+                           bhist(1) for the time format. The
+                           default is to display all queue events
+                           in the event log file.
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the file name of the event log
+                           file. Either an absolute or a relative
+                           path name may be specified. The
+                           default is to use the event log file
+                           currently used by the LSF system:
+                           LSB_SHAREDIR/\fIcluster_name\fR/logdir/lsb.events.
+                           Option -f is useful for offline
+                           analysis.
+.sp 2
+               If you specified an administrator comment with the
+               -C option of the queue, host, and mbatchd
+               commands, hist displays the comment text.
+.sp 2
+   \fBhelp [\fIcommand\fB ...] | ? [\fIcommand\fB ...]\fR
+.br
+               Displays the syntax and functionality of the
+               specified commands.
+.sp 2
+   \fBquit\fR
+.br
+               Exits the badmin session.
+.sp 2
+   \fBmbddebug [-c \fIclass_name\fB ...] [-l \fIdebug_level\fB]
+   [-f \fIlogfile_name\fB] [-o]\fR
+.br
+               Sets message log level for mbatchd to include
+               additional information in log files. You must be
+               root or the LSF administrator to use this command.
+.sp 2
+               See sddebug for an explanation of options.
+.sp 2
+   \fBmbdtime [-l \fItiming_level\fB] [-f \fIlogfile_name\fB]
+   [-o]\fR
+.br
+               Sets timing level for mbatchd to include
+               additional timing information in log files. You
+               must be root or the LSF administrator to use this
+               command.
+.sp 2
+   \fBsbddebug [-c \fIclass_name\fB ...] [-l \fIdebug_level\fB]
+   [-f \fIlogfile_name\fB] [-o] [\fIhost_name\fB ...]\fR
+.br
+               Sets the message log level for sbatchd to include
+               additional information in log files. You must be
+               root or the LSF administrator to use this command.
+.sp 2
+               In MultiCluster, debug levels can only be set for
+               hosts within the same cluster. For example, you
+               cannot set debug or timing levels from a host in
+               clusterA for a host in clusterB. You need to be on
+               a host in clusterB to set up debug or timing
+               levels for clusterB hosts.
+.sp 2
+               If the command is used without any options, the
+               following default values are used:
+.sp 2
+               \fIclass_name\fR=0 (no additional classes are
+               logged)
+.sp 2
+               \fIdebug_level\fR=0 (LOG_DEBUG level in parameter
+               LSF_LOG_MASK)
+.sp 2
+               \fIlogfile_name\fR=current LSF system log file in
+               the LSF system log file directory, in the format
+               \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR
+.sp 2
+               \fIhost_name\fR=local host (host from which
+               command was submitted)
+.sp 2
+               \fB-c \fIclass_name\fB ...\fR
+.br
+                           Specifies software classes for which
+                           debug messages are to be logged.
+.sp 2
+                           Format of \fIclass_name \fRis the name
+                           of a class, or a list of class names
+                           separated by spaces and enclosed in
+                           quotation marks. Classes are also
+                           listed in \fRlsf.h\fR.
+.sp 2
+                           Valid log classes are:
+.sp 2
+                             o  
+                                 LC_ADVRSV - Log advance
+                                 reservation modifications
+.sp 2
+                             o  
+                                 LC_AFS - Log AFS messages
+.sp 2
+                             o  
+                                 LC_AUTH - Log authentication
+                                 messages
+.sp 2
+                             o  
+                                 LC_CHKPNT - Log checkpointing
+                                 messages
+.sp 2
+                             o  
+                                 LC_COMM - Log communication
+                                 messages
+.sp 2
+                             o  
+                                 LC_DCE - Log messages pertaining
+                                 to DCE support
+.sp 2
+                             o  
+                                 LC_EEVENTD - Log eeventd
+                                 messages
+.sp 2
+                             o  
+                                 LC_ELIM - Log ELIM messages
+.sp 2
+                             o  
+                                 LC_EXEC - Log significant steps
+                                 for job execution
+.sp 2
+                             o  
+                                 LC_FAIR - Log fairshare policy
+                                 messages
+.sp 2
+                             o  
+                                 LC_FILE - Log file transfer
+                                 messages
+.sp 2
+                             o  
+                                 LC_FLEX - Log messages related
+                                 to Flex LM
+.sp 2
+                             o  
+                                 LC_HANG - Mark where a program
+                                 might hang
+.sp 2
+                             o  
+                                 LC_JARRAY - Log job array
+                                 messages
+.sp 2
+                             o  
+                                 LC_JLIMIT - Log job slot limit
+                                 messages
+.sp 2
+                             o  
+                                 LC_LICENSE - Log license
+                                 management messages (LC_LICENCE
+                                 is also supported for backward
+                                 compatibility)
+.sp 2
+                             o  
+                                 LC_LOADINDX - Log load index
+                                 messages
+.sp 2
+                             o  
+                                 LC_M_LOG - Log multievent
+                                 logging messages
+.sp 2
+                             o  
+                                 LC_MEMORY - Log messages related
+                                 to MEMORY allocation
+.sp 2
+                             o  
+                                 LC_MPI - Log MPI messages
+.sp 2
+                             o  
+                                 LC_MULTI - Log messages
+                                 pertaining to MultiCluster
+.sp 2
+                             o  
+                                 LC_PEND - Log messages related
+                                 to job pending reasons
+.sp 2
+                             o  
+                                 LC_PERFM - Log performance
+                                 messages
+.sp 2
+                             o  
+                                 LC_PIM - Log PIM messages
+.sp 2
+                             o  
+                                 LC_PREEMPT - Log preemption
+                                 policy messages
+.sp 2
+                             o  
+                                 LC_RESOURCE - Log messages
+                                 related to resource broker
+.sp 2
+                             o  
+                                 LC_RESREQ - Log resource
+                                 requirement messages
+.sp 2
+                             o  
+                                 LC_SCHED - Log messages
+                                 pertaining to the mbatchd
+                                 scheduler.
+.sp 2
+                             o  
+                                 LC_SIGNAL - Log messages
+                                 pertaining to signals
+.sp 2
+                             o  
+                                 LC_SYS - Log system call
+                                 messages
+.sp 2
+                             o  
+                                 LC_TRACE - Log significant
+                                 program walk steps
+.sp 2
+                             o  
+                                 LC_XDR - Log everything
+                                 transferred by XDR
+.sp 2
+                             o  
+                                 LC_XDRVERSION - Log messages for
+                                 XDR version
+.sp 2
+                           Default: 0 (no additional classes are
+                           logged)
+.sp 2
+               \fB-l \fIdebug_level\fB\fR
+.br
+                           Specifies level of detail in debug
+                           messages. The higher the number, the
+                           more detail that is logged. Higher
+                           levels include all lower levels.
+.sp 2
+                           Possible values:
+.sp 2
+                           0 LOG_DEBUG level in parameter
+                           LSF_LOG_MASK in lsf.conf.
+.sp 2
+                           1 LOG_DEBUG1 level for extended
+                           logging. A higher level includes lower
+                           logging levels. For example,
+                           LOG_DEBUG3 includes LOG_DEBUG2
+                           LOG_DEBUG1, and LOG_DEBUG levels.
+.sp 2
+                           \fR2 \fRLOG_DEBUG2 level for extended
+                           logging. A higher level includes lower
+                           logging levels. For example,
+                           LOG_DEBUG3 includes LOG_DEBUG2
+                           LOG_DEBUG1, and LOG_DEBUG levels.
+.sp 2
+                           \fR3 \fRLOG_DEBUG3 level for extended
+                           logging. A higher level includes lower
+                           logging levels. For example,
+                           LOG_DEBUG3 includes LOG_DEBUG2,
+                           LOG_DEBUG1, and LOG_DEBUG levels.
+.sp 2
+                           Default: 0 (LOG_DEBUG level in
+                           parameter LSF_LOG_MASK)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the name of the file into
+                           which debugging messages are to be
+                           logged. A file name with or without a
+                           full path may be specified.
+.sp 2
+                           If a file name without a path is
+                           specified, the file is saved in the
+                           LSF system log directory.
+.sp 2
+                           The name of the file that is created
+                           has the following format:
+.sp 2
+                           \fIlogfile_name.daemon_name.\fR\fRlog\fR\fI.host_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           /tmp directory.
+.sp 2
+                           On Windows, if the specified path is
+                           not valid, no log file is created.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory.
+.sp 2
+               \fB-o\fR
+.br
+                           Turns off temporary debug settings and
+                           resets them to the daemon starting
+                           state. The message log level is reset
+                           back to the value of LSF_LOG_MASK and
+                           classes are reset to the value of
+                           LSB_DEBUG_MBD, LSB_DEBUG_SBD.
+.sp 2
+                           The log file is also reset back to the
+                           default log file.
+.sp 2
+               \fB\fIhost_name\fB ...\fR
+.br
+                           Optional. Sets debug settings on the
+                           specified host or hosts.
+.sp 2
+                           Lists of host names must be separated
+                           by spaces and enclosed in quotation
+                           marks.
+.sp 2
+                           Default: local host (host from which
+                           command was submitted)
+.sp 2
+   \fBsbdtime [-l \fItiming_level\fB] [-f \fIlogfile_name\fB]
+   [-o] [\fIhost_name\fB ...]\fR
+.br
+               Sets the timing level for sbatchd to include
+               additional timing information in log files. You
+               must be root or the LSF administrator to use this
+               command.
+.sp 2
+               In MultiCluster, timing levels can only be set for
+               hosts within the same cluster. For example, you
+               could not set debug or timing levels from a host
+               in clusterA for a host in clusterB. You need to be
+               on a host in clusterB to set up debug or timing
+               levels for clusterB hosts.
+.sp 2
+               If the command is used without any options, the
+               following default values are used:
+.sp 2
+               \fItiming_level\fR=no timing information is
+               recorded
+.sp 2
+               \fIlogfile_name\fR=current LSF system log file in
+               the LSF system log file directory, in the format
+               \fIdaemon_name.\fR\fRlog\fR\fI.host_name\fR
+.sp 2
+               \fIhost_name=\fRlocal host (host from which
+               command was submitted)
+.sp 2
+               \fB-l \fItiming_level\fB\fR
+.br
+                           Specifies detail of timing information
+                           that is included in log files. Timing
+                           messages indicate the execution time
+                           of functions in the software and are
+                           logged in milliseconds.
+.sp 2
+                           Valid values: 1 | 2 | 3 | 4 | 5
+.sp 2
+                           The higher the number, the more
+                           functions in the software that are
+                           timed and whose execution time is
+                           logged. The lower numbers include more
+                           common software functions. Higher
+                           levels include all lower levels.
+.sp 2
+                           Default: undefined (no timing
+                           information is logged)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specify the name of the file into
+                           which timing messages are to be
+                           logged. A file name with or without a
+                           full path may be specified.
+.sp 2
+                           If a file name without a path is
+                           specified, the file is saved in the
+                           LSF system log file directory.
+.sp 2
+                           The name of the file created has the
+                           following format:
+.sp 2
+                           \fIlogfile_name.daemon_name.\fRlog\fI.host_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           /tmp directory.
+.sp 2
+                           On Windows, if the specified path is
+                           not valid, no log file is created.
+.sp 2
+                           \fINote: \fRBoth timing and debug
+                           messages are logged in the same files.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory,
+                           in the format
+                           \fIdaemon_name.\fRlog\fI.host_name\fR.
+.sp 2
+               \fB-o\fR
+.br
+                           Optional. Turn off temporary timing
+                           settings and reset them to the daemon
+                           starting state. The timing level is
+                           reset back to the value of the
+                           parameter for the corresponding daemon
+                           (LSB_TIME_MBD, LSB_TIME_SBD).
+.sp 2
+                           The log file is also reset back to the
+                           default log file.
+.sp 2
+               \fB\fIhost_name\fB ...\fR
+.br
+                           Sets the timing level on the specified
+                           host or hosts.
+.sp 2
+                           Lists of hosts must be separated by
+                           spaces and enclosed in quotation
+                           marks.
+.sp 2
+                           Default: local host (host from which
+                           command was submitted)
+.sp 2
+   \fBschddebug [-c \fIclass_name\fB ...] [-l \fIdebug_level\fB]
+   [-f \fIlogfile_name\fB] [-o]\fR
+.br
+               Sets message log level for mbschd to include
+               additional information in log files. You must be
+               root or the LSF administrator to use this command.
+.sp 2
+               See sbddebug for an explanation of options.
+.sp 2
+   \fBschdtime [-l \fItiming_level\fB] [-f] [-o] \fR
+.br
+               Sets timing level for mbschd to include additional
+               timing information in log files. You must be root
+               or the LSF administrator to use this command.
+.sp 2
+               See sbdtime for an explanation of options.
+.sp 2
+   \fBshowconf mbd | [sbd [ \fIhost_name\fB … | all ]]\fR
+.br
+               Display all configured parameters and their values
+               set in lsf.conf or ego.conf that affect mbatchd
+               and sbatchd.
+.sp 2
+               In a MultiCluster environment, badmin showconf
+               only displays the parameters of daemons on the
+               local cluster.
+.sp 2
+               Running badmin showconf from a master candidate
+               host reaches all server hosts in the cluster.
+               Running badmin showconf from a slave-only host may
+               not be able to reach other slave-only hosts.
+.sp 2
+               badmin showconf only displays the values used by
+               LSF.
+.sp 2
+               For example, if you define LSF_MASTER_LIST in
+               lsf.conf, and EGO_MASTER_LIST in ego.conf, badmin
+               showconf displays the value of EGO_MASTER_LIST.
+.sp 2
+               badmin showconf displays the value of
+               EGO_MASTER_LIST from wherever it is defined. You
+               can define either LSF_MASTER_LIST or
+               EGO_MASTER_LIST in lsf.conf. LIM reads lsf.conf
+               first, and ego.conf if EGO is enabled in the LSF
+               cluster. The value of LSF_MASTER_LIST is displayed
+               only if EGO_MASTER_LIST is not defined at all in
+               ego.conf.
+.sp 2
+               For example, if EGO is enabled in the LSF cluster,
+               and you define LSF_MASTER_LIST in lsf.conf, and
+               EGO_MASTER_LIST in ego.conf, badmin showconf
+               displays the value of EGO_MASTER_LIST in ego.conf.
+.sp 2
+               If EGO is disabled, ego.conf not loaded, so
+               whatever is defined in lsf.conf is displayed.
+.sp 2
+   \fBperfmon start [\fIsample_period\fB] | stop | view |
+   setperiod \fIsample_period\fB\fR
+.br
+               Dynamically enables and controls scheduler
+               performance metric collection.
+.sp 2
+               Collecting and recording performance metric data
+               may affect the performance of LSF. Smaller
+               sampling periods results in the lsb.streams file
+               growing faster.
+.sp 2
+               The following metrics are collected and recorded
+               in each sample period:
+.sp 2
+                 o  
+                     The number of queries handled by mbatchd
+.sp 2
+                 o  
+                     The number of queries for each of jobs,
+                     queues, and hosts. (bjobs, bqueues, and
+                     bhosts, as well as other daemon requests)
+.sp 2
+                 o  
+                     The number of jobs submitted (divided into
+                     job submission requests and jobs actually
+                     submitted)
+.sp 2
+                 o  
+                     The number of jobs dispatched
+.sp 2
+                 o  
+                     The number of jobs completed
+.sp 2
+                 o  
+                     The numbers of jobs sent to remote cluster
+.sp 2
+                 o  
+                     The numbers of jobs accepted by from cluster
+.sp 2
+                 o  
+                     The file descriptors used by \fRmbatchd\fR
+.sp 2
+               \fBstart [\fIsample_period\fB]\fR
+.br
+                           Start performance metric collection
+                           dynamically and specifies an optional
+                           sampling period in seconds for
+                           performance metric collection.
+.sp 2
+                           If no sampling period is specified,
+                           the default period set in
+                           \fBSCHED_METRIC_SAMPLE_PERIOD\fR in
+                           lsb.params is used.
+.sp 2
+               \fBstop\fR
+.br
+                           Stop performance metric collection
+                           dynamically.
+.sp 2
+               \fBview\fR
+.br
+                           Display real time performance metric
+                           information for the current sampling
+                           period
+.sp 2
+               \fBsetperiod \fIsample_period\fB\fR
+.br
+                           Set a new sampling period in seconds.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bqueues, bhosts, lsb.params, lsb.queues, lsb.hosts, lsf.conf,
+   lsf.cluster, sbatchd, mbatchd, mbschd
+.sp 2

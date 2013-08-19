@@ -1,0 +1,49 @@
+
+.ad l
+
+.ll 72
+
+.TH blhosts 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblhosts\fR
+.sp 2
+   displays the names of all the hosts running the License
+   Scheduler daemon (\fRbld\fR)
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blhosts [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays a list of hosts running the License Scheduler daemon.
+   This includes the License Scheduler master host and all the
+   candidate License Scheduler hosts running bld.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Prints out the names of all the hosts running the License
+   Scheduler daemon (bld).
+.sp 2
+   For example, the following sample output shows the License
+   Scheduler master host and two candidate License Scheduler
+   hosts running bld:
+.sp 2
+   bld is running on:master: host1.domain1.comslave: host2.domain1 host3.domain1
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   blinfo, blstat, bladmin
+.sp 2

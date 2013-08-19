@@ -1,0 +1,272 @@
+
+.ad l
+
+.ll 72
+
+.TH bjgroup 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbjgroup\fR
+.sp 2
+   displays information about job groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bjgroup [-N] [-s [group_name]]
+.sp 2
+bjgroup [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays job group information.
+.sp 2
+   When LSF adds more resources to a running resizable job,
+   bjgroups displays the added resources. When LSF removes
+   resources from a running resizable job, bjgroups displays the
+   updated resources.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-s\fR
+.br
+               Sorts job groups by group hierarchy.
+.sp 2
+               For example, for job groups named \fR/A\fR,
+               \fR/A/B\fR, \fR/X\fR and \fR/X/Y\fR, bjgroup
+               without -s displays:
+.sp 2
+               bjgroup
+.sp 2
+               GROUP_NAME         NJOBS   PEND    RUN    SSUSP  USUSP  FINISH  SLA   JLIMIT  OWNER
+.sp 2
+               /A                 0       0       0      0      0      0       ()      0/10  user1
+.sp 2
+               /X                 0       0       0      0      0      0       ()       0/-  user2
+.sp 2
+               /A/B               0       0       0      0      0      0       ()       0/5  user1
+.sp 2
+               /X/Y               0       0       0      0      0      0       ()       0/5  user2
+.sp 2
+               For the same job groups, bjgroup -s displays:
+.sp 2
+               bjgroup -s
+.sp 2
+               GROUP_NAME         NJOBS   PEND    RUN    SSUSP  USUSP  FINISH  SLA   JLIMIT  OWNER
+.sp 2
+               /A                 0       0       0      0      0      0       ()       0/10  user1
+.sp 2
+               /A/B               0       0       0      0      0      0       ()       0/5  user1
+.sp 2
+               /X                 0       0       0      0      0      0       ()       0/-  user2
+.sp 2
+               /X/Y               0       0       0      0      0      0       ()       0/5  user2
+.sp 2
+               Specify a job group name to show the hierarchy of
+               a single job group:
+.sp 2
+               bjgroup -s /X
+.sp 2
+               GROUP_NAME   NJOBS  PEND   RUN   SSUSP  USUSP  FINISH       SLA   JLIMIT  OWNER
+.sp 2
+               /X              25     0    25       0      0       0   puccini  25/100   user1
+.sp 2
+               /X/Y            20     0    20       0      0       0   puccini   20/30   user1
+.sp 2
+               /X/Z             5     0     5       0      0       0   puccini    5/10   user2
+.sp 2
+               Specify a job group name with a trailing slash
+               character (/) to show only the root job group:
+.sp 2
+               bjgroup -s /X/
+.sp 2
+               GROUP_NAME   NJOBS  PEND   RUN   SSUSP  USUSP  FINISH      SLA   JLIMIT  OWNER
+.sp 2
+               /X               25    0    25       0      0       0   puccini  25/100  user1
+.sp 2
+   \fB-N \fR
+.br
+               Displays job group information by job slots
+               instead of number of jobs. NSLOTS, PEND, RUN,
+               SSUSP, USUSP, RSV are all counted in slots rather
+               than number of jobs:
+.sp 2
+               bjgroup -N
+.sp 2
+               GROUP_NAME NSLOTS PEND   RUN   SSUSP  USUSP   RSV      SLA     OWNER
+.sp 2
+               /X             25    0    25       0      0     0  puccini     user1
+.sp 2
+               /A/B           20    0    20       0      0     0   wagner     batch
+.sp 2
+               -N by itself shows job slot info for all job
+               groups, and can combine with -s to sort the job
+               groups by hierarchy:
+.sp 2
+               bjgroup -N -s
+.sp 2
+               GROUP_NAME NSLOTS PEND   RUN   SSUSP   USUSP  RSV      SLA     OWNER
+.sp 2
+               /A              0    0     0       0       0    0   wagner      batch
+.sp 2
+               /A/B            0    0     0       0       0    0   wagner      user1
+.sp 2
+               /X             25    0    25       0       0    0   puccini     user1
+.sp 2
+               /X/Y           20    0    20       0       0    0   puccini     batch
+.sp 2
+               /X/Z            5     0    5       0       0    0   puccini     batch
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Default output"
+\fBDefault output\fR
+.sp 2
+   A list of job groups is displayed with the following fields:
+.sp 2
+   \fBGROUP_NAME\fR
+.br
+               The name of the job group.
+.sp 2
+   \fBNJOBS\fR
+.br
+               The current number of jobs in the job group. A
+               parallel job is counted as 1 job, regardless of
+               the number of job slots it uses.
+.sp 2
+   \fBPEND\fR
+.br
+               The number of pending jobs in the job group.
+.sp 2
+   \fBRUN\fR
+.br
+               The number of running jobs in the job group.
+.sp 2
+   \fBSSUSP\fR
+.br
+               The number of system-suspended jobs in the job
+               group.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The number of user-suspended jobs in the job
+               group.
+.sp 2
+   \fBFINISH\fR
+.br
+               The number of jobs in the specified job group in
+               EXITED or DONE state.
+.sp 2
+   \fBSLA\fR
+.br
+               The name of the service class that the job group
+               is attached to with bgadd -sla
+               \fIservice_class_name\fR. If the job group is not
+               attached to any service class, empty parentheses
+               \fR()\fR are displayed in the SLA name column.
+.sp 2
+   \fBJLIMIT\fR
+.br
+               The job group limit set by bgadd -L or bgmod -L.
+               Job groups that have no configured limits or no
+               limit usage are indicated by a dash (\fR-\fR). Job
+               group limits are displayed in a USED/LIMIT format.
+               For example, if a limit of 5 jobs is configured
+               and 1 job is started, bjgroup displays the job
+               limit under JLIMIT as \fR1/5\fR.
+.sp 2
+   \fBOWNER\fR
+.br
+               The job group owner.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   bjgroup
+.sp 2
+   GROUP_NAME  NJOBS  PEND   RUN   SSUSP  USUSP  FINISH      SLA   JLIMIT  OWNER
+.sp 2
+   /fund1_grp      5     4     0       1      0      0   Venezia     1/5   user1
+.sp 2
+   /fund2_grp     11     2     5       0      0      4   Venezia     5/5   user1
+.sp 2
+   /bond_grp       2     2     0       0      0      0   Venezia     0/-   user2
+.sp 2
+   /risk_grp       2     1     1       0      0      0        ()     1/-   user2
+.sp 2
+   /admi_grp       4     4     0       0      0      0        ()     0/-   user2
+.sp 2 .SH "Job slots (-N) output"
+\fBJob slots (-N) output\fR
+.sp 2
+   NSLOTS, PEND, RUN, SSUSP, USUSP, RSV are all counted in slots
+   rather than number of jobs. A list of job groups is displayed
+   with the following fields:
+.sp 2
+   \fBGROUP_NAME\fR
+.br
+               The name of the job group.
+.sp 2
+   \fBNSLOTS\fR
+.br
+               The total number of job slots held currently by
+               jobs in the job group. This includes pending,
+               running, suspended and reserved job slots. A
+               parallel job that is running on \fIn\fR processors
+               is counted as \fIn\fR job slots, since it takes
+               \fIn\fR job slots in the job group.
+.sp 2
+   \fBPEND\fR
+.br
+               The number of job slots used by pending jobs in
+               the job group.
+.sp 2
+   \fBRUN\fR
+.br
+               The number of job slots used by running jobs in
+               the job group.
+.sp 2
+   \fBSSUSP\fR
+.br
+               The number of job slots used by system-suspended
+               jobs in the job group.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The number of job slots used by user-suspended
+               jobs in the job group.
+.sp 2
+   \fBRSV\fR
+.br
+               The number of job slots in the job group that are
+               reserved by LSF for pending jobs.
+.sp 2
+   \fBSLA\fR
+.br
+               The name of the service class that the job group
+               is attached to with bgadd -sla
+               \fIservice_class_name\fR. If the job group is not
+               attached to any service class, empty parentheses
+               \fR()\fR are displayed in the SLA name column.
+.sp 2
+   \fBOWNER\fR
+.br
+               The job group owner.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   bjgroup -N
+.sp 2
+   GROUP_NAME NSLOTS PEND   RUN   SSUSP  USUSP   RSV      SLA     OWNER
+.sp 2
+   /X             25    0    25       0      0     0  puccini     user1
+.sp 2
+   /A/B           20    0    20       0      0     0   wagner     batch
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bgadd, bgdel, bgmod
+.sp 2

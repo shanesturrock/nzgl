@@ -1,0 +1,231 @@
+
+.ad l
+
+.ll 72
+
+.TH bltasks 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbltasks\fR
+.sp 2
+   displays License Scheduler interactive task information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bltasks [-l] [task_ID]
+.sp 2
+bltasks [-l] [-p | -r | -w] [-Lp “ls_project_name...”] [-m
+“host_name...”] [-t “terminal_name...”] [-u “user_name...”]
+.sp 2
+bltasks [ | -h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays current information about interactive tasks managed
+   by License Scheduler (submitted using taskman).
+.sp 2
+   By default, displays information about all tasks.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fItask_ID\fB\fR
+.br
+               Only displays information about the specified
+               task.
+.sp 2
+   \fB-l \fR
+.br
+               Long format. Displays detailed information for
+               each task in a multi-line format.
+.sp 2
+   \fB-p \fR
+.br
+               Only displays information about tasks with
+               \fRPREEMPTED\fR status.
+.sp 2
+               Cannot be used with -r or -w.
+.sp 2
+   \fB-r \fR
+.br
+               Only displays information about tasks with RUN
+               status.
+.br
+               Cannot be used with -p or -w.
+.sp 2
+   \fB-w \fR
+.br
+               Only displays information about tasks with WAIT
+               status.
+.br
+               Cannot be used with -p or -r.
+.sp 2
+   \fB-Lp “\fIls_project_name\fB...”\fR
+.br
+               Only displays information about tasks associated
+               with the specified projects.
+.sp 2
+   \fB-m "\fIhost_name\fB..."\fR
+.br
+               Only displays information about tasks submitted
+               from the specified hosts.
+.sp 2
+   \fB-t “\fIterminal_name\fB...”\fR
+.br
+               Only displays information about tasks submitted
+               from the specified terminals.
+.sp 2
+   \fB-u “\fIuser_name\fB...”\fR
+.br
+               Only displays information about tasks submitted by
+               the specified users.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints License Scheduler release version to stderr
+               and exits.
+.sp 2 .SH "Default Output"
+\fBDefault Output\fR
+.sp 2
+   Displays the short format with the following information:
+.sp 2
+   \fBTID\fR
+.br
+               Task ID that License Scheduler assigned to the
+               task.
+.sp 2
+   \fBUSER\fR
+.br
+               The user who submitted the task.
+.sp 2
+   \fBSTAT\fR
+.br
+               The current status of the task.
+.sp 2
+                 o  
+                     RUN: Task is running.
+.sp 2
+                 o  
+                     WAIT: Task has not yet started.
+.sp 2
+                 o  
+                     PREEMPT: Task has been preempted and
+                     currently has no license token.
+.sp 2
+   \fBHOST\fR
+.br
+               The name of host from which the task was
+               submitted.
+.sp 2
+   \fBPROJECT\fR
+.br
+               The name of the project to which the task belongs.
+.sp 2
+   \fBFEATURES\fR
+.br
+               Name of the License Scheduler token.
+.sp 2
+   \fBCONNECT TIME\fR
+.br
+               The submission time of the task.
+.sp 2 .SH "Output for -l Option"
+\fBOutput for -l Option\fR
+.sp 2
+   Displays detailed information for each task in multi-line
+   format. If the task is in WAIT status, bltasks displays "The
+   application manager is waiting for a token to start" and the
+   resource requirement. Otherwise, the current resource usage of
+   task is displayed as follows:
+.sp 2
+   \fBTERMINAL\fR
+.br
+               The terminal the task is using.
+.sp 2
+   \fBPGID\fR
+.br
+               UNIX process group ID.
+.sp 2
+   \fBCPU\fR
+.br
+               The total accumulated CPU time of all processes in
+               a task, in seconds.
+.sp 2
+   \fBMEM\fR
+.br
+               Total resident memory usage of all processes in a
+               task, in KB.
+.sp 2
+   \fBSWAP\fR
+.br
+               Total virtual memory usage of all processes in a
+               task, in KB.
+.sp 2
+   \fBKeyboard idle since\fR
+.br
+               Time at which the task became idle.
+.sp 2
+   \fBRES_REQ\fR
+.br
+               The resource requirement of the task.
+.sp 2
+   \fBCommand line\fR
+.br
+               The command the License Scheduler task manager is
+               executing.
+.sp 2 .SH "Output for -g Option"
+\fBOutput for -g Option\fR
+.sp 2
+   Displays every task group and information about the tasks that
+   belong to the group. The first 4 fields - POLICY, USER, HOST,
+   and TERMINAL - define a unique task group. A dash (-) in one
+   of these fields means that the group includes all tasks, no
+   matter what the value of the field is.
+.sp 2
+   \fBPOLICY\fR
+.br
+               License Scheduler token name. All tasks in the
+               group request this type of license.
+.sp 2
+   \fBUSER\fR
+.br
+               License Scheduler user name. All tasks in the
+               group are submitted by this user.
+.sp 2
+   \fBHOST\fR
+.br
+               Host name. All tasks in the group are submitted
+               from this host.
+.sp 2
+   \fBTERMINAL\fR
+.br
+               Terminal name. All tasks in the group are
+               submitted using this terminal.
+.sp 2
+   \fBTASK_NAME\fR
+.br
+               The task name.
+.sp 2
+   \fBRUN\fR
+.br
+               If 0, the group does not have a License Scheduler
+               token at this time.
+.sp 2
+               If 1 or greater, the group has a token and all
+               tasks in the group are running.
+.sp 2
+   \fBTOTAL\fR
+.br
+               Number of tasks in the group.
+.sp 2
+   \fBCONNECT_TIME\fR
+.br
+               Time and date that the group was created (and
+               requested a License Scheduler token). If all tasks
+               in a group finish, the group releases the License
+               Scheduler token, and the next task submitted
+               re-creates the group.
+.sp 2

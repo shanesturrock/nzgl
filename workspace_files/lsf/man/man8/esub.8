@@ -1,0 +1,1358 @@
+.ds ]W %
+.ds ]L
+.hy 0
+.nh
+.na
+.TH esub 8 "October 2006   Platform LSF Version 7.0"
+.br
+
+.SH NAME 
+\fBesub\fR  - external executables esub, eexec, mesub to be run at job submission and execution time
+
+.SH SYNOPSIS
+.BR
+.PP
+
+.PP
+LSF_SERVERDIR/esub
+
+.PP
+LSF_SERVERDIR/eexec
+
+.PP
+LSF_SERVERDIR/mesub
+
+.SH DESCRIPTION
+.BR
+.PP
+
+.PP
+Administrators can write external submission (esub) and execution time (eexec) 
+executables to perform site-specific actions on jobs. These site-specific user-written 
+executables are used to validate, modify, and reject job submissions, pass data to and 
+modify job execution environments.
+
+.PP
+When a job is submitted (see bsub(1) and brestart(1)), the esub is executed if it is found 
+in LSF_SERVERDIR. On the execution host, eexec is run at job startup and 
+completion time, and when checkpointing is initiated.  The environment variable 
+LS_EEXEC_T is set to START, END, and CHKPNT, respectively, to indicate when the 
+eexec is invoked. If esub needs to pass some data to eexec, esub can simply write the data 
+to stdout; eexec can get the data via its stdin. Thus, LSF is effectively implementing the 
+pipe in "esub | eexec". 
+
+.PP
+eexec is executed as the user after the job's environment variables have been set.  The 
+parent job process waits for the eexec to complete before proceeding; thus, the eexec is 
+expected to complete.  The parameter LSF_EEXEC_USER must be configured in the 
+/etc/lsf.sudoers file if a site needs to run the eexec under another user ID. 
+
+.PP
+The pid of the process which invoked the eexec is stored in the environment variable 
+LS_JOBPID. If the eexec is intended to monitor the execution of the job, the eexec must 
+fork a child and then have the parent eexec process exit. While monitoring job 
+execution, the eexec child should periodically check that the job process is still alive by 
+testing the LS_JOBPID variable. When the job is finished, the eexec child should exit. 
+
+.PP
+In addition to bsub and brestart, esub is also invoked for bmodify. When the esub is 
+invoked, the environment variables, LSB_SUB_ABORT_VALUE and 
+LSB_SUB_PARM_FILE, are set.  If the esub exits with the 
+LSB_SUB_ABORT_VALUE value, the job request will be aborted. 
+LSB_SUB_PARM_FILE gives the name of the temporary file which contains the job 
+request parameters.  See the section PARAMETER FILE for the contents of this file.  
+A typical use of the LSB_SUB_ABORT_VALUE and LSB_SUB_PARM_FILE 
+variables is to disallow certain submission options. 
+
+.SS Interactive remote execution
+.BR
+.PP
+
+.PP
+Interactive remote execution also runs \fBesub\fR and \fBeexec\fR if they are found in 
+LSF_SERVERDIR. For example, \fBlsrun\fR invokes \fBesub\fR, and RES runs \fBeexec\fR before 
+starting the task. \fBesub\fR is invoked at the time of the ls_connect(3) call, and RES 
+invokes \fBeexec\fR each time a remote task is executed (see ls_rexecv(3)). RES runs \fBeexec\fR 
+only at task startup time.
+
+.PP
+The LSB_SUB_ABORT_VALUE and LSB_SUB_PARM_FILE variables are not 
+defined when the esub is invoked in interactive remote execution. 
+
+.SS DCE credentials and AFS tokens
+.BR
+.PP
+
+.PP
+\fBesub\fR and \fBeexec\fR are also used for forwarding DCE credentials and AFS tokens.
+
+.SH PARAMETER FILE
+.BR
+.PP
+
+.PP
+The job submission and modification parameter file contains a line of the form, 
+option_name=value, for each job option specified.  A value of "SUB_RESET" indicates 
+this option is reset by bmodify.  If the esub is a Bourne Shell script, then running ". 
+$LSB_SUB_PARM_FILE" would make these variables available to the esub.
+
+.PP
+LSF provides the following environment variables in the \fBesub\fR execution environment:
+
+.SS LSB_SUB_PARM_FILE
+.BR
+.PP
+
+.PP
+This variable points to a temporary file containing the job parameters that \fBesub\fR reads 
+when the job is submitted. The submission parameters are a set of name-value pairs on 
+separate lines in the format "\fIoption_name\fR=\fIvalue\fR". The following option names are 
+supported:
+
+.TP 
+LSB_SUB_ADDITIONAL
+
+
+.IP
+String format parameter containing the value of the \fB-a\fR option to \fBbsub
+\fR
+
+.IP
+The value of -a is passed to \fBesub\fR, but it does not directly affect the other \fBbsub\fR 
+parameters or behavior. The value must correspond to an actual \fBesub\fR file. For example, 
+to use \fBbsub -a fluent\fR, the file esub.fluent must exist in LSF_SERVERDIR.
+
+
+.IP
+LSB_SUB_ADDITIONAL cannot be changed in or added to 
+LSB_SUB_MODIFY_FILE.
+
+
+
+.TP 
+LSB_SUB_BEGIN_TIME
+
+
+.IP
+Begin time, in seconds since 00:00:00 GMT, Jan. 1, 1970
+
+
+
+.TP 
+LSB_SUB_CHKPNT_DIR
+
+
+.IP
+Checkpoint directory
+
+
+
+.TP 
+LSB_SUB_CLUSTER
+
+
+.IP
+Submission cluster name (MultiCluster only)
+
+
+
+.TP 
+LSB_SUB_COMMAND_LINE
+
+
+.IP
+Job command
+
+
+
+.TP 
+LSB_SUB_CHKPNT_PERIOD
+
+
+.IP
+Checkpoint period
+
+
+
+.TP 
+LSB_SUB_DEPEND_COND
+
+
+.IP
+Dependency condition
+
+
+
+.TP 
+LSB_SUB_ERR_FILE
+
+
+.IP
+Standard error file name
+
+
+
+.TP 
+LSB_SUB_EXCEPTION
+
+
+.IP
+Exception condition
+
+
+
+.TP 
+LSB_SUB_EXCLUSIVE
+
+
+.IP
+"Y" specifies exclusive execution
+
+
+
+.TP 
+LSB_SUB_EXTSCHED_PARAM
+
+
+.IP
+Validate or modify \fBbsub -extsched\fR option
+
+
+
+.TP 
+LSB_SUB_HOST_SPEC
+
+
+.IP
+Host specifier
+
+
+
+.TP 
+LSB_SUB_HOSTS
+
+
+.IP
+List of execution host names
+
+
+
+.TP 
+LSB_SUB_IN_FILE
+
+
+.IP
+Standard input file name
+
+
+
+.TP 
+LSB_SUB_INTERACTIVE
+
+
+.IP
+"Y" specifies an interactive job
+
+
+
+.TP 
+LSB_SUB_LOGIN_SHELL
+
+
+.IP
+Login shell
+
+
+
+.TP 
+LSB_SUB_JOB_NAME
+
+
+.IP
+Job name
+
+
+
+.TP 
+LSB_SUB_JOB_WARNING_ACTION
+
+
+.IP
+Job warning action specified by \fBbsub -wa
+\fR
+
+
+.TP 
+LSB_SUB_JOB_WARNING_TIME_PERIOD
+
+
+.IP
+Job warning time period specified by \fBbsub -wt
+\fR
+
+
+.TP 
+LSB_SUB_MAIL_USER
+
+
+.IP
+Email address used by LSF for sending job email
+
+
+
+.TP 
+LSB_SUB_MAX_NUM_PROCESSORS
+
+
+.IP
+Maximum number of processors requested
+
+
+
+.TP 
+LSB_SUB_MODIFY
+
+
+.IP
+"Y" specifies a modification request
+
+
+
+.TP 
+LSB_SUB_MODIFY_ONCE
+
+
+.IP
+"Y" specifies a modification-once request
+
+
+
+.TP 
+LSB_SUB_NOTIFY_BEGIN
+
+
+.IP
+"Y" specifies email notification when job begins
+
+
+
+.TP 
+LSB_SUB_NOTIFY_END
+
+
+.IP
+"Y" specifies email notification when job ends
+
+
+
+.TP 
+LSB_SUB_NUM_PROCESSORS
+
+
+.IP
+Minimum number of processors requested
+
+
+
+.TP 
+LSB_SUB_OTHER_FILES
+
+
+.IP
+Always "SUB_RESET" if defined to indicate a \fBbmod\fR is being performed to reset the 
+number of files to be transferred
+
+
+
+.TP 
+LSB_SUB_OTHER_FILES_\fInumber
+\fR
+
+.IP
+\fInumber\fR is an index number indicating the particular file transfer value is the specified file 
+transfer expression.
+
+
+.IP
+For example, for \fBbsub -f "a > b" -f "c < d"\fR, the following would be defined:
+
+
+.RS
+
+
+.HP 3
+o  LSB_SUB_OTHER_FILES_0="a > b"
+
+.HP 3
+o  LSB_SUB_OTHER_FILES_1="c < d"
+
+
+.RE
+
+
+.TP 
+LSB_SUB_OUT_FILE
+
+
+.IP
+Standard output file name
+
+
+
+.TP 
+LSB_SUB_PRE_EXEC
+
+
+.IP
+Pre-execution command
+
+
+
+.TP 
+LSB_SUB_PROJECT_NAME
+
+
+.IP
+Project name
+
+
+
+.TP 
+LSB_SUB_PTY
+
+
+.IP
+"Y" specifies an interactive job with PTY support
+
+
+
+.TP 
+LSB_SUB_PTY_SHELL
+
+
+.IP
+"Y" specifies an interactive job with PTY shell support
+
+
+
+.TP 
+LSB_SUB_QUEUE
+
+
+.IP
+Submission queue name
+
+
+
+.TP 
+LSB_SUB_RERUNNABLE
+
+
+.IP
+"Y" specifies a rerunnable job
+
+
+
+.TP 
+LSB_SUB_RES_REQ
+
+
+.IP
+Resource requirement string
+
+
+
+.TP 
+LSB_SUB_RESTART
+
+
+.IP
+"Y" specifies a restart job
+
+
+
+.TP 
+LSB_SUB_RESTART_FORCE
+
+
+.IP
+"Y" specifies forced restart job
+
+
+
+.TP 
+LSB_SUB_RLIMIT_CORE
+
+
+.IP
+Core file size limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_CPU
+
+
+.IP
+CPU limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_DATA
+
+
+.IP
+Data size limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_FSIZE
+
+
+.IP
+File size limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_RSS
+
+
+.IP
+Resident size limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_RUN
+
+
+.IP
+Wall-clock run limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_STACK
+
+
+.IP
+Stack size limit
+
+
+
+.TP 
+LSB_SUB_RLIMIT_THREAD
+
+
+.IP
+Thread limit
+
+
+
+.TP 
+LSB_SUB_TERM_TIME
+
+
+.IP
+Termination time, in seconds, since 00:00:00 GMT, Jan. 1, 1970
+
+
+
+.TP 
+LSB_SUB_TIME_EVENT
+
+
+.IP
+Time event expression
+
+
+
+.TP 
+LSB_SUB_USER_GROUP
+
+
+.IP
+User group name
+
+
+
+.TP 
+LSB_SUB_WINDOW_SIG
+
+
+.IP
+Window signal number
+
+
+
+.TP 
+LSB_SUB2_JOB_GROUP
+
+
+.IP
+Options specified by \fBbsub -g
+\fR
+
+
+.TP 
+LSB_SUB2_SLA
+
+
+.IP
+SLA scheduling options
+
+
+
+.TP 
+LSB_SUB2_LICENSE_PROJECT
+
+
+.IP
+LSF License Scheduler project name. Set by \fBbsub -Lp\fR option. Use this value to control 
+the License Scheduler project the job belongs to, or to validate that users belong to a 
+particular License Scheduler project.
+
+
+
+.SS Example submission parameter file
+.BR
+.PP
+
+
+.IP
+If a user submits the following job:
+
+
+
+.IP
+% \fBbsub -q normal -x -P my_project -R "r1m rusage[dummy=1]" -n 90 sleep 10
+\fR
+.RE
+
+.IP
+The contents of the LSB_SUB_PARM_FILE will be:
+
+
+
+.IP
+LSB_SUB_QUEUE="normal"
+.br
+
+LSB_SUB_EXCLUSIVE=Y
+.br
+
+LSB_SUB_RES_REQ="r1m rusage[dummy=1]"
+.br
+
+LSB_SUB_PROJECT_NAME="my_project"
+.br
+
+LSB_SUB_COMMAND_LINE="sleep 10"
+.br
+
+LSB_SUB_NUM_PROCESSORS=90
+.br
+
+LSB_SUB_MAX_NUM_PROCESSORS=90
+
+.RE
+
+
+.SS LSB_SUB_ABORT_VALUE
+.BR
+.PP
+
+
+.IP
+This variable indicates the value \fBesub\fR should exit with if LSF is to reject the job 
+submission.
+
+
+
+.SS LSB_SUB_MODIFY_ENVFILE
+.BR
+.PP
+
+
+.IP
+The file in which \fBesub\fR should write any changes to the job environment variables.
+
+
+.IP
+\fBesub\fR writes the variables to be modified to this file in the same format used in 
+LSB_SUB_PARM_FILE. The order of the variables does not matter.
+
+
+.IP
+After \fBesub\fR runs, LSF checks LSB_SUB_MODIFY_ENVFILE for changes and if 
+found, LSF will apply them to the job environment variables.
+
+
+
+.SS LSB_SUB_MODIFY_FILE
+.BR
+.PP
+
+
+.IP
+The file in which \fBesub\fR should write any submission parameter changes.
+
+
+.IP
+\fBesub\fR writes the job options to be modified to this file in the same format used in 
+LSB_SUB_PARM_FILE. The order of the options does not matter. After \fBesub\fR 
+runs, LSF checks LSB_SUB_MODIFY_FILE for changes and if found LSF will 
+apply them to the job.
+
+
+.IP
+LSB_SUB_ADDITIONAL cannot be changed in or added to 
+LSB_SUB_MODIFY_FILE.
+
+
+
+.SS LSF_INVOKE_CMD
+.BR
+.PP
+
+
+.IP
+Indicates the name of the last LSF command that invoked an external executable 
+(for example, \fBesub\fR).
+
+
+
+.SH USING ESUB
+.BR
+.PP
+
+.SS General esub Logic
+.BR
+.PP
+
+.PP
+After \fBesub\fR runs, LSF checks:
+.RS
+
+.HP 4
+
+1.  
+Is the \fBesub\fR exit value LSB_SUB_ABORT_VALUE?
+
+.RS
+
+.HP 3
+o  
+Yes, step 2
+
+.HP 3
+o  
+No, step 4
+
+
+.RE
+
+.HP 4
+
+2.  
+Reject the job
+
+.HP 4
+
+3.  
+Go to step 5
+
+.HP 4
+
+4.  
+Does LSB_SUB_MODIFY_FILE or LSB_SUB_MODIFY_ENVFILE exist?
+
+.RS
+
+
+.HP 3
+o  Apply changes
+
+
+.RE
+
+.HP 4
+
+5.  
+Done
+
+
+.RE
+
+
+.SS Rejecting jobs
+.BR
+.PP
+
+.PP
+Depending on your policies you may choose to reject a job. To do so, have \fBesub\fR exit 
+with LSB_SUB_ABORT_VALUE.
+
+.PP
+If \fBesub\fR rejects the job, it should not write to either LSB_SUB_MODIFY_FILE or 
+LSB_SUB_MODIFY_ENVFILE.
+
+.RE
+.IP
+Example
+.BR
+.RS
+
+
+.IP
+The following Bourne shell \fBesub\fR rejects all job submissions by exiting with 
+LSB_SUB_ABORT_VALUE:
+
+
+
+.IP
+#!/bin/sh
+.br
+
+
+.br
+
+# Redirect stderr to stdout so echo can be used for 
+.br
+
+# error messages 
+.br
+
+exec 1>&2
+.br
+
+
+.br
+
+# Reject the submission
+.br
+
+   echo "LSF is Rejecting your job submission..."
+.br
+
+   exit $LSB_SUB_ABORT_VALUE
+
+.RE
+
+
+.SS Validating job submission parameters
+.BR
+.PP
+
+.PP
+One use of validation is to support project-based accounting. The user can request that 
+the resources used by a job be charged to a particular project. Projects are associated 
+with a job at job submission time, so LSF will accept any arbitrary string for a project 
+name. In order to ensure that only valid projects are entered and the user is eligible to 
+charge to that project, an \fBesub\fR can be written.
+
+.RE
+.IP
+Example
+.BR
+.RS
+
+
+.IP
+The following Bourne shell \fBesub\fR validates job submission parameters:
+
+
+
+.IP
+#!/bin/sh
+.br
+
+
+.br
+
+. $LSB_SUB_PARM_FILE
+.br
+
+
+.br
+
+# Redirect stderr to stdout so echo can be used for error 
+messages 
+.br
+
+exec 1>&2
+.br
+
+
+.br
+
+# Check valid projects
+.br
+
+if [ $LSB_SUB_PROJECT_NAME != "proj1" -o 
+$LSB_SUB_PROJECT_NAME != "proj2" ]; then
+.br
+
+   echo "Incorrect project name specified"
+.br
+
+   exit $LSB_SUB_ABORT_VALUE
+.br
+
+fi
+.br
+
+
+.br
+
+USER=`whoami`
+.br
+
+if [ $LSB_SUB_PROJECT_NAME = "proj1" ]; then
+.br
+
+   # Only user1 and user2 can charge to proj1
+.br
+
+   if [$USER != "user1" -a $USER != "user2" ]; then
+.br
+
+      echo "You are not allowed to charge to this project"
+.br
+
+      exit $LSB_SUB_ABORT_VALUE
+.br
+
+   fi
+.br
+
+fi
+
+.RE
+
+
+.SS Modifying job submission parameters
+.BR
+.PP
+
+.PP
+\fBesub\fR can be used to modify submission parameters and the job environment before the 
+job is actually submitted.
+
+.PP
+The following example writes modifications to LSB_SUB_MODIFY_FILE for the 
+following parameters:
+.RS
+
+
+.HP 3
+o  LSB_SUB_QUEUE
+
+.HP 3
+o  USER
+
+.HP 3
+o  SHELL
+
+
+.RE
+
+
+.PP
+In the example, user userA can only submit jobs to queue queueA. User userB must 
+use Bourne shell (\fB/bin/sh\fR), and user userC should never be able to submit a job.
+
+
+.PP
+#!/bin/sh
+.br
+
+. $LSB_SUB_PARM_FILE
+.br
+
+
+.br
+
+# Redirect stderr to stdout so echo can be used for error 
+messages 
+.br
+
+exec 1>&2
+.br
+
+
+.br
+
+USER=`whoami`
+.br
+
+# Ensure userA is using the right queue queueA
+.br
+
+if [ $USER="userA" -a $LSB_SUB_QUEUE != "queueA" ]; then
+.br
+
+   echo "userA has submitted a job to an incorrect queue"
+.br
+
+   echo "...submitting to queueA"
+.br
+
+   echo 'LSB_SUB_QUEUE="queueA"' > $LSB_SUB_MODIFY_FILE
+.br
+
+fi
+.br
+
+
+.br
+
+# Ensure userB is using the right shell (/bin/sh)
+.br
+
+if [ $USER="userB" -a $SHELL != "/bin/sh" ]; then
+.br
+
+   echo "userB has submitted a job using $SHELL"
+.br
+
+   echo "...using /bin/sh instead"
+.br
+
+   echo 'SHELL="/bin/sh"' > $LSB_SUB_MODIFY_ENVFILE
+.br
+
+fi
+.br
+
+
+.br
+
+# Deny userC the ability to submit a job
+.br
+
+if [ $USER="userC" ]; then
+.br
+
+   echo "You are not permitted to submit a job."
+.br
+
+   exit $LSB_SUB_ABORT_VALUE
+.br
+
+fi
+
+
+
+.SS Using bmod and brestart commands with esub
+.BR
+.PP
+
+.PP
+You can use the \fBbmod\fR command to modify job submission parameters, and \fBbrestart\fR 
+to restart checkpointed jobs. Like \fBbsub\fR, \fBbmod\fR and \fBbrestart\fR also call \fBesub\fR if it exists. 
+\fBbmod\fR and \fBbrestart\fR cannot make changes to the job environment through \fBesub\fR. 
+Environment changes only occur when \fBesub\fR is called by the original job submission 
+with \fBbsub\fR.
+
+.SS How LSF supports multiple esub (mesub)
+.BR
+.PP
+
+.PP
+LSF provides a master \fBesub\fR (\fBLSF_SERVERDIR/mesub\fR) to handle the invocation of 
+individual \fBesub\fR executables and the job submission requirements of your applications.
+
+.PP
+Use the \fB-a\fR option of \fBbsub\fR to specify the application you are running through LSF. 
+
+.PP
+For example, to submit a FLUENT job:
+
+
+.PP
+bsub -a fluent \fIbsub_options\fR \fIfluent_command
+\fR
+
+
+.PP
+The method name fluent, uses the \fBesub\fR for FLUENT jobs 
+(LSF_SERVERDIR/esub.fluent), which sets the checkpointing method 
+LSB_ECHKPNT_METHOD="fluent" to use the echkpnt.fluent and 
+erestart.fluent.
+
+.RE
+.IP
+Compatibility note
+.BR
+.RS
+
+
+.IP
+After LSF version 5.1, the value of -a must correspond to an actual esub file in 
+LSF_SERVERDIR. For example, to use bsub -a fluent, the file esub.fluent must 
+exist in LSF_SERVERDIR.
+
+
+
+.RE
+.IP
+LSB_ESUB_METHOD (lsf.conf)
+.BR
+.RS
+
+
+.IP
+To specify a mandatory \fBesub\fR method that applies to all job submissions, you can 
+configure LSB_ESUB_METHOD in lsf.conf.
+
+
+.IP
+LSB_ESUB_METHOD specifies the name of the esub method used in addition 
+to any methods specified in the bsub -a option.
+
+
+.IP
+For example, LSB_ESUB_METHOD="dce fluent" defines DCE as the 
+mandatory security system, and FLUENT as the mandatory application used on all 
+jobs.
+
+
+
+.SS How master esub invokes application-specific esubs
+.BR
+.PP
+
+.PP
+\fBbsub\fR invokes \fBmesub\fR at job submission, which calls \fBesub\fR programs in this order:
+.RS
+
+.HP 4
+
+1.  
+Mandatory \fBesub\fR programs defined by LSB_ESUB_METHOD
+
+.HP 4
+
+2.  
+Any existing executable named \fBLSF_SERVERDIR/esub
+\fR
+.HP 4
+
+3.  
+Application-specific \fBesub\fR programs in the order specified in the \fBbsub -a\fR option
+
+
+.RE
+.IP
+Example
+.BR
+.RS
+.RS
+
+
+.HP 3
+o  \fBesub.dce\fR is defined as the only mandatory \fBesub
+\fR
+.HP 3
+o  An executable named \fBesub\fR already exists in LSF_SERVERDIR
+
+.HP 3
+o  Executables named \fBesub.fluent\fR and \fBesub.license\fR exist in 
+LSF_SERVERDIR
+
+.HP 3
+o  \fBbsub -a fluent license\fR submits the job as a FLUENT job, and \fBmesub\fR 
+invokes the following esub executables in LSF_SERVERDIR in this order:
+
+.RS
+
+.HP 3
+o  
+\fBesub.dce
+\fR
+.HP 3
+o  
+\fBesub
+\fR
+.HP 3
+o  
+\fBesub.fluent
+\fR
+.HP 3
+o  
+\fBesub.license
+\fR
+
+.RE
+
+.HP 3
+o  \fBbsub\fR without the \fB-a\fR option submits the job, and \fBmesub\fR invokes only the 
+mandatory \fBesub.dce\fR and the existing \fBesub\fR in LSF_SERVERDIR, not the 
+application-specific \fBesub\fR programs.
+
+
+.RE
+
+
+.RE
+
+
+.SS Configuring master esub and your application-specific esub
+.BR
+.PP
+
+.PP
+The master \fBesub\fR is installed as LSF_SERVERDIR/mesub. After installation:
+.RS
+
+.HP 4
+
+1.  
+Create your own application-specific \fBesub\fR.
+
+.HP 4
+
+2.  
+Optional. Configure LSB_ESUB_METHOD in lsf.conf to specify a mandatory 
+\fBesub\fR for all job submissions.
+
+
+.RE
+.IP
+Naming your esub
+.BR
+.RS
+
+
+.IP
+Use the following naming conventions:
+
+
+.RS
+
+
+.HP 3
+o  On UNIX, LSF_SERVERDIR/esub.\fIapplication
+\fR
+
+.IP
+For example, esub.fluent for FLUENT jobs
+
+.RE
+.HP 3
+o  On Windows, LSF_SERVERDIR\\esub.\fIapplication\fR.[exe |bat]
+
+
+.IP
+For example, esub.fluent.exe
+
+
+
+.IP
+The name of the \fBesub\fR program must be a valid file name. It can contain only 
+alphanumeric characters, underscore (_) and hyphen (-).
+
+
+.RE
+.IP
+Existing esub
+.BR
+.RS
+
+.IP
+Your existing esub does not need to follow this convention and does not need to be 
+renamed. However, since mesub invokes any esub that follows this convention, you 
+should move any backup copies of your esubs out of LSF_SERVERDIR or choose 
+a name that does not follow the convention (for example, use esub_bak instead of 
+esub.bak).
+
+
+.RE
+.IP
+esub.user name is reserved
+.BR
+.RS
+
+.IP
+The name esub.user is reserved for backward compatibility. Do not use the name 
+esub.user for your application-specific esub. 
+
+
+.RE
+.RE
+
+.RE
+
+
+.RE
+
+
+.SH USING EEXEC
+.BR
+.PP
+
+.PP
+The \fBeexec\fR program runs on the execution host at job start-up and completion time and 
+when checkpointing is initiated. It is run as the user after the job environment variables 
+have been set. The environment variable LS_EXEC_T is set to START, END, and 
+CHKPNT, respectively, to indicate when \fBeexec\fR is invoked.
+
+.PP
+If you need to run \fBeexec\fR as a different user, such as root, you must properly define 
+LSF_EEXEC_USER in the file /etc/lsf.sudoers.
+
+.PP
+\fBeexec\fR is expected to finish running because the parent job process waits for \fBeexec\fR to 
+finish running before proceeding. The environment variable LS_JOBPID stores the 
+process ID of the process that invoked \fBeexec\fR. If \fBeexec\fR is intended to monitor the 
+execution of the job, \fBeexec\fR must fork a child and then have the parent \fBeexec\fR process 
+exit. The \fBeexec\fR child should periodically test that the job process is still alive using the 
+LS_JOBPID variable.
+
+.SS Using esub and eexec to pass data to execution environments
+.BR
+.PP
+
+.PP
+If \fBesub\fR needs to pass some data to \fBeexec\fR, it can write the data to its standard output 
+for \fBeexec\fR to read from its standard input (stdin). LSF effectively acts as the pipe 
+between \fBesub\fR and \fBeexec\fR (e.g., \fBesub\fR | \fBeexec\fR).
+
+.PP
+Standard output (stdout) from any \fBesub\fR is automatically sent to \fBeexec\fR.
+
+.RE
+.IP
+Limitation
+.BR
+.RS
+
+
+.IP
+Since \fBeexec\fR cannot handle more than one standard output stream, only one \fBesub\fR 
+can use standard output to generate data as standard input to \fBeexec\fR.
+
+
+.IP
+For example, the \fBesub\fR for AFS (esub.afs) sends its authentication tokens as 
+standard output to \fBeexec\fR. If you use AFS, no other \fBesub\fR can use standard output.
+
+
+
+.SH SEE ALSO
+.BR
+.PP
+
+.PP
+lsfbatch(5), lsf.sudoers(5), bsub(1), brestart(1), bmodify(1), lsfintro(1), sbatchd(8), res(8)
+
+.PP
+
+.\" Generated by Quadralay WebWorks Publisher Professional Edition 6.0.7
+.\" Generated on December 21, 2005 
+.\" Based on template lsf_manpage_tem
+.\" Copyright 1994-2005 Platform Computing Corporation

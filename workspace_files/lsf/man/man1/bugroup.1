@@ -1,0 +1,74 @@
+
+.ad l
+
+.ll 72
+
+.TH bugroup 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbugroup\fR
+.sp 2
+   displays information about user groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bugroup [-l] [-r] [-w] [user_group ...]
+.sp 2
+bugroup [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays user groups, user names, and group administrators for
+   each group.
+.sp 2
+   The default is to display information about all user groups.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Displays information in a long multi-line format.
+               Also displays share distribution if shares are
+               configured.
+.sp 2
+   \fB-r \fR
+.br
+               Expands the user groups recursively. The expanded
+               list contains only user names; it does not contain
+               the names of subgroups. Duplicate user names are
+               listed only once.
+.sp 2
+   \fB-w\fR
+.br
+               Wide format. Displays user and user group names
+               without truncating fields.
+.sp 2
+   \fB\fIuser_group ...\fB\fR
+.br
+               Only displays information about the specified user
+               groups. Do not use quotes when specifying multiple
+               user groups.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   In the list of users, a name followed by a slash (/) indicates
+   a subgroup.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   User groups and user shares are defined in the configuration
+   file lsb.users(5).
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsb.users, bmgroup, busers
+.sp 2

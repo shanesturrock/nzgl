@@ -1,0 +1,113 @@
+.\" restart.3ckpt,v 1.2 1994/07/30 15:28:31 xxue Exp
+.ds ]W %
+.ds ]L
+.TH RESTART 3CKPT "1 August 1998"
+.SH NAME
+restart \- restart execution of a process or a process family
+.LP
+.SH SYNOPSIS
+.nf
+.B #include <sys/types.h>
+.B #include <chkpnt.h>
+.PP
+.nf
+.ft B
+pid_t restart(const char *path, int flags);
+.ft
+.fi
+
+.SH DESCRIPTION
+This function restarts a process or a process family from the 
+checkpoint file(s) created by the 
+.BR chkpnt (3)
+function.
+.PP
+The arguments passed to 
+.B restart()
+have the following meanings:
+.PP
+.TP 12
+.B path
+The directory under which the checkpoint files are stored.
+.TP 12
+.B flags
+.B RESTART_SIGALL
+- Upon successful restart, a
+.B SIGCONT
+signal is sent to each of the restarted processes.
+.IP
+.B RESTART_SIGROOT
+- Upon successful restart, a
+.B SIGCONT
+signal is sent to the root process in the restart group.
+.SH RETURN VALUES
+Upon successful completion,
+.B restart()
+returns the process id of the process restarted or the root
+process in the process family. Otherwise, a value
+of
+.B -1
+is returned, and 
+.B errno
+is set to indicate the error.
+.SH ERRORS
+If any of the following conditions occur, 
+.B restart()
+returns
+.B -1
+and sets
+.B errno
+to the corresponding value.
+.TP 15
+.SM [EACCES]
+Search permission is denied on a component of the
+.B path
+argument.
+.TP
+.SM [EAGAIN]
+One or more files referenced in the checkpoint directory are no longer present.
+.TP
+.SM [ERESTARTFAIL]
+Restart operation could not be completed.
+.TP
+.SM [EINVAL]
+An invalid argument was passed to the function call.
+.TP
+.SM [ENOENT]
+The named directory does not exist, or the
+.B path
+argument points to an empty string.
+.TP
+.SM [ENOSYS]
+The
+.B restart()
+function is not supported by the implementation.
+.TP
+.SM [ENOTDIR]
+A component of the 
+.B path
+is not a directory.
+.TP
+.SM [ENAMETOOLONG]
+The length of the path string exceeds
+.BR PATH_MAX ,
+or a pathname component is longer than
+.BR NAME_MAX .
+.TP
+.SM [EPERM]
+The calling process does not have permission to restart one
+or more of the target process.
+.TP
+.SM [ENOEXEC]
+The checkpoint file or directory referred by
+.B path
+is not a
+valid checkpoint or directory.
+.SH NOTES
+The current implementation of
+.BR restart (3)
+does not support the restart of a family of processes.
+.SH STANDARD COMFORMANCE
+POSIX.1a
+.SH SEE ALSO
+chkpnt(1), restart(1), chkpnt(3), rmckpt(3).

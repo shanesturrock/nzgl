@@ -1,0 +1,282 @@
+.\"
+.ds ]W %
+.ds ]L
+.TH XBMOD 1 "1 August 1998"
+.SH NAME
+\fBxbmod\fR \- Motif-based Graphical User Interface for batch job modification 
+.SH SYNOPSIS
+\fBxbmod\fR [standard X11/Motif options...] [jobId]
+.SH DESCRIPTION
+\fBxbmod\fR provides a Motif-based graphical user interface for 
+modifying the options of a submitted batch job in the LSF system.
+.PP
+\fBNOTE:\fR
+.PP
+The UNIX X-GUI commands (xbmod, xlsbatch, xbsub, xlsmon) are obsolete. 
+The command binaries remain available in the distribution packages as a 
+courtesy, but are provided "as is" and are no longer officially supported.
+.BR
+.PP
+.sp
+.SH MAIN WINDOW 
+The main window of \fBxbmod\fR consists of a menu bar, a working area, some
+buttons and a message line. 
+
+The working area shows the Command Line and contains some text fields for
+modifying commonly-used job options such as candidate queues, hosts, resource
+requirement, input, output and error files. There is a button close to
+each field for opening a dialog box to help modify the job option.
+The advanced job options can be modified in the advanced dialog
+box, which is opened by clicking "Advanced..." button in the main window. 
+
+Both the job ID and the current working directory are shown on top of the working area.
+
+You may modify another job in the same window by picking it in the job
+selection dialog box, which can be opened by clicking the button next to
+job ID or choosing "Select a Job..." from the \fBFile\fR menu.
+
+The available job IDs, queue, host and resource data used in \fBxbmod\fR are
+updated periodically, and they can also be updated manually. The latest update
+time is shown on the bottom-right of the main window.
+.PP
+Menu Bar
+.PP
+The menu bar of the main window contains the following items:
+\fBFile\fR, \fBEdit\fR, \fBOptions\fR and \fBHelp\fR.
+.PP
+File Menu
+.RS 5
+.TP 5
+.B Update 
+Updates available job IDs, queue, host and resource data from the LSF system.
+.TP 5
+.B Select a Job...
+Opens a dialog box for selecting a job to be modified in the main window
+and advanced dialog box.
+.TP 5
+.B Modify
+Modifys the job's options in the LSF system, with the values 
+specified in the main window and advanced dialog box.
+.TP 5
+.B Exit  
+Exits the application (\fBxbmod\fR).
+.RE
+.TP 5
+Edit Menu
+.RS 5
+.TP 5
+.B Defaults
+Sets default values to job options in the main window and advanced dialog box.
+.TP 5
+.B Revert 
+Reverts values of job options back to that obtained from the LSF system.
+.TP 5
+.B Advanced Parameters... 
+Opens the advanced dialog box for modifying more job options.
+.TP 5
+.B Change Current Directory... 
+Opens a file selection dialog box for changing current working directory.
+.RE
+.TP 5
+Options Menu
+.RS 5
+.TP 5
+.B Set Options... 
+Opens a dialog box to set \fBxbmod\fR settings,
+including the refresh period and command to print on-line help.
+.TP 5
+.B Save Options 
+Saves the current \fBxbmod\fR settings (size and position of the
+main window, the refresh period and command to print on-line help)
+into the
+.BR  ~/.XBmod
+resource file in your home directory. 
+\fBxbmod\fR reads this file, if available, on startup to
+obtain the configuration information.
+.TP 5
+.B Restore Options 
+Restores the \fBxbmod\fR settings (the refresh period and
+command to print on-line help) from the last saved
+.BR  ~/.XBmod
+resource file.
+.RE
+.TP 5
+Help Menu
+.RS 5
+.TP 5
+.B  On Version... 
+Displays the \s-1LSF\s0 version number and copyright information.
+.TP 5
+.B  On Window... 
+Opens an on-line \fBHelp\fR window to display information about the tasks that
+you can perform with \fBxbmod\fR.
+.TP 5
+.B  On Help... 
+Opens an on-line \fBHelp\fR window to display information about how to use the
+on-line help.
+.TP 5
+.B  On Company Info... 
+Displays the address of \s-1Platform Computing Corporation\s0.
+.RE
+.sp
+.SH ADVANCED DIALOG BOX
+The advanced dialog box consists of text fields and toggle buttons
+for specifying
+job name, project name, login shell, pre-execution command, job
+dependencies, mail user, when to notify, number of processors, job
+begin time, job terminate time and whether the job is exclusive, or 
+rerunnable. The three buttons below the text fields are for opening
+checkpoint dialog box, limits dialog box and file transfer dialog
+box to specify checkpoint option, resource limits and file transfer
+parameters.
+.RE
+.sp
+.SH CHECKPOINT DIALOG BOX
+The checkpoint dialog box consists of a "Checkpointable" toggle button,
+a "Checkpoint Period" text filed, and  a file selection area for
+specifying the checkpoint directory.
+To submit a checkpointable job, set the "Checkpointable" toggle, and
+specify the checkpoint period and directory; Otherwise, unset the
+"Checkpointable" toggle.
+.RE
+.sp
+.SH LIMITS DIALOG BOX
+The limits dialog box consists of a couple of text fields for
+specifying the CPU time limit, wall-clock run time limit, file limit,
+stack limit, memory limit, data limit and core limit for the whole job.
+.RE
+.sp
+.SH FILE TRANSFERS DIALOG BOX
+The file transfers dialog box consists of a file transfer list, a file
+transfer area and some buttons. To add a file transfer to the list,
+fill in the "File on Submission Host" and "File on Execution Host" field,
+select the transfer operators, and click the Add button. You can
+select a file transfer from the list, modify it and replace the old one
+by clicking the Replace button. To remove a file transfer. select it from
+the list, and click the Remove button.
+.RE
+.sp
+.SH X DEFAULTS
+The \fBxbmod\fR application uses the relevant resource specifications
+in the X default files to configure the \fBxbmod\fR window.
+The format for a resource specification in the X default files is:
+.RS 5
+.PP
+\fB[\fIname\fB*]\fIresource\fB:  \fIvalue\fR
+.PP
+.I name
+specifies the application name or the name string that restricts 
+the resource assignment to that application or to a
+component of an application.  If this argument is not specified, 
+the resource assignment is globally available to all X applications.
+.PD 0
+
+.I resource
+specifies the resource.
+
+.I value
+specifies the value that is to be assigned to the resource.
+.PD
+.RE
+.PP
+For \fBxbmod\fR, the application class is \fBXBmod\fR and 
+the application name is \fBxbmod\fR.
+.PP
+In addition to the general resources listed in \fBX\fR(1), resources
+available to \fBxbmod\fR include:
+.TP 5
+.B refreshRate
+Specifies the \fBxbmod\fR information refresh period.
+The permissible range for the refresh period is 1 to 60 minutes.
+The default is 2 minutes.
+.TP 5
+.B printCommand
+Specifies the command to print \fBxbmod\fR on line help. The default
+command is "lp".
+.TP 5
+.B multiClickTime
+Specifies the time interval between two consecutive mouse button clicks.
+The default is 0.5 sec.
+.TP 5
+.B customizedMenu 
+Customizes pulldown menus in the main window of \fBxbmod\fR.
+
+The value of \fBcustomizedMenu\fR should be a character string enclosed in
+double quotes, whose components are separated by spaces. For example,
+
+xbmod*customizedMenu:"A1 B1 C1 D1 A2 B2 C2 B2 ... An Bn Cn Dn"
+
+From the beginning of the string, every four consecutive components
+constitute a group which customizes one menu item. Each component is
+either a character string or several character strings encompassed
+by parentheses.
+
+(1) To remove a pulldown menu from the menu bar, specify
+\fBAi\fR: the pulldown menu name to be removed from the menu bar,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(2) To remove a menu item from a pulldown menu, specify
+\fBAi\fR: the pulldown menu name where some item will be removed,
+\fBBi\fR: the menu item name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(3) To remove a sub-pulldown menu from a pulldown menu, specify
+\fBAi\fR: the pulldown menu where some sub-pulldown will be removed,
+\fBBi\fR: the sub-pulldown menu name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(4) To remove a menu item from a sub-pulldown menu, specify
+\fBAi\fR: the pulldown menu where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item will be removed,
+\fBCi\fR: the menu item name to be removed,
+\fBDi\fR: 0 (zero).
+
+(5) To add a new item in the menu bar, specify
+\fBAi\fR: new menu name to be added,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: same as Ai.
+
+(6) To add a new item in a pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the new item will be added,
+\fBBi\fR: new menu item name to be added,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be execvpED when this item is chosen.
+
+(7) To add a new item in a sub-pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where the new item will be added,
+\fBCi\fR: new menu item name to be added,
+\fBDi\fR: executable name which will be execvpED when this item is chosen.
+
+(8) To replace an item's command in the pulldown menu by a new executable, specify
+\fBAi\fR: the pulldown menu name where some item's command will be replaced,
+\fBBi\fR: the menu item name whose command will be replaced,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be execvpED when the item specified in Bi is chosen.
+
+(9) To replace an item's command in the sub-pulldown menu by a new executable, specify 
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item's command will be replaced,
+\fBCi\fR: the menu item name whose command will be replaced,
+\fBDi\fR: executable name which will be execvpED when the item specified in Ci is chosen.
+
+.PP
+.RE
+.SH X DEFAULT FILES
+.PD 0
+.TP 22
+.B ~/.Xdefaults
+.TP 22
+.B XLSF_APPDIR/XBmod
+.TP 22
+.B ~/.XBmod
+
+.SH SEE ALSO
+.BR bmod(1),
+.BR X (1)
+

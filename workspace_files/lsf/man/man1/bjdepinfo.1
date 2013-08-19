@@ -1,0 +1,143 @@
+
+.ad l
+
+.ll 72
+
+.TH bjdepinfo 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbjdepinfo\fR
+.sp 2
+   Displays job dependencies.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bjdepinfo [-r level] [-l] [-p] job_ID | "job_ID[index]"
+.sp 2
+bjdepinfo -c [-r level] job_ID | "job_ID[index]"
+.sp 2
+bjdepinfo [-h] [-V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The command bjdepinfo allows you to display all or seleted job
+   dependencies. You can get a list of other jobs that a job
+   depends on (parent jobs) and jobs that depend on your job
+   (child jobs).
+.sp 2
+      \fBNote: \fR
+.sp 2
+         The parent-child relationship does not indicate that one
+         or more jobs are spawned by other jobs. A job dependency
+         is when the start of a job depends on the status of
+         other jobs.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex\fB]" \fR
+.br
+               Required. Job ID of the job or job array on which
+               to operate.
+.sp 2
+               If you specify only a job ID for a job array,
+               information about all jobs in the array displays.
+.sp 2
+               Displays all jobs that this job depends on.
+.sp 2
+   \fB-r \fIlevel\fB\fR
+.br
+               When combined with -p, prints the parent jobs that
+               cause the current job to pend recursively.
+.sp 2
+               When combined with -c, prints the child jobs that
+               depend on the current job recursively.
+.sp 2
+               When combined with -l, prints detailed parent job
+               dependency information recursively. When combined
+               with -l and -p, prints detailed information about
+               the parent jobs that cause the current job to pend
+               recursively.
+.sp 2
+               In each case, you can specify the level using a
+               positive integer. Level indicates the number of
+               degrees of separation from the original job.
+.sp 2
+               For example, specify level 1 to see any jobs that
+               directly depend on this job or that this job
+               depends on. Specify level 2 if you also want to
+               see all dependencies on the jobs that have a
+               dependency on the originally specified job.
+.sp 2
+               If the job has been partially cleaned, an asterisk
+               (*) displays before the status and the job name is
+               unavailable (-).
+.sp 2
+   \fB-l\fR
+.br
+               For the job you specify, prints detailed parent
+               job dependency information including the condition
+               of the job and whether or not a job’s dependency
+               requirements have been satisfied.
+.sp 2
+   \fB-p\fR
+.br
+               Prints the parent jobs that cause the current job
+               to pend.
+.sp 2
+   \fB-c\fR
+.br
+               Prints any child jobs of the job you specify (as
+               well as any dependencies they have).
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   \fBJOBID\fR
+.br
+               The job ID of the job with a parent or child
+               dependency.
+.sp 2
+   \fBPARENT\fR
+.br
+               The job ID of the job that has other jobs
+               depending on it.
+.sp 2
+   \fBCHILD\fR
+.br
+               The job ID of the job that depends on other jobs.
+.sp 2
+   \fBPARENT_STATUS\fR
+.br
+               The status of the parent job listed. If the job
+               has been partially cleaned, an asterisk (*)
+               displays before the status and the job name is
+               unavailable (-).
+.sp 2
+   \fBCHILD_STATUS\fR
+.br
+               The status of the child job listed.
+.sp 2
+   \fBPARENT_NAME\fR
+.br
+               The name of the parent job listed. If the job has
+               been partially cleaned, the job name is
+               unavailable (-) and an asterisk (*) displays
+               before the status.
+.sp 2
+   \fBCHILD_NAME\fR
+.br
+               The name of the child job listed.
+.sp 2
+   \fBLEVEL\fR
+.br
+               The degrees of separation of job dependencies. 1
+               means a job is directly dependent; other numbers
+               indicate the levels of indirect dependency.

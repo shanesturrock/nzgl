@@ -1,0 +1,595 @@
+
+.ad l
+
+.ll 72
+
+.TH lsb.serviceclasses 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsb.serviceclasses\fR
+.sp 2
+   The lsb.serviceclasses file defines the service-level
+   agreements (SLAs) in an LSF cluster as \fIservice classes\fR,
+   which define the properties of the SLA.
+.sp 2
+   This file is optional.
+.sp 2
+   You can configure as many service class sections as you need.
+.sp 2
+   Use bsla to display the properties of service classes
+   configured in lsb.serviceclasses and dynamic information about
+   the state of each configured service class.
+.sp 2
+   By default, lsb.serviceclasses is installed in
+   LSB_CONFDIR/\fIcluster_name\fR/configdir.
+.sp 2 .SH "Changing lsb.serviceclasses configuration"
+\fBChanging lsb.serviceclasses configuration\fR
+.sp 2
+   After making any changes to lsb.serviceclasses, run badmin
+   reconfig to reconfigure mbatchd.
+.sp 2 .SH "lsb.serviceclasses structure"
+\fBlsb.serviceclasses structure\fR
+.sp 2
+   Each service class definition begins with the line Begin
+   ServiceClass and ends with the line End ServiceClass.
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   Begin ServiceClass
+.sp 2
+   NAME           = string
+.sp 2
+   PRIORITY       = integer
+.sp 2
+   GOALS          = [throughput | velocity | deadline] [\\
+.sp 2
+                    [throughput | velocity | deadline] ...]
+.sp 2
+   CONTROL_ACTION = VIOLATION_PERIOD[minutes] CMD [action]
+.sp 2
+   USER_GROUP     = all | [user_name] [user_group] ...
+.sp 2
+   DESCRIPTION    = text
+.sp 2
+   End ServiceClass
+.sp 2
+   You must specify:
+.sp 2
+     o  
+         Service class name
+.sp 2
+     o  
+         Goals
+.sp 2
+     o  
+         Priority
+.sp 2
+   To configure EGO-enabled SLA scheduling, you must specifiy an
+   existing EGO consumer name to allow the SLA to get host
+   allocations from EGO.
+.sp 2
+   All other parameters are optional.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   Begin ServiceClass 
+.sp 2
+   NAME=Uclulet 
+.sp 2
+   PRIORITY=20 
+.sp 2
+   GOALS=[DEADLINE timeWindow (8:30-16:00)] 
+.sp 2
+   DESCRIPTION="working hours" 
+.sp 2
+   End ServiceClass
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         CONSUMER
+.sp 2
+     o  
+         CONTROL_ACTION
+.sp 2
+     o  
+         DESCRIPTION
+.sp 2
+     o  
+         EGO_RES_REQ
+.sp 2
+     o  
+         GOALS
+.sp 2
+     o  
+         MAX_HOST_IDLE_TIME
+.sp 2
+     o  
+         NAME
+.sp 2
+     o  
+         PRIORITY
+.sp 2
+     o  
+         USER_GROUP
+.sp 2
+\fBCONSUMER\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCONSUMER=\fR\fIego_consumer_name\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   For EGO-enabled SLA service classes, the name of the EGO
+   consumer from which hosts are allocated to the SLA. This
+   parameter is not mandatory, but must be configured for the SLA
+   to receive hosts from EGO.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         CONSUMER must specify the name of a valid consumer in
+         EGO. If a default SLA is configured with
+         ENABLE_DEFAULT_EGO_SLA in lsb.params, all services
+         classes configured in lsb.serviceclasses must specifiy a
+         consumer name.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBCONTROL_ACTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCONTROL_ACTION\fR=VIOLATION_PERIOD[\fIminutes\fR] CMD
+   [\fIaction\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Configures a control action to be run if the SLA
+   goal is delayed for a specified number of minutes.
+.sp 2
+   If the SLA goal is delayed for longer than VIOLATION_PERIOD,
+   the action specified by CMD is invoked. The violation period
+   is reset and if the SLA is still active when the violation
+   period expires again, the action runs again. If the SLA has
+   multiple active goals that are in violation, the action is run
+   for each of them.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   CONTROL_ACTION=VIOLATION_PERIOD[10] CMD [echo `date`: SLA is in violation >> ! /tmp/sla_violation.log]
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBDESCRIPTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDESCRIPTION\fR=\fItext\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. Description of the service class. Use bsla to
+   display the description text.
+.sp 2
+   This description should clearly describe the features of the
+   service class to help users select the proper service class
+   for their jobs.
+.sp 2
+   The text can include any characters, including white space.
+   The text can be extended to multiple lines by ending the
+   preceding line with a backslash (\\).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBEGO_RES_REQ\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_RES_REQ=\fR\fIres_req\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   For EGO-enabled SLA service classes, the EGO resource
+   requirement that specifies the characteristics of the hosts
+   that EGO will assign to the SLA.
+.sp 2
+   Must be a valid EGO resource requirement. The EGO resource
+   requirement string supports the select section, but the format
+   is different from LSF resource requirements.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   EGO_RES_REQ=select(linux && maxmem > 100)
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None
+.sp 2
+\fBGOALS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRGOALS\fR=[\fIthroughput\fR | \fIvelocity\fR |
+   \fIdeadline\fR] [\\
+.sp 2
+   [\fIthroughput\fR | \fIvelocity\fR | \fIdeadline\fR] ...]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   \fIRequired.\fR Defines the service-level goals for the
+   service class. A service class can have more than one goal,
+   each active at different times of the day and days of the
+   week. Outside of the time window, the SLA is inactive and jobs
+   are scheduled as if no service class is defined. LSF does not
+   enforce any service-level goal for an inactive SLA.
+.sp 2
+   The time windows of multiple service-level goals can overlap.
+   In this case, the largest number of jobs is run.
+.sp 2
+   An active SLA can have a status of On time if it is meeting
+   the goal, and a status Delayed, if it is missing its goals.
+.sp 2
+   A service-level goal defines:
+.sp 2
+   \fIthroughput\fR — expressed as \fIfinished\fR jobs per hour
+   and an optional time window when the goal is active.
+   \fIthroughput\fR has the form:
+.sp 2
+   GOALS=[THROUGHPUT num_jobs timeWindow [(time_window)]]
+.sp 2
+   If no time window is configured, THROUGHPUT can be the only
+   goal in the service class. The service class is always active,
+   and bsla displays \fRACTIVE WINDOW: Always Open\fR.
+.sp 2
+   \fIvelocity\fR — expressed as \fIconcurrently\fR running jobs
+   and an optional time window when the goal is active.
+   \fIvelocity\fR has the form:
+.sp 2
+   GOALS=[VELOCITY num_jobs timeWindow [(time_window)]]
+.sp 2
+   If no time window is configured, VELOCITY can be the only goal
+   in the service class. The service class is always active, and
+   bsla displays \fRACTIVE WINDOW: Always Open\fR.
+.sp 2
+   \fIdeadline\fR — indicates that all jobs in the service class
+   should complete by the end of the specified time window. The
+   time window is required for a deadline goal. \fIdeadline\fR
+   has the form:
+.sp 2
+   GOALS=[DEADLINE timeWindow (time_window)]
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         EGO-enabled SLA service classes only support velocity
+         goals. Deadline and throughput goals are not supported.
+         The configured configured velocity value for EGO-enabled
+         SLA service classes is considered to be a \fIminimum\fR
+         number of jobs that should be in run state from the SLA
+.sp 2 .SH "Time window format"
+\fBTime window format\fR
+.sp 2
+   The time window of an SLA goal has the standard form:
+.sp 2
+   begin_time-end_time
+.sp 2
+   Times are specified in the format:
+.sp 2
+   [day:]hour[:minute]
+.sp 2
+   where all fields are numbers with the following ranges:
+.sp 2
+     o  
+         \fIday of the week\fR: 0-6 (0 is Sunday)
+.sp 2
+     o  
+         \fIhour\fR: 0-23
+.sp 2
+     o  
+         \fIminute\fR: 0-59
+.sp 2
+   Specify a time window one of the following ways:
+.sp 2
+     o  
+         \fIhour\fR-\fIhour\fR
+.sp 2
+     o  
+         \fIhour\fR:\fIminute\fR-\fIhour\fR:\fIminute\fR
+.sp 2
+     o  
+         \fIday\fR:\fIhour\fR:\fIminute\fR-\fIday\fR:\fIhour\fR:\fIminute\fR
+.sp 2
+   The default value for minute is 0 (on the hour); the default
+   value for day is every day of the week.
+.sp 2
+   You must specify at least the hour. Day of the week and minute
+   are optional. Both the start time and end time values must use
+   the same syntax. If you do not specify a minute, LSF assumes
+   the first minute of the hour (\fR:00\fR). If you do not
+   specify a day, LSF assumes every day of the week. If you do
+   specify the day, you must also specify the minute.
+.sp 2
+   You can specify multiple time windows, but they cannot
+   overlap. For example:
+.sp 2
+   timeWindow(8:00-14:00 18:00-22:00)
+.sp 2
+   is correct, but
+.sp 2
+   timeWindow(8:00-14:00 11:00-15:00)
+.sp 2
+   is not valid.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         To configure a time window that is always open, use the
+         timeWindow keyword with empty parentheses.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   GOALS=[THROUGHPUT 2 timeWindow ()]
+.sp 2
+   GOALS=[THROUGHPUT 10 timeWindow (8:30-16:30)]
+.sp 2
+   GOALS=[VELOCITY 5 timeWindow ()]
+.sp 2
+   GOALS=[DEADLINE timeWindow (16:30-8:30)]\\
+.sp 2
+           [VELOCITY 10 timeWindow (8:30-16:30)]
+.sp 2
+\fBMAX_HOST_IDLE_TIME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMAX_HOST_IDLE_TIME=\fR\fIseconds\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   For EGO-enabled SLA service classes, number of seconds that
+   the SLA will hold its idle hosts before LSF releases them to
+   EGO. Each SLA can configure a different idle time. Do not set
+   this parameter to a small value, or LSF may release hosts too
+   quickly.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   120 seconds
+.sp 2
+\fBNAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNAME\fR=\fIstring\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   \fIRequired.\fR A unique name that identifies the service
+   class.
+.sp 2
+   Specify any ASCII string 60 characters or less. You can use
+   letters, digits, underscores (_) or dashes (-). You cannot use
+   blank spaces.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         The name you use cannot be the same as an existing host
+         partition, user group name, or fairshare queue name.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   NAME=Tofino
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None. You must provide a unique name for the service class.
+.sp 2
+\fBPRIORITY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPRIORITY\fR=\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   \fIRequired.\fR The service class priority. A higher value
+   indicates a higher priority, relative to other service
+   classes. Similar to queue priority, service classes access the
+   cluster resources in priority order.
+.sp 2
+   LSF schedules jobs from one service class at a time, starting
+   with the highest-priority service class. If multiple service
+   classes have the same priority, LSF runs all the jobs from
+   these service classes in first-come, first-served order.
+.sp 2
+   Service class priority in LSF is completely independent of the
+   UNIX scheduler’s priority system for time-sharing processes.
+   In LSF, the NICE parameter is used to set the UNIX
+   time-sharing priority for batch jobs.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   1 (lowest possible priority)
+.sp 2
+\fBUSER_GROUP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   USER_GROUP=all | [\fIuser_name\fR] [\fIuser_group\fR] ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Optional. A space-separated list of user names or user groups
+   who can submit jobs to the service class. Administrators,
+   root, and all users or groups listed can use the service
+   class.
+.sp 2
+   Use the reserved word all to specify all LSF users. LSF
+   cluster administrators are automatically included in the list
+   of users, so LSF cluster administrators can submit jobs to any
+   service class, or switch any user’s jobs into this service
+   class, even if they are not listed.
+.sp 2
+   If user groups are specified in lsb.users, each user in the
+   group can submit jobs to this service class. If a group
+   contains a subgroup, the service class policy applies to each
+   member in the subgroup recursively. If the group can define
+   fairshare among its members, the SLA defined by the service
+   class enforces the fairshare policy among the users of the
+   SLA.
+.sp 2
+   User names must be valid login names. User group names can be
+   LSF user groups (in lsb.users) or UNIX and Windows user
+   groups.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   USER_GROUP=user1 user2 ugroup1
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (all users in the cluster can submit jobs to the service
+   class)
+.sp 2
+\fBExamples\fR
+.sp 2
+     o  
+         The service class \fRUclulet\fR defines one deadline
+         goal that is active during working hours between 8:30 AM
+         and 4:00 PM. All jobs in the service class should
+         complete by the end of the specified time window.
+         Outside of this time window, the SLA is inactive and
+         jobs are scheduled without any goal being enforced:
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Uclulet 
+.sp 2
+         PRIORITY=20 
+.sp 2
+         GOALS=[DEADLINE timeWindow (8:30-16:00)] 
+.sp 2
+         DESCRIPTION="working hours" 
+.sp 2
+         End ServiceClass
+.sp 2
+     o  
+         The service class \fRNanaimo\fR defines a deadline goal
+         that is active during the weekends and at nights.
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Nanaimo 
+.sp 2
+         PRIORITY=20 
+.sp 2
+         GOALS=[DEADLINE timeWindow (5:18:00-1:8:30 20:00-8:30)] 
+.sp 2
+         DESCRIPTION="weekend nighttime regression tests" 
+.sp 2
+         End ServiceClass
+.sp 2
+     o  
+         The service class \fRInuvik\fR defines a throughput goal
+         of 6 jobs per hour that is always active:
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Inuvik 
+.sp 2
+         PRIORITY=20 
+.sp 2
+         GOALS=[THROUGHPUT 6 timeWindow ()] 
+.sp 2
+         DESCRIPTION="constant throughput" 
+.sp 2
+         End ServiceClass
+.sp 2
+     o  
+         The service class \fRTofino\fR defines two velocity
+         goals in a 24 hour period. The first goal is to have a
+         maximum of 10 concurrently running jobs during business
+         hours (9:00 a.m. to 5:00 p.m). The second goal is a
+         maximum of 30 concurrently running jobs during off-hours
+         (5:30 p.m. to 8:30 a.m.)
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Tofino 
+.sp 2
+         PRIORITY=20 
+.sp 2
+         GOALS=[VELOCITY 10 timeWindow (9:00-17:00)] \\
+.sp 2
+               [VELOCITY 30 timeWindow (17:30-8:30)] 
+.sp 2
+         DESCRIPTION="day and night velocity" 
+.sp 2
+         End ServiceClass
+.sp 2
+     o  
+         The service class \fRKyuquot\fR defines a velocity goal
+         that is active during working hours (9:00 a.m. to 5:30
+         p.m.) and a deadline goal that is active during
+         off-hours (5:30 p.m. to 9:00 a.m.) Only users
+         \fRuser1\fR and \fRuser2\fR can submit jobs to this
+         service class.
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Kyuquot 
+.sp 2
+         PRIORITY=23 
+.sp 2
+         USER_GROUP=user1 user2 
+.sp 2
+         GOALS=[VELOCITY 8 timeWindow (9:00-17:30)] \\
+.sp 2
+               [DEADLINE timeWindow (17:30-9:00)]
+.sp 2
+         DESCRIPTION="Daytime/Nighttime SLA" 
+.sp 2
+         End ServiceClass
+.sp 2
+     o  
+         The service class \fRTevere\fR defines a combination
+         similar to \fRKyuquot\fR, but with a deadline goal that
+         takes effect overnight and on weekends. During the
+         working hours in weekdays the velocity goal favors a mix
+         of short and medium jobs.
+.sp 2
+         Begin ServiceClass 
+.sp 2
+         NAME=Tevere 
+.sp 2
+         PRIORITY=20 
+.sp 2
+         GOALS=[VELOCITY 100 timeWindow (9:00-17:00)] \\
+.sp 2
+               [DEADLINE timeWindow (17:30-8:30 5:17:30-1:8:30)] 
+.sp 2
+         DESCRIPTION="nine to five"
+.sp 2
+         End ServiceClass

@@ -1,0 +1,505 @@
+.\"
+.ds ]W %
+.ds ]L
+.TH XLSBATCH 1 "1 August 1998"
+.SH NAME
+xlsbatch \- Motif-based Graphical User Interface for LSF Batch 
+.SH SYNOPSIS
+\fBxlsbatch \fR [standard X11/Motif options...]
+.SH DESCRIPTION
+\fBxlsbatch\fR provides a Motif-based graphical user interface for the batch 
+system. The \fBxlsbatch\fR program acts as a front end to various
+batch commands.
+.PP
+\fBNOTE:\fR
+.PP
+The UNIX X-GUI commands (xbmod, xlsbatch, xbsub, xlsmon) are obsolete. 
+The command binaries remain available in the distribution packages as a 
+courtesy, but are provided "as is" and are no longer officially supported.
+.BR
+.PP
+Any user can use \fBxlsbatch\fR to submit and manipulate batch jobs 
+and obtain batch system information.
+Pending jobs may be modified, moved to the top or bottom of a queue,
+or switched to a different queue.
+Running jobs can be suspended, resumed, deleted, killed, checkpointed,
+migrated to another host or sent arbitrary signals.
+The user can view brief job info in the job list, and more job info
+such as detail, history and partial output can be obtained in separate
+windows.
+.PP
+.SH MAIN WINDOW 
+The main window of \fBxlsbatch\fR consists of a menu bar, 
+a tool bar, a job list, a queue area and a message line. However, you
+may show hosts in the main window and customize what is in the main window 
+by choosing from the \fBOptions\fR menu.
+By default, the job list displays all your jobs except those that have
+finished,
+you may show other jobs in the list by choosing \fBInclude...\fR from the
+\fBJob\fR menu. Some commonly-used job commands are included in the toolbar
+whose look-and-feel can also be customized.  
+Both host and queue areas display the names and status of all 
+batch server hosts and queues in the batch system, which can be shown
+either by icon or by list.  At the bottom, there is a message line which
+gives the last information or error message from \fBxlsbatch\fR, a
+separate message window is available by clicking the button on the
+bottom-left corner. 
+The job, queue and host data in \fBxlsbatch\fR are updated periodically.
+They can also be updated manually. The latest update time is shown
+on the bottom-right of the main window.
+
+Pressing the third mouse button in the job list, or the host area, or
+the queue area posts a popup menu.
+
+.PP
+Menu Bar
+.PP
+The menu bar for the main window contains the following items:
+\fBFile\fR, \fBJob\fR, \fBHost\fR, \fBQueue\fR, \fBUser\fR, \fBParameter\fR,
+\fBOptions\fR and \fBHelp\fR.
+.PP
+File Menu
+.RS 5
+.TP 5
+.B Update
+Updates job, queue and host data from the batch system and refreshes
+the window.
+.TP 5
+.B Exit 
+Exits the application (\fBxlsbatch\fR).
+.RE
+.TP 5
+Job Menu
+.RS 5
+.TP 5
+.B Select All 
+Selects all jobs in the job list.
+.TP 5
+.B Unselect All 
+Unselects any selected job(s) in the job list.
+.TP 5
+.B Include...
+Pops up a dialog box to decide what kind of jobs to be displayed 
+in the job list.
+.TP 5
+.B Summary...
+Pops up a dialog box displaying a summary of jobs in the job list.
+.TP 5
+.B Sort 
+Sort the jobs in the job list by different criteria.
+.TP 5
+.B Submit... 
+Open the \fBJob Submission\fR window to submit a job.
+.TP 5
+.B Restart... 
+Opens the \fBJob Restart\fR window to restart a job.
+.TP 5
+.B Manipulate 
+The \fBManipulate\fR submenu contains items to manipulate the selected job(s).
+The submenu contains:
+.RS 5
+.TP 5
+.B Chkpnt...
+Pops up a \fBJob Checkpoint\fR dialog box to checkpoint the job(s)
+selected in the job list.
+.TP 5
+.B Migrate...
+Pops up a \fBJob Migration\fR dialog box to migrate the job(s)
+selected in the job list.
+.TP 5 
+.B Signal
+Sends an arbitrary signal to the job(s) selected in the job list.
+.TP 5
+.B Top
+Moves the selected pending job(s) ahead of other pending jobs in the queue.
+If invoked by a regular user, moves the selected
+job(s) ahead of the user's first pending job in the queue.
+If invoked by the \s-1LSF\s0 administrator, moves the
+selected job(s) to the front of the queue. The positions of
+any user's jobs in the queue can be changed by the \s-1LSF\s0
+administrator.
+.TP 5
+.B Bottom
+Moves the selected pending job(s) behind other pending jobs in the queue.
+If invoked by a regular user, moves the selected
+job(s) behind the user's last pending job in the queue.
+If invoked by the \s-1LSF\s0 administrator, moves the
+selected job(s) to the end of the queue. 
+.TP 5
+.B Switch
+Switches the selected job(s) from one queue to another.
+.TP 5 
+.B Stop
+Suspends execution of the selected job(s).
+.TP 5 
+.B Resume
+Resumes execution of the selected job(s).
+.TP 5 
+.B Modify... 
+Open the \fBJob Modification\fR window to modify the selected job.
+.TP 5 
+.B Delete... 
+Deletes the selected job(s).
+.TP 5 
+.B Kill
+Terminates the selected job(s).
+.RE
+.TP 5
+.B View 
+The \fBView\fR submenu contains items to view the selected jobs.
+The submenu contains:
+.RS 5
+.TP 5
+.B Detail
+Opens the \fBJob Detail\fR window showing detailed information about 
+the selected job(s), such as the options they were submitted with and when they
+were started. If the job is pending
+or suspended, the reason for this is also displayed.
+.TP 5
+.B History
+Opens the \fBJob History\fR window showing the history of the selected job(s)
+(that is, all the events that have happened to them).
+.TP 5
+.B Peek
+Opens the \fBJob Peek\fR window showing the standard output and standard 
+error files of the selected job(s).
+.RE
+.RE
+.TP 5
+Host Menu
+.RS 5
+.TP 5
+.B Select All 
+Selects all hosts in the host area.
+.TP 5
+.B Unselect All 
+Unselects any selected host(s) in the host area.
+.TP 5
+.B View Brief 
+Opens the \fBHost Info\fR window showing the brief status and
+configuration parameters for the selected host(s).
+.TP 5
+.B View Detail 
+Opens the \fBHost Info\fR window showing the detail status and configuration
+parameters for the selected host(s).
+.TP 5
+.B View Partitions...
+Opens the \fBHost Partition\fR window showing host
+partitions defined in the batch system.
+.TP 5
+.B View Host Groups...
+Opens the \fBHost Groups\fR window showing host groups and
+their members.
+.TP 5
+.B Show by Icon
+Shows hosts in the host area by icons.
+.TP 5
+.B Show by List 
+Shows hosts in the host area by list.
+.TP 5
+.B Show OK Hosts
+Shows OK hosts in the host area if the toggle is set, otherwise,
+hides OK hosts.
+.TP 5
+.B Show Closed Hosts
+Shows closed hosts in the host area if the toggle is set, otherwise,
+hides closed hosts.
+.TP 5
+.B Show Unavailable Hosts
+Shows unavailable hosts in the host area if the toggle is set, otherwise,
+hides unavailable hosts.
+.TP 5
+.B Show Unreachable Hosts
+Shows unreachable hosts in the host area if the toggle is set, otherwise,
+hides unreachable hosts.
+.TP 5
+.B Show Unlicensed Hosts
+Shows unlicensed hosts in the host area if the toggle is set, otherwise,
+hides unlicensed hosts.
+.RE
+.TP 5
+Queue Menu
+.RS 5
+.TP 5
+.B Select All 
+Selects all queues in the queue area.
+.TP 5
+.B Unselect All 
+Unselects any selected queue(s) in the queue area.
+.TP 5
+.B View Brief 
+Opens the \fBQueue Info\fR window showing the brief status and
+configuration parameters for the selected queue(s).
+.TP 5
+.B View Detail 
+Opens the \fBQueue Info\fR window showing the detail status and
+configuration parameters for the selected queue(s).
+.TP 5
+.B Show by Icon
+Shows queues in the queue area by icons.
+.TP 5
+.B Show by List 
+Shows queues in the queue area by list.
+.RE
+.TP 5
+User Menu
+.RS 5
+.TP 5
+.B View Current User Info
+Opens the \fBCurrent User Info\fR window showing information on the current
+user.
+.TP 5
+.B View All Users Info 
+Opens the \fBAll Users Info\fR window showing information on all users 
+in the batch system.
+.TP 5
+.B View User Groups... 
+Opens the \fBUser Groups\fR window showing user groups and their members.
+.RE
+.TP 5
+Parameter Menu
+.RS 5
+.TP 5
+.B View Brief 
+Opens the \fBSystem Parameters\fR window showing the brief
+configurable parameters of the batch system.
+.TP 5
+.B View Detail 
+Opens the \fBSystem Parameters\fR window showing the detail
+configurable parameters of the batch system.
+.RE
+.TP 5
+Options Menu
+.RS 5
+.TP 5
+.B Set Options... 
+Pops up a dialog box to set \fBxlsbatch\fR
+settings, including customization of toolbar, refresh period and 
+command to print on-line help.
+.TP 5
+.B Show Toolbar
+Shows the toolbar above the job list if the toggle is set, otherwise,
+hides the toolbar.
+.TP 5
+.B Show Jobs 
+Shows the job list in the main window if the toggle is set, otherwise,
+hides the job list.
+.TP 5
+.B Show Hosts 
+Shows the host area in the main window if the toggle is set, otherwise,
+hides the host area.
+.TP 5
+.B Show Queues 
+Shows the queue area in the main window if the toggle is set, otherwise,
+hides the queue area.
+.TP 5
+.B  Save Options
+Saves the current \fBxlsbatch\fR settings (size, position and customization
+of the main window, the kind of jobs displayed in the job list, 
+refresh period and command to print on-line help) into the
+.BR  ~/.XLsbatch 
+resource file in your home directory.
+\fBxlsbatch\fR reads this file, if available, on startup to
+obtain the configuration information.
+.TP 5
+.B  Restore Options
+Restores the \fBxlsbatch\fR settings (the refresh period and
+command to print on-line help) from the last saved
+.BR  ~/.XLsbatch
+resource file.
+.RE
+.TP 5
+Help Menu
+.RS 5
+.TP 5
+.B  On Version... 
+Displays the \s-1LSF\s0 version number and copyright information.
+.TP 5
+.B  On Window... 
+Opens an on-line \fBHelp\fR window to display information about the tasks that
+you can perform with \fBxlsbatch\fR.
+.TP 5
+.B  On Help... 
+Opens an on-line \fBHelp\fR window to display information about how to use the
+on-line help.
+.TP 5
+.B  On Company Info... 
+Displays the address of \s-1Platform Computing Corporation\s0.
+.RE
+.PP
+Tool Bar
+.PP
+The tool bar for the main window contains some commonly used commands for
+manipulating or viewing jobs. The commands include 
+\fBSubmit...\fR, \fBModify...\fR, \fBDelete...\fR, \fBKill\fR, \fBTop\fR, 
+\fBBottom\fR, 
+\fBStop\fR, \fBResume\fR, \fBDetail\fR, \fBHistory\fR and \fBPeek\fR.
+.sp
+.RE
+.SH HELP WINDOW 
+The \fBHelp\fR window displays on-line documentation.
+It contains a menu bar, a scrolled hypertext window and
+\fBContents\fR, \fBPrevious\fR, \fBNext\fR and \fBExit\fR buttons.
+
+There are highlighted items. Clicking on these items displays
+the related text.
+A history of the last 100 pages displayed is kept in memory and can be
+recalled with the \fBPrevious\fR and \fBNext\fR buttons.
+The menu bar for the \fBHelp\fR window contains the following items:
+\fBFile\fR and \fBHelp\fR.
+.PP 5
+File Menu
+.RS 5
+.TP 5
+.B  Save As... 
+Opens a file selection dialog box that lets the user type the name of a file to
+save the content of the window.
+.TP 5
+.B  Print 
+Sends the content of the window to the printer. The print command can be set or
+changed in the \fBSet Options\fR window.
+.TP 5
+.B  Exit 
+Closes the \fBHelp\fR window.
+.RE
+
+.TP 5
+Help Menu
+.RS 5
+.TP 5
+.B  On Version... 
+Displays the \s-1LSF\s0 version number and copyright information.
+.TP 5
+.B  On Help... 
+Opens the \fBHelp\fR window to display information about how to use the
+on-line help.
+.RE
+
+.sp
+.SH X DEFAULTS
+The \fBxlsbatch\fR application uses the relevant resource specifications
+in the X default files to configure the \fBxlsbatch\fR window.
+The format for a resource specification in the X default files is:
+.RS 5
+.PP
+\fB[\fIname\fB*]\fIresource\fB:  \fIvalue\fR
+.PP
+.I name
+specifies the application name or the name string that restricts 
+the resource assignment to that application or to a
+component of an application.  If this argument is not specified, 
+the resource assignment is globally available to all X applications.
+.PD 0
+
+.I resource
+specifies the resource.
+
+.I value
+specifies the value that is to be assigned to the resource.
+.PD
+.RE
+.PP
+For \fBxlsbatch\fR, the application class is \fBXLsbatch\fR and 
+the application name is \fBxlsbatch\fR.
+.PP
+In addition to the general resources listed in \fBX\fR(1), resources
+available to \fBxlsbatch\fR include:
+.TP 5
+.B refreshRate
+Specifies the \fBxlsbatch\fR information refresh period.
+The permissible range for the refresh period is 1 to 60 minutes.
+The default is 2 minutes.
+.TP 5
+.B printCommand
+Specifies the command to print \fBxlsbatch\fR on line help. The default
+command is "lp".
+.TP 5
+.B multiClickTime
+Specifies the time interval between two consecutive mouse button clicks.
+The default is 0.5 sec.
+.TP 5
+.B customizedMenu 
+Customizes pulldown menus in the main window of \fBxlsbatch\fR.
+
+The value of \fBcustomizedMenu\fR should be a character string enclosed in
+double quotes, whose components are separated by spaces. For example,
+
+xlsbatch*customizedMenu:"A1 B1 C1 D1 A2 B2 C2 B2 ... An Bn Cn Dn"
+
+From the beginning of the string, every four consecutive components
+constitute a group which customizes one menu item. Each component is
+either a character string or several character strings encompassed
+by parentheses.
+
+(1) To remove a pulldown menu from the menu bar, specify
+\fBAi\fR: the pulldown menu name to be removed from the menu bar,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(2) To remove a menu item from a pulldown menu, specify
+\fBAi\fR: the pulldown menu name where some item will be removed,
+\fBBi\fR: the menu item name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(3) To remove a sub-pulldown menu from a pulldown menu, specify
+\fBAi\fR: the pulldown menu where some sub-pulldown will be removed,
+\fBBi\fR: the sub-pulldown menu name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(4) To remove a menu item from a sub-pulldown menu, specify
+\fBAi\fR: the pulldown menu where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item will be removed,
+\fBCi\fR: the menu item name to be removed,
+\fBDi\fR: 0 (zero).
+
+(5) To add a new item in the menu bar, specify
+\fBAi\fR: new menu name to be added,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: same as Ai.
+
+(6) To add a new item in a pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the new item will be added,
+\fBBi\fR: new menu item name to be added,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be run when this item is chosen.
+
+(7) To add a new item in a sub-pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where the new item will be added,
+\fBCi\fR: new menu item name to be added,
+\fBDi\fR: executable name which will be execvpED when this item is chosen.
+
+(8) To replace an item's command in the pulldown menu by a new executable, specify
+\fBAi\fR: the pulldown menu name where some item's command will be replaced,
+\fBBi\fR: the menu item name whose command will be replaced,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be execvpED when the item specified in Bi is chosen.
+
+(9) To replace an item's command in the sub-pulldown menu by a new executable, specify 
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item's command will be replaced,
+\fBCi\fR: the menu item name whose command will be replaced,
+\fBDi\fR: executable name which will be execvpED when the item specified in Ci is chosen.
+
+.PP
+.RE
+.SH X DEFAULT FILES
+.PD 0
+.TP 22
+.B ~/.Xdefaults
+.TP 22
+.B XLSF_APPDIR/XLsbatch
+.TP 22
+.B ~/.XLsbatch
+
+.SH SEE ALSO
+.BR lsfbatch (1),
+.BR bsub (1),
+.BR xbsub (1),
+.BR xbmod (1),
+.BR X (1)
+

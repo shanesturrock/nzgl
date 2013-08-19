@@ -1,0 +1,208 @@
+
+.ad l
+
+.ll 72
+
+.TH lsgrun 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsgrun\fR
+.sp 2
+   executes a task on a set of hosts
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsgrun [-i] [-p | -P | -S] [-v] -f host_file | -m host_name ... |
+-n num_hosts [-R "res_req"] [command [argument ...]]
+.sp 2
+lsgrun [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Executes a task on the specified hosts. lsgrun is useful for
+   fast global operations such as starting daemons, replicating
+   files to or from local disks, looking for processes running on
+   all hosts, checking who is logged in on each host, and so on.
+   The hosts can be specified using a host file, a list of host
+   names or by letting the system select the hosts. If
+   \fBLSB_DISABLE_LIMLOCK_EXCL=y\fR (to enable preemption of
+   exclusive jobs, for example), you can use lsgrun to start a
+   task on hosts that are currently running exclusive jobs.
+.sp 2
+   By default:
+.sp 2
+     o  
+         lsgrun is not interactive.
+.sp 2
+     o  
+         The specified task is executed sequentially on hosts
+         with full pseudo \fRtty\fR support.
+.sp 2
+     o  
+         lsgrun does not create a pseudo-terminal.
+.sp 2
+     o  
+         LSF uses as many processors as available to run the
+         specified task.
+.sp 2
+     o  
+         The resource requirement for host selection is
+         \fRr15s:pg.\fR
+.sp 2
+     o  
+         The prompt \fRCommand>\fR is displayed to allow users to
+         type in a command (task) terminated by a \fRCTRL-D\fR or
+         \fREOF\fR. The command is then executed on the specified
+         hosts.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-i \fR
+.br
+               Interactive operation mode. You are asked whether
+               the task is to be executed on all hosts. If you
+               answer y, the task is started on all specified
+               hosts; otherwise, you are asked to specify hosts
+               interactively.
+.sp 2
+   \fB-P\fR
+.br
+               Creates a pseudo-terminal on UNIX hosts. This is
+               necessary to run programs requiring a
+               pseudo-terminal (for example, \fRvi\fR).
+.sp 2
+               This option is not supported on Windows.
+.sp 2
+   \fB-p \fR
+.br
+               Parallel run mode. Executes the task on all hosts
+               simultaneously and without pseudo \fRtty\fR
+               support.
+.sp 2
+               If this option is specified and the -P option is
+               specified, the -P option is ignored.
+.sp 2
+               This option is useful for fast start-up of tasks.
+               However, any output from remote tasks arrive at
+               the terminal in arbitrary order, depending on task
+               execution speeds on individual hosts.
+.sp 2
+   \fB-S \fR
+.br
+               Creates a pseudo-terminal with shell mode support
+               on UNIX hosts.
+.sp 2
+               Shell mode support is required for running
+               interactive shells or applications that redefine
+               the CTRL-C and CTRL-Z keys (such as jove).
+.sp 2
+               This option is not supported on Windows.
+.sp 2
+   \fB-v \fR
+.br
+               Verbose mode. Displays the name of the host or
+               hosts running the task.
+.sp 2
+   \fB-f \fIhost_file \fB\fR
+.br
+               Either -f \fIhost_file\fR, -m \fIhost_name\fR or
+               -n \fInum_processors\fR is required.
+.sp 2
+               Executes the task on all hosts listed in the
+               \fIhost_file\fR.
+.sp 2
+               Specify a file that contains a list of host names.
+               Host names must be separated by white space
+               characters (for example, SPACE, TAB, and NEWLINE).
+.sp 2
+               This option is exclusive of options -n, -R, and
+               -m.
+.sp 2
+   \fB-m \fIhost_name\fB ...\fR
+.br
+               Either -f \fIhost_file\fR, -m \fIhost_name\fR or
+               -n \fInum_processors\fR is required.
+.sp 2
+               Executes the task on all specified hosts.
+.sp 2
+               Specify hosts on which to execute the task. If
+               multiple host names are specified, the host names
+               must be enclosed by " or ' and separated by white
+               space.
+.sp 2
+               This option is exclusive of options -n, -R, and
+               -f.
+.sp 2
+   \fB-n \fInum_hosts\fB\fR
+.br
+               Either -f \fIhost_file\fR, -m \fIhost_name\fR or
+               -n \fInum_hosts\fR is required.
+.sp 2
+               Executes the task in a cluster with the required
+               number of available hosts.
+.sp 2
+               One host may be used to start several tasks if the
+               host is multiprocessor. This option can be used
+               together with option -R to select desired hosts.
+.sp 2
+               This option is exclusive of options -m and -f.
+.sp 2
+   \fB-R "\fIres_req\fB"\fR
+.br
+               Executes the task on hosts with the required
+               resource requirements.
+.sp 2
+               Specify the resource requirement expression for
+               host selection. The resource requirement is used
+               to choose from all hosts with the same host type
+               as the local host, unless a "\fRtype == value\fR"
+               exists in res_req to specify otherwise.
+.sp 2
+               This option can be used together with option -n to
+               choose a specified number of processors to run the
+               task.
+.sp 2
+               Exclusive resources need to be explicitly
+               specified within the resource requirement string.
+               For example, you defined a resource called
+               \fRbigmem\fR in lsf.shared and defined it as an
+               exclusive resource for \fRhostE\fR in
+               lsf.cluster.mycluster. Use the following command
+               to submit a task to run on \fRhostE\fR:
+.sp 2
+               lsgrun -R "bigmem" myjob
+.sp 2
+               or
+.sp 2
+               lsgrun -R "defined(bigmem)" myjob
+.sp 2
+               If the -m option is specified with a single host
+               name, the -R option is ignored.
+.sp 2
+   \fB\fIcommand\fB [\fIargument\fB ...]\fR
+.br
+               Specify the command to execute. This must be the
+               last argument on the command line.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Exit status is 0 if all commands are executed correctly.
+.sp 2
+   Otherwise, the exit status is the first non-zero status
+   returned by a remotely executed task. lsgrun executes the task
+   on all hosts even if some have non-zero exit status.
+.sp 2
+   Exit status is -10 if a problem is detected in LSF.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsrun, lsplace

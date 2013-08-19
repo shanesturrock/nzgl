@@ -1,0 +1,1198 @@
+
+.ad l
+
+.ll 72
+
+.TH bjobs 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbjobs\fR
+.sp 2
+   displays information about LSF jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bjobs [-A] [-a] [-d] [-p] [-s] [-r] [-W] [-w | -l | -aps] [-X]
+[-x] [-app application_profile_name] [-g job_group_name] [-sla
+service_class_name] [-J job_name] [-Jd "job_description"] [-Lp
+ls_project_name] [-m "host_name ..." | -m host_group | -m
+compute_unit | -m cluster_name] [-N host_name | -N host_model |
+-N cpu_factor] [-P project_name] [-q queue_name] [-u user_name |
+-u user_group | -u all | -G user_group] job_ID |
+"job_ID[index_list]" ...
+.sp 2
+bjobs [-a] [-aps] [-d] [-p] [-s] [-r] [-WL] [-WP] [-WF] [-X] [-x]
+[-app application_profile_name] [-g job_group_name] [-sla
+service_class_name] [-J job_name] [-Jd "job_description"] [-Lp
+ls_project_name] [-m "host_name ..." | -m host_group | -m
+compute_unit | -m cluster_name] [-P project_name] [-q queue_name]
+[-u user_name | -u user_group | -u all | -G user_group] job_ID |
+"job_ID[index_list]" ...
+.sp 2
+bjobs [-a] [-w | -l] [-d] [-p] [-s] [-ss] [-r] [-X] [-x] [-app
+application_profile_name] [-g job_group_name] [-sla
+service_class_name] [-J job_name] [-Jd "job_description"] [-Lp
+ls_project_name] [-m "host_name ..." | -m host_group | -m
+compute_unit | -m cluster_name] [-P project_name] [-q queue_name]
+[-u user_name | -u user_group | -u all | -G user_group] job_ID |
+"job_ID[index_list]" ...
+.sp 2
+bjobs [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, displays information about your own pending,
+   running and suspended jobs.
+.sp 2
+   bjobs displays output for condensed host groups and compute
+   units. These host groups and compute units are defined by
+   CONDENSE in the \fRHostGroup\fR or \fRComputeUnit\fR section
+   of lsb.hosts. These groups are displayed as a single entry
+   with the name as defined by GROUP_NAME or NAME in lsb.hosts.
+   The -l and -X options display uncondensed output.
+.sp 2
+   If you defined LSB_SHORT_HOSTLIST=1 in lsf.conf, parallel jobs
+   running in the same condensed host group or compute unit are
+   displayed as an abbreviated list.
+.sp 2
+   For resizable jobs, bjobs displays the autoresizable attribute
+   and the resize notification command.
+.sp 2
+   To display older historical information, use bhist.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-A\fR
+.br
+               Displays summarized information about job arrays.
+               If you specify job arrays with the job array ID,
+               and also specify -A, do not include the index list
+               with the job array ID.
+.sp 2
+               You can use -w to show the full array
+               specification, if necessary.
+.sp 2
+   \fB-a\fR
+.br
+               Displays information about jobs in all states,
+               including finished jobs that finished recently,
+               within an interval specified by CLEAN_PERIOD in
+               lsb.params (the default period is 1 hour).
+.sp 2
+               Use -a with -x option to display all jobs that
+               have triggered a job exception (overrun, underrun,
+               idle).
+.sp 2
+   \fB-aps\fR
+.br
+               Displays absolute priority scheduling (APS)
+               information for pending jobs in a queue with
+               APS_PRIORITY enabled. The APS value is calculated
+               based on the current scheduling cycle, so jobs are
+               not guaranteed to be dispatched in this order.
+.sp 2
+               Pending jobs are ordered by APS value. Jobs with
+               system APS values are listed first, from highest
+               to lowest APS value. Jobs with calculated APS
+               values are listed next ordered from high to low
+               value. Finally, jobs not in an APS queue are
+               listed. Jobs with equal APS values are listed in
+               order of submission time. APS values of jobs not
+               in an APS queue are shown with a dash (-).
+.sp 2
+               If queues are configured with the same priority,
+               bjobs -aps may not show jobs in the correct
+               expected dispatch order. Jobs may be dispatched in
+               the order the queues are configured in lsb.queues.
+               You should avoid configuring queues with the same
+               priority.
+.sp 2
+               For resizable jobs, -aps displays the latest APS
+               information for running jobs with active resize
+               allocation requests. LSF handles the dynamic
+               priority for running jobs with active resize
+               requests. The displayed job priority can change
+               from time to time.
+.sp 2
+   \fB-d\fR
+.br
+               Displays information about jobs that finished
+               recently, within an interval specified by
+               CLEAN_PERIOD in lsb.params (the default period is
+               1 hour).
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays detailed information for
+               each job in a multiline format.
+.sp 2
+               The -l option displays the following additional
+               information: project name, job command, current
+               working directory on the submission host, initial
+               checkpoint period, checkpoint directory, migration
+               threshold, pending and suspending reasons, job
+               status, resource usage, resource usage limits
+               information, and runtime resource usage
+               information on the execution hosts.
+.sp 2
+               If the job was submitted with bsub -K, the -l
+               option displays \fRSynchronous Execution\fR.
+.sp 2
+               Use bjobs -A -l to display detailed information
+               for job arrays including job array job limit
+               (\fR%\fR\fIjob_limit\fR) if set.
+.sp 2
+               Use bjobs -ss -l to display detailed information
+               for session scheduler jobs.
+.sp 2
+               If JOB_IDLE is configured in the queue, use bjobs
+               -l to display job idle exception information.
+.sp 2
+               If you submitted your job with the -U option to
+               use advance reservations created with the brsvadd
+               command, bjobs -l shows the reservation ID used by
+               the job.
+.sp 2
+               If LSF_HPC_EXTENSIONS="SHORT_PIDLIST" is specified
+               in lsf.conf, the output from bjobs is shortened to
+               display only the first PID and a count of the
+               process group IDs (PGIDs) and process IDs for the
+               job. Without SHORT_PIDLIST, all of the process IDs
+               (PIDs) for a job are displayed.
+.sp 2
+               If you submitted a job with multiple resource
+               requirement strings using the bsub -R option for
+               the order, same, rusage, and select sections,
+               bjobs -l displays a single, merged resource
+               requirement string for those sections, as if they
+               were submitted using a single -R.
+.sp 2
+               If you submitted a job using the OR (||)
+               expression to specify alternative resources, this
+               option displays the Execution rusage string with
+               which the job runs.
+.sp 2
+               For resizable jobs, the -l option displays active
+               pending resize allocation requests, and the latest
+               job priority for running jobs with active pending
+               resize requests.
+.sp 2
+               For jobs with user-based fairshare scheduling,
+               displays the charging SAAP (share attribute
+               account path).
+.sp 2
+               For jobs submitted to an absolute priority
+               scheduling (APS) queue, -l shows the ADMIN factor
+               value and the system APS value if they have been
+               set by the administrator for the job.
+.sp 2
+               For jobs submitted with SSH X11 forwarding,
+               displays that the job was submitted in SSH X11
+               forwarding mode as well as the SSH command
+               submitted (set in \fBLSB_SSH_XFORWARD_CMD\fR in
+               lsf.conf.)
+.sp 2
+   \fB-p\fR
+.br
+               Displays pending jobs, together with the pending
+               reasons that caused each job not to be dispatched
+               during the last dispatch turn. The pending reason
+               shows the number of hosts for that reason, or
+               names the hosts if -l is also specified.
+.sp 2
+               With MultiCluster, -l shows the names of hosts in
+               the local cluster.
+.sp 2
+               Each pending reason is associated with one or more
+               hosts and it states the cause why these hosts are
+               not allocated to run the job. In situations where
+               the job requests specific hosts (using bsub -m),
+               users may see reasons for unrelated hosts also
+               being displayed, together with the reasons
+               associated with the requested hosts.
+.sp 2
+               The life cycle of a pending reason ends after the
+               time indicated by PEND_REASON_UPDATE_INTERVAL in
+               lsb.params.
+.sp 2
+               When the job slot limit is reached for a job array
+               (bsub -J "jobArray[indexList]%job_slot_limit") the
+               following message is displayed:
+.sp 2
+               \fRThe job array has reached its job slot
+               limit.\fR
+.sp 2
+   \fB-r\fR
+.br
+               Displays running jobs.
+.sp 2
+   \fB-s\fR
+.br
+               Displays suspended jobs, together with the
+               suspending reason that caused each job to become
+               suspended.
+.sp 2
+               The suspending reason may not remain the same
+               while the job stays suspended. For example, a job
+               may have been suspended due to the paging rate,
+               but after the paging rate dropped another load
+               index could prevent the job from being resumed.
+               The suspending reason is updated according to the
+               load index. The reasons could be as old as the
+               time interval specified by SBD_SLEEP_TIME in
+               lsb.params. So the reasons shown may not reflect
+               the current load situation.
+.sp 2
+   \fB-ss\fR
+.br
+               Displays summary information for session scheduler
+               tasks including the job ID, the owner, the job
+               name (useful for job arrays), the total number of
+               tasks, the state of pending, done, running, and
+               exited session scheduler tasks.
+.sp 2
+               The frequency of the updates of this information
+               is based on the parameters
+               \fBSSCHED_UPDATE_SUMMARY_INTERVAL\fR and
+               \fBSSCHED_UPDATE_SUMMARY_BY_TASK\fR.
+.sp 2
+               The following options cannot be used with -ss.
+.sp 2
+                 o  
+                     -A
+.sp 2
+                 o  
+                     -W
+.sp 2
+                 o  
+                     -WL
+.sp 2
+                 o  
+                     -WF
+.sp 2
+                 o  
+                     -WP
+.sp 2
+                 o  
+                     -N
+.sp 2
+                 o  
+                     -aps
+.sp 2
+   \fB-W\fR
+.br
+               Provides resource usage information for:
+               PROJ_NAME, CPU_USED, MEM, SWAP, PIDS, START_TIME,
+               FINISH_TIME.
+.sp 2
+   \fB-WF\fR
+.br
+               Displays an estimated finish time for running or
+               pending jobs. For done or exited jobs, displays
+               the actual finish time.
+.sp 2
+   \fB-WL\fR
+.br
+               Displays the estimated remaining run time of jobs.
+.sp 2
+   \fB-WP\fR
+.br
+               Displays the current estimated completion
+               percentage of jobs.
+.sp 2
+   \fB-w\fR
+.br
+               Wide format. Displays job information without
+               truncating fields.
+.sp 2
+   \fB-X\fR
+.br
+               Displays uncondensed output for host groups and
+               compute units.
+.sp 2
+   \fB-x\fR
+.br
+               Displays unfinished jobs that have triggered a job
+               exception (overrun, underrun, idle,
+               runtime_est_exceeded). Use with the -l option to
+               show the actual exception status. Use with -a to
+               display all jobs that have triggered a job
+               exception.
+.sp 2
+   \fB-app \fIapplication_profile_name\fB\fR
+.br
+               Displays information about jobs submitted to the
+               specified application profile. You must specify an
+               existing application profile.
+.sp 2
+   \fB-G \fIuser_group\fB \fR
+.br
+               Only displays jobs associated with a user group
+               submitted with bsub -G for the specified user
+               group. The –G option does not display jobs from
+               subgroups within the specified user group.
+.sp 2
+               If \fBENFORCE_ONE_UG_LIMITS\fR is enabled in
+               lsb.params, using the -G option enforces any
+               limits placed on the specified user group only
+               even if the user or user group belongs to more
+               than one group.
+.sp 2
+               If \fBENFORCE_ONE_UG_LIMITS\fR is disabled in
+               lsb.params (default), using the -G option enforces
+               the strictest limit that is set on any of the
+               groups that the user or user group belongs to.
+.sp 2
+               The -G option cannot be used together with the -u
+               option. You can only specify a user group name.
+               The keyword all is not supported for -G.
+.sp 2
+   \fB-g \fIjob_group_name\fB\fR
+.br
+               Displays information about jobs attached to the
+               job group specified by \fIjob_group_name\fR. For
+               example:
+.sp 2
+               bjobs -g /risk_group
+.sp 2
+               JOBID   USER    STAT  QUEUE      FROM_HOST   EXEC_HOST   JOB_NAME   SUBMIT_TIME
+.sp 2
+               113     user1   PEND  normal     hostA                   myjob     Jun 17 16:15
+.sp 2
+               111     user2   RUN   normal     hostA       hostA       myjob     Jun 14 15:13
+.sp 2
+               110     user1   RUN   normal     hostB       hostA       myjob     Jun 12 05:03
+.sp 2
+               104     user3   RUN   normal     hostA       hostC       myjob     Jun 11 13:18
+.sp 2
+               Use -g with -sla to display job groups attached to
+               a service class. Once a job group is attached to a
+               service class, all jobs submitted to that group
+               are subject to the SLA.
+.sp 2
+               bjobs -l with -g displays the full path to the
+               group to which a job is attached. For example:
+.sp 2
+               bjobs -l -g /risk_group
+.sp 2
+               Job <101>, User <user1>, Project <default>, Job Group </risk_group>, Status <RUN>, Queue <normal>, Command <myjob>
+.sp 2
+               Tue Jun 17 16:21:49: Submitted from host <hostA>, CWD </home/user1;
+.sp 2
+               Tue Jun 17 16:22:01: Started on <hostA>;
+.sp 2
+               ...
+.sp 2
+   \fB-J \fIjob_name\fB\fR
+.br
+               Displays information about the specified jobs or
+               job arrays. Only displays jobs that were submitted
+               by the user running this command.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-Jd \fIjob_description\fB\fR
+.br
+               Displays information about the specified jobs or
+               job arrays. Only displays jobs that were submitted
+               by the user running this command.
+.sp 2
+               The job description can be up to 4094 characters
+               long. Job descriptions are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job description.
+.sp 2
+   \fB-Lp \fIls_project_name\fB \fR
+.br
+               Displays jobs that belong to the specified LSF
+               License Scheduler project.
+.sp 2
+   \fB-m \fIhost_name\fB ... | -m \fIhost_group\fB ... | -m
+   \fIcluster_name\fB ...\fR
+.br
+               Only displays jobs dispatched to the specified
+               hosts. To see the available hosts, use bhosts.
+.br
+               If a host group or compute unit is specified,
+               displays jobs dispatched to all hosts in the
+               group. To determine the available host groups, use
+               bmgroup. To determine the available compute units,
+               use bmgroup -cu.
+.br
+               With MultiCluster, displays jobs in the specified
+               cluster. If a remote cluster name is specified,
+               you see the remote job ID, even if the execution
+               host belongs to the local cluster. To determine
+               the available clusters, use bclusters.
+.sp 2
+   \fB-N \fIhost_name\fB | -N \fIhost_model\fB | -N
+   \fIcpu_factor\fB \fR
+.br
+               Displays the normalized CPU time consumed by the
+               job. Normalizes using the CPU factor specified, or
+               the CPU factor of the host or host model
+               specified.
+.sp 2
+   \fB-P \fIproject_name\fB \fR
+.br
+               Only displays jobs that belong to the specified
+               project.
+.sp 2
+   \fB-q \fIqueue_name\fB \fR
+.br
+               Only displays jobs in the specified queue.
+.sp 2
+               The command bqueues returns a list of queues
+               configured in the system, and information about
+               the configurations of these queues.
+.sp 2
+               In MultiCluster, you cannot specify remote queues.
+.sp 2
+   \fB-sla \fIservice_class_name\fB\fR
+.br
+               Displays jobs belonging to the specified service
+               class.
+.sp 2
+               bjobs also displays information about jobs
+               assigned to a default SLA configured with
+               ENABLE_DEFAULT_EGO_SLA in lsb.params.
+.sp 2
+               Use -sla with -g to display job groups attached to
+               a service class. Once a job group is attached to a
+               service class, all jobs submitted to that group
+               are subject to the SLA.
+.sp 2
+               Use bsla to display the configuration properties
+               of service classes configured in
+               lsb.serviceclasses, the default SLA configured in
+               lsb.params, and dynamic information about the
+               state of each service class.
+.sp 2
+   \fB-u \fIuser_name\fB... | -u \fIuser_group\fB... | -u all \fR
+.br
+               Only displays jobs that have been submitted by the
+               specified users or user groups. The keyword all
+               specifies all users. To specify a Windows user
+               account, include the domain name in uppercase
+               letters and use a single backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+               The -u option cannot be used with the -G option.
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex\fB]"\fR
+.br
+               Displays information about the specified jobs or
+               job arrays.
+.sp 2
+               If you use \fR-A\fR, specify job array IDs without
+               the index list.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output: Default Display"
+\fBOutput: Default Display\fR
+.sp 2
+   Pending jobs are displayed in the order in which they are
+   considered for dispatch. Jobs in higher priority queues are
+   displayed before those in lower priority queues. Pending jobs
+   in the same priority queues are displayed in the order in
+   which they were submitted but this order can be changed by
+   using the commands btop or bbot. If more than one job is
+   dispatched to a host, the jobs on that host are listed in the
+   order in which they are considered for scheduling on this host
+   by their queue priorities and dispatch times. Finished jobs
+   are displayed in the order in which they were completed.
+.sp 2
+   A listing of jobs is displayed with the following fields:
+.sp 2
+   \fBJOBID \fR
+.br
+               The job ID that LSF assigned to the job.
+.sp 2
+   \fBUSER\fR
+.br
+               The user who submitted the job.
+.sp 2
+   \fBSTAT\fR
+.br
+               The current status of the job (see JOB STATUS
+               below).
+.sp 2
+   \fBQUEUE\fR
+.br
+               The name of the job queue to which the job
+               belongs. If the queue to which the job belongs has
+               been removed from the configuration, the queue
+               name is displayed as \fRlost_and_found\fR. Use
+               bhist to get the original queue name. Jobs in the
+               \fRlost_and_found\fR queue remain pending until
+               they are switched with the bswitch command into
+               another queue.
+.sp 2
+               In a MultiCluster resource leasing environment,
+               jobs scheduled by the consumer cluster display the
+               remote queue name in the format
+               \fIqueue_name\fR@\fIcluster_name\fR. By default,
+               this field truncates at 10 characters, so you
+               might not see the cluster name unless you use -w
+               or -l.
+.sp 2
+   \fBFROM_HOST\fR
+.br
+               The name of the host from which the job was
+               submitted.
+.sp 2
+               With MultiCluster, if the host is in a remote
+               cluster, the cluster name and remote job ID are
+               appended to the host name, in the format
+               \fIhost_name\fR@\fIcluster_name\fR:\fIjob_ID\fR.
+               By default, this field truncates at 11 characters;
+               you might not see the cluster name and job ID
+               unless you use -w or -l.
+.sp 2
+   \fBEXEC_HOST\fR
+.br
+               The name of one or more hosts on which the job is
+               executing (this field is empty if the job has not
+               been dispatched). If the host on which the job is
+               running has been removed from the configuration,
+               the host name is displayed as
+               \fRlost_and_found\fR. Use bhist to get the
+               original host name.
+.sp 2
+               If the host is part of a condensed host group or
+               compute unit, the host name is displayed as the
+               name of the condensed group.
+.sp 2
+               If you configure a host to belong to more than one
+               condensed host groups using wildcards, bjobs can
+               display any of the host groups as execution host
+               name.
+.sp 2
+   \fBJOB_NAME \fR
+.br
+               The job name assigned by the user, or the command
+               string assigned by default at job submission with
+               bsub. If the job name is too long to fit in this
+               field, then only the latter part of the job name
+               is displayed.
+.sp 2
+               The displayed job name or job command can contain
+               up to 4094 characters for UNIX, or up to 255
+               characters for Windows.
+.sp 2
+   \fBSUBMIT_TIME \fR
+.br
+               The submission time of the job.
+.sp 2 .SH "Output: -l"
+\fBOutput: -l\fR
+.sp 2
+   The \fR-l\fR option displays a long format listing with the
+   following additional fields:
+.sp 2
+   \fBProject\fR
+.br
+               The project the job was submitted from.
+.sp 2
+   \fBApplication Profile\fR
+.br
+               The application profile the job was submitted to.
+.sp 2
+   \fBCommand \fR
+.br
+               The job command.
+.sp 2
+   \fBCWD \fR
+.br
+               The current working directory on the submission
+               host.
+.sp 2
+   \fBInitial checkpoint period\fR
+.br
+               The initial checkpoint period specified at the job
+               level, by bsub -k, or in an application profile
+               with CHKPNT_INITPERIOD.
+.sp 2
+   \fBCheckpoint period\fR
+.br
+               The checkpoint period specified at the job level,
+               by bsub -k, in the queue with CHKPNT, or in an
+               application profile with CHKPNT_PERIOD.
+.sp 2
+   \fBCheckpoint directory\fR
+.br
+               The checkpoint directory specified at the job
+               level, by bsub -k, in the queue with CHKPNT, or in
+               an application profile with CHKPNT_DIR.
+.sp 2
+   \fBMigration threshold\fR
+.br
+               The migration threshold specified at the job
+               level, by bsub -mig.
+.sp 2
+   \fBPost-execute Command \fR
+.br
+               The post-execution command specified at the
+               job-level, by bsub -Ep.
+.sp 2
+   \fBPENDING REASONS \fR
+.br
+               The reason the job is in the PEND or PSUSP state.
+               The names of the hosts associated with each reason
+               are displayed when both \fR-p\fR and \fR-l\fR
+               options are specified.
+.sp 2
+   \fBSUSPENDING REASONS \fR
+.br
+               The reason the job is in the USUSP or SSUSP state.
+.sp 2
+               \fBloadSched \fR
+.br
+                           The load scheduling thresholds for the
+                           job.
+.sp 2
+               \fBloadStop \fR
+.br
+                           The load suspending thresholds for the
+                           job.
+.sp 2
+   \fBJOB STATUS\fR
+.br
+               Possible values for the status of a job include:
+.sp 2
+               \fBPEND \fR
+.br
+                           The job is pending. That is, it has
+                           not yet been started.
+.sp 2
+               \fBPSUSP\fR
+.br
+                           The job has been suspended, either by
+                           its owner or the LSF administrator,
+                           while pending.
+.sp 2
+               \fBRUN \fR
+.br
+                           The job is currently running.
+.sp 2
+               \fBUSUSP \fR
+.br
+                           The job has been suspended, either by
+                           its owner or the LSF administrator,
+                           while running.
+.sp 2
+               \fBSSUSP\fR
+.br
+                           The job has been suspended by LSF. The
+                           job has been suspended by LSF due to
+                           either of the following two causes:
+.sp 2
+                             o  
+                                 The load conditions on the
+                                 execution host or hosts have
+                                 exceeded a threshold according
+                                 to the \fRloadStop\fR vector
+                                 defined for the host or queue.
+.sp 2
+                             o  
+                                 The run window of the job’s
+                                 queue is closed. See bqueues(1),
+                                 bhosts(1), and lsb.queues(5).
+.sp 2
+               \fBDONE\fR
+.br
+                           The job has terminated with status of
+                           0.
+.sp 2
+               \fBEXIT\fR
+.br
+                           The job has terminated with a non-zero
+                           status – it may have been aborted due
+                           to an error in its execution, or
+                           killed by its owner or the LSF
+                           administrator.
+.sp 2
+                           For example, exit code 131 means that
+                           the job exceeded a configured resource
+                           usage limit and LSF killed the job.
+.sp 2
+               \fBUNKWN\fR
+.br
+                           mbatchd has lost contact with the
+                           sbatchd on the host on which the job
+                           runs.
+.sp 2
+               \fBWAIT\fR
+.br
+                           For jobs submitted to a chunk job
+                           queue, members of a chunk job that are
+                           waiting to run.
+.sp 2
+               \fBZOMBI\fR
+.br
+                           A job becomes ZOMBI if:
+.sp 2
+                             o  
+                                 A non-rerunnable job is killed
+                                 by bkill while the sbatchd on
+                                 the execution host is
+                                 unreachable and the job is shown
+                                 as UNKWN.
+.sp 2
+                             o  
+                                 The host on which a rerunnable
+                                 job is running is unavailable
+                                 and the job has been requeued by
+                                 LSF with a new job ID, as if the
+                                 job were submitted as a new job.
+.sp 2
+                             o  
+                                 After the execution host becomes
+                                 available, LSF tries to kill the
+                                 ZOMBI job. Upon successful
+                                 termination of the ZOMBI job,
+                                 the job’s status is changed to
+                                 EXIT.
+.sp 2
+                                 With MultiCluster, when a job
+                                 running on a remote execution
+                                 cluster becomes a ZOMBI job, the
+                                 execution cluster treats the job
+                                 the same way as local ZOMBI
+                                 jobs. In addition, it notifies
+                                 the submission cluster that the
+                                 job is in ZOMBI state and the
+                                 submission cluster requeues the
+                                 job.
+.sp 2
+   \fBRUNTIME\fR
+.br
+               Estimated run time for the job, specified by bsub
+               -We or bmod -We, -We+, -Wep.
+.sp 2
+               The following information is displayed when
+               running bjobs -WL, -WF, or -WP.
+.sp 2
+               \fBTIME_LEFT\fR
+.br
+                           The estimated run time that the job
+                           has remaining. Along with the time if
+                           applicable, one of the following
+                           symbols may also display.
+.sp 2
+                             o  
+                                 E: The job has an estimated run
+                                 time that has not been exceeded.
+.sp 2
+                             o  
+                                 L: The job has a hard run time
+                                 limit specified but either has
+                                 no estimated run time or the
+                                 estimated run time is more than
+                                 the hard run time limit.
+.sp 2
+                             o  
+                                 X: The job has exceeded its
+                                 estimated run time and the time
+                                 displayed is the time remaining
+                                 until the job reaches its hard
+                                 run time limit.
+.sp 2
+                             o  
+                                 A dash indicates that the job
+                                 has no estimated run time and no
+                                 run limit, or that it has
+                                 exceeded its run time but does
+                                 not have a hard limit and
+                                 therefore runs until completion.
+.sp 2
+                           If there is less than a minute
+                           remaining, 0:0 displays.
+.sp 2
+               \fBFINISH_TIME\fR
+.br
+                           The estimated finish time of the job.
+                           For done/exited jobs, this is the
+                           actual finish time. For running jobs,
+                           the finish time is the start time plus
+                           the estimated run time (where set and
+                           not exceeded) or the start time plus
+                           the hard run limit.
+.sp 2
+                             o  
+                                 E: The job has an estimated run
+                                 time that has not been exceeded.
+.sp 2
+                             o  
+                                 L: The job has a hard run time
+                                 limit specified but either has
+                                 no estimated run time or the
+                                 estimated run time is more than
+                                 the hard run time limit.
+.sp 2
+                             o  
+                                 X: The job has exceeded its
+                                 estimated run time and had no
+                                 hard run time limit set. The
+                                 finish time displayed is the
+                                 estimated run time remaining
+                                 plus the start time.
+.sp 2
+                             o  
+                                 A dash indicates that the
+                                 pending, suspended, or job with
+                                 no run limit has no estimated
+                                 finish time.
+.sp 2
+               \fB%COMPLETE\fR
+.br
+                           The estimated completion percentage of
+                           the job.
+.sp 2
+                             o  
+                                 E: The job has an estimated run
+                                 time that has not been exceeded.
+.sp 2
+                             o  
+                                 L: The job has a hard run time
+                                 limit specified but either has
+                                 no estimated run time or the
+                                 estimated run time is more than
+                                 the hard run time limit.
+.sp 2
+                             o  
+                                 X: The job has exceeded its
+                                 estimated run time and had no
+                                 hard run time limit set.
+.sp 2
+                             o  
+                                 A dash indicates that the jobs
+                                 is pending, or that it is
+                                 running or suspended, but has no
+                                 run time limit specified.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     For jobs in the state UNKNOWN, the job run
+                     time estimate is based on internal counting
+                     by the job’s mbatchd.
+.sp 2
+   \fBRESOURCE USAGE \fR
+.br
+               For the MultiCluster job forwarding model, this
+               information is not shown if MultiCluster resource
+               usage updating is disabled.
+.sp 2
+               The values for the current usage of a job include:
+.sp 2
+               \fBCPU time\fR
+.br
+                           Cumulative total CPU time in seconds
+                           of all processes in a job.
+.sp 2
+               \fBIDLE_FACTOR\fR
+.br
+                           Job idle information (CPU
+                           time/runtime) if JOB_IDLE is
+                           configured in the queue, and the job
+                           has triggered an idle exception.
+.sp 2
+               \fBMEM\fR
+.br
+                           Total resident memory usage of all
+                           processes in a job. By default, memory
+                           usage is shown in MB. Use
+                           LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+               \fBSWAP\fR
+.br
+                           Total virtual memory usage of all
+                           processes in a job. By default, swap
+                           space is shown in MB. Use
+                           LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+               \fBNTHREAD\fR
+.br
+                           Number of currently active threads of
+                           a job.
+.sp 2
+               \fBPGID\fR
+.br
+                           Currently active process group ID in a
+                           job.
+.sp 2
+               \fBPIDs\fR
+.br
+                           Currently active processes in a job.
+.sp 2
+   \fBRESOURCE LIMITS\fR
+.br
+               The hard resource usage limits that are imposed on
+               the jobs in the queue (see getrlimit(2) and
+               lsb.queues(5)). These limits are imposed on a
+               per-job and a per-process basis.
+.sp 2
+               The possible per-job resource usage limits are:
+.sp 2
+                 o  
+                     CPULIMIT
+.sp 2
+                 o  
+                     PROCLIMIT
+.sp 2
+                 o  
+                     MEMLIMIT
+.sp 2
+                 o  
+                     SWAPLIMIT
+.sp 2
+                 o  
+                     PROCESSLIMIT
+.sp 2
+                 o  
+                     THREADLIMIT
+.sp 2
+                 o  
+                     OPENFILELIMIT
+.sp 2
+               The possible UNIX per-process resource usage
+               limits are:
+.sp 2
+                 o  
+                     RUNLIMIT
+.sp 2
+                 o  
+                     FILELIMIT
+.sp 2
+                 o  
+                     DATALIMIT
+.sp 2
+                 o  
+                     STACKLIMIT
+.sp 2
+                 o  
+                     CORELIMIT
+.sp 2
+               If a job submitted to the queue has any of these
+               limits specified (see bsub(1)), then the lower of
+               the corresponding job limits and queue limits are
+               used for the job.
+.sp 2
+               If no resource limit is specified, the resource is
+               assumed to be unlimited. User shell limits that
+               are unlimited are not displayed.
+.sp 2
+   \fBEXCEPTION STATUS\fR
+.br
+               Possible values for the exception status of a job
+               include:
+.sp 2
+               \fBidle\fR
+.br
+                           The job is consuming less CPU time
+                           than expected. The job idle factor
+                           (CPU time/runtime) is less than the
+                           configured JOB_IDLE threshold for the
+                           queue and a job exception has been
+                           triggered.
+.sp 2
+               \fBoverrun\fR
+.br
+                           The job is running longer than the
+                           number of minutes specified by the
+                           JOB_OVERRUN threshold for the queue
+                           and a job exception has been
+                           triggered.
+.sp 2
+               \fBunderrun\fR
+.br
+                           The job finished sooner than the
+                           number of minutes specified by the
+                           JOB_UNDERRUN threshold for the queue
+                           and a job exception has been
+                           triggered.
+.sp 2
+   \fBSynchronous Execution\fR
+.br
+               Job was submitted with the -K option. LSF submits
+               the job and waits for the job to complete.
+.sp 2
+   \fBJOB_DESCRIPTION \fR
+.br
+               The job description assigned by the user. This
+               field is omitted if no job description has been
+               assigned.
+.sp 2
+               The displayed job description can contain up to
+               4094 characters.
+.sp 2 .SH "Output: Job array summary information"
+\fBOutput: Job array summary information\fR
+.sp 2
+   If you use -A, displays summary information about job arrays.
+   The following fields are displayed:
+.sp 2
+   \fBJOBID \fR
+.br
+               Job ID of the job array.
+.sp 2
+   \fBARRAY_SPEC \fR
+.br
+               Array specification in the format of
+               \fIname\fR[\fIindex\fR]. The array specification
+               may be truncated, use -w option together with -A
+               to show the full array specification.
+.sp 2
+   \fBOWNER \fR
+.br
+               Owner of the job array.
+.sp 2
+   \fBNJOBS \fR
+.br
+               Number of jobs in the job array.
+.sp 2
+   \fBPEND \fR
+.br
+               Number of pending jobs of the job array.
+.sp 2
+   \fBRUN\fR
+.br
+               Number of running jobs of the job array.
+.sp 2
+   \fBDONE \fR
+.br
+               Number of successfully completed jobs of the job
+               array.
+.sp 2
+   \fBEXIT \fR
+.br
+               Number of unsuccessfully completed jobs of the job
+               array.
+.sp 2
+   \fBSSUSP \fR
+.br
+               Number of LSF system suspended jobs of the job
+               array.
+.sp 2
+   \fBUSUSP \fR
+.br
+               Number of user suspended jobs of the job array.
+.sp 2
+   \fBPSUSP \fR
+.br
+               Number of held jobs of the job array.
+.sp 2 .SH "Output: Session Scheduler job summary information"
+\fBOutput: Session Scheduler job summary information\fR
+.sp 2
+   \fBJOBID\fR
+.br
+               Job ID of the Session Scheduler job.
+.sp 2
+   \fBOWNER\fR
+.br
+               Owner of the Session Scheduler job.
+.sp 2
+   \fBJOB_NAME \fR
+.br
+               The job name assigned by the user, or the command
+               string assigned by default at job submission with
+               bsub. If the job name is too long to fit in this
+               field, then only the latter part of the job name
+               is displayed.
+.sp 2
+               The displayed job name or job command can contain
+               up to 4094 characters for UNIX, or up to 255
+               characters for Windows.
+.sp 2
+   \fBNTASKS\fR
+.br
+               The total number of tasks for this Session
+               Scheduler job.
+.sp 2
+   \fBPEND\fR
+.br
+               Number of pending tasks of the Session Scheduler
+               job.
+.sp 2
+   \fBRUN\fR
+.br
+               Number of running tasks of the Session Scheduler
+               job.
+.sp 2
+   \fBDONE\fR
+.br
+               Number of successfully completed tasks of the
+               Session Scheduler job.
+.sp 2
+   \fBEXIT\fR
+.br
+               Number of unsuccessfully completed tasks of the
+               Session Scheduler job.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fRbjobs -pl\fR
+.sp 2
+   Displays detailed information about all pending jobs of the
+   invoker.
+.sp 2
+   \fRbjobs -ps\fR
+.sp 2
+   Display only pending and suspended jobs.
+.sp 2
+   \fRbjobs -u all -a\fR
+.sp 2
+   Displays all jobs of all users.
+.sp 2
+   \fRbjobs -d -q short -m hostA -u user1\fR
+.sp 2
+   Displays all the recently finished jobs submitted by
+   \fRuser1\fR to the queue \fRshort\fR, and executed on the host
+   \fRhostA\fR.
+.sp 2
+   \fRbjobs 101 102 203 509\fR
+.sp 2
+   Display jobs with job_ID 101, 102, 203, and 509.
+.sp 2
+   \fRbjobs -X 101 102 203 509\fR
+.sp 2
+   Display jobs with job ID 101, 102, 203, and 509 as uncondensed
+   output even if these jobs belong to hosts in condensed groups.
+.sp 2
+   \fRbjobs -sla Uclulet\fR
+.sp 2
+   Displays all jobs belonging to the service class
+   \fRUclulet\fR.
+.sp 2
+   \fRbjobs -app fluent\fR
+.sp 2
+   Displays all jobs belonging to the application profile
+   \fRfluent\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsub, bkill, bhosts, bmgroup, bclusters, bqueues, bhist,
+   bresume, bsla, bstop, lsb.params, lsb.serviceclasses, mbatchd

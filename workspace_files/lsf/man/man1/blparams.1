@@ -1,0 +1,223 @@
+
+.ad l
+
+.ll 72
+
+.TH blparams 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblparams\fR
+.sp 2
+   displays information about configurable License Scheduler
+   parameters defined in the files lsf.licensescheduler and
+   lsf.conf
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blparams [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays the following parameter values:
+.sp 2
+   \fBADMIN\fR
+.br
+               The License Scheduler administrator. Defined in
+               lsf.licensescheduler.
+.sp 2
+   \fBDISTRIBUTION_POLICY_VIOLATION_ACTION\fR
+.br
+               This parameter includes
+.sp 2
+                 o  
+                     The interval (a multiple of LM_STAT_INVERVAL
+                     periods) at which License Scheduler checks
+                     for distribution policy violations, and
+.sp 2
+                 o  
+                     The directory path and command that License
+                     Scheduler runs when reporting a violation
+.sp 2
+               Defined in lsf.licensescheduler.
+.sp 2
+   \fBHOSTS\fR
+.br
+               License Scheduler candidate hosts. Defined in
+               lsf.licensescheduler.
+.sp 2
+   \fBLM_REMOVE_INTERVAL\fR
+.br
+               Minimum time a job must have a license checked out
+               before lmremove can remove the license. Defined in
+               lsf.licensescheduler.
+.sp 2
+   \fBLM_STAT_INTERVAL\fR
+.br
+               Time interval between calls that License Scheduler
+               makes to collect license usage information from
+               FLEXnet license management. Defined in
+               lsf.licensescheduler.
+.sp 2
+   \fBLS_DEBUG_BLD\fR
+.br
+               Sets the debugging log class for the LSF License
+               Scheduler bld daemon. Defined in
+               lsf.licensescheduler.
+.sp 2
+               Specifies the log class filtering to be applied to
+               bld. Messages belonging to the specified log class
+               are recorded. Not all debug message are controlled
+               by log class.
+.sp 2
+               LS_DEBUG_BLD sets the log class and is used in
+               combination with MASK, which sets the log level.
+               For example:
+.sp 2
+               LS_LOG_MASK=LOG_DEBUGLS_DEBUG_BLD="LC_TRACE" 
+.sp 2
+               You need to restart the bld daemon after setting
+               LS_DEBUG_BLD for your changes to take effect.
+.sp 2
+               Valid log classes are:
+.sp 2
+                 o  
+                     LC_AUTH: Log authentication messages
+.sp 2
+                 o  
+                     LC_COMM: Log communication messages
+.sp 2
+                 o  
+                     LC_FLEX: Log everything related to FLEX_STAT
+                     or FLEX_EXEC Acresso APIs
+.sp 2
+                 o  
+                     LC_LICENSE: Log license management messages
+                     (LC_LICENCE is also supported for backward
+                     compatibility)
+.sp 2
+                 o  
+                     LC_PREEMPT: Log license preemption policy
+                     messages
+.sp 2
+                 o  
+                     LC_RESREQ: Log resource requirement messages
+.sp 2
+                 o  
+                     LC_TRACE: Log significant program walk steps
+.sp 2
+                 o  
+                     LC_XDR: Log everything transferred by XDR
+.sp 2
+               If you use the command bladmin blddebug to
+               temporarily change this parameter without changing
+               lsf.licensescheduler, you do not need to restart
+               the daemons.
+.sp 2
+   \fBLS_ENABLE_MAX_PREEMPT\fR
+.br
+               Enables maximum preemption time checking for
+               taskman jobs. Defined in lsf.licensescheduler.
+.sp 2
+   \fBLS_LOG_MASK\fR
+.br
+               Specifies the logging level of error messages for
+               LSF License Scheduler daemons. If LS_LOG_MASK is
+               not defined in lsf.licensescheduler, the value of
+               LSF_LOG_MASK in lsf.conf is used. If neither
+               LS_LOG_MASK nor LSF_LOG_MASK is defined, the
+               default is LOG_WARNING.
+.sp 2
+               For example:
+.sp 2
+               LS_LOG_MASK=LOG_DEBUG
+.sp 2
+               The log levels in order from highest to lowest
+               are:
+.sp 2
+                 o  
+                     LOG_WARNING
+.sp 2
+                 o  
+                     LOG_DEBUG
+.sp 2
+                 o  
+                     LOG_DEBUG1
+.sp 2
+                 o  
+                     LOG_DEBUG2
+.sp 2
+                 o  
+                     LOG_DEBUG3
+.sp 2
+               The most important License Scheduler log messages
+               are at the LOG_WARNING level. Messages at the
+               LOG_DEBUG level are only useful for debugging.
+.sp 2
+   \fBLS_MAX_TASKMAN_PREEMPT\fR
+.br
+               Maximum number of times taskman jobs can be
+               preempted. Enabled by \fBLS_ENABLE_MAX_PREEMPT\fR.
+               Defined in lsf.licensescheduler.
+.sp 2
+   \fBLS_MAX_TASKMAN_SESSIONS\fR
+.br
+               Maximum number of taskman jobs that run
+               simultaneously. Defined in lsf.licensescheduler.
+.sp 2
+   \fBLS_PREEMPT_PEER\fR
+.br
+               Enables bottom-up license token preemption in
+               hierarchical project group configuration. License
+               Scheduler attempts to preempt tokens from the
+               closest projects in the hierarchy first. This
+               balances token ownership from the bottom up.
+.sp 2
+               Defined in lsf.licensescheduler.
+.sp 2
+   \fBLSF_LIC_SCHED_HOSTS\fR
+.br
+               List of hosts that are candidate LSF License
+               Scheduler hosts. Defined in lsf.conf.
+.sp 2
+   \fBLSF_LIC_SCHED_PREEMPT_REQUEUE\fR
+.br
+               Specifies whether to requeue or suspend a job
+               whose license is preempted by LSF License
+               Scheduler. Defined in lsf.conf.
+.sp 2
+   \fBLSF_LIC_SCHED_PREEMPT_SLOT_RELEASE\fR
+.br
+               Specifies whether to release the slot of a job
+               that is suspended when its license is preempted by
+               LSF License Scheduler. Defined in lsf.conf.
+.sp 2
+   \fBLSF_LIC_SCHED_PREEMPT_STOP\fR
+.br
+               Specifies whether to use job controls to stop a
+               job that is preempted. Defined in lsf.conf.
+.sp 2
+   \fBLSF_LICENSE_FILE\fR
+.br
+               Location of the LSF license file, which includes
+               License Scheduler keys. Defined in lsf.conf.
+.sp 2
+   \fBPORT\fR
+.br
+               TCP listening port used by License Scheduler.
+               Defined in lsf.licensescheduler.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fR\fRlsf.licensescheduler, lsf.conf
+.sp 2

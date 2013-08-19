@@ -1,0 +1,107 @@
+
+.ad l
+
+.ll 72
+
+.TH lsclusters 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsclusters\fR
+.sp 2
+   displays configuration information about LSF clusters
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsclusters [-l] [cluster_name ...]
+.sp 2
+lsclusters [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays configuration information about LSF clusters.
+.sp 2
+   By default, returns information about the local cluster and
+   all other clusters that the local cluster is aware of (all
+   clusters defined in the \fRRemoteClusters\fR section of
+   lsf.cluster.\fIcluster_name\fR if that section exists,
+   otherwise all clusters defined in lsf.shared).
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays additional information.
+.sp 2
+   \fB\fIcluster_name\fB ...\fR
+.br
+               Only displays information about the specified
+               clusters.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Default Output"
+\fBDefault Output\fR
+.sp 2
+   The information includes: cluster name, cluster master host,
+   primary cluster administrator’s login name, total number of
+   hosts in the cluster, and the number of server hosts in the
+   cluster.
+.sp 2
+   A listing of the clusters is displayed with the following
+   fields:
+.sp 2
+   \fBCLUSTER_NAME \fR
+.br
+               The name of the cluster.
+.sp 2
+   \fBSTATUS \fR
+.br
+               The current status of the cluster. Possible values
+               are:
+.sp 2
+               \fBok\fR
+.br
+                           The cluster is in normal load sharing
+                           state, and exchanges load information
+                           with the local cluster.
+.sp 2
+               \fBunavail\fR
+.br
+                           The cluster is unavailable.
+.sp 2
+   \fBMASTER_HOST\fR
+.br
+               The name of the cluster’s master host.
+.sp 2
+   \fBADMIN\fR
+.br
+               The user account name of the cluster’s primary LSF
+               administrator.
+.sp 2
+   \fBHOSTS\fR
+.br
+               Number of LSF static client and server hosts in
+               the cluster. The HOSTS field does not include
+               floating clients.
+.sp 2
+   \fBSERVERS \fR
+.br
+               Number of LSF server hosts in the cluster.
+.sp 2 .SH "Long Format (-l)"
+\fBLong Format (-l)\fR
+.sp 2
+   If this option is specified, the command also lists available
+   resource names, host types, host models and cluster
+   administrator’s login names, and whether local cluster accepts
+   or sends interactive jobs to this cluster.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   ls_info, ls_policy, ls_clusterinfo lsf.cluster
+.sp 2

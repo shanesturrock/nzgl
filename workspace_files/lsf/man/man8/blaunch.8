@@ -1,0 +1,155 @@
+
+.ad l
+
+.ll 72
+
+.TH blaunch 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblaunch\fR
+.sp 2
+   launches parallel tasks on a set of hosts
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blaunch [-n] [-u host_file | -z host_name ... | host_name]
+[-use-login-shell | -no-shell ] command [argument ...]
+.sp 2
+blaunch [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         You cannot run blaunch directly from the command line.
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         The command blaunch does not work with user account
+         mapping. Do not run blaunch on a user account mapping
+         host.
+.sp 2
+   Most MPI implementations and many distributed applications use
+   rsh and ssh as their task launching mechanism. The blaunch
+   command provides a drop-in replacement for rsh and ssh as a
+   transparent method for launching parallel applications within
+   LSF.
+.sp 2
+   blaunch supports the following core command line options as
+   rsh and ssh:
+.sp 2
+     o  
+         rsh \fIhost_name\fR \fIcommand\fR
+.sp 2
+     o  
+         ssh \fIhost_name\fR \fIcommand\fR
+.sp 2
+   All other rsh and ssh options are silently ignored.
+.sp 2
+   blaunch transparently connects directly to the RES/SBD on the
+   remote host, and subsequently creates and tracks the remote
+   tasks, and provides the connection back to LSF. You do not
+   need to insert pam, taskstarter or any other wrapper.
+.sp 2
+   blaunch only works under LSF. It can only be used to launch
+   tasks on remote hosts that are part of a job allocation. It
+   cannot be used as a standalone command.
+.sp 2
+   When no host names are specified, LSF runs tasks on all
+   allocated hosts, one remote task per job slot.
+.sp 2
+   Windows: blaunch is supported on Windows 2000 or later with
+   the following exceptions:
+.sp 2
+     o  
+         Only the following signals are supported: SIGKILL,
+         SIGSTOP, SIGCONT.
+.sp 2
+     o  
+         The -n option is not supported.
+.sp 2
+     o  
+         CMD.EXE /C <user command line> is used as intermediate
+         command shell when:
+.sp 2
+           o  
+               -no-shell is not specified
+.sp 2
+     o  
+         CMD.EXE /C is not used when -no-shell is specified.
+.sp 2
+     o  
+         Windows Vista User Account Control must be configured
+         correctly to run jobs.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-n \fR
+.br
+               Standard input is taken from /dev/null. (Not
+               supported on Windows.)
+.sp 2
+   \fB-u \fIhost_file \fB\fR
+.br
+               Executes the task on all hosts listed in the
+               \fIhost_file\fR.
+.sp 2
+               Specify the path to a file that contains a list of
+               host names. Each host name must listed on a
+               separator line in the host list file.
+.sp 2
+               This option is exclusive of the -z option.
+.sp 2
+   \fB\fIhost_name\fB\fR
+.br
+               The name of the host where remote tasks are to be
+               launched.
+.sp 2
+   \fB-z \fIhost_name\fB ...\fR
+.br
+               Executes the task on all specified hosts.
+.sp 2
+               Whereas the host name value for rsh and ssh is a
+               single host name, you can use the -z option to
+               specify a space-delimited list of hosts where
+               tasks are started in parallel.
+.sp 2
+               Specify a list of hosts on which to execute the
+               task. If multiple host names are specified, the
+               host names must be enclosed by quotation marks ("
+               or ') and separated by white space.
+.sp 2
+               This option is exclusive of the -u option.
+.sp 2
+   \fB-use-login-shell \fR
+.br
+               Launches commands through user's login shell.
+.sp 2
+               Only applies to UNIX and Linux hosts.
+.sp 2
+   \fB-no-shell \fR
+.br
+               Launches commands without any intermediate shell.
+.sp 2
+   \fB\fIcommand\fB [\fIargument\fB ...]\fR
+.br
+               Specify the command to execute. This must be the
+               last argument on the command line.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Exit status is 0 if all commands are executed correctly.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fRlsb_getalloc\fR, \fRlsb_launch\fR
+.sp 2

@@ -1,0 +1,3095 @@
+
+.ad l
+
+.ll 72
+
+.TH bsub 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbsub\fR
+.sp 2
+   submits a batch job to LSF
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bsub [options] command [arguments]
+.sp 2
+bsub [-h | -V]
+.sp 2 .SH "Option List"
+\fBOption List\fR
+.sp 2
+-ar
+.sp 2
+-B
+.sp 2
+-H
+.sp 2
+-I | -Ip | -Is [-tty]
+.sp 2
+-IS | -ISp | -ISs | -IX [-tty]
+.sp 2
+-K
+.sp 2
+-N
+.sp 2
+-r | -rn
+.sp 2
+-ul
+.sp 2
+-x
+.sp 2
+-a "esub_application ..."
+.sp 2
+-app application_profile_name
+.sp 2
+-b [[year:][month:]day:]hour:minute
+.sp 2
+-C core_limit
+.sp 2
+-c [hour:]minute[/host_name | /host_model]
+.sp 2
+-cwd "current_working_directory"
+.sp 2
+-D data_limit
+.sp 2
+-E "pre_exec_command [arguments ...]"
+.sp 2
+-Ep "post_exec_command [arguments …]"
+.sp 2
+-e error_file
+.sp 2
+-eo error_file
+.sp 2
+-ext[sched] "external_scheduler_options"
+.sp 2
+-F file_limit
+.sp 2
+-f "local_file operator [remote_file]" ...
+.sp 2
+-G user_group
+.sp 2
+-g job_group_name
+.sp 2
+-i input_file | -is input_file
+.sp 2
+-J job_name | -J "job_name[index_list]%job_slot_limit"
+.sp 2
+-Jd "job_description"
+.sp 2
+-jsdl file_name | -jsdl_strict file_name
+.sp 2
+-k "checkpoint_dir [init=initial_checkpoint_period]
+.sp 2
+[checkpoint_period] [method=method_name]"
+.sp 2
+-L login_shell
+.sp 2
+-Lp ls_project_name
+.sp 2
+-M mem_limit
+.sp 2
+-m "host_name[@cluster_name][[!] | +[pref_level]] |
+host_group[[!] | +[pref_level | compute_unit[[!] | +[pref_level]]
+..."
+.sp 2
+-mig migration_threshold
+.sp 2
+-n min_proc[,max_proc]
+.sp 2
+-o output_file
+.sp 2
+-oo output_file
+.sp 2
+-P project_name
+.sp 2
+-p process_limit
+.sp 2
+-Q "[exit_code …] [EXCLUDE(exit_code …)]"
+.sp 2
+-q "queue_name ..."
+.sp 2
+-R "res_req" [-R "res_req" …]
+.sp 2
+-rnc resize_notification_cmd
+.sp 2
+-S stack_limit
+.sp 2
+-s signal
+.sp 2
+-sla service_class_name
+.sp 2
+-sp priority
+.sp 2
+-T thread_limit
+.sp 2
+-t [[[year:]month:]day:]hour:minute
+.sp 2
+-U reservation_ID
+.sp 2
+-u mail_user
+.sp 2
+-v swap_limit
+.sp 2
+-W [hour:]minute[/host_name | /host_model]
+.sp 2
+-We [hour:]minute[/host_name | /host_model]
+.sp 2
+-w 'dependency_expression'
+.sp 2
+-wa 'signal'
+.sp 2
+-wt '[hour:]minute'
+.sp 2
+-XF
+.sp 2
+-Zs
+.sp 2
+-h
+.sp 2
+-V
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Submits a job for batch execution and assigns it a unique
+   numerical job ID.
+.sp 2
+   Runs the job on a host that satisfies all requirements of the
+   job, when all conditions on the job, host, queue, application
+   profile, and cluster are satisfied. If LSF cannot run all jobs
+   immediately, LSF scheduling policies determine the order of
+   dispatch. Jobs are started and suspended according to the
+   current system load.
+.sp 2
+   Sets the user’s execution environment for the job, including
+   the current working directory, file creation mask, and all
+   environment variables, and sets LSF environment variables
+   before starting the job.
+.sp 2
+   When a job is run, the command line and stdout/stderr buffers
+   are stored in the directory home_directory/.lsbatch on the
+   execution host. If this directory is not accessible,
+   /tmp/.lsbtmp user_ID is used as the job’s home directory. If
+   the current working directory is under the home directory on
+   the submission host, then the current working directory is
+   also set to be the same relative directory under the home
+   directory on the execution host.
+.sp 2
+   By default, if the current working directory is not accessible
+   on the execution host, LSF finds a working direction to run
+   the job in the following order:
+.sp 2
+   1. 
+         \fI$HOME\fR on this host
+.sp 2
+   2. 
+         \fI$PWD\fR
+.sp 2
+   3. 
+         Strip /tmp_mnt if it is exists in the path
+.sp 2
+   4. 
+         Replace the first component with a key in
+         /etc/auto.master and try each key
+.sp 2
+   5. 
+         Replace the first 2 components with a key in
+         /etc/auto.master and try for each key
+.sp 2
+   6. 
+         Strip the first level of the path and try the rest (for
+         example, if the current working directory is /abc/x/y/z,
+         try to change directory to the path /x/y/z)
+.sp 2
+   7. 
+         /tmp
+.sp 2
+   If the environment variable LSB_EXIT_IF_CWD_NOTEXIST is set to
+   Y and the current working directory is not accessible on the
+   execution host, the job exits with the exit code 2.
+.sp 2
+   If no command is supplied, bsub prompts for the command from
+   the standard input. On UNIX, the input is terminated by
+   entering CTRL-D on a new line. On Windows, the input is
+   terminated by entering CTRL-Z on a new line.
+.sp 2
+   To kill a batch job submitted with bsub, use bkill.
+.sp 2
+   Use bmod to modify jobs submitted with bsub. bmod takes
+   similar options to bsub.
+.sp 2
+   Jobs submitted to a chunk job queue with the following options
+   are not chunked; they are dispatched individually:
+.sp 2
+     o  
+         -I (interactive jobs)
+.sp 2
+     o  
+         -c (jobs with CPU limit greater than 30)
+.sp 2
+     o  
+         -W (jobs with run limit greater than 30 minutes)
+.sp 2
+   To submit jobs from UNIX to display GUIs through Microsoft
+   Terminal Services on Windows, submit the job with bsub and
+   define the environment variables LSF_LOGON_DESKTOP=1 and
+   LSB_TSJOB=1 on the UNIX host. Use tssub to submit a Terminal
+   Services job from Windows hosts. See Using Platform LSF on
+   Windows for more details.
+.sp 2
+   If the parameter LSB_STDOUT_DIRECT in lsf.conf is set to Y or
+   y, and you use the -o or -oo option, the standard output of a
+   job is written to the file you specify as the job runs. If
+   LSB_STDOUT_DIRECT is not set, and you use -o or -oo, the
+   standard output of a job is written to a temporary file and
+   copied to the specified file after the job finishes.
+   LSB_STDOUT_DIRECT is not supported on Windows.
+.sp 2 .SH "Default behavior"
+\fBDefault behavior\fR
+.sp 2
+   LSF assumes that uniform user names and user ID spaces exist
+   among all the hosts in the cluster. That is, a job submitted
+   by a given user runs under the same user’s account on the
+   execution host. For situations where nonuniform user names and
+   user ID spaces exist, account mapping must be used to
+   determine the account used to run a job.
+.sp 2
+   bsub uses the command name as the job name. Quotation marks
+   are significant.
+.sp 2
+   Options related to file names and job spooling directories
+   support paths that contain up to 4094 characters for UNIX and
+   Linux, or up to 255 characters for Windows.
+.sp 2
+   Options related to command names and job names can contain up
+   to 4094 characters for UNIX and Linux, or up to 255 characters
+   for Windows.
+.sp 2
+   Options for the following resource usage limits are specified
+   in KB:
+.sp 2
+     o  
+         Core limit (-C)
+.sp 2
+     o  
+         Memory limit (-M)
+.sp 2
+     o  
+         Stack limit (-S)
+.sp 2
+     o  
+         Swap limit (-v)
+.sp 2
+   Use LSF_UNIT_FOR_LIMITS in lsf.conf to specify a larger unit
+   for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+   If fairshare is defined and you belong to multiple user
+   groups, the job is scheduled under the user group that allows
+   the quickest dispatch.
+.sp 2
+   The job is not checkpointable.
+.sp 2
+   bsub automatically selects an appropriate queue. If you
+   defined a default queue list by setting LSB_DEFAULTQUEUE
+   environment variable, the queue is selected from your list. If
+   LSB_DEFAULTQUEUE is not defined, the queue is selected from
+   the system default queue list specified by the LSF
+   administrator with the DEFAULT_QUEUE parameter in lsb.params.
+.sp 2
+   LSF tries to obtain resource requirement information for the
+   job from the remote task list that is maintained by the load
+   sharing library. If the job is not listed in the remote task
+   list, the default resource requirement is to run the job on a
+   host or hosts that are of the same host type as the submission
+   host.
+.sp 2
+   bsub assumes only one processor is requested.
+.sp 2
+   bsub does not start a login shell but runs the job file under
+   the execution environment from which the job was submitted.
+.sp 2
+   The input file for the batch job is /dev/null (no input).
+.sp 2
+   bsub sends mail to you when the job is done. The default
+   destination is defined by LSB_MAILTO in lsf.conf. The mail
+   message includes the job report, the job output (if any), and
+   the error message (if any).
+.sp 2
+   bsub charges the job to the default project. The default
+   project is the project you define by setting the environment
+   variable \fBLSB_DEFAULTPROJECT\fR. If you do not set
+   \fBLSB_DEFAULTPROJECT\fR, the default project is the project
+   specified by the LSF administrator with \fBDEFAULT_PROJECT\fR
+   parameter in lsb.params. If \fBDEFAULT_PROJECT\fR is not
+   defined, then LSF uses default as the default project name.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-ar\fR
+.br
+               Specifies that the job is autoresizable.
+.sp 2
+   \fB-B\fR
+.br
+               Sends mail to you when the job is dispatched and
+               begins execution.
+.sp 2
+   \fB-H\fR
+.br
+               Holds the job in the PSUSP state when the job is
+               submitted. The job is not scheduled until you tell
+               the system to resume the job (see bresume(1)).
+.sp 2
+   \fB-I | -Ip | -Is [-tty] \fR
+.br
+               Submits a batch interactive job. A new job cannot
+               be submitted until the interactive job is
+               completed or terminated.
+.sp 2
+               Sends the job’s standard output (or standard
+               error) to the terminal. Does not send mail to you
+               when the job is done unless you specify the -N
+               option.
+.sp 2
+               Terminal support is available for a batch
+               interactive job.
+.sp 2
+               When you specify the -Ip option, submits a batch
+               interactive job and creates a pseudo-terminal when
+               the job starts. Some applications (for example,
+               vi) require a pseudo-terminal in order to run
+               correctly.
+.sp 2
+               When you specify the -Is option, submits a batch
+               interactive job and creates a pseudo-terminal with
+               shell mode support when the job starts. This
+               option should be specified for submitting
+               interactive shells, or applications which redefine
+               the CTRL-C and CTRL-Z keys (for example,
+               \fRjove\fR).
+.sp 2
+               If the -i \fIinput_file \fRoption is specified,
+               you cannot interact with the job’s standard input
+               via the terminal.
+.sp 2
+               If the -o \fIout_file\fR option is specified,
+               sends the job’s standard output to the specified
+               output file. If the -e \fIerr_file\fR option is
+               specified, sends the job’s standard error to the
+               specified error file\fI.\fR
+.sp 2
+               If used with -tty, also displays output/error on
+               the screen.
+.sp 2
+               You cannot use -I, -Ip, or -Is with the -K option.
+.sp 2
+               Interactive jobs cannot be checkpointed.
+.sp 2
+               Interactive jobs cannot be rerunnable (bsub -r).
+.sp 2
+               The options that create a pseudo-terminal (-Ip and
+               -Is) are not supported on Windows.
+.sp 2
+   \fB-IS | -ISp | -ISs | -IX [-tty]\fR
+.br
+               Submits a batch interactive job under a secure
+               shell (ssh). A new job cannot be submitted until
+               the interactive job is completed or terminated.
+.sp 2
+               Sends the job’s standard output (or standard
+               error) to the terminal. Does not send mail to you
+               when the job is done unless you specify the -N
+               option.
+.sp 2
+               Terminal support is available for a batch
+               interactive job.
+.sp 2
+               When you specify the -ISp option, submits a batch
+               interactive job and creates a pseudo-terminal when
+               the job starts. Some applications (for example,
+               vi) require a pseudo-terminal to run correctly.
+.sp 2
+               When you specify the -ISs option, submits a batch
+               interactive job and creates a pseudo-terminal with
+               shell mode support when the job starts. This
+               option should be specified for submitting
+               interactive shells, or applications that redefine
+               the CTRL-C and CTRL-Z keys (for example,
+               \fRjove\fR).
+.sp 2
+               When you specify the -IX option, submits an
+               interactive X-window job. The session between
+               X-client and X-server is encrypted; the session
+               between the execution host and submission host is
+               also encrypted. The following must be satisfied:
+.sp 2
+                 o  
+                     openssh must be installed and sshd must be
+                     running on the X-server
+.sp 2
+                 o  
+                     \fRxhost + localhost\fR or \fRxhost +
+                     displayhost.domain.com\fR on the X-server
+.sp 2
+                 o  
+                     ssh must be configured to run without a
+                     password or passphrase
+                     ($HOME/.ssh/authorized_keys must be set up)
+.sp 2
+                        \fBNote: \fR
+.sp 2
+                           In most cases ssh can be configured to
+                           run without a password by copying
+                           id_rsa.pub as authorized_keys with
+                           permission 600 (-rw-r--r--). Test by
+                           manually running ssh host.domain.com
+                           between the two hosts both ways and
+                           confirm there are no prompts using
+                           fully qualified host names.
+.sp 2
+               If the -i \fIinput_file \fRoption is specified,
+               you cannot interact with the job’s standard input
+               via the terminal.
+.sp 2
+               If the -o \fIout_file\fR option is specified,
+               sends the job’s standard output to the specified
+               output file. If the -e \fIerr_file\fR option is
+               specified, sends the job’s standard error to the
+               specified error file\fI.\fR
+.sp 2
+               If used with -tty, also displays output/error on
+               the screen.
+.sp 2
+               You cannot use -I, -ISp, or -ISs with the -K
+               option.
+.sp 2
+               Interactive jobs cannot be checkpointed.
+.sp 2
+               Interactive jobs cannot be rerunnable (bsub -r).
+.sp 2
+               The options that create a pseudo-terminal (-ISp
+               and -ISs) are not supported on Windows.
+.sp 2
+   \fB-K\fR
+.br
+               Submits a batch job and waits for the job to
+               complete. Sends the message "\fRWaiting for
+               dispatch\fR" to the terminal when you submit the
+               job. Sends the message "\fRJob is finished\fR" to
+               the terminal when the job is done.
+.sp 2
+               You are not able to submit another job until the
+               job is completed. This is useful when completion
+               of the job is required to proceed, such as a job
+               script. If the job needs to be rerun due to
+               transient failures, bsub returns after the job
+               finishes successfully. bsub exits with the same
+               exit code as the job so that job scripts can take
+               appropriate actions based on the exit codes. bsub
+               exits with value 126 if the job was terminated
+               while pending.
+.sp 2
+               You cannot use the -K option with the -I, -Ip, or
+               -Is options.
+.sp 2
+   \fB-N\fR
+.br
+               Sends the job report to you by mail when the job
+               finishes. When used without any other options,
+               behaves the same as the default.
+.sp 2
+               Use only with -o, -oo, -I, -Ip, and -Is options,
+               which do not send mail, to force LSF to send you a
+               mail message when the job is done.
+.sp 2
+   \fB-r | -rn\fR
+.br
+               If the execution host becomes unavailable while a
+               job is running, specifies that the job be rerun on
+               another host. LSF requeues the job in the same job
+               queue with the same job ID. When an available
+               execution host is found, reruns the job as if it
+               were submitted new, even if the job has been
+               checkpointed. You receive a mail message informing
+               you of the host failure and requeuing of the job.
+.sp 2
+               If the system goes down while a job is running,
+               specifies that the job is requeued when the system
+               restarts.
+.sp 2
+               Reruns a job if the execution host or the system
+               fails; it does not rerun a job if the job itself
+               fails.
+.sp 2
+               -rn specifies that the job is never rerunnable.
+               bsub –rn disables job rerun if the job was
+               submitted to a rerunnable queue or application
+               profile with job rerun configured. The command
+               level job rerunnable setting overrides the
+               application profile and queue level setting. bsub
+               –rn is different from bmod -rn, which cannot
+               override the application profile and queue level
+               rerunnable job setting.
+.sp 2
+               Members of a chunk job can be rerunnable. If the
+               execution host becomes unavailable, rerunnable
+               chunk job members are removed from the queue and
+               dispatched to a different execution host.
+.sp 2
+               Interactive jobs (bsub -I) cannot be rerunnable.
+.sp 2
+   \fB-ul\fR
+.br
+               Passes the current operating system user shell
+               limits for the job submission user to the
+               execution host. User limits cannot override queue
+               hard limits. If user limits exceed queue hard
+               limits, the job is rejected.
+.sp 2
+                  \fBRestriction: \fR
+.sp 2
+                     UNIX and Linux only. -ul is not supported on
+                     Windows.
+.sp 2
+               The following bsub options for job-level runtime
+               limits override the value of the user shell
+               limits:
+.sp 2
+                 o  
+                     Per-process (soft) core file size limit (-C)
+.sp 2
+                 o  
+                     CPU limit (-c)
+.sp 2
+                 o  
+                     Per-process (soft) data segment size limit
+                     (-D)
+.sp 2
+                 o  
+                     File limit (-F)
+.sp 2
+                 o  
+                     Per-process (soft) memory limit (-M)
+.sp 2
+                 o  
+                     Process limit (-p)
+.sp 2
+                 o  
+                     Per-process (soft) stack segment size limit
+                     (-S)
+.sp 2
+                 o  
+                     Limit of the number of concurrent threads
+                     (-T)
+.sp 2
+                 o  
+                     Total process virtual memory (swap space)
+                     limit (-v)
+.sp 2
+                 o  
+                     Runtime limit (-W)
+.sp 2
+               LSF collects the user limit settings from the
+               user's running environment that are supported by
+               the operating system, and sets the value to
+               submission options if the value is no unlimited.
+               If the operating system has other kinds of shell
+               limits, LSF does not collect them. LSF collects
+               the following operating system user limits:
+.sp 2
+                 o  
+                     CPU time in milliseconds
+.sp 2
+                 o  
+                     Maximum file size
+.sp 2
+                 o  
+                     Data size
+.sp 2
+                 o  
+                     Stack size
+.sp 2
+                 o  
+                     Core file size
+.sp 2
+                 o  
+                     Resident set size
+.sp 2
+                 o  
+                     Open files
+.sp 2
+                 o  
+                     Virtual (swap) memory
+.sp 2
+                 o  
+                     Process limit
+.sp 2
+                 o  
+                     Thread limit
+.sp 2
+   \fB-x\fR
+.br
+               Puts the host running your job into exclusive
+               execution mode.
+.sp 2
+               In exclusive execution mode, your job runs by
+               itself on a host. It is dispatched only to a host
+               with no other jobs running, and LSF does not send
+               any other jobs to the host until the job
+               completes.
+.sp 2
+               To submit a job in exclusive execution mode, the
+               queue must be configured to allow exclusive jobs.
+.sp 2
+               When the job is dispatched, bhosts(1) reports the
+               host status as closed_Excl, and lsload(1) reports
+               the host status as lockU.
+.sp 2
+               Until your job is complete, the host is not
+               selected by LIM in response to placement requests
+               made by lsplace(1), lsrun(1) or lsgrun(1) or any
+               other load sharing applications.
+.sp 2
+               You can force other batch jobs to run on the host
+               by using the -m \fIhost_name\fR option of brun(1)
+               to explicitly specify the locked host.
+.sp 2
+               You can force LIM to run other interactive jobs on
+               the host by using the -m \fIhost_name\fR option of
+               lsrun(1) or lsgrun(1) to explicitly specify the
+               locked host.
+.sp 2
+   \fB-a "\fIesub_application\fB ..."\fR
+.br
+               Specifies one or more application-specific esub
+               executables that you want LSF to associate with
+               the job.
+.sp 2
+               The value of -a must correspond to the application
+               name of an actual esub file. For example, to use
+               bsub -a fluent, the file esub.fluent must exist in
+               \fBLSF_SERVERDIR\fR.
+.sp 2
+               For example, to submit a job that invokes two
+               application-specific esub executables named
+               esub.license and esub.fluent, enter:
+.sp 2
+               bsub -a "license fluent" my_job
+.sp 2
+               mesub uses the method name license to invoke the
+               esub named LSF_SERVERDIR/esub.license, and the
+               method name fluent to invoke the esub named
+               LSF_SERVERDIR/esub.fluent.
+.sp 2
+               The name of an application-specific esub program
+               is passed to the master esub. The master esub
+               program (LSF_SERVERDIR/mesub) handles job
+               submission requirements of the application.
+               Application-specific esub programs can specify
+               their own job submission requirements. The value
+               of -a is set in the LSB_SUB_ADDITIONAL option in
+               the LSB_SUB_PARM file used by esub.
+.sp 2
+               If an LSF administrator specifies one or more
+               mandatory esub executables using the parameter
+               \fBLSB_ESUB_METHOD\fR, LSF invokes the mandatory
+               executables first, followed by the executable
+               named esub (without \fI.esub_application\fR in the
+               file name) if it exists in \fBLSF_SERVERDIR\fR,
+               and then any application-specific esub executables
+               (with \fI.esub_application\fR in the file name)
+               specified by -a.
+.sp 2
+               The name of the esub program must be a valid file
+               name. It can contain only alphanumeric characters,
+               underscore (\fR_\fR) and hyphen (\fR-\fR).
+.sp 2
+                  \fBRestriction: \fR
+.sp 2
+                     After LSF version 5.1, the value of -a and
+                     LSB_ESUB_METHOD must correspond to an actual
+                     esub file in LSF_SERVERDIR. For example, to
+                     use bsub -a fluent, the file esub.fluent
+                     must exist in LSF_SERVERDIR.
+.sp 2
+               If you have an esub that runs an interactive or
+               X-window job and you have SSH enabled in lsf.conf,
+               the communication between hosts is encrypted.
+.sp 2
+   \fB-app \fIapplication_profile_name\fB\fR
+.br
+               Submits the job to the specified application
+               profile. You must specify an existing application
+               profile. If the application profile does not exist
+               in lsb.applications, the job is rejected.
+.sp 2
+   \fB-b
+   [[\fIyear\fB:][\fImonth\fB:]\fIday\fB:]\fIhour\fB:\fIminute\fB
+   \fR
+.br
+               Dispatches the job for execution on or after the
+               specified date and time. The date and time are in
+               the form of
+               [[\fIyear\fR:][\fImonth\fR\fR:\fR]\fIday\fR\fR:\fR]\fIhour\fR\fR:\fR\fIminute\fR
+               where the number ranges are as follows: year after
+               1970, month 1-12, day 1-31, hour 0-23, minute
+               0-59.
+.sp 2
+               At least two fields must be specified. These
+               fields are assumed to be hour:minute. If three
+               fields are given, they are assumed to be
+               day:hour:minute, four fields are assumed to be
+               \fImonth\fR\fR:\fR\fIday\fR\fR:\fR\fIhour\fR\fR:\fR\fIminute\fR,
+               and five fields are assumed to be
+               \fIyear\fR:\fImonth\fR:\fIday\fR:\fIhour\fR:\fIminute\fR.
+.sp 2
+               If the year field is specified and the specified
+               time is in the past, the start time condition is
+               considered reached and LSF dispatches the job if
+               slots are available.
+.sp 2
+   \fB-C \fIcore_limit\fB\fR
+.br
+               Sets a per-process (soft) core file size limit for
+               all the processes that belong to this batch job
+               (see getrlimit(2)).
+.sp 2
+               By default, the limit is specified in KB. Use
+               LSF_UNIT_FOR_LIMITS in lsf.conf to specify a
+               larger unit for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+               The behavior of this option depends on
+               platform-specific UNIX or Linux systems.
+.sp 2
+               In some cases, the process is sent a SIGXFSZ
+               signal if the job attempts to create a core file
+               larger than the specified limit. The SIGXFSZ
+               signal normally terminates the process.
+.sp 2
+               In other cases, the writing of the core file
+               terminates at the specified limit.
+.sp 2
+   \fB-c [\fIhour\fB:]\fIminute\fB[/\fIhost_name\fB |
+   /\fIhost_model\fB] \fR
+.br
+               Limits the total CPU time the job can use. This
+               option is useful for preventing runaway jobs or
+               jobs that use up too many resources. When the
+               total CPU time for the whole job has reached the
+               limit, a SIGXCPU signal is first sent to the job,
+               then SIGINT, SIGTERM, and SIGKILL.
+.sp 2
+               If LSB_JOB_CPULIMIT in lsf.conf is set to n,
+               LSF-enforced CPU limit is disabled and LSF passes
+               the limit to the operating system. When one
+               process in the job exceeds the CPU limit, the
+               limit is enforced by the operating system.
+.sp 2
+               The CPU limit is in the form of
+               [\fIhour\fR\fR:\fR]\fIminute\fR. The minutes can
+               be specified as a number greater than 59. For
+               example, three and a half hours can either be
+               specified as 3:30, or 210.
+.sp 2
+               The CPU time you specify is the \fInormalized\fR
+               CPU time. This is done so that the job does
+               approximately the same amount of processing for a
+               given CPU limit, even if it is sent to host with a
+               faster or slower CPU. Whenever a normalized CPU
+               time is given, the actual time on the execution
+               host is the specified time multiplied by the CPU
+               factor of the normalization host then divided by
+               the CPU factor of the execution host.
+.sp 2
+               Optionally, you can supply a host name or a host
+               model name defined in LSF. You must insert a slash
+               (\fR/\fR) between the CPU limit and the host name
+               or model name. If a host name or model name is not
+               given, LSF uses the default CPU time normalization
+               host defined at the queue level (DEFAULT_HOST_SPEC
+               in lsb.queues) if it has been configured,
+               otherwise uses the default CPU time normalization
+               host defined at the cluster level
+               (DEFAULT_HOST_SPEC in lsb.params) if it has been
+               configured, otherwise uses the submission host.
+.sp 2
+               Jobs submitted to a chunk job queue are not
+               chunked if the CPU limit is greater than 30
+               minutes.
+.sp 2
+   \fB-cwd "\fIcurrent_working_directory\fB"\fR
+.br
+               Specifies the current working directory for the
+               job.
+.sp 2
+               By default, if the current working directory is
+               not accessible on the execution host, the job runs
+               in /tmp. If the environment variable
+               LSB_EXIT_IF_CWD_NOTEXIST is set to Y and the
+               current working directory is not accessible on the
+               execution host, the job exits with the exit code
+               2.
+.sp 2
+   \fB-D \fIdata_limit\fB \fR
+.br
+               Sets a per-process (soft) data segment size limit
+               for each of the processes that belong to the batch
+               job (see getrlimit(2)). The limit is specified in
+               KB.
+.sp 2
+               This option affects calls to \fRsbrk()\fR and
+               \fRbrk()\fR . An \fRsbrk()\fR or \fRmalloc()\fR
+               call to extend the data segment beyond the data
+               limit returns an error.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     Linux does not use \fRsbrk()\fR and
+                     \fRbrk()\fR within its \fRcalloc()\fR and
+                     \fRmalloc()\fR. Instead, it uses
+                     (\fRmmap()\fR) to create memory. DATALIMIT
+                     cannot be enforced on Linux applications
+                     that call \fRsbrk()\fR and \fRmalloc()\fR.
+.sp 2
+   \fB-E "\fIpre_exec_command\fB [\fIarguments\fB ...]" \fR
+.br
+               Runs the specified pre-execution command on the
+               execution host before actually running the job.
+               For a parallel job, the pre-execution command runs
+               on the first host selected for the parallel job.
+               If you want the pre-execution command to run on a
+               specific first execution host, specify one or more
+               first execution host candidates at the job level
+               using -m, at the queue level with \fBPRE_EXEC\fR
+               in lsb.queues, or at the application level with
+               \fBPRE_EXEC\fR in lsb.applications.
+.sp 2
+               If the pre-execution command returns a zero (0)
+               exit code, LSF runs the job on the selected host.
+               Otherwise, the job and its associated
+               pre-execution command goes back to PEND status and
+               is rescheduled. LSF keeps trying to run
+               pre-execution commands and pending jobs. After the
+               pre-execution command runs successfully, LSF runs
+               the job. You must ensure that the pre-execution
+               command can run multiple times without causing
+               side effects, such as reserving the same resource
+               more than once.
+.sp 2
+               The standard input and output for the
+               pre-execution command are directed to the same
+               files as the job. The pre-execution command runs
+               under the same user ID, environment, home, and
+               working directory as the job. If the pre-execution
+               command is not in the user’s usual execution path
+               (the $PATH variable), the full path name of the
+               command must be specified.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The command path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory and file name.
+.sp 2
+   \fB-Ep "\fIpost_exec_command\fB [\fIarguments\fB ...]" \fR
+.br
+               Runs the specified post-execution command on the
+               execution host after the job finishes.
+.sp 2
+               If both application-level (\fBPOST_EXEC\fR in
+               lsb.applications) and job-level post-execution
+               commands are specified, job level post-execution
+               overrides application-level post-execution
+               commands. Queue-level post-execution commands
+               (\fBPOST_EXEC\fR in lsb.queues) run after
+               application-level post-execution and job-level
+               post-execution commands.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The command path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory and file name.
+.sp 2
+   \fB-e \fIerror_file\fB\fR
+.br
+               Specify a file path. Appends the standard error
+               output of the job to the specified file.
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard error output of a job
+               is written to the file you specify as the job
+               runs. If LSB_STDOUT_DIRECT is not set, it is
+               written to a temporary file and copied to the
+               specified file after the job finishes.
+               LSB_STDOUT_DIRECT is not supported on Windows.
+.sp 2
+               If you use the special character \fR%J\fR in the
+               name of the error file, then \fR%J\fR is replaced
+               by the job ID of the job. If you use the special
+               character \fR%I\fR in the name of the error file,
+               then \fR%I\fR is replaced by the index of the job
+               in the array if the job is a member of an array.
+               Otherwise, \fR%I\fR is replaced by 0 (zero).
+.sp 2
+               If the current working directory is not accessible
+               on the execution host after the job starts, LSF
+               writes the standard error output file to /tmp/.
+.sp 2
+               If the specified \fIerror_file\fR path is not
+               accessible, the output will not be stored.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory, file name, and expanded values
+                     for %J (\fIjob_ID\fR) and %I
+                     (\fIindex_ID\fR).
+.sp 2
+   \fB-eo \fIerror_file\fB\fR
+.br
+               Specify a file path. Overwrites the standard error
+               output of the job to the specified file.
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard error output of a job
+               is written to the file you specify as the job
+               runs, which occurs every time the job is submitted
+               with the overwrite option, even if it is requeued
+               manually or by the system. If LSB_STDOUT_DIRECT is
+               not set, it is written to a temporary file and
+               copied to the specified file after the job
+               finishes. LSB_STDOUT_DIRECT is not supported on
+               Windows.
+.sp 2
+               If you use the special character \fR%J\fR in the
+               name of the error file, then \fR%J\fR is replaced
+               by the job ID of the job. If you use the special
+               character \fR%I\fR in the name of the error file,
+               then \fR%I\fR is replaced by the index of the job
+               in the array if the job is a member of an array.
+               Otherwise, \fR%I\fR is replaced by 0 (zero).
+.sp 2
+               If the current working directory is not accessible
+               on the execution host after the job starts, LSF
+               writes the standard error output file to /tmp/.
+.sp 2
+               If the specified \fIerror_file\fR path is not
+               accessible, the output will not be stored.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory, file name, and expanded values
+                     for %J (\fIjob_ID\fR) and %I
+                     (\fIindex_ID\fR).
+.sp 2
+   \fB-ext[sched] "\fIexternal_scheduler_options\fB"\fR
+.br
+               Application-specific external scheduling options
+               for the job.
+.sp 2
+               To enable jobs to accept external scheduler
+               options, set LSF_ENABLE_EXTSCHEDULER=y in
+               lsf.conf.
+.sp 2
+               You can abbreviate the -extsched option to -ext.
+.sp 2
+               You can specify only one type of external
+               scheduler option in a single -extsched string.
+.sp 2
+               For example, SGI IRIX hosts and AlphaServer SC
+               hosts running RMS can exist in the same cluster,
+               but they accept different external scheduler
+               options. Use external scheduler options to define
+               job requirements for either IRIX cpusets OR RMS,
+               but not both. Your job runs either on IRIX or RMS.
+               If external scheduler options are not defined, the
+               job may run on IRIX but it does not run on an RMS
+               host.
+.sp 2
+               The options set by -extsched can be combined with
+               the queue-level MANDATORY_EXTSCHED or
+               DEFAULT_EXTSCHED parameters. If -extsched and
+               MANDATORY_EXTSCHED set the same option, the
+               MANDATORY_EXTSCHED setting is used. If -extsched
+               and DEFAULT_EXTSCHED set the same options, the
+               -extsched setting is used.
+.sp 2
+               Use DEFAULT_EXTSCHED in lsb.queues to set default
+               external scheduler options for a queue.
+.sp 2
+               To make certain external scheduler options
+               mandatory for all jobs submitted to a queue,
+               specify MANDATORY_EXTSCHED in lsb.queues with the
+               external scheduler options you need or your jobs.
+.sp 2
+               See Using Platform LSF HPC for information about
+               specific external scheduler options.
+.sp 2
+   \fB-F \fIfile_limit\fB \fR
+.br
+               Sets a per-process (soft) file size limit for each
+               of the processes that belong to the batch job (see
+               getrlimit(2)). The limit is specified in KB.
+.sp 2
+               If a job process attempts to write to a file that
+               exceeds the file size limit, then that process is
+               sent a SIGXFSZ signal. The SIGXFSZ signal normally
+               terminates the process.
+.sp 2
+   \fB-f "\fIlocal_file\fB \fIoperator\fB [\fIremote_file\fB]"
+   ...\fR
+.br
+               Copies a file between the local (submission) host
+               and the remote (execution) host. Specify absolute
+               or relative paths, including the file names. You
+               should specify the remote file as a file name with
+               no path when running in non-shared systems.
+.sp 2
+               If the remote file is not specified, it defaults
+               to the local file, which must be given. Use
+               multiple -f options to specify multiple files.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory and file name.
+.sp 2
+               \fB\fIoperator\fB\fR
+.br
+                           An operator that specifies whether the
+                           file is copied to the remote host, or
+                           whether it is copied back from the
+                           remote host. The operator must be
+                           surrounded by white space.
+.sp 2
+                           The following describes the operators:
+.sp 2
+                           > Copies the local file to the remote
+                           file before the job starts. Overwrites
+                           the remote file if it exists.
+.sp 2
+                           < Copies the remote file to the local
+                           file after the job completes.
+                           Overwrites the local file if it
+                           exists.
+.sp 2
+                           << Appends the remote file to the
+                           local file after the job completes.
+                           The local file must exist.
+.sp 2
+                           >< Copies the local file to the remote
+                           file before the job starts. Overwrites
+                           the remote file if it exists. Then
+                           copies the remote file to the local
+                           file after the job completes.
+                           Overwrites the local file.
+.sp 2
+                           <> Copies the local file to the remote
+                           file before the job starts. Overwrites
+                           the remote file if it exists. Then
+                           copies the remote file to the local
+                           file after the job completes.
+                           Overwrites the local file.
+.sp 2
+               If you use the -i \fIinput_file \fRoption, then
+               you do not have to use the -f option to copy the
+               specified input file to the execution host. LSF
+               does this for you, and removes the input file from
+               the execution host after the job completes.
+.sp 2
+               If you use the -o \fIout_file\fR,-e
+               \fIerr_file\fR, -oo \fIout_file\fR, or the -eo
+               \fIerr_file\fR option, and you want the specified
+               file to be copied back to the submission host when
+               the job completes, then you must use the -f
+               option.
+.sp 2
+               If the submission and execution hosts have
+               different directory structures, you must make sure
+               that the directory where the remote file and local
+               file are placed exists.
+.sp 2
+               If the local and remote hosts have different file
+               name spaces, you must always specify relative path
+               names. If the local and remote hosts do not share
+               the same file system, you must make sure that the
+               directory containing the remote file exists. It is
+               recommended that only the file name be given for
+               the remote file when running in heterogeneous file
+               systems. This places the file in the job’s current
+               working directory. If the file is shared between
+               the submission and execution hosts, then no file
+               copy is performed.
+.sp 2
+               LSF uses lsrcp to transfer files (see lsrcp(1)
+               command). lsrcp contacts RES on the remote host to
+               perform the file transfer. If RES is not
+               available, rcp is used (see rcp(1)). The user must
+               make sure that the rcp binary is in the user’s
+               $PATH on the execution host.
+.sp 2
+               Jobs that are submitted from LSF client hosts
+               should specify the -f option only if rcp is
+               allowed. Similarly, rcp must be allowed if account
+               mapping is used.
+.sp 2
+   \fB-G \fIuser_group\fB\fR
+.br
+               Only useful with fairshare scheduling.
+.sp 2
+               Associates the job with the specified group.
+               Specify any group that you belong to that does not
+               contain any subgroups. You must be a direct member
+               of the specified user group.
+.sp 2
+   \fB-g \fIjob_group_name\fB\fR
+.br
+               Submits jobs in the job group specified by
+               \fIjob_group_name\fR The job group does not have
+               to exist before submitting the job. For example:
+.sp 2
+               bsub -g /risk_group/portfolio1/current myjobJob <105> is submitted to default queue.
+.sp 2
+               Submits \fRmyjob\fR to the job group
+               \fR/risk_group/portfolio1/current\fR.
+.sp 2
+               If group \fR/risk_group/portfolio1/current\fR
+               exists, job 105 is attached to the job group.
+.sp 2
+               Job group names can be up to 512 characters long.
+.sp 2
+               If group \fR/risk_group/portfolio1/current\fR does
+               not exist, LSF checks its parent recursively, and
+               if no groups in the hierarchy exist, all three job
+               groups are created with the specified hierarchy
+               and the job is attached to group.
+.sp 2
+               You can use -g with -sla. All jobs in a job group
+               attached to a service class are scheduled as SLA
+               jobs. It is not possible to have some jobs in a
+               job group not part of the service class. Multiple
+               job groups can be created under the same SLA. You
+               can submit additional jobs to the job group
+               without specifying the service class name again.
+.sp 2
+               For example, the following attaches the job to the
+               service class named opera, and the group
+               \fR/risk_group/portfolio1/current\fR:
+.sp 2
+               bsub -sla opera -g /risk_group/portfolio1/current myjob
+.sp 2
+               To submit another job to the same job group, you
+               can omit the SLA name:
+.sp 2
+               bsub -g /risk_group/portfolio1/current myjob2
+.sp 2
+   \fB-i \fIinput_file\fB | -is \fIinput_file\fB\fR
+.br
+               Gets the standard input for the job from specified
+               file. Specify an absolute or relative path. The
+               input file can be any type of file, though it is
+               typically a shell script text file.
+.sp 2
+               Unless you use -is, you can use the special
+               characters \fR%J\fR and \fR%I\fR in the name of
+               the input file. \fR%J\fR is replaced by the job
+               ID. \fR%I\fR is replaced by the index of the job
+               in the array, if the job is a member of an array,
+               otherwise by 0 (zero). The special characters
+               \fR%J\fR and \fR%I\fR are not valid with the -is
+               option.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory, file name, and expanded values
+                     for %J (\fIjob_ID\fR) and %I
+                     (\fIindex_ID\fR).
+.sp 2
+               If the file exists on the execution host, LSF uses
+               it. Otherwise, LSF attempts to copy the file from
+               the submission host to the execution host. For the
+               file copy to be successful, you must allow remote
+               copy (rcp) access, or you must submit the job from
+               a server host where RES is running. The file is
+               copied from the submission host to a temporary
+               file in the directory specified by the
+               JOB_SPOOL_DIR parameter in lsb.params, or your
+               $HOME/.lsbatch directory on the execution host.
+               LSF removes this file when the job completes.
+.sp 2
+               By default, the input file is spooled to
+               LSB_SHAREDIR/\fIcluster_name\fR/lsf_indir. If the
+               lsf_indir directory does not exist, LSF creates it
+               before spooling the file. LSF removes the spooled
+               file when the job completes. Use the -is option if
+               you need to modify or remove the input file before
+               the job completes. Removing or modifying the
+               original input file does not affect the submitted
+               job.
+.sp 2
+               If JOB_SPOOL_DIR is specified, the -is option
+               spools the input file to the specified directory
+               and uses the spooled file as the input file for
+               the job.
+.sp 2
+               JOB_SPOOL_DIR can be any valid path up to a
+               maximum length up to 4094 characters on UNIX and
+               Linux or up to 255 characters for Windows.
+.sp 2
+               JOB_SPOOL_DIR must be readable and writable by the
+               job submission user, and it must be shared by the
+               master host and the submission host. If the
+               specified directory is not accessible or does not
+               exist, bsub -is cannot write to the default
+               directory
+               LSB_SHAREDIR/\fIcluster_name\fR/lsf_indir and the
+               job fails.
+.sp 2
+   \fB-J \fIjob_name\fB | -J
+   "\fIjob_name\fB[\fIindex_list\fB]%\fIjob_slot_limit\fB"\fR
+.br
+               Assigns the specified name to the job, and, for
+               job arrays, specifies the indices of the job array
+               and optionally the maximum number of jobs that can
+               run at any given time.
+.sp 2
+               The job name does not need to be unique.
+.sp 2
+               Job names can contain up to 4094 characters.
+.sp 2
+               To specify a job array, enclose the index list in
+               square brackets, as shown, and enclose the entire
+               job array specification in quotation marks, as
+               shown. The index list is a comma-separated list
+               whose elements have the syntax [start-end[:step]]
+               where start, end and step are positive integers.
+               If the step is omitted, a step of one is assumed.
+               By default, the job array index starts at one.
+.sp 2
+               By default, the maximum number of jobs in a job
+               array is 1000, which means the maximum size of a
+               job array (that is, the maximum job array index)
+               can never exceed 1000 jobs.
+.sp 2
+               To change the maximum job array value, set
+               MAX_JOB_ARRAY_SIZE in lsb.params to any positive
+               integer between 1 and 2147483646. The maximum
+               number of jobs in a job array cannot exceed the
+               value set by MAX_JOB_ARRAY_SIZE.
+.sp 2
+               You may also use a positive integer to specify the
+               system-wide job slot limit (the maximum number of
+               jobs that can run at any given time) for this job
+               array.
+.sp 2
+               All jobs in the array share the same job ID and
+               parameters. Each element of the array is
+               distinguished by its array index.
+.sp 2
+               After a job is submitted, you use the job name to
+               identify the job. Specify
+               "\fIjob_ID\fR[\fIindex\fR]" to work with elements
+               of a particular array. Specify
+               "\fIjob_name\fR[\fIindex\fR]" to work with
+               elements of all arrays with the same name. Since
+               job names are not unique, multiple job arrays may
+               have the same name with a different or same set of
+               indices.
+.sp 2
+   \fB-Jd "\fIjob_description\fB"\fR
+.br
+               Assigns the specified description to the job; for
+               job arrays, specifies the same job description for
+               all elements in the job array.
+.sp 2
+               The job description does not need to be unique.
+.sp 2
+               Job descriptions can contain up to 4094
+               characters.
+.sp 2
+               After a job is submitted, you can use bmod -Jd to
+               change the job description for any specific job
+               array element, if required.
+.sp 2
+   \fB-jsdl \fIfile_name\fB | -jsdl_strict \fIfile_name\fB\fR
+.br
+               Submits a job using a JSDL file to specify job
+               submission options.
+.sp 2
+               LSF provides an extension to the JSDL
+               specification so that you can submit jobs using
+               LSF features not defined in the JSDL standard
+               schema. The JSDL schema (jsdl.xsd), the POSIX
+               extension (jsdl-posix.xsd), and the LSF extension
+               (jsdl-lsf.xsd) are located in the LSF_LIBDIR
+               directory.
+.sp 2
+                 o  
+                     To submit a job that uses the LSF extension,
+                     use the -jsdl option.
+.sp 2
+                 o  
+                     To submit a job that uses only standard JSDL
+                     elements and POSIX extensions, use the
+                     -jsdl_strict option. You can use the
+                     -jsdl_strict option to verify that your file
+                     contains only valid JSDL elements and POSIX
+                     extensions. Error messages indicate invalid
+                     elements, including:
+.sp 2
+                       o  
+                           Elements that are not part of the JSDL
+                           specification
+.sp 2
+                       o  
+                           Valid JSDL elements that are not
+                           supported in this version of LSF
+.sp 2
+                       o  
+                           Extension elements that are not part
+                           of the JSDL standard and POSIX
+                           extension schemas
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     For a detailed mapping of JSDL elements to
+                     LSF submission options, and for a complete
+                     list of supported and unsupported elements,
+                     see the chapter "Submitting Jobs Using JSDL"
+                     in Administering Platform LSF.
+.sp 2
+               If you specify duplicate or conflicting job
+               submission parameters, LSF resolves the conflict
+               by applying the following rules:
+.sp 2
+               1. 
+                     The parameters specified in the command line
+                     override all other parameters.
+.sp 2
+               2. 
+                     A job script or user input for an
+                     interactive job overrides parameters
+                     specified in the JSDL file.
+.sp 2
+   \fB-k "\fIcheckpoint_dir\fB
+   [init=\fIinitial_checkpoint_period\fB]
+   [\fIcheckpoint_period\fB] [method=\fImethod_name\fB]"\fR
+.br
+               Makes a job checkpointable and specifies the
+               checkpoint directory. Specify a relative or
+               absolute path name. The quotes (") are required is
+               you specify a checkpoint period, initial
+               checkpoint period, or custom checkpoint and
+               restart method name.
+.sp 2
+               The job ID and job file name are concatenated to
+               the checkpoint dir when creating a checkpoint
+               file.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path of the checkpoint directory
+                     can contain up to 4000 characters for UNIX
+                     and Linux, or up to 255 characters for
+                     Windows, including the directory and file
+                     name.
+.sp 2
+               When a job is checkpointed, the checkpoint
+               information is stored in
+               \fIcheckpoint_dir\fR/\fIjob_ID\fR/\fIfile_name\fR.
+               Multiple jobs can checkpoint into the same
+               directory. The system can create multiple files.
+.sp 2
+               The checkpoint directory is used for restarting
+               the job (see brestart(1)). The checkpoint
+               directory can be any valid path.
+.sp 2
+               Optionally, specifies a checkpoint period in
+               minutes. Specify a positive integer. The running
+               job is checkpointed automatically every checkpoint
+               period. The checkpoint period can be changed using
+               bchkpnt. Because checkpointing is a heavyweight
+               operation, you should choose a checkpoint period
+               greater than half an hour.
+.sp 2
+               Optionally, specifies an initial checkpoint period
+               in minutes. Specify a positive integer. The first
+               checkpoint does not happen until the initial
+               period has elapsed. After the first checkpoint,
+               the job checkpoint frequency is controlled by the
+               normal job checkpoint interval.
+.sp 2
+               Optionally, specifies a custom checkpoint and
+               restart method to use with the job. Use
+               method=default to indicate to use the default LSF
+               checkpoint and restart programs for the job,
+               echkpnt.default and erestart.default.
+.sp 2
+               The echkpnt.\fRmethod_name\fR and
+               erestart.\fImethod_name\fR programs must be in
+               LSF_SERVERDIR or in the directory specified by
+               LSB_ECHKPNT_METHOD_DIR (environment variable or
+               set in lsf.conf).
+.sp 2
+               If a custom checkpoint and restart method is
+               already specified with LSB_ECHKPNT_METHOD
+               (environment variable or in lsf.conf), the method
+               you specify with bsub -k overrides this.
+.sp 2
+               Process checkpointing is not available on all host
+               types, and may require linking programs with a
+               special libraries (see libckpt.a(3)). LSF invokes
+               echkpnt (see echkpnt(8)) found in LSF_SERVERDIR to
+               checkpoint the job. You can override the default
+               echkpnt for the job by defining as environment
+               variables or in lsf.conf LSB_ECHKPNT_METHOD and
+               LSB_ECHKPNT_METHOD_DIR to point to your own
+               echkpnt. This allows you to use other
+               checkpointing facilities, including
+               application-level checkpointing.
+.sp 2
+               The checkpoint method directory should be
+               accessible by all users who need to run the custom
+               echkpnt and erestart programs.
+.sp 2
+               Only running members of a chunk job can be
+               checkpointed.
+.sp 2
+   \fB-L \fIlogin_shell\fB \fR
+.br
+               Initializes the execution environment using the
+               specified login shell. The specified login shell
+               must be an absolute path. This is not necessarily
+               the shell under which the job is executed.
+.sp 2
+               Login shell is not supported on Windows.
+.sp 2
+   \fB-Lp \fIls_project_name\fB\fR
+.br
+               Assigns the job to the specified License Scheduler
+               project.
+.sp 2
+   \fB-M \fImem_limit\fB \fR
+.br
+               Sets a per-process (soft) memory limit for all the
+               processes that belong to this batch job (see
+               getrlimit(2)).
+.sp 2
+               By default, the limit is specified in KB. Use
+               LSF_UNIT_FOR_LIMITS in lsf.conf to specify a
+               larger unit for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+               If LSB_MEMLIMIT_ENFORCE or LSB_JOB_MEMLIMIT are
+               set to \fRy\fR in lsf.conf, LSF kills the job when
+               it exceeds the memory limit. Otherwise, LSF passes
+               the memory limit to the operating system. UNIX
+               operating systems that support RUSAGE_RSS for
+               setrlimit() can apply the memory limit to each
+               process.
+.sp 2
+               The following operating systems do not support the
+               memory limit at the OS level:
+.sp 2
+               - Windows
+.sp 2
+               - Sun Solaris 2.x
+.sp 2
+   \fB-m "\fIhost_name\fB[@\fIcluster_name\fB][[!] |
+   +[\fIpref_level\fB]] | \fIhost_group\fB[[!] |+[pref_level]] |
+   \fIcompute_unit\fB[[!] |+[pref_level]]..."\fR
+.br
+               Runs the job on one of the specified hosts, or
+               host groups, or within the specified compute
+               units.
+.sp 2
+               By default, if multiple hosts are candidates, runs
+               the job on the least-loaded host.
+.sp 2
+               When a compute unit requirement is specified along
+               with a host or host group preference, the host or
+               host group preference only affects the host order
+               within the compute unit. In addition the job will
+               be rejected unless:
+.sp 2
+                 o  
+                     A host in the list belongs to a compute
+                     unit, and
+.sp 2
+                 o  
+                     A host in the first execution list belongs
+                     to a compute unit.
+.sp 2
+               When used with a compound resource requirement,
+               the first host allocated must satisfy the simple
+               resource requirement string appearing first in the
+               compound resource requirement.
+.sp 2
+               To change the order of preference, put a plus (+)
+               after the names of hosts or host groups that you
+               would prefer to use, optionally followed by a
+               preference level. For preference level, specify a
+               positive integer, with higher numbers indicating
+               greater preferences for those hosts. For example,
+               -m "hostA groupB+2 hostC+1" indicates that
+               \fRgroupB\fR is the most preferred and \fRhostA\fR
+               is the least preferred.
+.sp 2
+               The keyword others can be specified with or
+               without a preference level to refer to other hosts
+               not otherwise listed. The keyword others must be
+               specified with at least one host name or host
+               group, it cannot be specified by itself. For
+               example, -m "hostA+ others" means that \fRhostA\fR
+               is preferred over all other hosts.
+.sp 2
+               If you also use -q, the specified queue must be
+               configured to include at least a partial list of
+               the hosts in your host list. Otherwise, the job is
+               not submitted. To find out what hosts are
+               configured for the queue, use bqueues -l.
+.sp 2
+               If the host group contains the keyword all, LSF
+               dispatches the job to any available host, even if
+               the host is not defined for the specified queue.
+.sp 2
+               To display configured host groups and compute
+               units, use bmgroup.
+.sp 2
+               For the MultiCluster job forwarding model, you
+               cannot specify a remote host by name.
+.sp 2
+               For parallel jobs, specify first execution host
+               candidates when you want to ensure that a host has
+               the required resources or runtime environment to
+               handle processes that run on the first execution
+               host.
+.sp 2
+               To specify one or more hosts or host groups as
+               first execution host candidates, add the (!)
+               symbol after the host name, as shown in the
+               following example:
+.sp 2
+               \fRbsub -n 2 -m "host1 host2! hostgroupA! host3
+               host4" my_parallel_job\fR
+.sp 2
+               LSF runs \fRmy_parallel_job\fR according to the
+               following steps:
+.sp 2
+               1. 
+                     LSF selects either host2 or a host defined
+                     in \fRhostgroupA\fR as the first execution
+                     host for the parallel job.
+.sp 2
+                        \fBNote: \fR
+.sp 2
+                           First execution host candidates
+                           specified at the job-level (command
+                           line) override candidates defined at
+                           the queue level (in lsb.queues).
+.sp 2
+               2. 
+                     If any of the first execution host
+                     candidates have enough processors to run the
+                     job, the entire job runs on the first
+                     execution host, and not on any other hosts.
+.sp 2
+                     In the example, if \fRhost2\fR or a member
+                     of \fRhostgroupA\fR has two or more
+                     processors, the entire job runs on the first
+                     execution host.
+.sp 2
+               3. 
+                     If the first execution host does not have
+                     enough processors to run the entire job, LSF
+                     selects additional hosts that are not
+                     defined as first execution host candidates.
+.sp 2
+                     Follow these guidelines when you specify
+                     first execution host candidates:
+.sp 2
+                       o  
+                           If you specify a host group, you must
+                           first define the host group in the
+                           file lsb.hosts.
+.sp 2
+                       o  
+                           Do not specify a dynamic host group as
+                           a first execution host.
+.sp 2
+                       o  
+                           Do not specify all, allremote, or
+                           others, or a host partition as a first
+                           execution host.
+.sp 2
+                       o  
+                           Do not specify a preference (+) for a
+                           host identified by (!) as a first
+                           execution host candidate.
+.sp 2
+                       o  
+                           For each parallel job, specify enough
+                           regular hosts to satisfy the processor
+                           requirement for the job. Once LSF
+                           selects a first execution host for the
+                           current job, the other first execution
+                           host candidates become unavailable to
+                           the current job, but remain available
+                           to other jobs as either regular or
+                           first execution hosts.
+.sp 2
+                       o  
+                           You cannot specify first execution
+                           host candidates when you use the brun
+                           command.
+.sp 2
+               In a MultiCluster environment, insert the (!)
+               symbol after the cluster name, as shown in the
+               following example:
+.sp 2
+               \fRbsub -n 2 -m "host2@cluster2! host3@cluster2"
+               my_parallel_job\fR
+.sp 2
+               When specifying compute units, the job runs within
+               the listed compute units. Used in conjunction with
+               a mandatory first execution host, the compute unit
+               containing the first execution host is given
+               preference.
+.sp 2
+               In the following example one host from host group
+               \fRhg\fR appears first, followed by other hosts
+               within the same compute unit. Remaining hosts from
+               other compute units appear grouped by compute, and
+               in the same order as configured in the ComputeUnit
+               section of lsb.hosts.
+.sp 2
+               \fRbsub -n 64 -m "hg! cu1 cu2 cu3 cu4" -R
+               "cu[pref=config]" my_job\fR
+.sp 2
+   \fB-mig \fImigration_threshold\fB\fR
+.br
+               Specifies the migration threshold for
+               checkpointable or rerunnable jobs in minutes.
+               Enables automatic job migration and specifies the
+               migration threshold, in minutes. A value of 0
+               (zero) specifies that a suspended job should be
+               migrated immediately.
+.sp 2
+               Command-level job migration threshold overrides
+               application profile and queue-level settings.
+.sp 2
+               Where a host migration threshold is also
+               specified, and is lower than the job value, the
+               host value is used.
+.sp 2
+   \fB-n \fImin_proc\fB[,\fImax_proc\fB]\fR
+.br
+               Submits a parallel job and specifies the number of
+               processors required to run the job (some of the
+               processors may be on the same multiprocessor
+               host).
+.sp 2
+               You can specify a minimum and maximum number of
+               processors to use. The job can start if at least
+               the minimum number of processors is available. If
+               you do not specify a maximum, the number you
+               specify represents the exact number of processors
+               to use.
+.sp 2
+               If PARALLEL_SCHED_BY_SLOT=Y in lsb.params, this
+               option specifies the number of slots required to
+               run the job, not the number of processors.
+.sp 2
+               When used with the -R option and a compound
+               resource requirement, the number of slots in the
+               compound resource requirement must be compatible
+               with the minimum and maximum specified.
+.sp 2
+               Jobs that request fewer slots than the minimum
+               PROCLIMIT defined for the queue or application
+               profile to which the job is submitted, or more
+               slots than the maximum PROCLIMIT are rejected. If
+               the job requests minimum and maximum job slots,
+               the maximum slots requested cannot be less than
+               the minimum PROCLIMIT, and the minimum slots
+               requested cannot be more than the maximum
+               PROCLIMIT.
+.sp 2
+               For example, if the queue defines PROCLIMIT=4 8:
+.sp 2
+                 o  
+                     bsub -n 6 is accepted because it requests
+                     slots within the range of PROCLIMIT
+.sp 2
+                 o  
+                     bsub -n 9 is rejected because it requests
+                     more slots than the PROCLIMIT allows
+.sp 2
+                 o  
+                     bsub -n 1 is rejected because it requests
+                     fewer slots than the PROCLIMIT allows
+.sp 2
+                 o  
+                     bsub -n 6,10 is accepted because the minimum
+                     value 6 is within the range of the PROCLIMIT
+                     setting
+.sp 2
+                 o  
+                     bsub -n 1,6 is accepted because the maximum
+                     value 6 is within the range of the PROCLIMIT
+                     setting
+.sp 2
+                 o  
+                     bsub -n 10,16 is rejected because its range
+                     is outside the range of PROCLIMIT
+.sp 2
+                 o  
+                     bsub -n 1,3 is rejected because its range is
+                     outside the range of PROCLIMIT
+.sp 2
+               See the PROCLIMIT parameter in lsb.queues(5) and
+               lsb.applications(5) for more information.
+.sp 2
+               In a MultiCluster environment, if a queue exports
+               jobs to remote clusters (see the SNDJOBS_TO
+               parameter in lsb.queues), then the process limit
+               is not imposed on jobs submitted to this queue.
+.sp 2
+               Once at the required number of processors is
+               available, the job is dispatched to the first host
+               selected. The list of selected host names for the
+               job are specified in the environment variables
+               LSB_HOSTS and LSB_MCPU_HOSTS. The job itself is
+               expected to start parallel components on these
+               hosts and establish communication among them,
+               optionally using RES.
+.sp 2
+               Specify first execution host candidates using the
+               -m option when you want to ensure that a host has
+               the required resources or runtime environment to
+               handle processes that run on the first execution
+               host.
+.sp 2
+               If you specify one or more first execution host
+               candidates, LSF looks for a first execution host
+               that satisfies the resource requirements. If the
+               first execution host does not have enough
+               processors or job slots to run the entire job, LSF
+               looks for additional hosts.
+.sp 2
+   \fB-o \fIoutput_file\fB\fR
+.br
+               Specify a file path. Appends the standard output
+               of the job to the specified file. Sends the output
+               by mail if the file does not exist, or the system
+               has trouble writing to it.
+.sp 2
+               If only a file name is specified, LSF writes the
+               output file to the current working directory. If
+               the current working directory is not accessible on
+               the execution host after the job starts, LSF
+               writes the standard output file to /tmp/.
+.sp 2
+               If the specified \fIoutput_file\fR path is not
+               accessible, the output will not be stored.
+.sp 2
+               If you use the special character \fR%J\fR in the
+               name of the output file, then \fR%J\fR is replaced
+               by the job ID of the job. If you use the special
+               character \fR%I\fR in the name of the output file,
+               then \fR%I\fR is replaced by the index of the job
+               in the array, if the job is a member of an array.
+               Otherwise, \fR%I\fR is replaced by 0 (zero).
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory, file name, and expanded values
+                     for %J (\fIjob_ID\fR) and %I
+                     (\fIindex_ID\fR).
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard output of a job is
+               written to the file you specify as the job runs.
+               If LSB_STDOUT_DIRECT is not set, it is written to
+               a temporary file and copied to the specified file
+               after the job finishes. LSB_STDOUT_DIRECT is not
+               supported on Windows.
+.sp 2
+               If you use -o without -e or -eo, the standard
+               error of the job is stored in the output file.
+.sp 2
+               If you use -o without -N, the job report is stored
+               in the output file as the file header.
+.sp 2
+               If you use both -o and -N, the output is stored in
+               the output file and the job report is sent by
+               mail. The job report itself does not contain the
+               output, but the report advises you where to find
+               your output.
+.sp 2
+   \fB-oo \fIoutput_file\fB\fR
+.br
+               Specify a file path. Overwrites the standard
+               output of the job to the specified file if it
+               exists, or sends the output to a new file if it
+               does not exist. Sends the output by mail if the
+               system has trouble writing to the file.
+.sp 2
+               If only a file name is specified, LSF writes the
+               output file to the current working directory. If
+               the current working directory is not accessible on
+               the execution host after the job starts, LSF
+               writes the standard output file to /tmp/.
+.sp 2
+               If the specified \fIoutput_file\fR path is not
+               accessible, the output will not be stored.
+.sp 2
+               If you use the special character \fR%J\fR in the
+               name of the output file, then \fR%J\fR is replaced
+               by the job ID of the job. If you use the special
+               character \fR%I\fR in the name of the output file,
+               then \fR%I\fR is replaced by the index of the job
+               in the array, if the job is a member of an array.
+               Otherwise, \fR%I\fR is replaced by 0 (zero).
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters for UNIX and Linux, or up to 255
+                     characters for Windows, including the
+                     directory, file name, and expanded values
+                     for %J (\fIjob_ID\fR) and %I
+                     (\fIindex_ID\fR).
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard output of a job
+               overwrites the output file you specify as the job
+               runs, which occurs every time the job is submitted
+               with the overwrite option, even if it is requeued
+               manually or by the system. If LSB_STDOUT_DIRECT is
+               not set, the output is written to a temporary file
+               that overwrites the specified file after the job
+               finishes. LSB_STDOUT_DIRECT is not supported on
+               Windows.
+.sp 2
+               If you use -oo without -e or -eo, the standard
+               error of the job is stored in the output file.
+.sp 2
+               If you use -oo without -N, the job report is
+               stored in the output file as the file header.
+.sp 2
+               If you use both -oo and -N, the output is stored
+               in the output file and the job report is sent by
+               mail. The job report itself does not contain the
+               output, but the report advises you where to find
+               your output.
+.sp 2
+   \fB-P \fIproject_name\fB \fR
+.br
+               Assigns the job to the specified project.
+.sp 2
+               On IRIX 6, you must be a member of the project as
+               listed in /etc/project(4). If you are a member of
+               the project, then /etc/projid(4) maps the project
+               name to a numeric project ID. Before the submitted
+               job executes, a new array session
+               (newarraysess(2)) is created and the project ID is
+               assigned to it using setprid(2).
+.sp 2
+   \fB-p \fIprocess_limit\fB\fR
+.br
+               Sets the limit of the number of processes to
+               \fIprocess_limit\fR for the whole job. The default
+               is no limit. Exceeding the limit causes the job to
+               terminate.
+.sp 2
+   \fB-Q "[\fIexit_code\fB …] [EXCLUDE(\fIexit_code\fB …)]" \fR
+.br
+               Specify automatic job requeue exit values. Use
+               spaces to separate multiple exit codes. The
+               reserved keyword all specifies all exit codes.
+               Exit codes are typically between 0 and 255. Use a
+               tilde (~) to exclude specified number or numbers
+               from the list.
+.sp 2
+               \fIexit_code\fR has the following form:
+.sp 2
+               "[all] [~number ...] | [number ...]"
+.sp 2
+               Job level exit values override application-level
+               and queue-level values.
+.sp 2
+               Jobs running with the specified exit code share
+               the same application and queue with other jobs.
+.sp 2
+               Define an exit code as EXCLUDE(\fIexit_code\fR) to
+               enable exclusive job requeue. Exclusive job
+               requeue does not work for parallel jobs.
+.sp 2
+               If mbatchd is restarted, it does not remember the
+               previous hosts from which the job exited with an
+               exclusive requeue exit code. In this situation, it
+               is possible for a job to be dispatched to hosts on
+               which the job has previously exited with an
+               exclusive exit code.
+.sp 2
+   \fB-q "\fIqueue_name\fB ..."\fR
+.br
+               Submits the job to one of the specified queues.
+               Quotes are optional for a single queue. The
+               specified queues must be defined for the local
+               cluster. For a list of available queues in your
+               local cluster, use bqueues.
+.sp 2
+               When a list of queue names is specified, LSF
+               selects the most appropriate queue in the list for
+               your job based on the job’s resource limits, and
+               other restrictions, such as the requested hosts,
+               your accessibility to a queue, queue status
+               (closed or open), etc. The order in which the
+               queues are considered is the same order in which
+               these queues are listed. The queue listed first is
+               considered first.
+.sp 2
+   \fB-R "\fIres_req\fB" [-R "\fIres_req\fB" …]\fR
+.br
+               Runs the job on a host that meets the specified
+               resource requirements. A resource requirement
+               string describes the resources a job needs. LSF
+               uses resource requirements to select hosts for job
+               execution. Resource requirement strings can be
+               simple (applying to the entire job) or compound
+               (applying to the specified number of slots).
+.sp 2
+               Simple resource requirement strings are divided
+               into the following sections. Each section has a
+               different syntax.
+.sp 2
+                 o  
+                     A selection section (select). The selection
+                     section specifies the criteria for selecting
+                     execution hosts from the system.
+.sp 2
+                 o  
+                     An ordering section (order). The ordering
+                     section indicates how the hosts that meet
+                     the selection criteria should be sorted.
+.sp 2
+                 o  
+                     A resource usage section (rusage). The
+                     resource usage section specifies the
+                     expected resource consumption of the task.
+.sp 2
+                 o  
+                     A job spanning section (span). The job
+                     spanning section indicates if a parallel
+                     batch job should span across multiple hosts.
+.sp 2
+                 o  
+                     A same resource section (same). The same
+                     section indicates that all processes of a
+                     parallel job must run on the same type of
+                     host.
+.sp 2
+                 o  
+                     A compute unit resource section (cu). The
+                     compute unit section specifies topological
+                     requirements for spreading a job over the
+                     cluster.
+.sp 2
+               The resource requirement string sections have the
+               following syntax:
+.sp 2
+               select[selection_string] order[order_string] rusage[usage_string [, usage_string][|| usage_string]...] span[span_string] same[same_string] cu[cu_string]
+.sp 2
+               The square brackets must be typed as shown for
+               each section. A blank space must separate each
+               resource requirement section.
+.sp 2
+               You can omit the select keyword and the square
+               brackets, but the selection string must be the
+               first string in the resource requirement string.
+               If you do not give a section name, the first
+               resource requirement string is treated as a
+               selection string (select[\fIselection_string\fR]).
+.sp 2
+               Compound resource requirement strings are made up
+               of one or more simple resource requirement strings
+               as follows:
+.sp 2
+               num1*{simple_string1} + num2*{simple_string2} + ...
+.sp 2
+               where \fInumx\fR is the number of slots affected
+               and \fIsimple_stringx\fR is a simple resource
+               requirement string.
+.sp 2
+               For jobs without the number of total slots
+               specified using bsub -n, the final \fInumx\fR can
+               be omitted. The final resource requirement is then
+               applied to the zero or more slots not yet
+               accounted for as follows:
+.sp 2
+                 o  
+                     (final res_req number of slots) = (total
+                     number of job
+                     slots)-(\fInum1\fR+\fInum2\fR+...)
+.sp 2
+               For jobs with the total number of slots specified
+               using bsub -n \fInum_slots\fR, the total number of
+               slots must match the number of slots in the
+               resource requirement as follows:
+.sp 2
+                 o  
+                     \fInum_slots\fR=(\fInum1\fR+\fInum2\fR+\fInum3\fR+...)
+.sp 2
+               For jobs with the minimum amd maximum number of
+               slots specified using bsub -n \fImin\fR, \fImax\fR
+               , the number of slots in the compound resource
+               requirement must be compatible with the minimum
+               and maximum specified.
+.sp 2
+               Compound resource requirements do not support use
+               of the || operator within the component rusage
+               simple resource requirements, multiple -R options,
+               or use of the cu section.
+.sp 2
+               Each simple resource requirement string must be
+               contained in curly brackets. Each section has a
+               different syntax.
+.sp 2
+               The size of the resource requirement string cannot
+               exceed 512 characters. If you need to include a
+               hyphen (-) or other non-alphabet characters within
+               the string, enclose the text in single quotation
+               marks, for example, bsub -R
+               "select[hname!='host06-x12']".
+.sp 2
+               If \fRLSF_STRICT_RESREQ=Y\fR in lsf.conf, the
+               selection string must conform to the stricter
+               resource requirement string syntax described in
+               Administering Platform LSF. The strict resource
+               requirement syntax only applies to the select
+               section. It does not apply to the other resource
+               requirement sections (order, rusage, same, span,
+               or cu). When \fRLSF_STRICT_RESREQ=Y\fR in
+               lsf.conf, LSF rejects resource requirement strings
+               where an rusage section contains a non-consumable
+               resource.
+.sp 2
+               If \fBRESRSV_LIMIT\fR is set in lsb.queues, the
+               merged application-level and job-level rusage
+               consumable resource requirements must satisfy any
+               limits set by \fBRESRSV_LIMIT\fR, or the job will
+               be rejected.
+.sp 2
+               Any resource for run queue length, such as r15s,
+               r1m or r15m, specified in the resource
+               requirements refers to the normalized run queue
+               length.
+.sp 2
+               By default, memory (mem) and swap (swp) limits in
+               select[] and rusage[] sections are specified in
+               MB. Use \fBLSF_UNIT_FOR_LIMITS\fR in lsf.conf to
+               specify a larger unit for the these limits (MB,
+               GB, TB, PB, or EB).
+.sp 2
+               For example, to submit a job that runs on Solaris
+               7 or Solaris 8:
+.sp 2
+               bsub -R "sol7 || sol8" myjob
+.sp 2
+               The following command runs the job called
+               \fRmyjob\fR on an HP-UX host that is lightly
+               loaded (CPU utilization) and has at least 15 MB of
+               swap memory available.
+.sp 2
+               bsub -R "swp > 15 && hpux order[ut]" myjob
+.sp 2
+               bsub also accepts multiple -R options for the
+               order, same, rusage (not multi-phase), and select
+               sections. You can specify multiple strings instead
+               of using the && operator:
+.sp 2
+               \fRbsub -R "select[swp > 15]" -R "select[hpux]
+               order[r15m]" -R rusage[mem=100]" -R "order[ut]" -R
+               "same[type]" -R "rusage[tmp=50:duration=60]" -R
+               "same[model]" myjob\fR
+.sp 2
+               LSF merges the multiple -R options into one string
+               and selects a host that meets all of the resource
+               requirements. The number of -R option sections is
+               unlimited, up to a maximum of 512 characters for
+               the entire string.
+.sp 2
+                  \fBRemember: \fR
+.sp 2
+                     Use multiple -R options only with the order,
+                     same, rusage (not multi-phase), and select
+                     sections of simple resource requirement
+                     strings and with the bsub and bmod commands.
+.sp 2
+               When application-level, and queue-level cu
+               sections are also defined, the job-level cu
+               section takes precedence and overwrites both the
+               application-level and queue-level requirement
+               definitions.
+.sp 2
+               \fREXCLUSIVE=CU[enclosure]\fR in lsb.queues, with
+               a compute unit type \fRenclosure\fR in lsf.params,
+               and \fRComputeUnit\fR section in lsb.hosts. Use
+               the following command to submit a job that runs on
+               64 slots over 4 enclosures or less, and uses the
+               enclosures exclusively:
+.sp 2
+               bsub -n 64 -R "cu[excl:type=enclosure:maxcus=4]" myjob
+.sp 2
+               A resource called bigmem is defined in lsf.shared
+               as an exclusive resource for \fRhostE\fR in
+               lsf.cluster.mycluster. Use the following command
+               to submit a job that runs on \fRhostE\fR:
+.sp 2
+               bsub -R "bigmem" myjob
+.sp 2
+               or
+.sp 2
+               bsub -R "defined(bigmem)" myjob
+.sp 2
+               A static shared resource is configured for
+               licenses for the Verilog application as a resource
+               called \fRverilog_lic\fR. To submit a job that
+               runs on a host when there is a license available:
+.sp 2
+               bsub -R "select[defined(verilog_lic)] rusage[verilog_lic=1]" myjob
+.sp 2
+               The following job requests 20 MB memory for the
+               duration of the job, and 1 license for 2 minutes:
+.sp 2
+               bsub -R "rusage[mem=20, license=1:duration=2]" myjob
+.sp 2
+               The following job requests 20 MB of memory and 50
+               MB of swap space for 1 hour, and 1 license for 2
+               minutes:
+.sp 2
+               bsub -R "rusage[mem=20:swp=50:duration=1h, license=1:duration=2]" myjob
+.sp 2
+               The following job requests 20 MB of memory for the
+               duration of the job, 50 MB of swap space for 1
+               hour, and 1 license for 2 minutes.
+.sp 2
+               bsub -R "rusage[mem=20,swp=50:duration=1h, license=1:duration=2]" myjob
+.sp 2
+               The following job requests 50 MB of swap space,
+               linearly decreasing the amount reserved over a
+               duration of 2 hours, and requests 1 license for 2
+               minutes:
+.sp 2
+               bsub -R "rusage[swp=50:duration=2h:decay=1, license=1:duration=2]" myjob
+.sp 2
+               The following job requests two resources with same
+               duration but different decay:
+.sp 2
+               bsub -R "rusage[mem=20:duration=30:decay=1, lic=1:duration=30]" myjob
+.sp 2
+               The following job uses a multi-phase rusage string
+               to request 50 MB of memory for 10 minutes,
+               followed by 10 MB of memory for the duration of
+               the job:
+.sp 2
+               bsub -R "rusage[mem=(50 10):duration=(10):decay=(0)]" myjob
+.sp 2
+               You are running an application version 1.5 as a
+               resource called \fRapp_lic_v15\fR and the same
+               application version 2.0.1 as a resource called
+               \fRapp_lic_v201\fR. The license key for version
+               2.0.1 is backward compatible with version 1.5, but
+               the license key for version 1.5 does not work with
+               2.0.1.
+.sp 2
+               Job-level resource requirement specifications that
+               use the \fR||\fR operator take precedence over any
+               queue-level resource requirement specifications.
+.sp 2
+                 o  
+                     If you can only run your job using one
+                     version of the application, submit the job
+                     without specifying an alternative resource.
+                     To submit a job that only uses
+                     \fRapp_lic_v201\fR:
+.sp 2
+                     bsub -R "rusage[app_lic_v201=1]" myjob
+.sp 2
+                 o  
+                     If you can run your job using either version
+                     of the application, try to reserve version
+                     2.0.1 of the application. If it is not
+                     available, you can use version 1.5. To
+                     submit a job that tries \fRapp_lic_v201\fR
+                     before trying \fRapp_lic_v15\fR:
+.sp 2
+                     bsub -R "rusage[app_lic_v201=1||app_lic_v15=1]" myjob
+.sp 2
+                 o  
+                     If different versions of an application
+                     require different system resources, you can
+                     specify other resources in your \fRrusage\fR
+                     strings. To submit a job that uses 20 MB of
+                     memory for \fRapp_lic_v201\fR or 20 MB of
+                     memory and 50 MB of swap space for
+                     \fRapp_lic_v15\fR:
+.sp 2
+                     bsub -R "rusage[mem=20:app_lic_v15=1||mem=20:swp=50:app_lic_v201=1]" myjob
+.sp 2
+   \fB-S \fIstack_limit\fB \fR
+.br
+               Sets a per-process (soft) stack segment size limit
+               for each of the processes that belong to the batch
+               job (see getrlimit(2)).
+.sp 2
+               By default, the limit is specified in KB. Use
+               LSF_UNIT_FOR_LIMITS in lsf.conf to specify a
+               larger unit for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+   \fB-s \fIsignal\fB\fR
+.br
+               Send the specified signal when a queue-level run
+               window closes.
+.sp 2
+               By default, when the window closes, LSF suspends
+               jobs running in the queue (job state becomes
+               SSUSP) and stops dispatching jobs from the queue.
+.sp 2
+               Use -s to specify a signal number; when the run
+               window closes, the job is signalled by this signal
+               instead of being suspended.
+.sp 2
+   \fB-rnc \fIresize_notification_cmd\fB\fR
+.br
+               Specify the full path of an executable to be
+               invoked on the first execution host when the job
+               allocation has been modified (both shrink and
+               grow). -rnc overrides the notification command
+               specified in the application profile (if
+               specified). The maximum length of the notification
+               command is 4 KB.
+.sp 2
+   \fB-sla \fIservice_class_name\fB\fR
+.br
+               Specifies the service class where the job is to
+               run.
+.sp 2
+               If the SLA does not exist or the user is not a
+               member of the service class, the job is rejected.
+.sp 2
+               If EGO-enabled SLA scheduling is configured with
+               ENABLE_DEFAULT_EGO_SLA in lsb.params, jobs
+               submitted without -sla are attached to the
+               configured default SLA.
+.sp 2
+               You can use -g with -sla. All jobs in a job group
+               attached to a service class are scheduled as SLA
+               jobs. It is not possible to have some jobs in a
+               job group not part of the service class. Multiple
+               job groups can be created under the same SLA. You
+               can submit additional jobs to the job group
+               without specifying the service class name again.
+.sp 2
+                  \fBTip: \fR
+.sp 2
+                     You should submit your jobs with a runtime
+                     limit (-W option) or you should specify a
+                     run time limit in a queue or application
+                     profile (RUNLIMIT in the queue definition in
+                     lsb.queues or RUNLIMIT in the application
+                     profile definition in lsb.applications). If
+                     you do not specify a run time limit, LSF
+                     automatically adjusts the optimum number of
+                     running jobs according to the observed run
+                     time of finished jobs.
+.sp 2
+               Use bsla to display the properties of service
+               classes configured in
+               LSB_CONFDIR/\fIcluster_name\fR/configdir/lsb.serviceclasses
+               (see lsb.serviceclasses(5)) and dynamic
+               information about the state of each service class.
+.sp 2
+   \fB-sp \fIpriority\fB\fR
+.br
+               Specifies user-assigned job priority that allows
+               users to order their jobs in a queue. Valid values
+               for priority are any integers between 1 and
+               MAX_USER_PRIORITY (configured in lsb.params,
+               displayed by bparams -l). Job priorities that are
+               not valid are rejected. LSF and queue
+               administrators can specify priorities beyond
+               MAX_USER_PRIORITY.
+.sp 2
+               The job owner can change the priority of their own
+               jobs. LSF and queue administrators can change the
+               priority of all jobs in a queue.
+.sp 2
+               Job order is the first consideration to determine
+               job eligibility for dispatch. Jobs are still
+               subject to all scheduling policies regardless of
+               job priority. Jobs with the same priority are
+               ordered first come first served.
+.sp 2
+               User-assigned job priority can be configured with
+               automatic job priority escalation to automatically
+               increase the priority of jobs that have been
+               pending for a specified period of time
+               (JOB_PRIORITY_OVER_TIME in lsb.params).
+.sp 2
+               When absolute priority scheduling is configured in
+               the submission queue (APS_PRIORITY in lsb.queues),
+               the user-assigned job priority is used for the
+               JPRIORITY factor in the APS calculation.
+.sp 2
+   \fB-T \fIthread_limit\fB\fR
+.br
+               Sets the limit of the number of concurrent threads
+               to \fIthread_limit\fR for the whole job. The
+               default is no limit.
+.sp 2
+               Exceeding the limit causes the job to terminate.
+               The system sends the following signals in sequence
+               to all processes belongs to the job: SIGINT,
+               SIGTERM, and SIGKILL.
+.sp 2
+   \fB-t
+   [[\fIyear\fB:][\fImonth\fB:]\fIday\fB:]\fIhour\fB:\fIminute\fB
+   \fR
+.br
+               Specifies the job termination deadline.
+.sp 2
+               If a UNIX job is still running at the termination
+               time, the job is sent a SIGUSR2 signal, and is
+               killed if it does not terminate within ten
+               minutes.
+.sp 2
+               If a Windows job is still running at the
+               termination time, it is killed immediately. (For a
+               detailed description of how these jobs are killed,
+               see bkill.)
+.sp 2
+               In the queue definition, a TERMINATE action can be
+               configured to override the bkill default action
+               (see the JOB_CONTROLS parameter in lsb.queues(5)).
+.sp 2
+               In an application profile definition, a
+               TERMINATE_CONTROL action can be configured to
+               override the bkill default action (see the
+               TERMINATE_CONTROL parameter in
+               lsb.applications(5)).
+.sp 2
+               The format for the termination time is
+               [[\fIyear\fR:][\fImonth\fR\fR:\fR]\fIday\fR\fR:\fR]\fIhour\fR\fR:\fR\fIminute\fR
+               where the number ranges are as follows: year after
+               1970, month 1-12, day 1-31, hour 0-23, minute
+               0-59.
+.sp 2
+               At least two fields must be specified. These
+               fields are assumed to be
+               \fIhour\fR\fR:\fR\fIminute\fR. If three fields are
+               given, they are assumed to be
+               \fIday\fR\fR:\fR\fIhour\fR\fR:\fR\fIminute\fR,
+               four fields are assumed to be
+               \fImonth\fR\fR:\fR\fIday\fR\fR:\fR\fIhour\fR\fR:\fR\fIminute\fR
+               and five fields are assumed to be \fIyear\fR:
+               \fImonth\fR\fR:\fR\fIday\fR\fR:\fR\fIhour\fR\fR:\fR\fIminute\fR.
+.sp 2
+               If the year field is specified and the specified
+               time is in the past, the job submission request is
+               rejected.
+.sp 2
+   \fB-U \fIreservation_ID\fB\fR
+.br
+               If an advance reservation has been created with
+               the brsvadd command, the -U option makes use of
+               the reservation.
+.sp 2
+               For example, if the following command was used to
+               create the reservation user1#0,
+.sp 2
+               brsvadd -n 1024 -m hostA -u user1 -b 13:0 -e 18:0Reservation "user1#0" is created
+.sp 2
+               The following command uses the reservation:
+.sp 2
+               bsub -U user1#0 myjob
+.sp 2
+               The job can only use hosts reserved by the
+               reservation \fRuser1#0\fR. LSF only selects hosts
+               in the reservation. You can use the -m option to
+               specify particular hosts within the list of hosts
+               reserved by the reservation, but you cannot
+               specify other hosts not included in the original
+               reservation.
+.sp 2
+               If you do not specify hosts (bsub -m) or resource
+               requirements (bsub -R), the default resource
+               requirement is to select hosts that are of any
+               host type (LSF assumes "type==any" instead of
+               "type==local" as the default select string).
+.sp 2
+               If you later delete the advance reservation while
+               it is still active, any pending jobs still keep
+               the "type==any" attribute.
+.sp 2
+               A job can only use one reservation. There is no
+               restriction on the number of jobs that can be
+               submitted to a reservation; however, the number of
+               slots available on the hosts in the reservation
+               may run out. For example, reservation
+               \fRuser2#0\fR reserves 128 slots on \fRhostA\fR.
+               When all 128 slots on \fRhostA\fR are used by jobs
+               referencing \fRuser2#0\fR, \fRhostA\fR is no
+               longer available to other jobs using reservation
+               \fRuser2#0\fR. Any single user or user group can
+               have a maximum of 100 reservation IDs
+.sp 2
+               Jobs referencing the reservation are killed when
+               the reservation expires. LSF administrators can
+               prevent running jobs from being killed when the
+               reservation expires by changing the termination
+               time of the job using the reservation (bmod -t)
+               before the reservation window closes.
+.sp 2
+               To use an advance reservation on a remote host,
+               submit the job and specify the remote advance
+               reservation ID. For example:
+.sp 2
+               bsub -U user1#01@cluster1
+.sp 2
+               In this example, we assume the default queue is
+               configured to forward jobs to the remote cluster.
+.sp 2
+   \fB-u \fImail_user\fB\fR
+.br
+               Sends mail to the specified email destination. To
+               specify a Windows user account, include the domain
+               name in uppercase letters and use a single
+               backslash (\fIDOMAIN_NAME\fR\\fIuser_name\fR) in a
+               Windows command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB-v \fIswap_limit\fB\fR
+.br
+               Set the total process virtual memory limit to
+               \fIswap_limit\fR for the whole job. The default is
+               no limit. Exceeding the limit causes the job to
+               terminate.
+.sp 2
+               By default, the limit is specified in KB. Use
+               LSF_UNIT_FOR_LIMITS in lsf.conf to specify a
+               larger unit for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+   \fB-W [\fIhour\fB:]\fIminute\fB[/\fIhost_name\fB |
+   /\fIhost_model\fB]\fR
+.br
+               Sets the runtime limit of the batch job. If a UNIX
+               job runs longer than the specified run limit, the
+               job is sent a SIGUSR2 signal, and is killed if it
+               does not terminate within ten minutes. If a
+               Windows job runs longer than the specified run
+               limit, it is killed immediately. (For a detailed
+               description of how these jobs are killed, see
+               bkill.)
+.sp 2
+               In the queue definition, a TERMINATE action can be
+               configured to override the bkill default action
+               (see the JOB_CONTROLS parameter in lsb.queues(5)).
+.sp 2
+               In an application profile definition, a
+               TERMINATE_CONTROL action can be configured to
+               override the bkill default action (see the
+               TERMINATE_CONTROL parameter in
+               lsb.applications(5)).
+.sp 2
+               If you want to provide LSF with an estimated run
+               time without killing jobs that exceed this value,
+               submit the job with -We, or define the RUNTIME
+               parameter in lsb.applications and submit the job
+               to that application profile. LSF uses the
+               estimated runtime value for scheduling purposes
+               only.
+.sp 2
+               The run limit is in the form of
+               [\fIhour\fR\fR:\fR]\fIminute\fR. The minutes can
+               be specified as a number greater than 59. For
+               example, three and a half hours can either be
+               specified as 3:30, or 210.
+.sp 2
+               The run limit you specify is the normalized run
+               time. This is done so that the job does
+               approximately the same amount of processing, even
+               if it is sent to host with a faster or slower CPU.
+               Whenever a normalized run time is given, the
+               actual time on the execution host is the specified
+               time multiplied by the CPU factor of the
+               normalization host then divided by the CPU factor
+               of the execution host.
+.sp 2
+               If ABS_RUNLIMIT=Y is defined in lsb.params, the
+               runtime limit and the runtime estimate are not
+               normalized by the host CPU factor. Absolute
+               wall-clock run time is used for all jobs submitted
+               with a runtime limit or runtime estimate.
+.sp 2
+               Optionally, you can supply a host name or a host
+               model name defined in LSF. You must insert
+               ‘\fR/\fR’ between the run limit and the host name
+               or model name.
+.sp 2
+               If no host or host model is given, LSF uses the
+               default runtime normalization host defined at the
+               queue level (DEFAULT_HOST_SPEC in lsb.queues) if
+               it has been configured; otherwise, LSF uses the
+               default CPU time normalization host defined at the
+               cluster level (DEFAULT_HOST_SPEC in lsb.params) if
+               it has been configured; otherwise, LSF uses the
+               submission host.
+.sp 2
+               For MultiCluster jobs, if no other CPU time
+               normalization host is defined and information
+               about the submission host is not available, LSF
+               uses the host with the largest CPU factor (the
+               fastest host in the cluster).
+.sp 2
+               If the job also has termination time specified
+               through the bsub -t option, LSF determines whether
+               the job can actually run for the specified length
+               of time allowed by the run limit before the
+               termination time. If not, then the job is aborted.
+.sp 2
+               If the IGNORE_DEADLINE parameter is set in
+               lsb.queues(5), this behavior is overridden and the
+               run limit is ignored.
+.sp 2
+               Jobs submitted to a chunk job queue are not
+               chunked if the run limit is greater than 30
+               minutes.
+.sp 2
+   \fB-We [\fIhour\fB:]\fIminute\fB[/\fIhost_name\fB |
+   /\fIhost_model\fB]\fR
+.br
+               Specifies an estimated run time for the job. LSF
+               uses the estimated value for job scheduling
+               purposes only, and does not kill jobs that exceed
+               this value unless the jobs also exceed a defined
+               runtime limit. The format of runtime estimate is
+               same as run limit set by the -W option.
+.sp 2
+               Use JOB_RUNLIMIT_RATIO in lsb.params to limit the
+               runtime estimate users can set. If
+               JOB_RUNLIMIT_RATIO is set to 0 no restriction is
+               applied to the runtime estimate.
+.sp 2
+               The job-level runtime estimate setting overrides
+               the RUNTIME setting in an application profile in
+               lsb.applications.
+.sp 2
+   \fB-w '\fIdependency_expression\fB'\fR
+.br
+               LSF does not place your job unless the dependency
+               expression evaluates to TRUE. If you specify a
+               dependency on a job that LSF cannot find (such as
+               a job that has not yet been submitted), your job
+               submission fails.
+.sp 2
+               The dependency expression is a logical expression
+               composed of one or more dependency conditions. To
+               make dependency expression of multiple conditions,
+               use the following logical operators:
+.sp 2
+               && (AND)
+.sp 2
+               || (OR)
+.sp 2
+               ! (NOT)
+.sp 2
+               Use parentheses to indicate the order of
+               operations, if necessary.
+.sp 2
+               Enclose the dependency expression in single quotes
+               (') to prevent the shell from interpreting special
+               characters (space, any logic operator, or
+               parentheses). If you use single quotes for the
+               dependency expression, use double quotes (") for
+               quoted items within it, such as job names.
+.sp 2
+               In a Windows environment with multiple job
+               dependencies, use only double quotes.
+.sp 2
+               In dependency conditions, job names specify only
+               your own jobs, unless you are the LSF
+               administrator. By default, if you use the job name
+               to specify a dependency condition, and more than
+               one of your jobs has the same name, all of your
+               jobs that have that name must satisfy the test. If
+               JOB_DEP_LAST_SUB in lsb.params is set to 1, the
+               test is done on the job submitted most recently.
+.sp 2
+               Use double quotes (") around job names that begin
+               with a number. In the job name, specify the
+               wildcard character asterisk (*) at the end of a
+               string, to indicate all jobs whose name begins
+               with the string. For example, if you use
+               \fRjobA*\fR as the job name, it specifies jobs
+               named \fRjobA\fR, \fRjobA1\fR, \fRjobA_test\fR,
+               \fRjobA.log\fR, etc.
+.sp 2
+               Use the * with dependency conditions to define
+               one-to-one dependency among job array elements
+               such that each element of one array depends on the
+               corresponding element of another array. The job
+               array size must be identical.
+.sp 2
+               For example:
+.sp 2
+               bsub -w "done(myarrayA[*])" -J "myArrayB[1-10]" myJob2 
+.sp 2
+               indicates that before element 1 of \fRmyArrayB
+               \fRcan start, element 1 of \fRmyArrayA \fRmust be
+               completed, and so on.
+.sp 2
+               You can also use the * to establish one-to-one
+               array element dependencies with bmod after an
+               array has been submitted.
+.sp 2
+               If you want to specify array dependency by array
+               name, set JOB_DEP_LAST_SUB in lsb.params. If you
+               do not have this parameter set, the job is
+               rejected if one of your previous arrays has the
+               same name but a different index.
+.sp 2
+               In dependency conditions, the variable \fIop\fR
+               represents one of the following relational
+               operators:
+.sp 2
+               >
+.sp 2
+               >=
+.sp 2
+               <
+.sp 2
+               <=
+.sp 2
+               ==
+.sp 2
+               !=
+.sp 2
+               Use the following conditions to form the
+               dependency expression.
+.sp 2
+               \fBdone(\fIjob_ID\fB |"\fIjob_name\fB" ...) \fR
+.br
+                           The job state is DONE.
+.sp 2
+                           LSF refers to the oldest job of
+                           \fIjob_name\fR in memory.
+.sp 2
+               \fBended(\fIjob_ID\fB | "\fIjob_name\fB") \fR
+.br
+                           The job state is EXIT or DONE.
+.sp 2
+               \fBexit(\fIjob_ID\fB | "\fIjob_name\fB"
+               [,[\fIoperator\fB] \fIexit_code\fB])\fR
+.br
+                           The job state is EXIT, and the job’s
+                           exit code satisfies the comparison
+                           test.
+.sp 2
+                           If you specify an exit code with no
+                           operator, the test is for equality (==
+                           is assumed).
+.sp 2
+                           If you specify only the job, any exit
+                           code satisfies the test.
+.sp 2
+               \fBexternal(\fIjob_ID\fB | "\fIjob_name\fB",
+               "\fIstatus_text\fB") \fR
+.br
+                           The job has the specified job status.
+                           (Commands bstatus and bpost set,
+                           change, and retrieve external job
+                           status messages.)
+.sp 2
+                           If you specify the first word of the
+                           job status description (no spaces),
+                           the text of the job’s status begins
+                           with the specified word. Only the
+                           first word is evaluated.
+.sp 2
+               \fB\fIjob_ID\fB | "\fIjob_name\fB"\fR
+.br
+                           If you specify a job without a
+                           dependency condition, the test is for
+                           the DONE state (LSF assumes the “done”
+                           dependency condition by default).
+.sp 2
+               \fBnumdone(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the DONE state satisfies the test. Use
+                           * (with no operator) to specify all
+                           the jobs in the array.
+.sp 2
+               \fBnumended(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the DONE or EXIT states satisfies the
+                           test. Use * (with no operator) to
+                           specify all the jobs in the array.
+.sp 2
+               \fBnumexit(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the EXIT state satisfies the test. Use
+                           * (with no operator) to specify all
+                           the jobs in the array.
+.sp 2
+               \fBnumhold(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the PSUSP state satisfies the test.
+                           Use * (with no operator) to specify
+                           all the jobs in the array.
+.sp 2
+               \fBnumpend(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the PEND state satisfies the test. Use
+                           * (with no operator) to specify all
+                           the jobs in the array.
+.sp 2
+               \fBnumrun(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the RUN state satisfies the test. Use
+                           * (with no operator) to specify all
+                           the jobs in the array.
+.sp 2
+               \fBnumstart(\fIjob_ID\fB, \fIoperator\fB
+               \fInumber\fB | *)\fR
+.br
+                           For a job array, the number of jobs in
+                           the RUN, USUSP, or SSUSP states
+                           satisfies the test. Use * (with no
+                           operator) to specify all the jobs in
+                           the array.
+.sp 2
+               \fBpost_done(\fIjob_ID\fB | "\fIjob_name\fB")\fR
+.br
+                           The job state is POST_DONE
+                           (post-execution processing of the
+                           specified job has completed without
+                           errors).
+.sp 2
+               \fBpost_err(\fIjob_ID\fB | "\fIjob_name\fB")\fR
+.br
+                           The job state is POST_ERR
+                           (post-execution processing of the
+                           specified job has completed with
+                           errors).
+.sp 2
+               \fBstarted(\fIjob_ID\fB | "\fIjob_name\fB")\fR
+.br
+                           The job state is:
+.sp 2
+                             o  
+                                 USUSP, SSUSP, DONE, or EXIT
+.sp 2
+                             o  
+                                 RUN and the job has a
+                                 pre-execution command (bsub -E)
+                                 that is done.
+.sp 2
+   \fB-wa '\fIsignal\fB'\fR
+.br
+               Specifies the job action to be taken before a job
+               control action occurs.
+.sp 2
+               A job warning action must be specified with a job
+               action warning time in order for job warning to
+               take effect.
+.sp 2
+               If -wa is specified, LSF sends the warning action
+               to the job before the actual control action is
+               taken. This allows the job time to save its result
+               before being terminated by the job control action.
+.sp 2
+               The warning action specified by -wa option
+               overrides JOB_WARNING_ACTION in the queue.
+               JOB_WARNING_ACTION is used as the default when no
+               command line option is specified.
+.sp 2
+               For example the following specifies that 2 minutes
+               before the job reaches its runtime limit, an URG
+               signal is sent to the job:
+.sp 2
+               bsub -W 60 -wt '2' -wa 'URG' myjob
+.sp 2
+   \fB-wt '[\fIhour\fB:]\fIminute\fB'\fR
+.br
+               Specifies the amount of time before a job control
+               action occurs that a job warning action is to be
+               taken. Job action warning time is not normalized.
+.sp 2
+               A job action warning time must be specified with a
+               job warning action in order for job warning to
+               take effect.
+.sp 2
+               The warning time specified by the bsub -wt option
+               overrides JOB_ACTION_WARNING_TIME in the queue.
+               JOB_ACTION_WARNING_TIME is used as the default
+               when no command line option is specified.
+.sp 2
+               For example the following specifies that 2 minutes
+               before the job reaches its runtime limit, an URG
+               signal is sent to the job:
+.sp 2
+               bsub -W 60 -wt '2' -wa 'URG' myjob
+.sp 2
+   \fB-XF \fR
+.br
+               Submits a job using SSH X11 forwarding.
+.sp 2
+               A job submitted with SSH X11 forwarding cannot be
+               used with job arrays, job chunks, or user account
+               mapping.
+.sp 2
+               Jobs with SSH X11 forwarding cannot be checked or
+               modified by an esub.
+.sp 2
+               Use -XF with -I to submit an \fIinteractive\fR job
+               using SSH X11 forwarding. The session displays
+               throughout the job lifecycle.
+.sp 2
+               Optionally, specify LSB_SSH_XFORWARD_CMD in
+               lsf.conf. You can replace the default value with
+               an SSH command (full PATH and options allowed).
+.sp 2
+               Cannot be used with -K, -IX, or -r.
+.sp 2
+               For more information, see the LSF Configuration
+               Reference.
+.sp 2
+   \fB-Zs\fR
+.br
+               Spools a job command file to the directory
+               specified by the JOB_SPOOL_DIR parameter in
+               lsb.params, and uses the spooled file as the
+               command file for the job.
+.sp 2
+               By default, the command file is spooled to
+               LSB_SHAREDIR/\fIcluster_name\fR/lsf_cmddir. If the
+               lsf_cmddir directory does not exist, LSF creates
+               it before spooling the file. LSF removes the
+               spooled file when the job completes.
+.sp 2
+               If JOB_SPOOL_DIR is specified, the -Zs option
+               spools the command file to the specified directory
+               and uses the spooled file as the input file for
+               the job.
+.sp 2
+               JOB_SPOOL_DIR can be any valid path up to a
+               maximum length up to 4094 characters on UNIX and
+               Linux or up to 255 characters for Windows.
+.sp 2
+               JOB_SPOOL_DIR must be readable and writable by the
+               job submission user, and it must be shared by the
+               master host and the submission host. If the
+               specified directory is not accessible or does not
+               exist, bsub -Zs cannot write to the default
+               directory
+               LSB_SHAREDIR/\fIcluster_name\fR/lsf_cmddir and the
+               job fails.
+.sp 2
+               The -Zs option is not supported for embedded job
+               commands because LSF is unable to determine the
+               first command to be spooled in an embedded job
+               command.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2
+   \fB\fIcommand\fB [\fIargument\fB]\fR
+.br
+               The job can be specified by a command line
+               argument command, or through the standard input if
+               the command is not present on the command line.
+               The\fI command\fR can be anything that is provided
+               to a UNIX Bourne shell (see sh(1)). command is
+               assumed to begin with the first word that is not
+               part of a bsub option. All arguments that follow
+               \fIcommand\fR are provided as the arguments to the
+               \fIcommand\fR.
+.sp 2
+               The job command can be up to 4094 characters long
+               for UNIX and Linux or up to 255 characters for
+               Windows. If no job name is specified with -J,
+               bjobs, bhist and bacct displays the command as the
+               job name.
+.sp 2
+               If the batch job is not given on the command line,
+               bsub reads the job commands from standard input.
+               If the standard input is a controlling terminal,
+               the user is prompted with \fRbsub>\fR for the
+               commands of the job. The input is terminated by
+               entering CTRL-D on a new line. You can submit
+               multiple commands through standard input.
+.sp 2
+               The commands are executed in the order in which
+               they are given. bsub options can also be specified
+               in the standard input if the line begins with
+               \fR#BSUB\fR; for example, \fR#BSUB -x\fR. If an
+               option is given on both the bsub command line, and
+               in the standard input, the command line option
+               overrides the option in the standard input. The
+               user can specify the shell to run the commands by
+               specifying the shell path name in the first line
+               of the standard input, such as \fR#!/bin/csh\fR.
+               If the shell is not given in the first line, the
+               Bourne shell is used. The standard input facility
+               can be used to spool a user’s job script; such as
+               \fRbsub < script\fR.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   If the job is successfully submitted, displays the job ID and
+   the queue to which the job has been submitted.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fRbsub sleep 100\fR
+.sp 2
+   Submit the UNIX command sleep together with its argument
+   \fR100\fR as a batch job.
+.sp 2
+   \fRbsub -q short -o my_output_file "pwd; ls" \fR
+.sp 2
+   Submit the UNIX command pwd and ls as a batch job to the queue
+   named \fRshort\fR and store the job output in my_output file.
+.sp 2
+   \fRbsub -m "host1 host3 host8 host9" my_program\fR
+.sp 2
+   Submit \fRmy_program\fR to run on one of the candidate hosts:
+   host1, host3, host8 and host9.
+.sp 2
+   \fRbsub -q "queue1 queue2 queue3" -c 5 my_program\fR
+.sp 2
+   Submit \fRmy_program\fR to one of the candidate queues:
+   \fRqueue1\fR, \fRqueue2\fR, and \fRqueue3\fR that are selected
+   according to the CPU time limit specified by -c 5.
+.sp 2
+   \fRbsub -I ls\fR
+.sp 2
+   Submit a batch interactive job that displays the output of ls
+   at the user’s terminal.
+.sp 2
+   \fRbsub -Ip vi myfile\fR
+.sp 2
+   Submit a batch interactive job to edit \fRmyfile\fR.
+.sp 2
+   \fRbsub -Is csh\fR
+.sp 2
+   Submit a batch interactive job that starts csh as an
+   interactive shell.
+.sp 2
+   \fRbsub -b 20:00 -J my_job_name my_program\fR
+.sp 2
+   Submit \fRmy_program\fR to run after 8 p.m. and assign it the
+   job name my_job_name.
+.sp 2
+   \fRbsub my_script\fR
+.sp 2
+   Submit \fRmy_script\fR as a batch job. Since my_script is
+   specified as a command line argument, the \fRmy_script\fR file
+   is not spooled. Later changes to the \fRmy_script\fR file
+   before the job completes may affect this job.
+.sp 2
+   bsub < default_shell_script
+.sp 2
+   where default_shell_script contains:
+.sp 2
+   sim1.exesim2.exe
+.sp 2
+   The file default_shell_script is spooled, and the commands are
+   run under the Bourne shell since a shell specification is not
+   given in the first line of the script.
+.sp 2
+   \fRbsub < csh_script\fR
+.sp 2
+   where \fRcsh_script\fR contains:
+.sp 2
+   #!/bin/cshsim1.exesim2.exe
+.sp 2
+   \fRcsh_script\fR is spooled and the commands are run under
+   /bin/csh.
+.sp 2
+   \fRbsub -q night < my_script\fR
+.sp 2
+   where \fRmy_script\fR contains:
+.sp 2
+   #!/bin/sh#BSUB -q test#BSUB -m "host1 host2" # my default candidate hosts#BSUB -f "input > tmp" -f "output << tmp"#BSUB -D 200 -c 10/host1#BSUB -t 13:00#BSUB -k "dir 5"sim1.exesim2.exe
+.sp 2
+   The job is submitted to the \fRnight\fR queue instead of
+   \fRtest\fR, because the command line overrides the script.
+.sp 2
+   \fR\fRbsub -b 20:00 -J my_job_nam\fRe\fR
+.sp 2
+   bsub> sleep 1800bsub> my_programbsub> CTRL-D
+.sp 2
+   The job commands are entered interactively.
+.sp 2
+   \fRbsub -T 4 myjob\fR
+.sp 2
+   Submits \fRmyjob\fR with a maximum number of concurrent
+   threads of 4.
+.sp 2
+   \fRbsub -W 15 -sla Kyuquot sleep 100\fR
+.sp 2
+   Submit the UNIX command sleep together with its argument
+   \fR100\fR as a batch job to the service class named
+   \fRKyuquot\fR.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   When using account mapping, the command bpeek does not work.
+   File transfer via the -f option to bsub requires rcp to be
+   working between the submission and execution hosts. Use the -N
+   option to request mail, and/or the -o and -e options to
+   specify an output file and error file, respectively.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bjobs, bkill, bqueues, bhosts, bmgroup, bmod, bchkpnt,
+   brestart, bgadd, bgdel, bjgroup, \fRsh\fR, getrlimit,
+   \fRsbrk\fR, \fRlibckpt.a\fR, lsb.users, lsbqueues, lsb.params,
+   lsb.hosts, lsb.serviceclasses, \fRmbatchd\fR

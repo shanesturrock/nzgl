@@ -1,0 +1,99 @@
+
+.ad l
+
+.ll 72
+
+.TH bgmod 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbgmod\fR
+.sp 2
+   modifies job groups
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bgmod [-L limit | -Ln] job_group_name
+.sp 2
+bgmod [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Modifies the job group with the job group name specified by
+   \fIjob_group_name\fR.
+.sp 2
+   Only root, LSF administrators, the job group creator, or the
+   creator of the parent job groups can use bgmod to modify a job
+   group limit.
+.sp 2
+   You must provide full group path name for the modified job
+   group. The last component of the path is the name of the job
+   group to be modified.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-L \fIlimit\fB\fR
+.br
+               Changes the limit of \fIjob_group_name\fR to the
+               specified \fIlimit\fR value. If the job group has
+               parent job groups, the new limit cannot exceed the
+               limits of any higher level job groups. Similarly,
+               if the job group has child job groups, the new
+               value must be greater than any limits on the lower
+               level job groups.
+.sp 2
+               \fIlimit\fR specifies the maximum number of
+               concurrent jobs allowed to run under the job group
+               (including child groups) -L limits the number of
+               started jobs (RUN, SSUSP, USUSP) under the job
+               group. Specify a positive number between 0 and
+               2147483647. If the specified limit is zero (0), no
+               jobs under the job group can run.
+.sp 2
+               You cannot specify a limit for the root job group.
+               The root job group has no job limit. The -L option
+               only limits the lowest level job group specified.
+.sp 2
+               If a parallel job requests 2 CPUs (bsub -n 2), the
+               job group limit is per job, not per slots used by
+               the job.
+.sp 2
+   \fB-Ln \fR
+.br
+               Removes the existing job limit for the job group.
+               If the job group has parent job groups, the job
+               modified group automatically inherits any limits
+               from its direct parent job group.
+.sp 2
+   \fB\fIjob_group_name\fB \fR
+.br
+               Full path of the job group name.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   The following command only modifies the limit of group
+   /canada/projects/test1. It does not modify limits of /canada
+   or/canada/projects.
+.sp 2
+   bgmod -L 6 /canada/projects/test1
+.sp 2
+   To modify limits of /canada or/canada/projects, you must
+   specify the exact group name:
+.sp 2
+   bgmod -L 6 /canada
+.sp 2
+   or
+.sp 2
+   bgmod -L 6 /canada/projects
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bgadd, bgdel, bjgroup

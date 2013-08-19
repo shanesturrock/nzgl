@@ -1,0 +1,140 @@
+
+.ad l
+
+.ll 72
+
+.TH lsf.cluster_name.license.acct 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsf.\fIcluster_name\fB.license.acct\fR
+.sp 2
+   This is the license accounting file. There is one for each
+   cluster, called lsf.\fIcluster_name\fR.license.acct. The
+   \fIcluster_name\fR variable is the name of the cluster defined
+   in the Cluster section of lsf.shared.
+.sp 2
+   The lsf.\fIcluster_name\fR.license.acct file contains three
+   types of configuration information:
+.sp 2
+     o  
+         LSF license information
+.sp 2
+     o  
+         MultiCluster license information
+.sp 2 .SH "lsf.\fIcluster_name\fR.license.acct structure\fIcluster_name\fR.license.acct structure.license.acct structure"
+\fBlsf.\fIcluster_name\fB.license.acct structure\fIcluster_name\fB.license.acct structure.license.acct structure\fR
+.sp 2
+   The license audit log file is an ASCII file with one record
+   per line. The fields of a record are separated by blanks.
+.sp 2 .SH "File properties"
+\fBFile properties\fR
+.sp 2
+   \fBLocation\fR
+.br
+               The default location of this file is defined by
+               LSF_LOGDIR in lsf.conf, but you can override this
+               by defining LSF_LICENSE_ACCT_PATH in lsf.conf.
+.sp 2
+   \fBOwner\fR
+.br
+               The primary LSF admin is the owner of this file.
+.sp 2
+   \fBPermissions\fR
+.br
+               -rw-r--r--
+.sp 2 .SH "Records and fields"
+\fBRecords and fields\fR
+.sp 2
+   The fields of a record are separated by blanks. The fields in
+   order of occurrence are as follows:
+.sp 2
+   \fBtimestamp (%d)\fR
+.br
+               Time stamp of the logged event (in seconds since
+               the epoch).
+.sp 2
+   \fBtype (%s)\fR
+.br
+               The LSF product type. The valid values are as
+               follows:
+.sp 2
+                 o  
+                     \fRLSF_MANAGER\fR
+.sp 2
+                 o  
+                     \fRLSF_MULTICLUSTER\fR
+.sp 2
+   \fBversion (%s)\fR
+.br
+               The version of the LSF product.
+.sp 2
+   \fBvalue (%s)\fR
+.br
+               The actual tracked value. The format of this field
+               depends on the product type as specified by the
+               \fRtype\fR field:
+.sp 2
+               \fBLSF_MANAGER\fR
+.br
+                           \fRE\fR \fIe_peak\fR \fIe_max_avail\fR
+                           \fRS\fR \fIs_peak\fR \fIs_max_avail\fR
+                           \fRB\fR \fIb_peak\fR \fIb_max_avail\fR
+.sp 2
+                           Where
+.sp 2
+                           \fIe_peak\fR, \fIs_peak\fR, and
+                           \fIb_peak\fR are the peak usage values
+                           (in number of CPUs) of the E, S, and B
+                           class licenses, respectively.
+.sp 2
+                           \fIe_max_avail\fR, \fIs_max_avail\fR,
+                           and \fIb_max_avail\fR are the maximum
+                           availability and usage values (in
+                           number of CPUs) of the E, S, and B
+                           class licenses, respectively. This is
+                           determined by the license that you
+                           purchased.
+.sp 2
+               \fBLSF_MULTICLUSTER\fR
+.br
+                           \fImc_peak\fR \fImc_max_avail\fR
+.sp 2
+                           Where
+.sp 2
+                           \fImc_peak\fR is the peak usage value
+                           (in number of CPUs) of the LSF
+                           MultiCluster license
+.sp 2
+                           \fImc_max_avail\fR is the maximum
+                           availability and usage (in number of
+                           CPUs) of the LSF MultiCluster license.
+                           This is determined by the license that
+                           you purchased.
+.sp 2
+   \fBstatus (%s)\fR
+.br
+               The results of the license usage check. The valid
+               values are as follows:
+.sp 2
+               \fBOK\fR
+.br
+                           Peak usage is less than the maximum
+                           license availability
+.sp 2
+               \fBOVERUSE\fR
+.br
+                           Peak usage is more than the maximum
+                           license availability
+.sp 2
+   \fBhash (%s)\fR
+.br
+               Line encryption used to authenticate the record.
+.sp 2 .SH "Example record Format"
+\fBExample record Format\fR
+.sp 2
+   1128372131 LSF_MANAGER 7.0 E hostA OVERUSE 7c7998a6861ea119cd48414a820be18cd641
+.sp 2
+   1128372131 LSF_MULTICLUSTER 7.0 8 10 OK 281288c606a50065ea0e2f3e7161972c56491dc
+.sp 2
+   1128372185 LSF_MANAGER 7.0 E 8 0 S 0 2 B 0 10 OVERUSE fb439ee293821761af9ed0785 1128372185
+.sp 2
+   LSF_MANAGER 7.0 E hostA OVERUSE 2d22a06d6c5cfd5aba40875c2cb8544444a5

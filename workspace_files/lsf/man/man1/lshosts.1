@@ -1,0 +1,326 @@
+
+.ad l
+
+.ll 72
+
+.TH lshosts 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlshosts\fR
+.sp 2
+   displays hosts and their static resource information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lshosts [-w | -l] [-R "res_req"] [host_name | cluster_name] ...
+.sp 2
+lshosts -s [resource_name ...]
+.sp 2
+lshosts [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays static resource information about hosts.
+.sp 2
+   By default, returns the following information: host name, host
+   type, host model, CPU factor, number of CPUs, total memory,
+   total swap space, whether or not the host is a server host,
+   and static resources. Displays information about all hosts in
+   the cluster. See lsf.cluster.
+.sp 2
+   In MultiCluster job forwarding model, the default behavior is
+   to return the following information: host name, host type,
+   host model, CPU factor, number of CPUs, total memory, total
+   swap space, whether or not the host is a server host, and
+   static resources. Displays information about all hosts in the
+   local cluster and for all hosts in equivalent remote clusters
+   that the local cluster sees. See lsf.cluster(5).
+.sp 2
+   In MultiCluster resource leasing model, returns information
+   about hosts in the local cluster.
+.sp 2
+   The -s option displays information about the static resources
+   (shared or host-based) and their associated hosts.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Displays host information in a long multi-line
+               format. In addition to the default fields,
+               displays additional information, including maximum
+               \fR/tmp\fR space, the number of local disks, the
+               execution priority for remote jobs, load
+               thresholds, run windows, and the license classes
+               used or needed.
+.sp 2
+   \fB-w \fR
+.br
+               Displays host information in wide format. Fields
+               are displayed without truncation.
+.sp 2
+   \fB-R "\fIres_req\fB" \fR
+.br
+               Only displays information about the hosts that
+               satisfy the resource requirement expression. For
+               more information about resource requirements, see
+               Administering Platform LSF. The size of the
+               resource requirement string is limited to 512
+               bytes. LSF supports ordering of resource
+               requirements on all load indices, including
+               external load indices, either static or dynamic.
+.sp 2
+               In MultiCluster, only displays information about
+               the hosts in the local cluster that satisfy the
+               resource requirement expression.
+.sp 2
+   \fB\fIhost_name\fB...| \fIcluster_name\fB...\fR
+.br
+               Only displays information about the specified
+               hosts. Do not use quotes when specifying multiple
+               hosts.
+.sp 2
+               For MultiCluster, displays information about hosts
+               in the specified clusters. The names of the hosts
+               belonging to the cluster are displayed instead of
+               the name of the cluster. Do not use quotes when
+               specifying multiple clusters.
+.sp 2
+   \fB-s [\fIresource_name \fB...]\fR
+.br
+               Displays information about the specified
+               resources. The resources must be static resources
+               (shared or host-based). If no resource is
+               specified, then displays information about all
+               resources. Returns the following information: the
+               resource names, the values of the resources, and
+               the resource locations.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints the LSF release version to stderr and
+               exits.
+.sp 2 .SH "Output: Host-Based Default"
+\fBOutput: Host-Based Default\fR
+.sp 2
+   Displays the following fields:
+.sp 2
+   \fBHOST_NAME\fR
+.br
+               The name of the host. This display field is
+               truncated.
+.sp 2
+   \fBtype\fR
+.br
+               The host type. This display field is truncated.
+.sp 2
+               With MultiCluster, if the host type of a remote
+               cluster’s host is not defined in the local
+               cluster, the keyword unknown is displayed.
+.sp 2
+   \fBmodel\fR
+.br
+               The host model. This display field is truncated.
+.sp 2
+               With MultiCluster, if the host model of a remote
+               cluster’s host is not defined in the local
+               cluster, the keyword unknown is displayed.
+.sp 2
+   \fBcpuf\fR
+.br
+               The relative CPU performance factor. The CPU
+               factor is used to scale the CPU load value so that
+               differences in CPU speeds are considered. The
+               faster the CPU, the larger the CPU factor.
+.sp 2
+               The CPU factor of a host with an \fRunknown
+               \fRhost type is 1.0.
+.sp 2
+   \fBncpus\fR
+.br
+               The number of processors on this host.
+.sp 2
+               If LSF_ENABLE_DUALCORE=Y in lsf.conf for
+               multi-core CPU hosts, displays the number of cores
+               instead of physical CPUs.
+.sp 2
+               If EGO is enabled in the LSF cluster and
+               EGO_DEFINE_NCPUS is specified in lsf.conf or
+               ego.conf, the appropriate value for ncpus is
+               displayed, depending on the value of
+               EGO_DEFINE_NCPUS:
+.sp 2
+                 o  
+                     EGO_DEFINE_NCPUS=procs—ncpus=number of
+                     processors
+.sp 2
+                 o  
+                     EGO_DEFINE_NCPUS=cores—ncpus=number of
+                     processors x number of cores per processor
+.sp 2
+                 o  
+                     EGO_DEFINE_NCPUS=threads—ncpus=number of
+                     processors x number of cores per processor x
+                     number of threads per core
+.sp 2
+               EGO_DEFINE_NCPUS=cores is the same as setting
+               LSF_ENABLE_DUALCORE=Y.
+.sp 2
+   \fBnprocs \fR
+.br
+               The number of physical processors per CPU
+               configured on a host.
+.sp 2
+   \fBncores \fR
+.br
+               The number of cores per processor configured on a
+               host.
+.sp 2
+   \fBnthreads \fR
+.br
+               The number of threads per core configured on a
+               host.
+.sp 2
+   \fBmaxmem\fR
+.br
+               The maximum amount of physical memory available
+               for user processes.
+.sp 2
+               By default, the amount is displayed in KB. The
+               amount may appear in MB depending on the actual
+               system memory. Use LSF_UNIT_FOR_LIMITS in lsf.conf
+               to specify a larger unit for the limit (GB, TB,
+               PB, or EB).
+.sp 2
+   \fBmaxswp\fR
+.br
+               The total available swap space.
+.sp 2
+               By default, the amount is displayed in KB. The
+               amount may appear in MB depending on the actual
+               system swap space. Use LSF_UNIT_FOR_LIMITS in
+               lsf.conf to specify a larger unit for the limit
+               (GB, TB, PB, or EB).
+.sp 2
+   \fBserver\fR
+.br
+               Indicates whether the host is a server or client
+               host. “Yes” is displayed for LSF servers. “No” is
+               displayed for LSF clients. “Dyn” is displayed for
+               dynamic hosts.
+.sp 2
+   \fBRESOURCES\fR
+.br
+               The Boolean resources defined for this host,
+               denoted by resource names, and the values of
+               external numeric and string static resources. See
+               lsf.cluster(5), and lsf.shared(5) on how to
+               configure external static resources.
+.sp 2 .SH "Output: Host Based -l Option"
+\fBOutput: Host Based -l Option\fR
+.sp 2
+   In addition to the above fields, the -l option also displays
+   the following:
+.sp 2
+   \fBndisks\fR
+.br
+               The number of local disk drives directly attached
+               to the host.
+.sp 2
+   \fBmaxtmp\fR
+.br
+               The maximum \fR/tmp\fR space in MB configured on a
+               host.
+.sp 2
+   \fBrexpri\fR
+.br
+               UNIX only. The execution priority of remote jobs
+               run by the RES. rexpri is a number between -20 and
+               20, with -20 representing the highest priority and
+               20 the lowest. The default rexpri is 0, which
+               corresponds to the default scheduling priority of
+               0 on BSD-based UNIX systems and 20 on System
+               V-based systems.
+.sp 2
+   \fBnprocs\fR
+.br
+               The number of physical processors per CPU
+               configured on a host.
+.sp 2
+   \fBncores\fR
+.br
+               The number of cores per processor configured on a
+               host.
+.sp 2
+   \fBnthreads\fR
+.br
+               The number of threads per core configured on a
+               host.
+.sp 2
+   \fBRUN_WINDOWS\fR
+.br
+               The time windows during which LIM considers the
+               host as available to execute remote jobs. These
+               run windows have the same function for LSF hosts
+               as dispatch windows have for LSF hosts.
+.sp 2
+   \fBLICENSES_ENABLED\fR
+.br
+               The licenses that are enabled for each specified
+               host.
+.sp 2
+   \fBLICENSE_NEEDED\fR
+.br
+               The required banded license class for each
+               specified host.
+.sp 2
+               If LSF_ENABLE_DUALCORE=Y in lsf.conf for dual-core
+               CPU hosts, lshosts -l also displays if dual-core
+               CPU license is enabled for the hosts and the
+               number of dual-core licenses needed.
+.sp 2
+   \fBLOAD_THRESHOLDS\fR
+.br
+               The thresholds for scheduling interactive jobs. If
+               a load index exceeds the load threshold (or falls
+               below the load threshold, for decreasing load
+               indices), the host status is changed to “busy.” If
+               the threshold is displayed as a dash “-”, the
+               value of that load index does not affect the
+               host’s status.
+.sp 2 .SH "Output: Resource-Based -s Option"
+\fBOutput: Resource-Based -s Option\fR
+.sp 2
+   Displays the static resources (shared or host-based). Each
+   line gives the value and the associated hosts for the static
+   resource. See lsf.shared, and lsf.cluster on how to configure
+   static shared resources.
+.sp 2
+   The following fields are displayed:
+.sp 2
+   \fBRESOURCE \fR
+.br
+               The name of the resource.
+.sp 2
+   \fBVALUE \fR
+.br
+               The value of the static resource.
+.sp 2
+   \fBLOCATION \fR
+.br
+               The hosts that are associated with the static
+               resource.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads lsf.cluster.\fIcluster_name\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   ls_info, ls_policy, ls_gethostinfo, lsf.cluster, lsf.shared
+.sp 2

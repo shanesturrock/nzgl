@@ -1,0 +1,390 @@
+
+.ad l
+
+.ll 72
+
+.TH bapp 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbapp\fR
+.sp 2
+   Displays information about application profile configuration.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bapp [-l | -w] [application_profile_name ...]
+.sp 2
+bapp [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays information about application profiles configured in
+   lsb.applications.
+.sp 2
+   Returns application name, job slot statistics, and job state
+   statistics for all application profiles:
+.sp 2
+   In MultiCluster, returns the information about all application
+   profiles in the local cluster.
+.sp 2
+   CPU time is normalized.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-w \fR
+.br
+               Wide format. Fields are displayed without
+               truncation.
+.sp 2
+   \fB-l \fR
+.br
+               Long format with additional information.
+.sp 2
+               Displays the following additional information:
+               application profile description, application
+               profile characteristics and statistics,
+               parameters, resource usage limits, associated
+               commands, binding policy, and job controls.
+.sp 2
+   \fB\fIapplication_profile_name\fB ... \fR
+.br
+               Displays information about the specified
+               application profile.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints product release version to stderr and
+               exits.
+.sp 2 .SH "Default output format"
+\fBDefault output format\fR
+.sp 2
+   Displays the following fields:
+.sp 2
+   \fBAPPLICATION_NAME\fR
+.br
+               The name of the application profile. Application
+               profiles are named to correspond to the type of
+               application that usually runs within them.
+.sp 2
+   \fBNJOBS \fR
+.br
+               The total number of job slots held currently by
+               jobs in the application profile. This includes
+               pending, running, suspended and reserved job
+               slots. A parallel job that is running on \fIn\fR
+               processors is counted as \fIn\fR job slots, since
+               it takes \fIn\fR job slots in the application.
+.sp 2
+   \fBPEND\fR
+.br
+               The number of job slots used by pending jobs in
+               the application profile.
+.sp 2
+   \fBRUN\fR
+.br
+               The number of job slots used by running jobs in
+               the application profile.
+.sp 2
+   \fBSUSP\fR
+.br
+               The number of job slots used by suspended jobs in
+               the application profile.
+.sp 2 .SH "Long output format (-l)"
+\fBLong output format (-l)\fR
+.sp 2
+   In addition to the above fields, the -l option displays the
+   following:
+.sp 2
+   \fBDescription\fR
+.br
+               A description of the typical use of the
+               application profile.
+.sp 2
+   \fBPARAMETERS/ STATISTICS\fR
+.br
+               \fBSSUSP\fR
+.br
+                           The number of job slots in the
+                           application profile allocated to jobs
+                           that are suspended by LSF because of
+                           load levels or run windows.
+.sp 2
+               \fBUSUSP \fR
+.br
+                           The number of job slots in the
+                           application profile allocated to jobs
+                           that are suspended by the job
+                           submitter or by the LSF administrator.
+.sp 2
+               \fBRSV\fR
+.br
+                           The number of job slots in the
+                           application profile that are reserved
+                           by LSF for pending jobs.
+.sp 2
+   \fBPer-job resource usage limits\fR
+.br
+               The soft resource usage limits that are imposed on
+               the jobs associated with the application profile.
+               These limits are imposed on a per-job and a
+               per-process basis.
+.sp 2
+               The possible per-job limits are:
+.sp 2
+               \fBCPULIMIT\fR
+.br
+                           The maximum CPU time a job can use, in
+                           minutes, relative to the CPU factor of
+                           the named host. CPULIMIT is scaled by
+                           the CPU factor of the execution host
+                           so that jobs are allowed more time on
+                           slower hosts.
+.sp 2
+               \fBMEMLIMIT\fR
+.br
+                           The maximum running set size (RSS) of
+                           a process.
+.sp 2
+                           By default, the limit is shown in KB.
+                           Use LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+               \fBMEMLIMIT_TYPE\fR
+.br
+                           A memory limit is the maximum amount
+                           of memory a job is allowed to consume.
+                           Jobs that exceed the level are killed.
+                           You can specify different types of
+                           memory limits to enforce, based on
+                           PROCESS, TASK, or JOB (or any
+                           combination of the three).
+.sp 2
+               \fBPROCESSLIMIT \fR
+.br
+                           The maximum number of concurrent
+                           processes allocated to a job.
+.sp 2
+               \fBPROCLIMIT\fR
+.br
+                           The maximum number of processors
+                           allocated to a job.
+.sp 2
+               \fBSWAPLIMIT\fR
+.br
+                           The swap space limit that a job may
+                           use.
+.sp 2
+                           By default, the limit is shown in KB.
+                           Use LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+               \fBTHREADLIMIT \fR
+.br
+                           The maximum number of concurrent
+                           threads allocated to a job.
+.sp 2
+   \fBPer-process resource usage limits\fR
+.br
+               The possible UNIX per-process resource limits are:
+.sp 2
+               \fBCORELIMIT\fR
+.br
+                           The maximum size of a core file.
+.sp 2
+                           By default, the limit is shown in KB.
+                           Use LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+               \fBDATALIMIT\fR
+.br
+                           The maximum size of the data segment
+                           of a process, in KB. This restricts
+                           the amount of memory a process can
+                           allocate.
+.sp 2
+               \fBFILELIMIT\fR
+.br
+                           The maximum file size a process can
+                           create, in KB.
+.sp 2
+               \fBRUNLIMIT\fR
+.br
+                           The maximum wall clock time a process
+                           can use, in minutes. RUNLIMIT is
+                           scaled by the CPU factor of the
+                           execution host.
+.sp 2
+               \fBSTACKLIMIT\fR
+.br
+                           The maximum size of the stack segment
+                           of a process. This restricts the
+                           amount of memory a process can use for
+                           local variables or recursive function
+                           calls.
+.sp 2
+                           By default, the limit is shown in KB.
+                           Use LSF_UNIT_FOR_LIMITS in lsf.conf to
+                           specify a larger unit for display (MB,
+                           GB, TB, PB, or EB).
+.sp 2
+   \fBBIND_JOB\fR
+.br
+               The processor binding policy for sequential and
+               parallel job processes enabled in the application
+               profile. Displays one of: NONE, BALANCE, PACK,
+               ANY, USER, or USER_CPU_LIST.
+.sp 2
+               For example:
+.sp 2
+               \fRbapp -l app1\fR
+.sp 2
+               APPLICATION NAME: app1
+.sp 2
+                -- test processor binding options
+.sp 2
+               ……
+.sp 2
+               PARAMETERS:
+.sp 2
+               BIND_JOB: ANY
+.sp 2
+               For backwards compatibility, bapp -l displays "Y"
+               or "N" if BIND_JOB is defined with those values in
+               the application profile.
+.sp 2
+   \fBCHKPNT_DIR\fR
+.br
+               The checkpoint directory, if automatic
+               checkpointing is enabled for the application
+               profile.
+.sp 2
+   \fBCHKPNT_INITPERIOD\fR
+.br
+               The initial checkpoint period in minutes. The
+               periodic checkpoint does not happen until the
+               initial period has elapsed.
+.sp 2
+   \fBCHKPNT_PERIOD\fR
+.br
+               The checkpoint period in minutes. The running job
+               is checkpointed automatically every checkpoint
+               period.
+.sp 2
+   \fBCHKPNT_METHOD\fR
+.br
+               The checkpoint method.
+.sp 2
+   \fBMIG\fR
+.br
+               The migration threshold in minutes. A value of 0
+               (zero) specifies that a suspended job should be
+               migrated immediately.
+.sp 2
+               Where a host migration threshold is also
+               specified, and is lower than the job value, the
+               host value is used.
+.sp 2
+   \fBPRE_EXEC\fR
+.br
+               The pre-execution command for the application
+               profile. The PRE_EXEC command runs on the
+               execution host before the job associated with the
+               application profile is dispatched to the execution
+               host (or to the first host selected for a parallel
+               batch job).
+.sp 2
+   \fBPOST_EXEC\fR
+.br
+               The post-execution command for the application
+               profile. The POST_EXEC command runs on the
+               execution host after the job finishes.
+.sp 2
+   \fBJOB_INCLUDE_POSTPROC\fR
+.br
+               If \fBJOB_INCLUDE_POSTPROC\fR= Y, post-execution
+               processing of the job is included as part of the
+               job.
+.sp 2
+   \fBJOB_POSTPROC_TIMEOUT \fR
+.br
+               Timeout in minutes for job post-execution
+               processing. If post-execution processing takes
+               longer than the timeout, sbatchd reports that
+               post-execution has failed (POST_ERR status), and
+               kills the process group of the job’s
+               post-execution processes.
+.sp 2
+   \fBREQUEUE_EXIT_VALUES\fR
+.br
+               Jobs that exit with these values are automatically
+               requeued.
+.sp 2
+   \fBRES_REQ\fR
+.br
+               Resource requirements of the application profile.
+               Only the hosts that satisfy these resource
+               requirements can be used by the application
+               profile.
+.sp 2
+   \fBJOB_STARTER\fR
+.br
+               An executable file that runs immediately prior to
+               the batch job, taking the batch job file as an
+               input argument. All jobs submitted to the
+               application profile are run via the job starter,
+               which is generally used to create a specific
+               execution environment before processing the jobs
+               themselves.
+.sp 2
+   \fBCHUNK_JOB_SIZE\fR
+.br
+               Chunk jobs only. Specifies the maximum number of
+               jobs allowed to be dispatched together in a chunk
+               job. All of the jobs in the chunk are scheduled
+               and dispatched as a unit rather than individually.
+.sp 2
+   \fBRERUNNABLE\fR
+.br
+               If the RERUNNABLE field displays \fRyes\fR, jobs
+               in the application profile are automatically
+               restarted or rerun if the execution host becomes
+               unavailable. However, a job in the application
+               profile is not restarted if you use bmod to remove
+               the rerunnable option from the job.
+.sp 2
+   \fBRESUME_CONTROL\fR
+.br
+               The configured actions for the resume job control.
+.sp 2
+               The configured actions are displayed in the format
+               [\fIaction_type\fR, \fIcommand\fR] where
+               \fIaction_type\fR is RESUME.
+.sp 2
+   \fBSUSPEND_CONTROL\fR
+.br
+               The configured actions for the suspend job
+               control.
+.sp 2
+               The configured actions are displayed in the format
+               [\fIaction_type\fR, \fIcommand\fR] where
+               \fIaction_type\fR is SUSPEND.
+.sp 2
+   \fBTERMINATE_CONTROL\fR
+.br
+               The configured actions for terminate job control.
+.sp 2
+               The configured actions are displayed in the format
+               [\fIaction_type\fR, \fIcommand\fR] where
+               \fIaction_type\fR is TERMINATE.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsb.applications, lsb.queues, bsub, bjobs, badmin, mbatchd

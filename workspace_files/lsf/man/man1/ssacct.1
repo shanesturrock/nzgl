@@ -1,0 +1,277 @@
+
+.ad l
+
+.ll 72
+
+.TH ssacct 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBssacct\fR
+.sp 2
+   displays accounting statistics about finished Session
+   Scheduler jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+ssacct [-l] job_ID [task_ID | "task_ID[index]"]
+.sp 2
+ssacct [-l] "job_ID [index]" [task_ID | "task_ID[index]"]
+.sp 2
+ssacct [-l] -f log_file [job_ID [task_ID | "task_ID[index]"]]
+.sp 2
+ssacct [-l] -f log_file ["job_ID [index]" [task_ID |
+"task_ID[index]"]]
+.sp 2
+ssacct [-h] | [-V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default, displays accounting statistics for all finished
+   jobs submitted by the user who invoked the command.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays additional accounting
+               statistics.
+.sp 2
+   \fB-f \fIlog_file\fB \fR
+.br
+               Searches the specified job log file for accounting
+               statistics. Specify either an absolute or relative
+               path.
+.sp 2
+               By default, ssacct searches for accounting files
+               in SSCHED_ACCT_DIR in lsb.params. Use this option
+               to parse a specific file in a different location.
+               You can specify a log file name, or a job ID, or
+               both a log file and a job ID. The following are
+               correct:
+.sp 2
+               ssacct -f log_file job_ID
+.sp 2
+               ssacct -f log_file
+.sp 2
+               ssacct job_ID
+.sp 2
+               The specified file path can contain up to 4094
+               characters for UNIX, or up to 255 characters for
+               Windows.
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex\fB]" \fR
+.br
+               Displays information about the specified jobs or
+               job arrays.
+.sp 2
+   \fB\fItask_ID\fB | "\fItask_ID\fB[\fIindex\fB]" \fR
+.br
+               Displays information about the specified tasks or
+               task arrays.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints Session Scheduler release version to stderr
+               and exits.
+.sp 2 .SH "Output: default format"
+\fBOutput: default format\fR
+.sp 2
+   Statistics on all tasks in the session. The following fields
+   are displayed:
+.sp 2
+     o  
+         Total number of done tasks
+.sp 2
+     o  
+         Total CPU time in seconds consumed
+.sp 2
+     o  
+         Average CPU time in seconds consumed
+.sp 2
+     o  
+         Maximum CPU time in seconds of a task
+.sp 2
+     o  
+         Minimum CPU time in seconds of a task
+.sp 2
+     o  
+         Total wait time in seconds
+.sp 2
+     o  
+         Average wait time in seconds
+.sp 2
+     o  
+         Maximum wait time in seconds
+.sp 2
+     o  
+         Minimum wait time in seconds
+.sp 2
+     o  
+         Average turnaround time (seconds/task)
+.sp 2
+     o  
+         Maximum turnaround time (seconds/task)
+.sp 2
+     o  
+         Minimum turnaround time (seconds/task)
+.sp 2
+     o  
+         Average hog factor of a job (CPU time/turnaround time)
+.sp 2
+     o  
+         Maximum hog factor of a task (CPU time/turnaround time)
+.sp 2
+     o  
+         Minimum hog factor of a task (CPU time/turnaround time)
+.sp 2
+   The total, average, minimum, and maximum statistics are on all
+   specified tasks.
+.sp 2
+   The wait time is the elapsed time from job submission to job
+   dispatch.
+.sp 2
+   The turnaround time is the elapsed time from job submission to
+   job completion.
+.sp 2
+   The hog factor is the amount of CPU time consumed by a job
+   divided by its turnaround time.
+.sp 2 .SH "Output: long format (-l)"
+\fBOutput: long format (-l)\fR
+.sp 2
+   In addition to the fields displayed by default in SUMMARY, -l
+   displays the following fields:
+.sp 2
+   \fBCPU_T \fR
+.br
+               CPU time in seconds used by the task
+.sp 2
+   \fBWAIT\fR
+.br
+               Wall clock time in seconds between when the task
+               was submitted to the Session Scheduler and when it
+               has been dispatched to an execution host
+.sp 2
+   \fBTURNAROUND\fR
+.br
+               Wall clock time in seconds between when the task
+               was submitted to the Session Scheduler and when it
+               has completed running
+.sp 2
+   \fBSTATUS\fR
+.br
+               Status that indicates the job was either
+               successfully completed (done) or exited (exit)
+.sp 2
+   \fBHOG_FACTOR\fR
+.br
+               Average hog factor, equal to CPU time /turnaround
+               time
+.sp 2 .SH "Examples: default format"
+\fBExamples: default format\fR
+.sp 2
+   ssacct 108 1[1]
+.sp 2
+   Accounting information about tasks that are:
+.sp 2
+     - submitted by all users.
+.sp 2
+     - completed normally or exited.
+.sp 2
+     - executed on all hosts.
+.sp 2
+   ------------------------------------------------------------------------------
+.sp 2
+
+.sp 2
+   SUMMARY:      ( time unit: second )
+.sp 2
+    Total number of done tasks:       1      Total number of exited tasks:     0
+.sp 2
+    Total CPU time consumed:       0.0      Average CPU time consumed:     0.0
+.sp 2
+    Maximum CPU time of a task:     0.0      Minimum CPU time of a task:     0.0
+.sp 2
+    Total wait time:     2.0
+.sp 2
+    Average wait time:    2.0
+.sp 2
+    Maximum wait time:    2.0      Minimum wait time:    2.0
+.sp 2
+    Average turnaround time:         3 (seconds/task)
+.sp 2
+    Maximum turnaround time:         3      Minimum turnaround time:         3
+.sp 2
+    Average hog factor of a task:  0.01 ( cpu time / turnaround time )
+.sp 2
+    Maximum hog factor of a task :  0.01      Minimum hog factor of a task:  0.01
+.sp 2 .SH "Examples: long format (-l)"
+\fBExamples: long format (-l)\fR
+.sp 2
+   ssacct -l 108 1[1]
+.sp 2
+   Accounting information about tasks that are:
+.sp 2
+     - submitted by all users.
+.sp 2
+     - completed normally or exited.
+.sp 2
+     - executed on all hosts.
+.sp 2
+
+.sp 2
+   ------------------------------------------------------------------------------
+.sp 2
+   Job <108>, Task <1>, User <user1>, Status <Done> Command <myjob>
+.sp 2
+   Thu Nov  1 13:48:03 2008: Submitted from host <hostA>;
+.sp 2
+   Thu Nov  1 13:48:05 2008: Dispatched to <hostA>, Execution CWD </home/user1/src>
+.sp 2
+   Thu Nov  1 13:48:06 2008: Completed <done>.
+.sp 2
+
+.sp 2
+   Accounting information about this job:
+.sp 2
+        CPU_T     WAIT     TURNAROUND   STATUS     HOG_FACTOR
+.sp 2
+         0.03        2              3     done         0.0113
+.sp 2
+   ------------------------------------------------------------------------------
+.sp 2
+
+.sp 2
+   SUMMARY:      ( time unit: second )
+.sp 2
+    Total number of done tasks:       1      Total number of exited tasks:     0
+.sp 2
+    Total CPU time consumed:       0.0      Average CPU time consumed:     0.0
+.sp 2
+    Maximum CPU time of a task:     0.0      Minimum CPU time of a task:     0.0
+.sp 2
+    Total wait time:     2.0
+.sp 2
+    Average wait time:    2.0
+.sp 2
+    Maximum wait time:    2.0      Minimum wait time:    2.0
+.sp 2
+    Average turnaround time:         3 (seconds/task)
+.sp 2
+    Maximum turnaround time:         3      Minimum turnaround time:         3
+.sp 2
+    Average hog factor of a task:  0.01 ( cpu time / turnaround time )
+.sp 2
+    Maximum hog factor of a task :  0.01      Minimum hog factor of a task:  0.01
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads \fIjob_ID\fR.ssched.acct
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   ssched, lsb.params

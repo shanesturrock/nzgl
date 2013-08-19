@@ -1,0 +1,59 @@
+
+.ad l
+
+.ll 72
+
+.TH lsacctmrg 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsacctmrg\fR
+.sp 2
+   merges task log files
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsacctmrg [-f] logfile_name ... target_logfile_name
+.sp 2
+lsacctmrg [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Merges specified task log files into the specified target file
+   in chronological order according to completion time.
+.sp 2
+   All files must be in the format specified in lsf.acct (see
+   lsf.acct(5)).
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-f \fR
+.br
+               Overwrites the target file without prompting for
+               confirmation.
+.sp 2
+   \fB\fIlogfile_name\fB ...\fR
+.br
+               Specify log files to be merged into the target
+               file, separated by spaces. Specify either an
+               absolute or a relative path.
+.sp 2
+   \fB\fItarget_logfile_name\fB \fR
+.br
+               Specify the file into which all log files are to
+               be merged. Specify either an absolute or a
+               relative path. The target file cannot be part of
+               the files to be merged.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsf.acct(5), res(8)
+.sp 2

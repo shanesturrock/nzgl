@@ -1,0 +1,452 @@
+
+.ad l
+
+.ll 72
+
+.TH lsf.shared 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsf.shared\fR
+.sp 2
+   The lsf.shared file contains common definitions that are
+   shared by all load sharing clusters defined by
+   lsf.cluster.\fIcluster_name\fR files. This includes lists of
+   cluster names, host types, host models, the special resources
+   available, and external load indices, including indices
+   required to submit jobs using JSDL files.
+.sp 2
+   This file is installed by default in the directory defined by
+   LSF_CONFDIR.
+.sp 2 .SH "Changing lsf.shared configuration"
+\fBChanging lsf.shared configuration\fR
+.sp 2
+   After making any changes to lsf.shared, run the following
+   commands:
+.sp 2
+     o  
+         lsadmin reconfig to reconfigure LIM
+.sp 2
+     o  
+         badmin mbdrestart to restart mbatchd
+.sp 2
+\fBCluster section\fR
+.sp 2
+   (Required) Lists the cluster names recognized by the LSF
+   system
+.sp 2 .SH "Cluster section structure"
+\fBCluster section structure\fR
+.sp 2
+   The first line must contain the mandatory keyword ClusterName.
+   The other keyword is optional.
+.sp 2
+   The first line must contain the mandatory keyword ClusterName
+   and the keyword Servers in a MultiCluster environment.
+.sp 2
+   Each subsequent line defines one cluster.
+.sp 2 .SH "Example Cluster section"
+\fBExample Cluster section\fR
+.sp 2
+   Begin Cluster
+.sp 2
+   ClusterName  Servers
+.sp 2
+   cluster1     hostA
+.sp 2
+   cluster2     hostB
+.sp 2
+   End Cluster
+.sp 2
+\fBClusterName \fR
+.sp 2
+   Defines all cluster names recognized by the LSF system.
+.sp 2
+   All cluster names referenced anywhere in the LSF system must
+   be defined here. The file names of cluster-specific
+   configuration files must end with the associated cluster name.
+.sp 2
+   By default, if MultiCluster is installed, all clusters listed
+   in this section participate in the same MultiCluster
+   environment. However, individual clusters can restrict their
+   MultiCluster participation by specifying a subset of clusters
+   at the cluster level (lsf.cluster.\fIcluster_name\fR
+   RemoteClusters section).
+.sp 2
+
+.sp 2
+\fBServers\fR
+.sp 2
+   MultiCluster only. List of hosts in this cluster that LIMs in
+   remote clusters can connect to and obtain information from.
+.sp 2
+   For other clusters to work with this cluster, one of these
+   hosts must be running mbatchd.
+.sp 2
+\fBHostType section\fR
+.sp 2
+   (Required) Lists the valid host types in the cluster. All
+   hosts that can run the same binary executable are in the same
+   host type.
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         If you remove NTX86, NTX64, or NTIA64 from the HostType
+         section, the functionality of lspasswd.exe is affected.
+         The lspasswd command registers a password for a Windows
+         user account.
+.sp 2 .SH "HostType section structure"
+\fBHostType section structure\fR
+.sp 2
+   The first line consists of the mandatory keyword TYPENAME.
+.sp 2
+   Subsequent lines name valid host types.
+.sp 2 .SH "Example HostType section"
+\fBExample HostType section\fR
+.sp 2
+   Begin HostType
+.sp 2
+   TYPENAME
+.sp 2
+   SOL64
+.sp 2
+   SOLSPARC
+.sp 2
+   LINUX86LINUXPPC
+.sp 2
+   LINUX64
+.sp 2
+   NTX86
+.sp 2
+   NTX64
+.sp 2
+   NTIA64
+.sp 2
+   End HostType
+.sp 2
+\fBTYPENAME \fR
+.sp 2
+   Host type names are usually based on a combination of the
+   hardware name and operating system. If your site already has a
+   system for naming host types, you can use the same names for
+   LSF.
+.sp 2
+
+.sp 2
+\fBHostModel section\fR
+.sp 2
+   (Required) Lists models of machines and gives the relative CPU
+   scaling factor for each model. All hosts of the same relative
+   speed are assigned the same host model.
+.sp 2
+   LSF uses the relative CPU scaling factor to normalize the CPU
+   load indices so that jobs are more likely to be sent to faster
+   hosts. The CPU factor affects the calculation of job execution
+   time limits and accounting. Using large or inaccurate values
+   for the CPU factor can cause confusing results when CPU time
+   limits or accounting are used.
+.sp 2 .SH "HostModel section structure"
+\fBHostModel section structure\fR
+.sp 2
+   The first line consists of the mandatory keywords MODELNAME,
+   CPUFACTOR, and ARCHITECTURE.
+.sp 2
+   Subsequent lines define a model and its CPU factor.
+.sp 2 .SH "Example HostModel section"
+\fBExample HostModel section\fR
+.sp 2
+   Begin HostModel MODELNAME  CPUFACTOR     ARCHITECTURE
+.sp 2
+   PC400        13.0        (i86pc_400 i686_400)
+.sp 2
+   PC450        13.2        (i86pc_450 i686_450)
+.sp 2
+   Sparc5F       3.0        (SUNWSPARCstation5_170_sparc)
+.sp 2
+   Sparc20       4.7        (SUNWSPARCstation20_151_sparc)
+.sp 2
+   Ultra5S      10.3        (SUNWUltra5_270_sparcv9 SUNWUltra510_270_sparcv9)
+.sp 2
+   End HostModel
+.sp 2
+\fBARCHITECTURE\fR
+.sp 2
+   (Reserved for system use only) Indicates automatically
+   detected host models that correspond to the model names.
+.sp 2
+\fBCPUFACTOR\fR
+.sp 2
+   Though it is not required, you would typically assign a CPU
+   factor of 1.0 to the slowest machine model in your system and
+   higher numbers for the others. For example, for a machine
+   model that executes at twice the speed of your slowest model,
+   a factor of 2.0 should be assigned.
+.sp 2
+\fBMODELNAME \fR
+.sp 2
+   Generally, you need to identify the distinct host types in
+   your system, such as MIPS and SPARC first, and then the
+   machine models within each, such as SparcIPC, Sparc1, Sparc2,
+   and Sparc10.
+.sp 2
+\fBAbout automatically detected host models and types\fR
+.sp 2
+   When you first install LSF, you do not necessarily need to
+   assign models and types to hosts in
+   lsf.cluster.\fIcluster_name\fR. If you do not assign models
+   and types to hosts in lsf.cluster.\fIcluster_name\fR, LIM
+   automatically detects the model and type for the host.
+.sp 2
+   If you have versions earlier than LSF 4.0, you may have host
+   models and types already assigned to hosts. You can take
+   advantage of automatic detection of host model and type also.
+.sp 2
+   Automatic detection of host model and type is useful because
+   you no longer need to make changes in the configuration files
+   when you upgrade the operating system or hardware of a host
+   and reconfigure the cluster. LSF will automatically detect the
+   change.
+.sp 2 .SH "Mapping to CPU factors"
+\fBMapping to CPU factors\fR
+.sp 2
+   Automatically detected models are mapped to the short model
+   names in lsf.shared in the ARCHITECTURE column. Model strings
+   in the ARCHITECTURE column are only used for mapping to the
+   short model names.
+.sp 2
+   Example lsf.shared file:
+.sp 2
+   Begin HostModel
+.sp 2
+   MODELNAME   CPUFACTOR     ARCHITECTURE
+.sp 2
+   SparcU5     5.0           (SUNWUltra510_270_sparcv9)
+.sp 2
+   PC486       2.0           (i486_33 i486_66)
+.sp 2
+   PowerPC     3.0           (PowerPC12 PowerPC16 PowerPC31)
+.sp 2
+   End HostModel
+.sp 2
+   If an automatically detected host model cannot be matched with
+   the short model name, it is matched to the best partial match
+   and a warning message is generated.
+.sp 2
+   If a host model cannot be detected or is not supported, it is
+   assigned the DEFAULT model name and an error message is
+   generated.
+.sp 2 .SH "Naming convention"
+\fBNaming convention\fR
+.sp 2
+   Models that are automatically detected are named according to
+   the following convention:
+.sp 2
+   hardware_platform [_processor_speed[_processor_type]]
+.sp 2
+   where:
+.sp 2
+     o  
+         \fIhardware_platform\fR is the only mandatory component
+.sp 2
+     o  
+         \fIprocessor_speed\fR is the optional clock speed and is
+         used to differentiate computers within a single platform
+.sp 2
+     o  
+         \fIprocessor_type\fR is the optional processor
+         manufacturer used to differentiate processors with the
+         same speed
+.sp 2
+     o  
+         Underscores (\fR_\fR) between \fIhardware_platform\fR,
+         \fIprocessor_speed\fR, \fIprocessor_type\fR are
+         mandatory.
+.sp 2
+\fBResource section\fR
+.sp 2
+   Optional. Defines resources (must be done by the LSF
+   administrator).
+.sp 2 .SH "Resource section structure"
+\fBResource section structure\fR
+.sp 2
+   The first line consists of the keywords. RESOURCENAME and
+   DESCRIPTION are mandatory. The other keywords are optional.
+   Subsequent lines define resources.
+.sp 2 .SH "Example Resource section"
+\fBExample Resource section\fR
+.sp 2
+   Begin Resource
+.sp 2
+   RESOURCENAME  TYPE    INTERVAL INCREASING CONSUMABLE DESCRIPTION  # Keywords
+.sp 2
+      patchrev   Numeric  ()        Y         ()         (Patch revision)
+.sp 2
+      specman    Numeric  ()        N         ()         (Specman)
+.sp 2
+      switch     Numeric  ()        Y         N          (Network Switch)
+.sp 2
+      rack       String   ()        ()        ()         (Server room rack)
+.sp 2
+      owner      String   ()        ()        ()         (Owner of the host)
+.sp 2
+      elimres    Numeric  10        Y         ()         (elim generated index)
+.sp 2
+      ostype     String   ()        ()        ()         (Operating system and version)
+.sp 2
+      lmhostid   String   ()        ()        ()         (FlexLM's lmhostid)
+.sp 2
+      limversion String   ()        ()        ()         (Version of LIM binary)
+.sp 2
+   End Resource 
+.sp 2
+\fBRESOURCENAME\fR
+.sp 2
+   The name you assign to the new resource. An arbitrary
+   character string.
+.sp 2
+     o  
+         A resource name cannot begin with a number.
+.sp 2
+     o  
+         A resource name cannot contain any of the following
+         characters:
+.sp 2
+         :  .  (  )  [  +  - *  /  !  &  | <  >  @  =
+.sp 2
+     o  
+         A resource name cannot be any of the following reserved
+         names:
+.sp 2
+         cpu cpuf io logins ls idle maxmem maxswp maxtmp type model status it 
+.sp 2
+         mem ncpus define_ncpus_cores define_ncpus_procs 
+.sp 2
+         define_ncpus_threads ndisks pg r15m r15s r1m swap swp tmp ut
+.sp 2
+     o  
+         To avoid conflict with inf and nan keywords in 3rd-party
+         libraries, resource names should not begin with inf or
+         nan (upper case or lower case). Resource requirment
+         strings, such as \fR-R "infra"\fR or \fR-R "nano"\fR
+         will cause an error. Use \fR-R "defined(infxx)"\fR or
+         \fR-R "defined(nanxx)"\fR, to specify these resource
+         names.
+.sp 2
+     o  
+         Resource names are case sensitive
+.sp 2
+     o  
+         Resource names can be up to 39 characters in length
+.sp 2
+     o  
+         For Solaris machines, the keyword \fRint\fR is reserved
+         and cannot be used.
+.sp 2
+\fBTYPE\fR
+.sp 2
+   The type of resource:
+.sp 2
+     o  
+         Boolean—Resources that have a value of 1 on hosts that
+         have the resource and 0 otherwise.
+.sp 2
+     o  
+         Numeric—Resources that take numerical values, such as
+         all the load indices, number of processors on a host, or
+         host CPU factor.
+.sp 2
+     o  
+         String— Resources that take string values, such as host
+         type, host model, host status.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   If TYPE is not given, the default type is Boolean.
+.sp 2
+\fBINTERVAL\fR
+.sp 2
+   Optional. Applies to dynamic resources only.
+.sp 2
+   Defines the time interval (in seconds) at which the resource
+   is sampled by the ELIM.
+.sp 2
+   If INTERVAL is defined for a numeric resource, it becomes an
+   external load index.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   If INTERVAL is not given, the resource is considered static.
+.sp 2
+\fBINCREASING\fR
+.sp 2
+   Applies to numeric resources only.
+.sp 2
+   If a larger value means greater load, INCREASING should be
+   defined as Y. If a smaller value means greater load,
+   INCREASING should be defined as N.
+.sp 2
+\fBCONSUMABLE\fR
+.sp 2
+   Explicitly control if a resource is consumable. Applies to
+   static or dynamic numeric resources.
+.sp 2
+   Static and dynamic numeric resources can be specified as
+   consumable. CONSUMABLE is optional. The defaults for the
+   consumable attribute are:
+.sp 2
+     o  
+         Built-in indicies:
+.sp 2
+           o  
+               The following are consumable: r15s, r1m, r15m, ut,
+               pg, io, ls, it, tmp, swp, mem.
+.sp 2
+           o  
+               All other built-in static resources are not
+               consumable. (e.g., ncpus, ndisks, maxmem, maxswp,
+               maxtmp, cpuf, type, model, status, rexpri, server,
+               hname).
+.sp 2
+     o  
+         External shared resources:
+.sp 2
+           o  
+               All numeric resources are consumable.
+.sp 2
+           o  
+               String and boolean resources are not consumable.
+.sp 2
+   You should only specify consumable resources in the rusage
+   section of a resource requirement string. Non-consumable
+   resources are ignored in rusage sections.
+.sp 2
+   A non-consumable resource should not be releasable.
+   Non-consumable numeric resource should be able to used in
+   order, select and same sections of a resource requirement
+   string.
+.sp 2
+   When LSF_STRICT_RESREQ=Y in lsf.conf, LSF rejects resource
+   requirement strings where an rusage section contains a
+   non-consumable resource.
+.sp 2
+\fBDESCRIPTION\fR
+.sp 2
+   Brief description of the resource.
+.sp 2
+   The information defined here will be returned by the ls_info()
+   API call or printed out by the lsinfo command as an
+   explanation of the meaning of the resource.
+.sp 2
+\fBRELEASE\fR
+.sp 2
+   Applies to numeric shared resources only, such as floating
+   licenses.
+.sp 2
+   Controls whether LSF releases the resource when a job using
+   the resource is suspended. When a job using a shared resource
+   is suspended, the resource is held or released by the job
+   depending on the configuration of this parameter.
+.sp 2
+   Specify N to hold the resource, or specify Y to release the
+   resource.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y

@@ -1,0 +1,105 @@
+
+.ad l
+
+.ll 72
+
+.TH bmgroup 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbmgroup\fR
+.sp 2
+   displays information about host groups and compute units
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bmgroup [-r] [-l] [-w] [-cu] [group...]
+.sp 2
+bmgroup [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays compute units, host groups, host names, and
+   administrators for each group or unit.
+.sp 2
+   By default, displays information about all compute units, host
+   partitions, and host groups including host groups created for
+   EGO-enabled SLA scheduling.
+.sp 2 .SH "Host groups for EGO-enabled SLA"
+\fBHost groups for EGO-enabled SLA\fR
+.sp 2
+   When hosts are allocated to an EGO-enabled SLA, they are
+   dynamically added to a host group created by the SLA. The name
+   of the host group is _sla_\fIsla_name\fR, where \fIsla_name\fR
+   is the name of the EGO-enabled SLA defined in
+   lsb.serviceclasses or in ENABLE_DEFAULT_EGO_SLA in lsb.params.
+   One of the hosts in the host group has the name _virtual.
+.sp 2
+   When the host is released to EGO, the entry is removed from
+   the host group. bmgroup displays the hosts allocated by EGO to
+   the host group created by the SLA.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Displays static and dynamic host group members. A
+               ‘+’ sign before the host name indicates that the
+               host is dynamic and is currently a member of the
+               compute unit, host partitions, or host group. A
+               ‘-’ sign before the host name indicates that the
+               host is currently not an LSF host but is a member
+               of the dynamic group, partition, or unit.
+.sp 2
+               Also identifies condensed compute units, host
+               partitions, or host groups as defined by CONDENSE
+               in the \fRHostGroup\fR or \fRComputeUnit\fR
+               section of lsb.hosts.
+.sp 2
+   \fB-r\fR
+.br
+               Expands host groups, host partitions, and compute
+               units recursively. The expanded list contains only
+               host names; it does not contain the names of
+               subgroups. Duplicate names are listed only once.
+.sp 2
+   \fB-w\fR
+.br
+               Wide format. Displays names without truncating
+               fields.
+.sp 2
+   \fB-cu\fR
+.br
+               Displays compute unit information. Use with
+               [\fIcu_name\fR] to display only the specified
+               compute unit.
+.sp 2
+   \fBgroup...\fR
+.br
+               Only displays information about the specified
+               groups (host groups, or compute unit with -cu). Do
+               not use quotes when specifying multiple groups.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   In the list of hosts, a name followed by a slash (/) indicates
+   a subgroup.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Host groups, compute units, and host partitions are configured
+   in the configuration file lsb.hosts(5). Compute unit types are
+   defined by \fBCOMPUTE_UNIT_TYPES\fR in lsb.params(5).
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsb.hosts(5), lsb.params(5), bugroup(1), bhosts(1)
+.sp 2

@@ -1,0 +1,66 @@
+
+.ad l
+
+.ll 72
+
+.TH brsvdel 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrsvdel\fR
+.sp 2
+   deletes an advance reservation
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brsvdel reservation_ID ...
+.sp 2
+brsvdel {-h | -V}
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         By default, this command can only be used by LSF
+         administrators or root.
+.sp 2
+   Deletes advance reservations for the specified reservation
+   IDs.
+.sp 2
+   For example, if the following command was used to create the
+   reservation \fRuser1#0\fR,
+.sp 2
+   brsvadd -n 1024 -m hostA -u user1 -b 13:0 -e 18:0
+.sp 2
+   Reservation "user1#0" is created
+.sp 2
+   the following command deletes the reservation:
+.sp 2
+   brsvdel user1#0
+.sp 2
+   Reservation user1#0 is being deleted
+.sp 2
+   You can delete multiple reservations at a time.
+.sp 2
+   To allow users to delete their own advance reservations
+   without administrator intervention, configure advance
+   reservation policies in the ResourceReservation section of
+   lsb.resources.
+.sp 2
+   Administrators and root can delete any reservations. Users
+   listed in the ResourceReservation section can only delete
+   reservations they created themselves.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   brsvadd, brsvmod, brsvs, lsb.resources

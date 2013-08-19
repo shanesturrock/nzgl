@@ -1,0 +1,153 @@
+.\" $Id: flexlm.1,v 1.6 2005/10/19 21:30:58 qwang Exp $
+.ds ]W %
+.ds ]L
+.TH FLEXlm 1 "October 2006   Platform LSF Version 7.0"
+.SH NAME
+\fBFLEXlm\fR
+- FLEXlm, licensing tool for LSF
+.SH Overview
+
+.RS
+FLEXlm is used by many software packages because it provides a simple and flexible method for controlling access to licensed software. A single FLEXlm license server can handle licenses for many software packages, even if those packages come from different vendors. This reduces the systems administration load, since you do not need to install a new license manager every time you get a new package.
+.RE
+.PP
+ 
+.SH License Daemons (lmgrd and lsf_ld)
+
+.RS
+On UNIX, FLEXlm uses a server daemon called lmgrd to manage permanent licenses. On Windows, FLEXlm uses the service FLEXlm License Server to manage permanent licenses.
+.RE
+.PP
+ 
+.RS
+This daemon or service runs on one host on your network, and handles license requests from all applications. Each license key is associated with a particular software vendor. lmgrd automatically starts the LSF license vendor daemon called lsf_ld. The vendor daemon keeps track of all licenses supported by LSF. Demo licenses do not require you to run license daemons.
+.RE
+.PP
+ 
+.SH License Management Utilities
+
+.RS
+FLEXlm provides several utility programs for managing software licenses. These utilities are included in the LSF software distribution.
+.RE
+.PP
+ 
+.RS
+Because these utilities can be used to shut down the FLEXlm license server, and can prevent licensed software from running, they are installed in the LSF_SERVERDIR directory. For security reasons, this directory should only be accessible to LSF administrators. 
+.RE
+.PP
+ 
+.RS
+UNIX--Set the file permissions so that only root and members of group 0 can use them.
+.RE
+.PP
+ 
+.RS
+Windows--On Windows, FLEXlm utilities are installed both in LSF_SERVERDIR, and in c:\\flexlm\\bin on the license server.
+.RE
+.PP
+ 
+.RS
+LSF installs the following FLEXlm utilities in LSF_SERVERDIR. On Windows, you access these utilities through lmutil (for example, lmutil lmhostid) so only lmutil is installed.
+.RE
+.PP
+ 
+.RS
+lmcksum
+.RE
+.PP
+ 
+.RS
+.RS
+Calculate check sums of the license key information
+.RE
+.RE
+.PP
+ 
+.RS
+lmdown
+.RE
+.PP
+ 
+.RS
+.RS
+Shut down the FLEXlm server
+.RE
+.RE
+.PP
+ 
+.RS
+lmhostid
+.RE
+.PP
+ 
+.RS
+.RS
+Display the hardware host ID
+.RE
+.RE
+.PP
+ 
+.RS
+lmremove
+.RE
+.PP
+ 
+.RS
+.RS
+Remove a feature from the list of checked out features
+.RE
+.RE
+.PP
+ 
+.RS
+lmreread
+.RE
+.PP
+ 
+.RS
+.RS
+Tell the license daemons to re-read the license file
+.RE
+.RE
+.PP
+ 
+.RS
+lmstat
+.RE
+.PP
+ 
+.RS
+.RS
+Display the status of the license servers and checked out licenses
+.RE
+.RE
+.PP
+ 
+.RS
+lmver
+.RE
+.PP
+ 
+.RS
+.RS
+Display the FLEXlm version information for a program or library
+.RE
+.RE
+.PP
+ 
+.RS
+.RS
+For complete details on these commands, see the FLEXlm UNIX man pages or Windows html pages.
+.RE
+.RE
+.PP
+  
+.RS
+
+.RE
+.PP
+ 
+
+
+
+ 

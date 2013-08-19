@@ -1,0 +1,207 @@
+.\" chkpnt.3ckpt,v 1.2 1994/07/30 15:28:27 xxue Exp
+.ds ]W %
+.ds ]L
+.TH CHKPNT 3CKPT "1 August 1998"
+.SH NAME
+chkpnt \- checkpoint a process or a set of processes
+.LP
+.SH SYNOPSIS
+.nf
+.B #include <sys/types.h>
+.B #include <chkpnt.h>
+.PP
+.nf
+.ft B
+int chkpnt(int class, pid_t id, const char *path, int flags);
+.ft
+.fi
+
+.SH DESCRIPTION
+This function checkpoints a process or a family of processes
+and creates files that contain all the
+information necessary to restart the process or family of
+processes with the
+.BR restart (3)
+function call.
+.PP
+The affected process is unaware of the checkpoint and will
+continue normal execution after the 
+.B chkpnt()
+call unless the
+.B CHKPNY_KILL
+option is specified in the
+.B flags
+argument.
+.PP
+For the checkpoint operation to be successful, the process invoking
+.B chkpnt()
+should either be the superuser or its effective user ID matches the
+effective user ID of the process to be checkpointed.
+.SH ARGUMENTS
+.PP
+.TP 12
+.B class
+.B CHKPNT_FAMILY
+- checkpoint the process 
+.B pid
+and all of its descendents.
+The current implementation of
+.B chkpnt()
+does not support the checkpointing of a familiy of processes.
+When
+.B CHKPNT_FAMILY
+is specified, the checkpoint triggering signal is sent to all the
+processes in the family. Only the process linked with the
+checkpoint user library responds to the signal and gets checkpointed.
+In case there are more than one process in the family that were
+linked with the checkpoint user library, the result is undefined.
+.IP
+.B CHKPNT_PROC
+- checkpoint the single process whose process id is
+.BR pid .
+.TP 12
+.B pid
+The identifier of the target process or the group leader of the
+process family to checkpoint. A
+.B pid
+of
+.B 0
+indicates the calling process.
+.TP 12
+.B path
+The directory name under which checkpoint files that contain
+information for restarting the process or process family are to be stored.
+If the directory does not exist, it will be created.
+.TP 12
+.B flags
+.B flags
+is one of the following:
+.IP
+.B CHKPNT_CONT
+- Specifies that the process is to continue normal execution after
+the checkpointing is completed. 
+.IP
+.B CHKPNT_KILL
+- Kill all the target
+process(es) if the checkpoint operation is successful.
+If
+.B CHKPNT_KILL
+is specified and the checkpoint fails for any
+reason the target process(es) continue normal execution.
+.SH RETURN VALUES
+Upon successful completion,
+.B chkpnt()
+returns
+.BR 0 .
+Otherwise, a value
+of
+.B -1
+is returned, and 
+.B errno
+is set to indicate the error.
+.SH ERRORS
+If any of the following conditions occur, 
+.B chkpnt()
+shall return
+.B -1
+and set
+.B errno
+to the corresponding value.
+.TP 15
+.SM [EACCES]
+Search permission is denied on a component of the prefix,
+or write permission is denied on directory
+.BR path .
+.TP
+.SM [ECHKPNTFAIL]
+Checkpoint operation could not be completed.
+.TP
+.SM [EINVAL]
+An invalid argument was passed to the function call.
+.TP
+.SM [ENOENT]
+The
+.B path
+argument points to an empty string, or a component of the path does not exist.
+.TP
+.SM [ENOTDIR]
+The
+.B path
+is not a directory.
+.TP
+.SM [ENOSYS]
+The
+.B chkpnt()
+function is not supported by the implementation.
+.TP
+.SM [ENOTDIR]
+A component of the 
+.B path
+is not a directory.
+.TP
+.SM [ENAMETOOLONG]
+The length of the path string exceeds
+.BR PATH_MAX ,
+or a pathname component is longer than
+.BR NAME_MAX .
+.TP
+.SM [ENOSPC]
+There is no free space remaining on the device containing
+path.
+.TP
+.SM [EPERM]
+The process is not the superuser, and its effective
+user ID does not match the effective user ID of the
+process to be checkpointed.
+.TP
+.SM [ESRCH]
+No process can be found corresponding to that specified by
+.BR pid .
+.TP
+.SM [EROFS]
+The checkpoint file to be created would reside on a
+read-only file system.
+.SH NOTES
+.PP
+.B SIGHUP
+is used internally to implement checkpointing. Do not
+use the same signal in programs to be checkpointed.
+.PP
+Programs to be checkpointed should be linked with the checkpoint user
+library
+.B libckpt.a
+and with the special checkpoint startup routine
+.B ckpt_crt0.o
+rather than the standard
+.B crt0.o
+as the startup routine. Two shell scripts
+.B ckpt_ld
+and
+.B ckpt_ld_f
+are provided as replacements for
+.B ld
+which
+accept the same parameters as
+.B ld
+does and will link the application program
+with
+.B libckpt.a
+and
+.B ckpt_crt0.o
+automatically.
+.B ckpt_ld
+is for linking C programs and
+.B ckpt_ld_f
+is for linking Fortran programs.
+.PP
+Processes with open pipes or sockets can be checkpointed, and warning 
+messages will be printed.  These processes may not properly
+restart as the pipes/sockets will not be re-opened by restart.
+.PP
+If a process has stdin, stdout, or stderr as open pipes, it can be successfully
+checkpointed with no warning about the pipes.  All data in the pipes is lost
+on restart.
+.SH STANDARD COMFORMANCE
+POSIX.1a
+.SH SEE ALSO
+ckpt_ld(1), ckpt_ld_f(1), libckpt.a(3), ckpt_crt0.o(3), restart(3), rmckpt(3).

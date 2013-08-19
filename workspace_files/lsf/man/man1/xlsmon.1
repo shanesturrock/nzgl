@@ -1,0 +1,483 @@
+.\"
+.ds ]W %
+.ds ]L
+.TH XLSMON 1 "1 August 1998"
+.SH NAME
+xlsmon \- a graphical user interface for cluster load monitoring
+.SH SYNOPSIS
+\fBxlsmon  [ \fIstandard X11/Motif flags... \fB]
+.SH DESCRIPTION
+A Motif graphical user interface for monitoring the load on the
+hosts in an LSF cluster.
+.PP
+\fBNOTE:\fR
+.PP
+The UNIX X-GUI commands (xbmod, xlsbatch, xbsub, xlsmon) are obsolete. 
+The command binaries remain available in the distribution packages as a 
+courtesy, but are provided "as is" and are no longer officially supported.
+.BR
+.PP
+\fBxlsmon\fR displays the configuration and load information of hosts
+in the load sharing cluster. This information is sorted and displayed in
+tables, bar charts and strip charts, which are updated periodically. The load
+information displayed includes 15-sec CPU queue length, 1-min CPU queue length,
+15-min CPU queue length, 1-min CPU utilization, 1-min paging rate (pg/s),
+1-min disk I/O rate (Kbytes/s), number of login users, interactive idle time
+(min), available \fB/tmp\fR space (Mbytes), available swap space (Mbytes),
+available memory (Mbytes), and external load indices (see also
+.BR lsmon (1)).
+.PP
+The main window of \fBxlsmon\fR consists of a viewing area, a message area
+and a menu bar.
+.PP
+The viewing area displays a host icon for each of the
+hosts in the LSF cluster. Each icon changes shape and color according to
+the current status of the host. 
+.\"A host can be selected and unselected
+.\"by clicking the left mouse button on its respective icon.
+.\"The selected hosts are used by default in the \fBDetailed Host
+.\"Load\fR window, the \fBHistory of Host Load\fR window, and the \fBCluster
+.\"Configuration\fR window.
+.PP
+The message area prints information about status changes of the hosts and
+error messages that might result from the user performing operations through
+\fBxlsmon\fR.
+.PP
+The menu bar contains the following items:
+\fBFile\fR, \fBView\fR, \fBOptions\fR and \fBHelp\fR.
+.PP
+.TP 5
+.B File
+The \fBFile\fR menu contains the following items:
+.RS 5
+.TP 5 
+.B Refresh
+Refresh the contents of the viewing area.
+.TP 5
+.B "Clean Message"
+Clean the messages in the message area.
+.TP 5 
+.B Exit
+Close the
+.B xlsmon
+main window and all subwindows.
+.RE
+.TP 5
+.B View
+The \fBView\fR menu allows users to pop up separate windows to display 
+detailed
+information about hosts in the system. The menu contains the following items:
+.RS 5
+.TP 5 
+.B "Host Selection..."
+Pop up a dialog box to let the user select the hosts for the program.
+The default is all hosts in the LSF cluster.
+.TP 5 
+.B "Detailed Load..."
+Pop up the "\fBDetailed Host Load\fR" window to display the load
+indices of the selected hosts in bar charts (see the section 
+"\fBDetailed Host Load Window\fR").
+.TP 5 
+.B "History of Load..."
+Pop up the "\fBHistory of Host Load\fR" window to display the recent values of
+the load indices of the selected hosts
+in strip charts (see the section "\fBHistory of Host Load Window\fR").
+.TP 5
+.B  "Cluster Configuration..."
+Pop up "\fBCluster Configuration\fR" window to display configuration of the hosts
+in table form (see the section "\fBCluster Configuration Window\fR").
+.RE
+.TP 5
+.B Options 
+The \fBOptions\fR menu allows users to modify the operating behavior of \fBxlsmon\fR.
+The menu contains the following items:
+.RS 5
+.TP 5
+.B  "Set Options..."
+Display a dialog box, which contains controls that affect the \fBxlsmon\fR's
+features, including display refresh period, warning bell volume, print
+command, "\fBHistory of Host Load\fR" and "\fBCluster Configuration\fR"
+window auto resize options.
+.TP 5
+.B  "Save Options" 
+Save the current settings of the features and host selection to the
+configuration file 
+.BR  ~/.XLsmon .
+This file, if available, is read when \fBxlsmon\fR is started to obtain
+the configuration file features.
+.TP 5
+.B  "Restore Options" 
+Restore the settings of the features and host selection from the last
+saved configuration file
+.BR  ~/.XLsmon .
+.RE
+.TP 5
+.B Help
+The \fBHelp\fR menu contains the following items:
+.RS 5
+.TP 5
+.B  "On Version..." 
+Pop up a message dialog displaying the version, date and product information
+for \s-1LSF\s0.
+.TP 5
+.B  "On Window..." 
+Pop up on-line \fBHelp\fR window to display the information about the tasks that
+you can perform with the \fBxlsmon\fR (see the section "\fBHelp Window\fR").
+.TP 5
+.B  "On Help..." 
+Pop up on-line \fBHelp\fR window to display the information about how to use the
+on-line help (see the section "\fBHelp Window\fR").
+.RE
+.sp
+.TP 5
+.B  Detailed Host Load Window
+The "\fBDetailed Host Load\fR" window displays the load indices of the selected
+hosts in bar charts. This window consists of a menu and a viewing area.
+.IP "" 5
+The menu bar for the "\fBDetailed Host Load\fR" 
+window contains the following items:
+\fBFile\fR, \fBView\fR, \fBOptions\fR and \fBHelp\fR.
+.RS 5
+.TP 5
+.B  File
+The \fBFile\fR menu contains the following item:
+.RS 5
+.TP 5
+.B  Exit
+Close the "\fBDetailed Host Load\fR" window.
+.RE
+.TP 5
+.B  View
+The \fBView\fR menu allows the user to choose displaying the load by
+hosts or by index and change the display features.  Any change to the
+display features made in this \fBView\fR menu only affect this
+window, not the main \fBxlsmon\fR window.
+.IP "" 5
+The menu contains the following items:
+.RS 5
+.TP 5
+.B  "Display by Load Index" 
+Display load by index in the viewing area. This is the default.
+.TP 5
+.B  "Display by Host" 
+Display load by hosts in the viewing area.
+.TP 5
+.B  "Select Load Index..." 
+Pop up a dialog box to let the user select the load indices to display
+in the viewing area.
+The default is to show all the load indices.
+.TP 5
+.B  "Select Host..." 
+Pop up a dialog box to let the user select the hosts to display in the
+viewing area.
+The default is all hosts in the \s-1LSF\s0 cluster.
+.RE
+.TP 5
+.B Options
+The \fBOptions\fR menu allows users to modify the operation behavior of
+the \fBDetailed Host Load\fR window. The menu contains the following
+items:
+.RS
+.TP 5
+.B Save Settings
+Save the window geometry and the current settings of the host and load
+index selections to the configuration file \fB~/.XLsmon\fR.
+.TP 5
+.B Restore Settings
+Restore the window geometry and the current settings of the host and
+load index selections from the last saved configuration file
+\fB~/.XLsmon\fR.
+.RE
+.TP 5
+.B Help 
+Same as the \fBHelp\fR menu of the main window.
+.RE
+.sp
+.TP 5
+.B  History of Host Load Window
+The "\fBHistory of Host Load\fR" window displays information in strip chart
+format on the recent
+values of the load indices of the selected hosts.
+.IP "" 5
+This window consists of a menu and a scrolled viewing
+area that displays strip charts of host load indices.
+The menu bar for the "\fBHistory of Host Load\fR" window
+contains the following items:
+\fBFile\fR, \fBView\fR, \fBOptions\fR and  \fBHelp\fR.
+.RS 5
+.TP 5
+.B  File
+The \fBFile\fR menu contains the following item:
+.RS 5
+.TP 5
+.B  Exit 
+Close the "\fBHistory of Host Load\fR" window.
+.RE
+.TP 5
+.B  View 
+Allow the user to select hosts and load indices that are displayed
+in strip charts. The menu contains the following items:
+.RS 5
+.TP 5
+.B  "Select Load Index..." 
+Pop up a dialog box to let the user select the load indices to display
+in the viewing area.
+.TP 5
+.B  "Select Host..." 
+Pop up a dialog box to let the user to select the hosts to display
+in the viewing area.
+The default is all hosts in the \s-1LSF\s0 cluster.
+.RE
+.TP 5
+.B Options
+The \fBOptions\fR menu allows users to modify the operation behavior of
+the \fBHistory of Host Load\fR window. The menu contains the following
+items:
+.RS
+.TP 5
+.B Save Settings
+Save the window geometry and the current settings of the host and load
+index selections to the configuration file \fB~/.XLsmon\fR.
+.TP 5
+.B Restore Settings
+Restore the window geometry and the current settings of the host and
+load index selections from the last saved configuration file
+\fB~/.XLsmon\fR.
+.RE
+.TP 5
+.B  Help 
+Same as the \fBHelp\fR menu of the main window.
+.RE
+.sp
+.TP 5
+.B  Cluster Configuration Window
+The "\fBCluster Configuration\fR" window lists in tabular form the hosts
+that are participating in load sharing together with their configuration
+information.  The information includes: host name, host type, host model,
+CPU factor, number of CPUs, number of local disks, total memory, total swap
+space, maximum /tmp space, the execution priority for remote jobs, whether
+the host runs LSF servers or not, available resources denoted by resource
+names, run windows during which the host is open for sharing loads from
+other hosts, and busy thresholds for scheduling interactive jobs (for more
+information, see
+.BR lsf.cluster (5)
+and 
+.BR lshosts (1)).
+.IP "" 5
+The menu bar for the "\fBCluster Configuration\fR" window 
+contains the following items:
+\fBFile\fR, \fBView\fR, \fBOptions\fR and  \fBHelp\fR.
+.RS 5
+.TP 5
+.B  File
+The \fBFile\fR menu contains the following items:
+.RS 5
+.TP 5
+.B  Refresh 
+Refresh the configuration information listed in the table. This is useful
+after an LSF system reconfiguration (see
+.BR lsadmin (8)).
+.TP 5
+.B  Exit 
+Close the "\fBCluster Configuration\fR" window.
+.RE
+.TP 5
+.B  View 
+Allow the user to select the hosts to display in the table
+and refresh the table information. It contains the following item:
+.RS 5
+.TP 5
+.B  "Select Host..." 
+Pop up a dialog box to let the user select the hosts to list in the table.
+The default is all hosts in the \s-1LSF\s0 cluster.
+.TP 5
+.B  "Select Index..." 
+Pop up a dialog box to let the user select the indices to list in the table.
+The default is type, model, cpuf, ncpus, maxmem, maxswp, server and
+RESOURCES.
+.RE
+.TP 5
+.B Options
+The \fBOptions\fR menu allows users to modify the operation behavior of
+the \fBCluster Configuration\fR window. The menu contains the following
+items:
+.RS
+.TP 5
+.B Save Settings
+Save the window geometry and the current settings of the host and load
+index selections to the configuration file \fB~/.XLsmon\fR.
+.TP 5
+.B Restore Settings
+Restore the window geometry and the current settings of the host and
+load index selections from the last saved configuration file
+\fB~/.XLsmon\fR.
+.RE
+.TP 5
+.B  Help 
+Same as the \fBHelp\fR menu of the main window.
+.RE
+.sp
+.TP 5
+.B  Help Window
+The \fBHelp\fR window displays on-line documentation.
+It contains a menu bar, a scrolled hypertext window and "\fBPrevious\fR",
+"\fBNext\fR" and "\fBClose\fR" push buttons.
+.IP "" 5
+There are highlighted items. By clicking the items the window displays
+the related parts of text about the items. The highlighted
+items use a different color and font that can be set in the default
+file.
+.IP "" 5
+A history of the 100 last pages displayed is kept in memory that can be
+recalled with the "\fBPrevious\fR" and "\fBNext\fR" buttons.
+.IP "" 5
+The menu bar for the \fBHelp\fR window contains the following items:
+\fBFile\fR and  \fBHelp\fR.
+.RS 5
+.TP 5
+.B  File
+The \fBFile\fR menu contains the following items:
+.RS 5
+.TP 5
+.B  "Save as..." 
+Pop up a file selection dialog, let user input a text file name to save the
+content of the window.
+.TP 5
+.B  Print 
+Send the content of the window to the printer. The resource of \fBxlsmon\fR
+for the print command is "printCommand". The print command can also be set
+or changed in the \fBSet Options\fR window.
+.TP 5
+.B  Exit 
+Close the \fBHelp\fR window.
+.RE
+.TP 5
+.B  Help
+The \fBHelp\fR menu contains the following items:
+.RS 5
+.TP 5
+.B  "On Version..." 
+Pop up a message dialog displaying the version, date and product information
+for \s-1LSF\s0.
+.TP 5
+.B  "On Help..." 
+Pop up the \fBHelp\fR window to display the information about how to use the
+on-line help.
+.RE
+.RE
+.SH X DEFAULTS
+The \fBxlsmon\fR application uses the values in the X default files when you
+logged in and uses the appropriate resource specification values to customize
+the appearance of the \fBxlsmon\fR window.  The format for a resource
+specification in the X default files is:
+.RS 5
+.PP
+[\fIname\fR*]\fIresource\fR:  \fIvalue\fR
+.PP
+.I name
+specifies the application name or the name string that restricts 
+the resource assignment to that application or to a
+component of an application.  If this argument is not specified, 
+the resource assignment is globally available to all X applications.
+.PD 0
+.PP
+.I resource
+specifies the resource.
+.PP
+.I value
+specifies the value that is to be assigned to the resource.
+.PD
+.PP
+.RE
+Because each toolkit-based application can consist of a combination of
+widgets (for example, push buttons and a scroll bar), you can form the
+name string by adding widget class and name identifiers to the string.
+For further information about adding class and name identifiers, see
+.BR X (1).
+.PP
+For \fBxlsmon\fR, the application class is \fBXLsmon\fR and 
+the application name is \fBxlsmon\fR.
+.PP
+In addition to the general resources listed in \fBX\fR(1), the resources
+available for the \fBxlsmon\fR work area are:
+.RS 5
+.TP 5
+.B refreshRate
+Specify the period of \fBxlsmon\fR refreshing load indices. The
+permissible range of refresh period is 15 to 200 seconds.
+.TP 5
+.B WarningBell
+Specify the volumn of alarm bell. The alarm bell sounds when
+a host becomes busy or unavailable. The permissible range is
+0 to 100. A larger value produces a louder sound. A value of zero
+turns the bell off.
+.TP 5
+.B printCommand
+Specify the command to print \fBxlsmon\fR on line help. The default
+command is "lp".
+.TP 5
+.B hosts
+Specify the selection of the hosts displayed in the program. The
+default is all hosts in the cluster.
+.PP
+.RE
+The resources available for the \fBDetailed Host Load\fR window are:
+.PP
+.RS 5
+.TP 5
+.B detailWindow.hosts
+Specify the selection of the hosts displayed in the window. The default
+is all hosts selected in the main window.
+.TP 5
+.B detailWindow.indices
+Specify the selection of the load indices displayed in the window. The
+default is all load indices.
+.TP 5
+.B detailWindow.orient
+Specify the detailed host loads displayed by host or index. The default
+is by index.
+.PP
+.RE
+The resources available for the \fBHistory of Host Load\fR window are:
+.PP
+.RS 5
+.TP 5
+.B historyWindow.hosts
+Specify the selection of the hosts displayed in the window. The default
+is all hosts selected in the main window.
+.TP 5
+.B historyWindow.indices
+Specify the selection of the load indices displayed in the window. The
+default is all load indices.
+.PP
+.RE
+The resources available for the \fBCluster Configuration\fR window are:
+.PP
+.RS 5
+.TP 5
+.B configWindow.hosts
+Specify the selection of the hosts displayed in the window. The default
+is all hosts.
+.TP 5
+.B configWindow.indices
+Specify the selection of the load indices displayed in the window. The
+default is type, model, cpuf, ncpus, maxmem, maxswp, server and RESOURCES.
+.RE
+.SH X DEFAULT FILES
+.PD 0
+.TP 5
+.B ~/.Xdefaults
+.TP 5
+.B XLSF_APPDIR/XLsmon
+.TP 5
+.B ~/.XLsmon
+.PD
+.SH SEE ALSO
+.BR lsmon (1),
+.BR lsload (1),
+.BR lshosts (1),
+.BR lsf.cluster (5),
+.BR lsadmin (8),
+.BR X (1)
+.PP
+.I LSF User's Guide

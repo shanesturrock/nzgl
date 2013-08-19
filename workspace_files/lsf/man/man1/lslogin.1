@@ -1,0 +1,98 @@
+
+.ad l
+
+.ll 72
+
+.TH lslogin 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlslogin\fR
+.sp 2
+   remotely logs in to a lightly loaded host
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lslogin [-v] [-m "host_name ..." | -m "cluster_name ..."] [-R
+"res_req"] [rlogin_options]
+.sp 2
+lslogin [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Remotely logs in to a lightly loaded host.
+.sp 2
+   By default, lslogin selects the least loaded host, with few
+   users logged in, and remotely logs in to that host using the
+   UNIX rlogin command.
+.sp 2
+   In a MultiCluster environment, the default is to select the
+   least loaded host in the local cluster.
+.sp 2
+   As an alternative to rlogin, you can use an SSH connection by
+   enabling \fBLSF_LSLOGIN_SSH\fR in lsf.conf.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-v\fR
+.br
+               Displays the name of the host to which lslogin
+               remotely logs you in.
+.sp 2
+   \fB-m "\fIhost_name\fB ..." | -m "\fIcluster_name\fB ..."\fR
+.br
+               Remotely logs in to the specified host.
+.sp 2
+               With MultiCluster job forwarding, when a cluster
+               name is specified, remotely logs in to the least
+               loaded host in the specified cluster, if the
+               remote cluster accepts interactive jobs from the
+               local cluster (see lsf.cluster(5)).
+.sp 2
+   \fB-R "\fIres_req\fB"\fR
+.br
+               Remotely logs in to a host that meets the
+               specified resource requirement. The resource
+               requirement expression restricts the set of
+               candidate hosts and determines the host selection
+               policy.
+.sp 2
+               For a complete explanation of resource requirement
+               expressions, see Administering Platform LSF. To
+               find out what resources are configured in your
+               system, use lsinfo and lshosts.
+.sp 2
+   \fB\fIrlogin_options \fB\fR
+.br
+               Specify remote login options passed to the rlogin
+               command.
+.sp 2
+               If remote execution fails, lslogin logs in locally
+               only if the local host also satisfies required
+               resources; otherwise, log in fails.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRlslogin -R "select[it>1 && bsd]"\fR
+.sp 2
+   Remotely logs in to a host that has been idle for at least 1
+   minute, runs BSD UNIX, and is lightly loaded both in CPU
+   resources and the number of users logged in.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Because lslogin passes all unrecognized arguments to rlogin,
+   incorrect options usually cause the rlogin usage message to be
+   displayed rather than the lslogin usage message.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fRls_placereq\fR, rlogin

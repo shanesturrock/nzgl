@@ -1,0 +1,140 @@
+
+.ad l
+
+.ll 72
+
+.TH brequeue 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrequeue\fR
+.sp 2
+   kills and requeues a job
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brequeue [-J job_name | -J "job_name[index_list]"] [ -u user_name
+| -u all ] [ job_ID | "job_ID[index_list]"] [-d] [-e] [-r] [-a]
+[-H]
+.sp 2
+brequeue [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   You can only use brequeue on a job you own, unless you are
+   root or the LSF administrator.
+.sp 2
+   Kills a running (RUN), user-suspended (USUSP), or
+   system-suspended (SSUSP) job and returns it to the queue. A
+   job that is killed and requeued retains its submit time but is
+   dispatched according to its requeue time. When the job is
+   requeued, it is assigned the PEND status or PSUSP if the -H
+   option is used. Once dispatched, the job starts over from the
+   beginning. The requeued job keeps the same job ID.
+.sp 2
+   When JOB_INCLUDE_POSTPROC=Y is set in lsb.params or in an
+   application profile in lsb.applications, job requeue occurs
+   only after post-execution processing, not when the job
+   finishes.
+.sp 2
+   Use brequeue to requeue job arrays or job array elements.
+.sp 2
+   By default, kills and requeues your most recently submitted
+   job when no job ID is specified.
+.sp 2
+   With MultiCluster, you can only use brequeue on jobs in local
+   queues. A job that is killed and requeued is assigned a new
+   job ID on the cluster in which it is executed, but it retains
+   the same job ID on the cluster from which it was submitted.
+   For example, a job from cluster A that is killed and requeued
+   and then run on cluster B is assigned a new job ID on cluster
+   B. However, when the bjobs command is used from cluster A, the
+   submitting cluster, the job is displayed with the original job
+   ID. When the bjobs command is used from cluster B, the
+   execution cluster, the job is displayed with the new job ID.
+.sp 2
+   When absolute job priority scheduling (APS) is configured in
+   the queue, all requeued jobs are treated as newly submitted
+   jobs for APS calculation. The job priority, system, and ADMIN
+   APS factors are reset on requeue.
+.sp 2
+   When using multi-phase rusage resource requirement strings,
+   such as with bsub -R, the requeued job is treated as a new job
+   and resources are reserved from the beginning of the first
+   phase.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-a\fR
+.br
+               Requeues all jobs including running jobs,
+               suspending jobs, and jobs with EXIT or DONE
+               status.
+.sp 2
+   \fB-d\fR
+.br
+               Requeues jobs that have finished running with DONE
+               job status.
+.sp 2
+   \fB-e\fR
+.br
+               Requeues jobs that have terminated abnormally with
+               EXIT job status.
+.sp 2
+   \fB-H\fR
+.br
+               Requeues jobs to PSUSP job status.
+.sp 2
+   \fB-r\fR
+.br
+               Requeues jobs that are running.
+.sp 2
+   \fB-J \fIjob_name\fB | -J "\fIjob_name[index_list]\fB"\fR
+.br
+               Operates on the specified job.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-u \fIuser_name\fB | -u all \fR
+.br
+               Operates on the specified user’s jobs or all jobs.
+               To specify a Windows user account, include the
+               domain name in uppercase letters and use a single
+               backslash (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in
+               a Windows command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+               Only \fRroot\fR and LSF administrators can requeue
+               jobs submitted by other users.
+.sp 2
+   \fB\fIjob_ID\fB |"\fIjob_ID[index_list]\fB"\fR
+.br
+               Operates on the specified job or job array
+               elements.
+.sp 2
+               The value of 0 for \fIjob_ID\fR is ignored.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   brequeue cannot be used on interactive batch jobs; brequeue
+   only kills interactive batch jobs, it does not restart them.
+.sp 2

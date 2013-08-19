@@ -1,0 +1,309 @@
+.ds ]W %
+.ds ]L
+.hy 0
+.nh
+.na
+.TH erestart  8 "October 2006   Platform LSF Version 7.0"
+.br
+
+.SH NAME 
+\fBerestart \fR  - restarts execution of a process or process group of LSF batch jobs 
+
+.SH SYNOPSIS 
+.BR
+.PP
+
+.PP
+erestart [-c] [-f] checkpoint_dir 
+
+.PP
+erestart [-h | -V] 
+
+.SH DESCRIPTION 
+.BR
+.PP
+
+.PP
+erestart is the interface through which jobs that have been checkpointed are resptarted. 
+
+.PP
+Jobs are restarted using the checkpoint files saved in \fIcheckpoint_dir\fR/\fIlast_jobID\fR. 
+Jobs are resubmitted, assigned a new job ID, and the checkpoint directory is renamed 
+using the new job ID to \fIcheckpoint_dir\fR/\fInew_jobID\fR. 
+
+.PP
+Some options in the synopsis are only supported by some operating systems. 
+
+.SS erestart 
+.BR
+.PP
+
+
+.IP
+erestart is located in LSF_SERVERDIR. 
+
+
+.IP
+erestart sends to erestart.default the process ID and process group ID 
+of the job that was checkpointed. erestart sets the environment variables 
+LSB_RESTART_PID and LSB_RESTART_PGID. 
+
+
+.IP
+erestart sends a job restart request to erestart.default or to a custom 
+erestart method that you define. Communication is achieved through the 
+common syntax indicated in the synopsis. 
+
+
+
+.SS erestart.default 
+.BR
+.PP
+
+
+.IP
+erestart.default is located in LSF_SERVERDIR. erestart.default 
+restarts the job. 
+
+
+
+.SS erestart.method_name 
+.BR
+.PP
+
+
+.IP
+erestart.\fImethod_name\fR is a custom erestart application, where \fImethod_name\fR 
+is the same name specified in its corresponding echkpnt.\fImethod_name\fR. 
+
+
+.IP
+erestart.\fImethod_name\fR is placed in LSF_SERVERDIR, or in the directory 
+specified by LSB_ECHKPNT_METHOD_DIR (set in lsf.conf or as an 
+environment variable). The checkpoint method directory must be accessible by all 
+users who need to run the custom echkpnt and erestart programs.
+
+
+.IP
+erestart.\fImethod_name\fR must support the syntax described in the synopsis. 
+
+
+.IP
+erestart.\fImethod_name\fR creates the file 
+checkpoint_dir/$LSB_JOB_ID/.restart_cmd and writes the command to 
+restart the job or process group in this file in the form 
+"LSB_RESTART_CMD=\fIrestart_command\fR". Quotation marks (") are mandatory 
+around LSB_RESTART_CMD. 
+
+
+.IP
+erestart attempts to find the command to restart the job in .restart_cmd. If 
+it does not find the command, it uses the original job file and command to restart 
+the job. The original job file is created in the checkpoint directory at job submission. 
+
+
+.IP
+If erestart finds the command to restart the job in .restart_cmd, it invokes 
+the command to restart the checkpointed job. 
+
+
+.IP
+erestart.\fImethod_name\fR must have access to the original command line used to 
+start the job.
+
+
+.IP
+erestart.\fImethod_name\fR must return, it should not run the application to restart 
+the job.
+
+
+
+.SS Parameters 
+.BR
+.PP
+
+
+.IP
+If your application requires additional parameters, you can use the following 
+parameters to retrieve more information about a job: 
+
+
+.IP
+LSB_JOBID--New job ID assigned to the job that is to be restarted 
+
+
+.IP
+LSB_OLD_JOBID--Job ID of the job that is to be restarted when it was 
+checkpointed 
+
+
+.IP
+LSB_ERESTART_USRCMD--Original command used to start the job at job 
+submission. This environment variable is set by erestart and read by 
+erestart.\fImethod_name\fR. 
+
+
+.IP
+LSB_JOB_STARTER--Executable program that has the actual job as an argument. 
+This environment variable only exists when a job starter was defined for the queue 
+to which the job was submitted 
+
+
+
+.SH OPTIONS 
+.BR
+.PP
+
+.TP 
+\fB-c\fR 
+
+
+.IP
+This option is supported on only some operating systems such as Convex. 
+
+
+.IP
+Copies to the checkpoint directory all files in use by the checkpointed process. 
+
+
+
+.TP 
+\fB-f\fR 
+
+
+.IP
+This option is supported on only some operating systems such as Convex and SGI 
+IRIX. 
+
+
+.IP
+Forces a job to be restarted even if non-restart conditions exist (these conditions are 
+specific to the type of restart facility being used). 
+
+
+
+.TP 
+\fIcheckpoint_dir\fR 
+
+
+.IP
+Specifies the checkpoint directory. Specify a relative or absolute path name. 
+
+
+.IP
+When a job is checkpointed, the checkpoint information is stored in 
+\fIcheckpoint_dir\fR/job_ID/\fIfile_name\fR. Multiple jobs can checkpoint into the same 
+directory. The system can create multiple files. 
+
+
+.IP
+The checkpoint directory is used for restarting the job (see brestart(1)). 
+
+
+
+.TP 
+\fB-h\fR 
+
+
+.IP
+Prints command usage to stderr and exits. 
+
+
+
+.TP 
+\fB-V\fR 
+
+
+.IP
+Prints LSF release version to stderr and exits. 
+
+
+
+.SH SEE ALSO 
+.BR
+.PP
+
+.PP
+bsub(1), bchkpnt(8), brestart(1), echkpnt(8) 
+
+.SH DIAGNOSTICS 
+.BR
+.PP
+
+.SS erestart 
+.BR
+.PP
+
+
+.IP
+If job restart is successful, exits with the value of the restarted job. 
+
+
+.IP
+If job restart fails due to erestart.default or erestart.\fImethod_name\fR, exits with 
+the value of erestart.default or erestart.\fImethod_name\fR. If job restart fails due 
+to other reasons, exits with a -1. 
+
+
+
+.SS erestart.default 
+.BR
+.PP
+
+
+.IP
+If LSF's default restart program erestart.default is used, if the job is 
+successfully restarted erestart.default does not print any messages other 
+than "pid=new_ pid pgid=new_pgid" to its standard error. If 
+erestart.default prints any other messages to its standard error, LSF 
+considers that the job restart failed. 
+
+
+
+.SS erestart.method_name 
+.BR
+.PP
+
+
+.IP
+If a custom erestart program is used (LSB_ECHKPNT_METHOD is defined 
+in lsf.conf and/or a checkpoint method specified such as 
+bsub -k "mydir method=myapp" job1), erestart.\fImethod_name\fR exits 
+with a 0 if it succeeds in writing the job restart command to the file 
+\fIcheckpoint_dir\fR/$LSB_JOB_ID/.restart_cmd, or if it purposefully writes 
+nothing to the file. Non-zero values indicate that erestart.\fImethod_name\fR was 
+not able to restart the job (job restart failed). 
+
+
+.IP
+For user-level checkpointing, erestart.\fImethod_name\fR must collect the exit 
+code from the job. Then, erestart.\fImethod_name \fRmust exit with the same exit 
+code as the job. Otherwise, the job's exit status is not reported correctly to LSF. 
+Kernel-level checkpointing works differently and does not need this information 
+from erestart.\fImethod_name\fR to restart the job.
+
+
+.IP
+All messages written to stdout and stderr are directed to /dev/null and ignored 
+by LSF. 
+
+
+.IP
+To save standard error and standard output messages for echkpnt. 
+\fImethod_name\fR and \fIerestart.method_name\fR, set 
+LSB_ECHKPNT_KEEP_OUTPUT=y in lsf.conf or as an environment 
+variable. The stderr output generated by erestart. \fImethod_name\fR will be 
+redirected to: 
+
+
+.IP
+- \fIcheckpoint_dir\fR/$LSB_JOBID/erestart.out 
+
+
+.IP
+- \fIc\fR\fIheckpoint_dir\fR/$LSB_JOBID/erestart.err
+
+.\" Generated by Quadralay WebWorks Publisher Professional Edition 6.0.7
+.\" Generated on December 21, 2005 
+.\" Based on template lsf_manpage_tem
+.\" Copyright 1994-2005 Platform Computing Corporation

@@ -1,0 +1,364 @@
+
+.ad l
+
+.ll 72
+
+.TH lstcsh 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlstcsh\fR
+.sp 2
+   load sharing \fRtcsh\fR for LSF
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lstcsh [tcsh_options] [-L] [argument ...]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   lstcsh is an enhanced version of tcsh. lstcsh behaves exactly
+   like tcsh, except that it includes a load sharing capability
+   with transparent remote job execution for LSF.
+.sp 2
+   By default, a lstcsh script is executed as a normal tcsh
+   script with load sharing disabled.
+.sp 2
+   If a command line is considered eligible for remote execution,
+   LSF selects a suitable host— typically a powerful and/or
+   lightly loaded host that can execute the command line
+   correctly—and sends the command line to that host.
+.sp 2
+   You can restrict who can use \fR@\fR for host redirection in
+   lstcsh with the parameter LSF_SHELL_AT_USERS in lsf.conf.
+.sp 2 .SH "Remote Hosts"
+\fBRemote Hosts\fR
+.sp 2
+   lstcsh provides a high degree of network transparency. Command
+   lines executed on remote hosts behave the same as they do on
+   the local host. The remote execution environment is designed
+   to mirror the local one as closely as possible by using the
+   same values for environment variables, terminal setup, current
+   working directory, file creation mask, and so on. Each
+   modification to the local set of environment variables is
+   automatically reflected on remote hosts.
+.sp 2
+   Shell variables, nice values, and resource limits are not
+   automatically propagated to remote hosts.
+.sp 2 .SH "Job Control"
+\fBJob Control\fR
+.sp 2
+   Job control in lstcsh is exactly the same as in tcsh except
+   for remote background jobs. lstcsh numbers background jobs
+   separately for each of the hosts that are used to execute
+   them. The output of the built-in command job lists background
+   jobs together with their execution hosts.
+.sp 2
+   To bring a remote background job to the foreground, the host
+   name must be specified together with an at sign (\fR@\fR), as
+   in the following example:
+.sp 2
+   \fRfg %2 @hostA\fR
+.sp 2
+   Similarly, the host name must be specified when killing a
+   remote job. For example:
+.sp 2
+   \fRkill %2 @hostA\fR
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fItcsh_options\fB\fR
+.br
+               lstcsh accepts all the options used by tcsh. See
+               tcsh(1) for the meaning of specific options.
+.sp 2
+   \fB-L\fR
+.br
+               Executes a script with load sharing enabled.
+.sp 2
+               There are three ways to run a lstcsh script with
+               load sharing enabled:
+.sp 2
+               - Execute the script with the -L option
+.sp 2
+               - Use the built-in command source to execute the
+               script
+.sp 2
+               - Insert "#!/local/bin/lstcsh -L" as the first
+               line of the script (assuming you install lstcsh in
+               /local/bin).
+.sp 2
+               Using \fR@\fR or lsmode in a script does not
+               enable load sharing if the script has not been
+               executed using one of these three ways.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   In addition to the built-in commands in tcsh, lstcsh provides
+   the following built-in commands:
+.sp 2
+   \fRlsmode\fR [\fRon\fR | \fRoff\fR] [\fRlocal\fR |
+   \fRremote\fR] [\fR@\fR] [\fRv\fR | \fR-v\fR] [\fRe \fR|
+   \fR-e\fR] [\fRt\fR | \fR-t\fR] [\fRconnect\fR [\fIhost_name
+   \fR...]] [\fRlsrtasks\fR [\fIlsrtasks_options\fR]]
+   [\fRlsltasks\fR [\fIlsltasks_options\fR]] [\fRjobs\fR]
+.sp 2
+   \fBon | off\fR
+.br
+               Turns load sharing on or off. When off, you can
+               specify \fR@\fR to send a command line to a remote
+               host.
+.sp 2
+   \fBlocal | remote\fR
+.br
+               Sets operation mode of lstcsh.
+.sp 2
+               The default is local.
+.sp 2
+               \fBlocal\fR
+.br
+                           Local operation mode. This is the
+                           default mode.
+.sp 2
+                           In this mode, a command line is
+                           eligible for remote execution only if
+                           all the specified tasks are present in
+                           the remote task list in the user’s
+                           tasks file $HOME/.lsftask, or if
+                           \fR@\fR is specified on the command
+                           line to force specified tasks to be
+                           eligible for remote execution.
+.sp 2
+                           Tasks in the local task list must be
+                           executed locally.
+.sp 2
+                           The local mode of operation is
+                           conservative, and can fail to take
+                           advantage of the performance benefits
+                           and load balancing advantages of LSF.
+.sp 2
+                           The way \fRlstcsh\fR handles tasks
+                           that are not present in the remote
+                           task list nor in the local task list,
+                           depends on the mode of operation of
+                           \fRlstcsh\fR (local or remote).
+.sp 2
+               \fBremote\fR
+.br
+                           Remote operation mode.
+.sp 2
+                           In this mode, a command line is
+                           considered eligible for remote
+                           execution only if none of the
+                           specified tasks are present in the
+                           local task list in the user’s tasks
+                           file $HOME/.lsftask.
+.sp 2
+                           Tasks in the remote list can be
+                           executed remotely.
+.sp 2
+                           The remote mode of operation is
+                           aggressive, and promotes extensive use
+                           of LSF.
+.sp 2
+                           The way \fRlstcsh\fR handles tasks
+                           that are not present in the remote
+                           task list nor in the local task list,
+                           depends on the mode of operation of
+                           \fRlstcsh \fR(local or remote).
+.sp 2
+   \fB@\fR
+.br
+               Specify \fR@\fR to explicitly specify the
+               eligibility of a command for remote execution.
+.sp 2
+               The \fR@\fR may be anywhere in the command line
+               except in the first position (which is used to set
+               the value of shell variables).
+.sp 2
+               There are several ways to use \fR@\fR:
+.sp 2
+               \fB@ \fR
+.br
+                           Specify \fR@\fR followed by nothing to
+                           indicate the command line is eligible
+                           for remote execution.
+.sp 2
+               \fB@ host_name \fR
+.br
+                           Specify \fR@\fR followed by a host
+                           name to force the command line to be
+                           executed on that host.
+.sp 2
+                           Host names and the reserved word local
+                           following \fR@\fR can all be
+                           abbreviated as long as they do not
+                           cause ambiguity.
+.sp 2
+               \fB@ local \fR
+.br
+                           Specify \fR@\fR followed by the
+                           reserved word local to force the
+                           command line to executed on the local
+                           host.
+.sp 2
+               \fB@ /res_req \fR
+.br
+                           Specify \fR@\fR followed by / and a
+                           resource requirement string to
+                           indicate the command is eligible for
+                           remote execution, and that the
+                           specified resource requirements must
+                           be used instead of those in the remote
+                           task list.
+.sp 2
+                           When specifying resource requirements
+                           following the \fR@\fR it is necessary
+                           to use / only if the first requirement
+                           characters specified are also the
+                           first characters of a host name.
+.sp 2
+   \fBe | -e\fR
+.br
+               Turns eligibility verbose mode on (e) or off (-e).
+.sp 2
+               If eligibility verbose mode is on, lstcsh shows
+               whether the command is eligible for remote
+               execution, and displays the resource requirement
+               used if the command is eligible.
+.sp 2
+               The default is off.
+.sp 2
+   \fBv | -v\fR
+.br
+               Turns task placement verbose mode on (v) or off
+               (-v). If verbose mode is on, lstcsh displays the
+               name of the host on which the command is run if
+               the command is not run on the local host.
+.sp 2
+               The default is on.
+.sp 2
+   \fBt | -t\fR
+.br
+               Turns wall clock timing on (t) or off (-t).
+.sp 2
+               If timing is on, the actual response time of the
+               command is displayed. This is the total elapsed
+               time in seconds from the time you submit the
+               command to the time the prompt comes back.
+.sp 2
+               This time includes all remote execution overhead.
+               The csh time built-in does not include the remote
+               execution overhead.
+.sp 2
+               This is an impartial way of comparing the response
+               time of jobs submitted locally or remotely,
+               because all the load sharing overhead is included
+               in the displayed elapsed time.
+.sp 2
+               The default is off.
+.sp 2
+   \fBconnect [\fIhost_name\fB ...]\fR
+.br
+               Establishes connections with specified remote
+               hosts. If no hosts are specified, lists all the
+               remote hosts to which an lstcsh connection has
+               been established.
+.sp 2
+               A plus sign (+) with a remote host indicates that
+               a server-shell has also been started on it.
+.sp 2
+   \fBlsrtasks [+ \fItask_name\fB[/\fIres_req\fB ...] | -
+   \fItask_name\fB[/\fIres_req\fB ...]]\fR
+.br
+               Displays or update a user’s remote task list in
+               the user’s task list $HOME/.lsftask.
+.sp 2
+               This command has the same function as the external
+               command lsrtasks, except that the modified remote
+               task list takes effect immediately for the current
+               lstcsh session.
+.sp 2
+               See lsrtasks(1) for more details.
+.sp 2
+   \fBlsltasks [+ \fItask_name\fB ... | - \fItask_name\fB ...]
+   \fR
+.br
+               Displays or update a user’s local task list in the
+               user’s task list $HOME/.lsftask.
+.sp 2
+               This command has the same function as the external
+               command lsltasks, except that the modified local
+               task list takes effect immediately for the current
+               lstcsh session.
+.sp 2
+               See lsltasks(1) for more details.
+.sp 2
+   \fBjobs\fR
+.br
+               Lists background jobs together with the execution
+               hosts. This break of transparency is intentional
+               to provide you with more control over your
+               background jobs.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   There are three optional configuration files for lstcsh:
+.sp 2
+   .shrc
+.sp 2
+   .hostrc
+.sp 2
+   .lsftask
+.sp 2
+   The .shrc and .hostrc files are used by lstcsh alone, whereas
+   .lsftask is used by LSF to determine general task eligibility.
+.sp 2
+   \fB~/.shrc\fR
+.br
+               Use this file when you want an execution
+               environment on remote hosts that is different from
+               that on the local host. This file is sourced
+               automatically on a remote host when a connection
+               is established. For example, if the remote host is
+               of different type, you may need to run a version
+               of the executable for that particular host type,
+               therefore it may be necessary to set a different
+               path on the remote host.
+.sp 2
+   \fB~/.hostrc \fR
+.br
+               Use this file to indicate a list of host names to
+               which the user wants to be connected
+               (asynchronously in the background) at lstcsh
+               startup time. This saves the time spent in
+               establishing the connections dynamically during
+               execution of shell commands. Once a connection is
+               set up, you can execute further remote commands on
+               those connected hosts with very little overhead.
+.sp 2
+   \fB~/.lsftask \fR
+.br
+               Use this file to specify lists of remote and local
+               tasks that you want to be added to the respective
+               system default lists. Each line of this file is of
+               the form task_name/res_req, where task_name is the
+               name of a task, and res_req is a string specifying
+               the resource requirements of the task. If res_req
+               is not specified, the command is executed on
+               machines of the same type as the local host.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   Type-ahead for the next command is discarded when a job is
+   executing in the foreground on a remote host.
+.sp 2
+   It is not possible to provide input data to load sharing shell
+   scripts (that is, shell scripts whose content is load shared).
+.sp 2
+   The lstcsh is fully compatible with tcsh 6.03 7-bit mode. Any
+   feature that is not included in tcsh 6.03 is not supported.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   csh, tcsh, lsrtasks, lsltasks, lseligible, lsinfo, lsload

@@ -1,0 +1,93 @@
+#!/bin/bash
+
+function usage() {
+	cat << EOF
+Usage: ${0} -u -g [-a] [-p]
+
+	-u Username
+	-g Project group
+	-a Create user home directory (optional)
+	-p Create project directories (optional)
+
+Note: Always creates symlinks from home directory of user to specified 
+project group.
+
+The optional flags allow creation of a new home directory and/or project
+folders if they don't already exist and can be used in combination or 
+individually.
+
+Examples:
+setup_project -u <username> -g <projectgroup> 
+- only creates the symlinks in /home/<username>/project/<projectgroup>.  
+  This would be used when adding an already existing user (e.g. bifo) to 
+  a project that was previously set up.
+setup_project -u <username> -g <projectgroup> -a 
+- create new user account '<username>' and symlinks to project '<projectgroup>'
+  but assumes the project folders already exist so doesn't create them.  This 
+  would be used when adding a new user to an already existing project.
+setup_project -u <username> -g <projectgroup> -p
+- create project folders and symlinks back to them but assumes the home
+  directory for user <username> already exists.  This would be used when 
+  setting up an additional new project for an existing user.
+setup_project -u <username> -g <projectgroup> -a -p
+- creating a complete new workspace where the <username> and <projectgroup>
+  are both new.  This would be used when a new project has just been started
+  and nothing about it currently exists.
+EOF
+}
+
+if [ $# -lt 3 ]; then
+	usage
+	exit 1
+fi
+
+ADDUSER=0
+ADDPROJECT=0
+
+while getopts u:g:ap flag; do
+	case $flag in
+		u) USER=$OPTARG
+		   ;;
+		g) GROUP=$OPTARG
+		   ;;
+		a) ADDUSER=1
+		   ;;
+		p) ADDPROJECT=1
+		   ;;
+		?)
+		   usage
+		   exit 1
+		   ;;
+	esac
+done
+
+# Create user home directory
+
+if [ $ADDUSER -eq 1 ]; then
+  mkdir /home/$USER
+  cp /home/shane/workspace_files/profile/bashrc /home/$USER/.bashrc
+  cp /home/shane/workspace_files/profile/bash_profile /home/$USER/.bash_profile
+  mkdir /home/$USER/project
+  chmod 700 /home/$USER
+  chown -R $USER:$GROUP /home/$USER
+  echo "Created /home/${USER}"
+fi
+
+# Create project directories
+
+if [ $ADDPROJECT -eq 1 ]; then
+  mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
+  chmod 770 /active/$GROUP /scratch/$GROUP
+  chmod 550 /archive/$GROUP
+  chown $USER:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
+  echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
+fi
+
+# Create project symlinks in user's home directory
+
+mkdir -p /home/$USER/project/$GROUP
+ln -s /archive/$GROUP /home/$USER/project/$GROUP/archive
+ln -s /active/$GROUP /home/$USER/project/$GROUP/active
+ln -s /scratch/$GROUP /home/$USER/project/$GROUP/scratch
+chown -R $USER:$GROUP /home/$USER/project/$GROUP
+echo "Created /home/${USER}/project/${GROUP} symlinks"

@@ -1,0 +1,48 @@
+
+.ad l
+
+.ll 72
+
+.TH lsid 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsid\fR
+.sp 2
+   displays the current LSF version number, the cluster name, and
+   the master host name
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsid [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays the current LSF version number, the cluster name, and
+   the master host name.
+.sp 2
+   The master host is dynamically selected from all hosts in the
+   cluster.
+.sp 2
+   In MultiCluster, the master host is dynamically selected from
+   all hosts in the local cluster.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   The host names and cluster names are defined in
+   lsf.cluster.\fIcluster_name\fR and lsf.shared, respectively.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fRls_getclustername\fR(3), \fRls_getmastername\fR(3),
+   lsinfo(1)

@@ -1,0 +1,312 @@
+
+.ad l
+
+.ll 72
+
+.TH bladmin 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbladmin\fR
+.sp 2
+   reconfigures the Platform LSF License Scheduler daemon (bld)
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bladmin subcommand
+.sp 2
+bladmin [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Use this command to reconfigure the License Scheduler daemon
+   (bld).
+.sp 2
+   You must be a License Scheduler administrator to use this
+   command.
+.sp 2 .SH "Subcommand synopsis"
+\fBSubcommand synopsis\fR
+.sp 2
+ckconfig [-v]
+.sp 2
+reconfig [host_name ... | all]
+.sp 2
+shutdown [host_name ... | all]
+.sp 2
+blddebug [-c class_name ...] [-l debug_level] [-f logfile_name]
+[-o]
+.sp 2
+blcdebug [-l debug_level] [-f logfile_name] [-o]
+      collector_name ... | all
+.sp 2
+-h
+.sp 2
+-V
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   \fBckconfig [-v]\fR
+.br
+               Checks LSF License Scheduler configuration in
+               LSF_ENVDIR/lsf.licensescheduler and lsf.conf.
+.sp 2
+               By default, bladmin ckconfig displays only the
+               result of the configuration file check. If warning
+               errors are found, bladmin prompts you to use the
+               -v option to display detailed messages.
+.sp 2
+               \fB-v\fR
+.br
+                           Verbose mode. Displays detailed
+                           messages about configuration file
+                           checking to stderr.
+.sp 2
+   \fBreconfig [\fIhost_name\fB ... | all]\fR
+.br
+               Reconfigures License Scheduler.
+.sp 2
+   \fBshutdown [\fIhost_name\fB ... | all]\fR
+.br
+               Shuts down License Scheduler.
+.sp 2
+   \fBblddebug [-c \fIclass_name\fB ...] [-l \fIdebug_level\fB]
+   [-f \fIlogfile_name\fB] [-o]\fR
+.br
+               Sets the message log level for bld to include
+               additional information in log files. You must be
+               root or the LSF administrator to use this command.
+.sp 2
+               If the bladmin blddebug is used without any
+               options, the following default values are used:
+.sp 2
+                 o  
+                     \fIclass_name\fR=0 (no additional classes
+                     are logged)
+.sp 2
+                 o  
+                     \fIdebug_level\fR=0 (LOG_DEBUG level in
+                     parameter LS_LOG_MASK)
+.sp 2
+                 o  
+                     \fIlogfile_name\fR=current LSF system log
+                     file in the LSF system log file directory,
+                     in the format
+                     \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR
+.sp 2
+               \fB-c \fIclass_name\fB ...\fR
+.br
+                           Specifies software classes for which
+                           debug messages are to be logged.
+.sp 2
+                           Format of \fIclass_name \fRis the name
+                           of a class, or a list of class names
+                           separated by spaces and enclosed in
+                           quotation marks. Classes are also
+                           listed in \fRlsf.h\fR.
+.sp 2
+                           Valid log classes:
+.sp 2
+                             o  
+                                 LC_AUTH: Log authentication
+                                 messages
+.sp 2
+                             o  
+                                 LC_COMM: Log communication
+                                 messages
+.sp 2
+                             o  
+                                 LC_FLEX: Log everything related
+                                 to FLEX_STAT or FLEX_EXEC
+                                 Acresso APIs
+.sp 2
+                             o  
+                                 LC_LICENCE: Log license
+                                 management messages
+.sp 2
+                             o  
+                                 LC_PREEMPT: Log preemption
+                                 policy messages
+.sp 2
+                             o  
+                                 LC_RESREQ: Log resource
+                                 requirement messages
+.sp 2
+                             o  
+                                 LC_TRACE: Log significant
+                                 program walk steps
+.sp 2
+                             o  
+                                 LC_XDR: Log everything
+                                 transferred by XDR
+.sp 2
+                           Default: 0 (no additional classes are
+                           logged)
+.sp 2
+               \fB-l \fIdebug_level\fB\fR
+.br
+                           Specifies level of detail in debug
+                           messages. The higher the number, the
+                           more detail that is logged. Higher
+                           levels include all lower logging
+                           levels. For example, LOG_DEBUG3
+                           includes LOG_DEBUG2 LOG_DEBUG1, and
+                           LOG_DEBUG levels.
+.sp 2
+                           Possible values:
+.sp 2
+                           0 LOG_DEBUG level in parameter
+                           LS_LOG_MASK in lsf.conf.
+.sp 2
+                           1 LOG_DEBUG1 level for extended
+                           logging.
+.sp 2
+                           2 LOG_DEBUG2 level for extended
+                           logging.
+.sp 2
+                           3 LOG_DEBUG3 level for extended
+                           logging.
+.sp 2
+                           Default: 0 (LOG_DEBUG level in
+                           parameter LS_LOG_MASK)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specifies the name of the file where
+                           debugging messages are logged. The
+                           file name can be a full path. If a
+                           file name without a path is specified,
+                           the file is saved in the LSF system
+                           log directory.
+.sp 2
+                           The name of the file has the following
+                           format:
+.sp 2
+                           \fIlogfile_name.daemon_name.\fR\fRlog\fR\fI.host_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           /tmp directory.
+.sp 2
+                           On Windows, if the specified path is
+                           not valid, no log file is created.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory.
+.sp 2
+               \fB-o\fR
+.br
+                           Turns off temporary debug settings and
+                           resets them to the daemon starting
+                           state. The message log level is reset
+                           back to the value of LS_LOG_MASK and
+                           classes are reset to the value of
+                           LSB_DEBUG_BLD. The log file is also
+                           reset back to the default log file.
+.sp 2
+   \fBblcdebug [-l \fIdebug_level\fB] [-f \fIlogfile_name\fB]
+   [-o] \fIcollector_name\fB | all\fR
+.br
+               Sets the message log level for blcollect to
+               include additional information in log files. You
+               must be root or the LSF administrator to use this
+               command.
+.sp 2
+               If the bladmin blcdebug is used without any
+               options, the following default values are used:
+.sp 2
+                 o  
+                     \fIdebug_level\fR=0 (LOG_DEBUG level in
+                     parameter LS_LOG_MASK)
+.sp 2
+                 o  
+                     \fIlogfile_name\fR=current LSF system log
+                     file in the LSF system log file directory,
+                     in the format
+                     \fIdaemon_name\fR\fR.log.\fR\fIhost_name\fR
+.sp 2
+                 o  
+                     \fIcollector_name\fR=default
+.sp 2
+               \fB-l \fIdebug_level\fB\fR
+.br
+                           Specifies level of detail in debug
+                           messages. The higher the number, the
+                           more detail that is logged. Higher
+                           levels include all lower logging
+                           levels. For example, LOG_DEBUG3
+                           includes LOG_DEBUG2 LOG_DEBUG1, and
+                           LOG_DEBUG levels.
+.sp 2
+                           Possible values:
+.sp 2
+                           0 LOG_DEBUG level in parameter
+                           LS_LOG_MASK in lsf.conf.
+.sp 2
+                           1 LOG_DEBUG1 level for extended
+                           logging.
+.sp 2
+                           2 LOG_DEBUG2 level for extended
+                           logging.
+.sp 2
+                           3 LOG_DEBUG3 level for extended
+                           logging.
+.sp 2
+                           Default: 0 (LOG_DEBUG level in
+                           parameter LS_LOG_MASK)
+.sp 2
+               \fB-f \fIlogfile_name\fB\fR
+.br
+                           Specifies the name of the file where
+                           debugging messages are logged. The
+                           file name can be a full path. If a
+                           file name without a path is specified,
+                           the file is saved in the LSF system
+                           log directory.
+.sp 2
+                           The name of the file has the following
+                           format:
+.sp 2
+                           \fIlogfile_name.daemon_name.\fR\fRlog\fR\fI.host_name\fR
+.sp 2
+                           On UNIX, if the specified path is not
+                           valid, the log file is created in the
+                           /tmp directory.
+.sp 2
+                           On Windows, if the specified path is
+                           not valid, no log file is created.
+.sp 2
+                           Default: current LSF system log file
+                           in the LSF system log file directory.
+.sp 2
+               \fB-o\fR
+.br
+                           Turns off temporary debug settings and
+                           resets them to the daemon starting
+                           state. The message log level is reset
+                           back to the value of LS_LOG_MASK and
+                           classes are reset to the value of
+                           LSB_DEBUG_BLD. The log file is also
+                           reset back to the default log file.
+.sp 2
+                           If a collector name is not specified,
+                           default value is to restore the
+                           original log mask and log file
+                           directory for the default collector.
+.sp 2
+               \fB\fIcollector_name\fB ... | all\fR
+.br
+                           Specifies the collector names
+                           separated by blanks. all means all the
+                           collectors.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   blhosts, lsf.licensescheduler, lsf.conf

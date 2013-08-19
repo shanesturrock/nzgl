@@ -1,0 +1,428 @@
+.ds ]W %
+.ds ]L
+.hy 0
+.nh
+.na
+.TH rfa 8 "June 2007   Platform EGO 1.2.2"
+.br
+
+.SH NAME
+\fBrfa\fR - Transfers files between hosts.
+
+.SH Synopsis
+.BR
+.PP
+ rfa subcommand [options]  rfa -h  rfa -V 
+.SH Description
+.BR
+.PP
+
+.PP
+The rfa subcommands are useful when transferring files between hosts during 
+installation or package upgrades. Use this command to list files on a specified host, 
+copy files to and from other hosts, or remove files from a host.
+
+.PP
+You must have permission to access specified directories. You must have 
+appropriate read and/or write privileges on specified hosts.
+
+.PP
+note:  
+
+.PP
+In all cases, if no authentication information is provided (for example, 
+user_name/password, credential), then existing credentials are automatically used. If there are no 
+existing credentials, you are prompted for a username and password.
+
+.SS -h
+.BR
+.PP
+
+.PP
+Outputs command usage and exits.
+
+.SS -V
+.BR
+.PP
+
+.PP
+Outputs product version and exits.
+
+.SH Subcommand synopsis
+.BR
+.PP
+ list -t host_name -s remote_dir -p consumer_name [-c credential | -u user_name -x password]  get -t host_name -d local_destination_file -s remote_source_file -p consumer_name [-c credential | -u user_name -x password]  put -t host_name -d remote_destination_file -s local_source_file -p consumer_name [-c credential | -u user_name -x password]  remove -t host_name -s source_file -p consumer_name [-c credential | -u user_name -x password] 
+.SH list -t host_name -s remote_dir -p consumer_name   [-c credential | -u user_name -x password]
+.BR
+.PP
+
+.PP
+Lists files on a specified host.
+
+.SS -t host_name
+.BR
+.PP
+
+.PP
+Name of host you want to list files for.
+
+.SS -s remote_dir
+.BR
+.PP
+
+.PP
+Absolute path to the remote directory from which you want to list files.
+
+.SS -p consumer_name
+.BR
+.PP
+
+.PP
+Name of the consumer requesting the resource allocation (which is required to run 
+the list command).
+
+.SS -c credential
+.BR
+.PP
+
+.PP
+ (Optional.) Authorization ID provided from current Platform EGO logon. 
+Credentials stored here:
+.RS
+.HP 3
+o  
+Linux 
+.HP 3
+o  
+Directory: /tmp
+.HP 3
+o  
+ Parameter: secegocc_uid
+.HP 3
+o  
+Windows: 
+.HP 3
+o  
+Directory: %TEMP%\\\\secegocc_osUserName (where %TEMP% is the 
+TEMP environment variable)
+.HP 3
+o  
+ Parameter: secegocc_osUserName 
+.RE
+
+.PP
+note:  
+
+.PP
+Use the escape character (\\) before each double quoted character in the credential. 
+For example: Admin\\"2007-01-12T02:36:44Z\\
+"fbmTKOzDeUs1RtU+gXKJW8PYSYZZCgHXrjciZnBToGSQC/3tUqYXftYMzv4v1ciJ7
+1wP+wZNeJ6cRxTmzQhOLA==\\"IwN0XXwwRXaIgM5KIieZbw==
+
+.PP
+Stored credentials expire after a certain length of time. If you do not specify an 
+authorization ID, you need to specify a user name and password (see -u and -x 
+options).
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+ (Optional.) Fully-qualified name of the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+(Optional.) Password to register for the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SH get -t host_name -d local_destination_file -s remote_source_file -p consumer_name [-c credential | -u user_name -x password]
+.BR
+.PP
+
+.PP
+Copies a file from a specified host to a local destination.
+
+.SS -t host_name
+.BR
+.PP
+
+.PP
+Name of host you want to copy a file from.
+
+.SS -d local_destination_file
+.BR
+.PP
+
+.PP
+Name of the local destination file, including its directory location, you want to copy 
+to. Directory path must be absolute.
+
+.SS -s remote_source_file
+.BR
+.PP
+
+.PP
+Name of the remote source file, including its directory location, you want to copy. 
+Directory path must be absolute.
+
+.SS -p consumer_name
+.BR
+.PP
+
+.PP
+Name of the consumer requesting the resource allocation (which is required to run 
+the get command).
+
+.SS -c credential
+.BR
+.PP
+
+.PP
+ (Optional.) Authorization ID provided from current Platform EGO logon. 
+Credentials stored here:
+.RS
+.HP 3
+o  
+Linux 
+.HP 3
+o  
+Directory: /tmp
+.HP 3
+o  
+ Parameter: secegocc_user_id
+.HP 3
+o  
+Windows: 
+.HP 3
+o  
+Directory: C:\\Windows\\Temp
+.HP 3
+o  
+ Parameter: egosec_user_id
+.RE
+
+.PP
+note:  
+
+.PP
+Use the escape character (\\) before each double quoted character in the credential. 
+For example: Admin\\"2007-01-12T02:36:44Z\\
+"fbmTKOzDeUs1RtU+gXKJW8PYSYZZCgHXrjciZnBToGSQC/3tUqYXftYMzv4v1ciJ7
+1wP+wZNeJ6cRxTmzQhOLA==\\"IwN0XXwwRXaIgM5KIieZbw==
+
+.PP
+Stored credentials expire after a certain length of time. If you do not specify an 
+authorization ID, you need to specify a user name and password (see -u and -x 
+options).
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+ (Optional.) Fully-qualified name of the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+(Optional.) Password to register for the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SH put -t host_name -d remote_destination_file -s local_source_file -p consumer_name   [-c credential | -u user_name -x password]
+.BR
+.PP
+
+.PP
+Copies a file to a specified host from a local location.
+
+.SS -t host_name
+.BR
+.PP
+
+.PP
+Name of host you want to copy a file to.
+
+.SS -d remote_destination_file
+.BR
+.PP
+
+.PP
+Name of the remote destination file, including its directory location, you want to 
+copy to. Directory path must be absolute.
+
+.SS -s local_source_file
+.BR
+.PP
+
+.PP
+Name of the local source file, including its directory location, you want to copy. 
+Directory path must be absolute.
+
+.SS -p consumer_name
+.BR
+.PP
+
+.PP
+Name of the consumer requesting the resource allocation (which is required to run 
+the put command).
+
+.SS -c credential
+.BR
+.PP
+
+.PP
+ (Optional.) Authorization ID provided from current Platform EGO logon. 
+Credentials stored here:
+.RS
+.HP 3
+o  
+Linux 
+.HP 3
+o  
+Directory: /tmp
+.HP 3
+o  
+ Parameter: secegocc_user_id
+.HP 3
+o  
+Windows: 
+.HP 3
+o  
+Directory: C:\\Windows\\Temp
+.HP 3
+o  
+ Parameter: egosec_user_id
+.RE
+
+.PP
+note:  
+
+.PP
+Use the escape character (\\) before each double quoted character in the credential. 
+For example: Admin\\"2007-01-12T02:36:44Z\\
+"fbmTKOzDeUs1RtU+gXKJW8PYSYZZCgHXrjciZnBToGSQC/3tUqYXftYMzv4v1ciJ7
+1wP+wZNeJ6cRxTmzQhOLA==\\"IwN0XXwwRXaIgM5KIieZbw==
+
+.PP
+Stored credentials expire after a certain length of time. If you do not specify an 
+authorization ID, you need to specify a user name and password (see -u and -x 
+options).
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+ (Optional.) Fully-qualified name of the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+(Optional.) Password to register for the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SH remove -t host_name -s source_file -p consumer_name [-c credential | -u user_name -x password]
+.BR
+.PP
+
+.PP
+Removes a file from a specified host.
+
+.SS -t host_name
+.BR
+.PP
+
+.PP
+Name of host you want to remove a file from.
+
+.SS -s source_file
+.BR
+.PP
+
+.PP
+Name of the source file, including its directory location, you are removing. 
+Directory path must be absolute.
+
+.SS -p consumer_name
+.BR
+.PP
+
+.PP
+Name of the consumer requesting the resource allocation (which is required to run 
+the remove command).
+
+.SS -c credential
+.BR
+.PP
+
+.PP
+ (Optional.) Authorization ID provided from current Platform EGO logon. 
+Credentials stored here:
+.RS
+.HP 3
+o  
+Linux 
+.HP 3
+o  
+Directory: /tmp
+.HP 3
+o  
+ Parameter: secegocc_user_id
+.HP 3
+o  
+Windows: 
+.HP 3
+o  
+Directory: C:\\Windows\\Temp
+.HP 3
+o  
+ Parameter: egosec_user_id
+.RE
+
+.PP
+note:  
+
+.PP
+Use the escape character (\\) before each double quoted character in the credential. 
+For example: Admin\\"2007-01-12T02:36:44Z\\
+"fbmTKOzDeUs1RtU+gXKJW8PYSYZZCgHXrjciZnBToGSQC/3tUqYXftYMzv4v1ciJ7
+1wP+wZNeJ6cRxTmzQhOLA==\\"IwN0XXwwRXaIgM5KIieZbw==
+
+.PP
+Stored credentials expire after a certain length of time. If you do not specify an 
+authorization ID, you need to specify a user name and password (see -u and -x 
+options).
+
+.SS -u user_name
+.BR
+.PP
+
+.PP
+ (Optional.) Fully-qualified name of the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.SS -x password
+.BR
+.PP
+
+.PP
+(Optional.) Password to register for the EGO user with associated permissions for 
+the consumer requesting the resource allocation.
+
+.\" Generated by Quadralay WebWorks Publisher 2003 for FrameMaker 8.0.5.1556
+.\" Generated on June 21, 2007 
+.\" Man section: 8 
+.\" File Name: rfa 
+.\" Based on template structured_wwp8_man_page
+.\" Copyright 1994-2007 Platform Computing Corporation

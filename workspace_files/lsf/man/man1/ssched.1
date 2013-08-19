@@ -1,0 +1,305 @@
+
+.ad l
+
+.ll 72
+
+.TH ssched 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBssched\fR
+.sp 2
+   submit tasks through Platform LSF Session Scheduler
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+ssched [options] command
+.sp 2
+ssched [options] -tasks task_definition_file
+.sp 2
+ssched [options] -tasks task_definition_file command
+.sp 2
+ssched [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Options can be specified on the ssched command line or on a
+   line in a task definition file. If specified on the command
+   line, the option applies to all tasks, whether specified on
+   the command line or in a file. Options specified in a file
+   apply only to the command on that line. Options in the task
+   definition file override the same option specified on the
+   command line.
+.sp 2 .SH "ssched exit codes"
+\fBssched exit codes\fR
+.sp 2
+      Exit Code
+.sp 2
+      Meaning
+.sp 2
+      0
+.sp 2
+      All tasks completed normally
+.sp 2
+      1
+.sp 2
+      An unspecified error occurred
+.sp 2
+      3
+.sp 2
+      All tasks completed, but some tasks have a non-zero exit
+      code
+.sp 2
+      4
+.sp 2
+      Error parsing ssched command line parameters or tasks
+      definition file. No tasks were run.
+.sp 2
+      5
+.sp 2
+      Exceeded the SSCHED_MAX_TASKS limit
+.sp 2
+      6
+.sp 2
+      License expired
+.sp 2 .SH "Task Definition File Format"
+\fBTask Definition File Format\fR
+.sp 2
+   The task definition file is an ASCII file. Each line
+   represents one task, or an array of tasks. Each line has the
+   following format:
+.sp 2
+   [task_options] command [arguments]
+.sp 2 .SH "Command options"
+\fBCommand options\fR
+.sp 2
+   \fB-1 | -2 | -3\fR
+.br
+               Enables increasing amounts of debug output
+.sp 2
+   \fB-C\fR
+.br
+               Sanity check all parameters and the task
+               definition file. Exit immediately after the check
+               is complete. An exit code of 0 indicates no errors
+               were found. Any non-zero exit code indicates an
+               error. ssched -C can be run outside of LSF.
+.sp 2
+   \fB-p\fR
+.br
+               Do not delete the temporary working directory.
+               This option is useful when diagnosing errors.
+.sp 2 .SH "Task options"
+\fBTask options\fR
+.sp 2
+   \fB-E "\fIpre_exec_command\fB [\fIarguments\fB ...]" \fR
+.br
+               Runs the specified pre-execution command on the
+               execution host before actually running the task.
+.sp 2
+               The task pre-execution behavior mimics the
+               behavior of LSF job pre-execution. However, the
+               task pre-execution command cannot run as root.
+.sp 2
+               The standard input and output for the
+               pre-execution command are directed to the same
+               files as the job. The pre-execution command runs
+               under the same user ID, environment, home, and
+               working directory as the job. If the pre-execution
+               command is not in the user’s usual execution path
+               (the $PATH variable), the full path name of the
+               command must be specified.
+.sp 2
+   \fB-Ep "\fIpost_exec_command\fB [\fIarguments\fB ...]" \fR
+.br
+               Runs the specified post-execution command on the
+               execution host after the task finishes.
+.sp 2
+               The task post-execution behavior mimics the
+               behavior of LSF job post-execution. However, the
+               task post-execution command cannot run as root.
+.sp 2
+               If the post-execution command is not in the user’s
+               usual execution path (the $PATH variable), the
+               full path name of the command must be specified.
+.sp 2
+   \fB-e \fIerror_file\fB \fR
+.br
+               Specify a file path. Appends the standard error
+               output of the job to the specified file.
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard error output of a task
+               is written to the file you specify as the job
+               runs. If LSB_STDOUT_DIRECT is not set, standard
+               error output of a task is written to a temporary
+               file and copied to the specified file after the
+               task finishes.
+.sp 2
+               You can use the special characters %J, %I, %T, %X
+               in the name of the input file. %J is replaced by
+               the job ID. %I is replaced by the job array index,
+               %T is replaced with the task ID, and %X is
+               replaced by the task array index.
+.sp 2
+               If the current working directory is not accessible
+               on the execution host after the job starts,
+               Session Scheduler writes the standard error output
+               file to /tmp/.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters including the directory, file
+                     name, and expanded values for %J, %I, %T and
+                     %X
+.sp 2
+   \fB-i \fIinput_file\fB \fR
+.br
+               Gets the standard input for the job from specified
+               file. Specify an absolute or relative path. The
+               input file can be any type of file, though it is
+               typically a shell script text file.
+.sp 2
+               If -i is not specified, standard input defaults to
+               /dev/null.
+.sp 2
+               You can use the special characters %J, %I, %T, %X
+               in the name of the input file. %J is replaced by
+               the job ID. %I is replaced by the job array index,
+               %T is replaced with the task ID, and %X is
+               replaced by the task array index.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters including the directory, file
+                     name, and expanded values for %J, %I, %T and
+                     %X
+.sp 2
+   \fB-J \fItask_name\fB[ \fIindex_list\fB]\fR
+.br
+               Specifies the indices of the task array. The index
+               list must be enclosed in square brackets. The
+               index list is a comma-separated list whose
+               elements have the syntax
+               \fIstart\fR[-\fIend\fR[:\fIstep\fR]] where
+               \fIstart\fR, \fIend\fR and step are positive
+               integers. If the step is omitted, a step of one is
+               assumed. The task array index starts at one.
+.sp 2
+               All tasks in the array share the same option
+               parameters. Each element of the array is
+               distinguished by its array index.
+.sp 2
+   \fB-j "\fIstarter\fB [\fIstarter\fB] ['%USRCMD']
+   [\fIstarter\fB]"\fR
+.br
+               Task job starter. Creates a specific environment
+               for submitted tasks prior to execution.
+.sp 2
+               The job starter is any executable that can be used
+               to start the task (that is, it can accept the task
+               as an input argument). Optionally, additional
+               strings can be specified.
+.sp 2
+               By default, the user commands run after the job
+               starter. A special string, %USRCMD, can be used to
+               represent the position of the user's task in the
+               job starter command line. The %USRCMD string may
+               be followed by additional commands.
+.sp 2
+   \fB-o \fIoutput_file\fB \fR
+.br
+               Specify a file path. Appends the standard output
+               of the task to the specified file. The default is
+               to output to the same stdout as the ssched
+               command.
+.sp 2
+               If only a file name is specified, LSF writes the
+               output file to the current working directory. If
+               the current working directory is not accessible on
+               the execution host after the task starts, LSF
+               writes the standard output file to /tmp/.
+.sp 2
+               If the parameter LSB_STDOUT_DIRECT in lsf.conf is
+               set to Y or y, the standard output of a task is
+               written to the file you specify as the task runs.
+               If LSB_STDOUT_DIRECT is not set, it is written to
+               a temporary file and copied to the specified file
+               after the task finishes.
+.sp 2
+               You can use the special characters %J, %I, %T, %X
+               in the name of the input file. %J is replaced by
+               the job ID. %I is replaced by the job array index,
+               %T is replaced with the task ID, and %X is
+               replaced by the task array index.
+.sp 2
+                  \fBNote: \fR
+.sp 2
+                     The file path can contain up to 4094
+                     characters including the directory, file
+                     name, and expanded values for %J, %I, %T and
+                     %X
+.sp 2
+   \fB-M \fImem_limit\fB \fR
+.br
+               Sets a per-process (soft) memory limit for all the
+               processes that belong to the task (see
+               getrlimit(2)).
+.sp 2
+               By default, the limit is specified in KB. Use
+               LSF_UNIT_FOR_LIMITS in lsf.conf to specify a
+               larger unit for the limit (MB, GB, TB, PB, or EB).
+.sp 2
+               You should only set a task level memory limit if
+               it less than the job limit.
+.sp 2
+   \fB-Q "\fIexit_code\fB ..."\fR
+.br
+               Task requeue exit values. Enables automatic task
+               requeue and sets the LSB_EXIT_REQUEUE environment
+               variable. Separate multiple exit codes with
+               spaces. The output from the failed run is not
+               saved, and the user is not notified by LSF.
+.sp 2
+   \fB-W [\fIminutes\fB:]\fIseconds\fB \fR
+.br
+               Sets the run time limit of the task. If a task
+               runs longer than the specified run limit, the task
+               is sent a SIGKILL signal.
+.sp 2
+               The run limit is in the form of
+               [\fIminutes\fR:]\fIseconds\fR. The seconds can be
+               specified as a number greater than 59. For
+               example, three and a half minutes can either be
+               specified as 3:30, or 210. The run limit you
+               specify is the absolute run time.
+.sp 2
+   \fB-tasks \fItask_definition_file\fB\fR
+.br
+               Specify tasks through a task definition file.
+.sp 2
+   \fB\fIcommand\fB [\fIargument\fB] \fR
+.br
+               The command can be anything that is provided to a
+               UNIX Bourne shell (see sh(1)). The command is
+               assumed to begin with the first word that is not
+               part of a option. All arguments that follow
+               command are provided as the arguments to the
+               command.
+.sp 2
+               The job command can be up to 4094 characters long.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   ssacct, lsb.params
+.sp 2

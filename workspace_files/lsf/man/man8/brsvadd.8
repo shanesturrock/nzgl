@@ -1,0 +1,356 @@
+
+.ad l
+
+.ll 72
+
+.TH brsvadd 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrsvadd\fR
+.sp 2
+   adds an advance reservation
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brsvadd [-o] [-d "description"] [-N reservation_name]
+.sp 2
+  {-s | -n job_slots {-u user_name | -g group_name}}
+.sp 2
+  {-m "host_name | host_group ..." [-R "res_req"] |
+.sp 2
+  [-m "host_name | host_group ..."] -R "res_req"}
+.sp 2
+  {-b begin_time -e end_time | -t time_window}
+.sp 2
+brsvadd {-h | -V}
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         By default, this command can only be used by LSF
+         administrators or root.
+.sp 2
+   Reserves job slots in advance for a specified period of time
+   for a user or user group, or for system maintenance purposes.
+   Use -b and -e for one-time reservations, and -t for recurring
+   reservations.
+.sp 2
+   To allow users to create their own advance reservations
+   without administrator intervention, configure advance
+   reservation policies in the ResourceReservation section of
+   lsb.resources.
+.sp 2
+   Only administrators, root, or the users listed in the
+   ResourceReservation section can add reservations for
+   themselves or any other user or user group.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         Advance reservations should be 10 minutes or more in
+         length. Advance reservations of less than 10 minutes may
+         be rejected if they overlap other advance reservations
+         in 10-minute time slots of the weekly planner.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-o\fR
+.br
+               Creates an open advance reservation. A job with an
+               open advance reservation only has the advance
+               reservation property during the reservation
+               window, after which the job becomes a normal job,
+               not subject to termination when the reservation
+               window closes.
+.sp 2
+               This prevents jobs from being killed if the
+               reservation window is too small. Instead, the job
+               is suspended and normal scheduling policies apply
+               after the reservation window.
+.sp 2
+   \fB-s\fR
+.br
+               Creates a reservation for system use. LSF does not
+               dispatch jobs to the specified hosts while the
+               reservation is active.
+.sp 2
+               When specifying a system reservation with -s, you
+               do not need to specify the number of job slots to
+               reserve with the -n option.
+.sp 2
+   \fB-b \fIbegin_time\fB\fR
+.br
+               Begin time for a one-time reservation. The begin
+               time is in the form
+.sp 2
+               [[[year:]month:]day:]hour:minute
+.sp 2
+               with the following ranges:
+.sp 2
+                 o  
+                     \fIyear\fR: any year after 1900 (YYYY)
+.sp 2
+                 o  
+                     \fImonth\fR: 1-12 (MM)
+.sp 2
+                 o  
+                     \fIday of the month\fR: 1-31 (dd)
+.sp 2
+                 o  
+                     \fIhour\fR: 0-23 (hh)
+.sp 2
+                 o  
+                     \fIminute\fR: 0-59 (mm)
+.sp 2
+               You must specify at least hour:minute. Year,
+               month, and day are optional. Three fields are
+               assumed to be day:hour:minute, four fields are
+               assumed to be month:day:hour:minute, and five
+               fields are year:month:day:hour:minute.
+.sp 2
+               If you do not specify a day, LSF assumes the
+               current day. If you do not specify a month, LSF
+               assumes the current month. If you specify a year,
+               you must specify a month.
+.sp 2
+               The time value for -b must use the same syntax as
+               the time value for -e. It must be earlier than the
+               time value for -e, and cannot be earlier than the
+               current time.
+.sp 2
+   \fB-d "\fIdescription\fB"\fR
+.br
+               Specifies a description for the reservation to be
+               created. The description must be provided as a
+               double quoted text string. The maximum length is
+               512 characters.
+.sp 2
+   \fB-e \fIend_time\fB\fR
+.br
+               End time for a one-time reservation. The end time
+               is in the form
+.sp 2
+               [[[year:]month:]day:]hour:minute
+.sp 2
+               with the following ranges:
+.sp 2
+                 o  
+                     \fIyear\fR: any year after 1900 (YYYY)
+.sp 2
+                 o  
+                     \fImonth\fR: 1-12 (MM)
+.sp 2
+                 o  
+                     \fIday of the month\fR: 1-31 (dd)
+.sp 2
+                 o  
+                     \fIhour\fR: 0-23 (hh)
+.sp 2
+                 o  
+                     \fIminute\fR: 0-59 (mm)
+.sp 2
+               You must specify at least hour:minute. Year,
+               month, and day are optional. Three fields are
+               assumed to be day:hour:minute, four fields are
+               assumed to be month:day:hour:minute, and five
+               fields are year:month:day:hour:minute.
+.sp 2
+               If you do not specify a day, LSF assumes the
+               current day. If you do not specify a month, LSF
+               assumes the current month. If you specify a year,
+               you must specify a month.
+.sp 2
+               The time value for -e must use the same syntax as
+               the time value for -b. It must be later than the
+               time value for -b.
+.sp 2
+   \fB-g \fIgroup_name\fB\fR
+.br
+               Creates a reservation for a user group.
+.sp 2
+               The -g \fIgroup_name\fR option does not support
+               the @cluster notation for advance reservations on
+               remote clusters.
+.sp 2
+   \fB-m "\fIhost_name\fB | \fIhost_group\fB ..."\fR
+.br
+               Lists hosts for which job slots specified with -n
+               are reserved. At job submission, LSF considers the
+               hosts in the specified order.
+.sp 2
+               If you also specify a resource requirement string
+               with the -R option, -m is optional.
+.sp 2
+               The hosts can be local to the cluster or hosts
+               leased from remote clusters.
+.sp 2
+   \fB-N \fIreservation_name\fB\fR
+.br
+               Specifies a user-defined advance reservation name
+               unique in an LSF cluster. The name is a string of
+               letters, numeric characters, underscores, and
+               dashes beginning with a letter. The maximum length
+               of the name is 40 characters.
+.sp 2
+               If no user-defined advance reservation name is
+               specified, LSF creates the reservation with a
+               system assigned name with the form
+.sp 2
+               user_name#sequence
+.sp 2
+               For example:
+.sp 2
+               brsvadd -n 3 -m "hostA hostB" -u user2 -b 16:0 -e 17:0 -d "Production AR test"
+.sp 2
+               Reservation user2#0 (Production AR test) is created
+.sp 2
+               brsvadd -n 2 -N Production_AR -m hostA -u user2 -b 16:0 -e 17:0 -d "Production AR test"
+.sp 2
+               Reservation Production_AR (Production AR test) is created
+.sp 2
+               If a job already exists that references a
+               reservation with the specified name, an error
+               message is returned: The specified reservation
+               name is referenced by a job.
+.sp 2
+   \fB-n \fIjob_slots\fB\fR
+.br
+               Number of job slots to reserve. \fIjob_slots\fR
+               must be less than or equal to the actual number of
+               job slots for the hosts selected by -m or -R for
+               the reservation.
+.sp 2
+               If you also specify the reservation for system use
+               with the -s option, -n is optional.
+.sp 2
+   \fB-R "\fIres_req\fB"\fR
+.br
+               Selects hosts for the reservation according to the
+               specified resource requirements. Only hosts that
+               satisfy the resource requirement expression are
+               reserved. -R accepts any valid resource
+               requirement string, but only the select string
+               takes effect.
+.sp 2
+               If you also specify a host list with the -m
+               option, -R is optional.
+.sp 2
+               For more information about specifying resource
+               requirement strings, see Administering Platform
+               LSF.
+.sp 2
+               The size of the resource requirement string is
+               limited to 512 bytes.
+.sp 2
+   \fB-t \fItime_window\fB\fR
+.br
+               Time window for a recurring reservation.
+.sp 2
+               To specify a time window, specify two time values
+               separated by a hyphen (-), with no space in
+               between:
+.sp 2
+               time_window = begin_time-end_time
+.sp 2
+               Times are specified in the format:
+.sp 2
+               [day:]hour[:minute]
+.sp 2
+               where all fields are numbers with the following
+               ranges:
+.sp 2
+                 o  
+                     \fIday of the week\fR: 0-6 (0 is Sunday)
+.sp 2
+                 o  
+                     \fIhour\fR: 0-23
+.sp 2
+                 o  
+                     \fIminute\fR: 0-59
+.sp 2
+               Specify a time window one of the following ways:
+.sp 2
+                 o  
+                     \fIhour\fR-\fIhour\fR
+.sp 2
+                 o  
+                     \fIhour\fR:\fIminute\fR-\fIhour\fR:\fIminute\fR
+.sp 2
+                 o  
+                     \fIday\fR:\fIhour\fR:\fIminute\fR-\fIday\fR:\fIhour\fR:\fIminute\fR
+.sp 2
+               The default value for minute is 0 (on the hour);
+               the default value for day is every day of the
+               week.
+.sp 2
+               You must specify at least the hour. Day of the
+               week and minute are optional. Both the start time
+               and end time values must use the same syntax. If
+               you do not specify a minute, LSF assumes the first
+               minute of the hour (\fR:00\fR). If you do not
+               specify a day, LSF assumes every day of the week.
+               If you do specify the day, you must also specify
+               the minute.
+.sp 2
+               LSF administrators can prevent running jobs from
+               being killed when the reservation expires by
+               changing the termination time of the job using the
+               reservation (bmod -t) before the reservation
+               window closes.
+.sp 2
+               When the job starts running, the run limit of the
+               reservation is set to the minimum of the job run
+               limit (if specified), the queue run limit (if
+               specified), or the duration of the time window.
+.sp 2
+   \fB-u \fIuser_name\fB\fR
+.br
+               Creates a reservation for an individual user.
+.sp 2
+               The -u \fIuser_name\fR option does not support the
+               @cluster notation for advance reservations on
+               remote clusters.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   The following command creates a one-time advance reservation
+   for 1024 job slots on host \fRhostA\fR for user \fRuser1\fR
+   between 6:00 a.m. and 8:00 a.m. today:
+.sp 2
+   brsvadd -n 1024 -m hostA -u user1 -b 6:0 -e 8:0
+.sp 2
+   Reservation "user1#0" is created
+.sp 2
+   The hosts specified by -m can be local to the cluster or hosts
+   leased from remote clusters.
+.sp 2
+   The following command creates an advance reservation for 1024
+   job slots on two hosts \fRhostA\fR and \fRhostB\fR for user
+   group \fRgroupA\fR every Wednesday from 12:00 midnight to 3:00
+   a.m.:
+.sp 2
+   brsvadd -n 1024 -m "hostA hostB" -g groupA -t "3:0:0-3:3:0"
+.sp 2
+   Reservation "groupA#0" is created
+.sp 2
+   The following command creates an open advance reservation for
+   1024 job slots on host hostA for user user1 between 6:00 a.m.
+   and 8:00 a.m. today.
+.sp 2
+   brsvadd -o -n 1024 -m hostA -u user1 -b 6:0 -e 8:0
+.sp 2
+   Reservation "user1#0" is created
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   brsvdel, brsvmod, brsvs, lsb.resources
+.sp 2

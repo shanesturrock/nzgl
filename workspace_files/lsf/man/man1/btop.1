@@ -1,0 +1,106 @@
+
+.ad l
+
+.ll 72
+
+.TH btop 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbtop\fR
+.sp 2
+   moves a pending job relative to the first job in the queue
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+btop job_ID | "job_ID[index_list]" [position]
+.sp 2
+btop [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Changes the queue position of a pending job or a pending job
+   array element, to affect the order in which jobs are
+   considered for dispatch.
+.sp 2
+   By default, LSF dispatches jobs in a queue in the order of
+   their arrival (that is, first come, first served), subject to
+   availability of suitable server hosts.
+.sp 2
+   The btop command allows users and the LSF administrator to
+   manually change the order in which jobs are considered for
+   dispatch. Users can only operate on their own jobs, whereas
+   the LSF administrator can operate on any user’s jobs. Users
+   can only change the relative position of their own jobs.
+.sp 2
+   If invoked by the LSF administrator, btop moves the selected
+   job before the first job with the same priority submitted to
+   the queue. The positions of all users’ jobs in the queue can
+   be changed by the LSF administrator.
+.sp 2
+   If invoked by a regular user, btop moves the selected job
+   before the first job with the same priority submitted by the
+   user to the queue. Pending jobs are displayed by bjobs in the
+   order in which they are considered for dispatch.
+.sp 2
+   A user may use btop to change the dispatch order of his/her
+   jobs scheduled using a fairshare policy. However, if a job
+   scheduled using a fairshare policy is moved by the LSF
+   administrator using btop, the job is not subject to further
+   fairshare scheduling unless the same job is subsequently moved
+   by the LSF administrator using bbot; in this case the job is
+   scheduled again using the same fairshare policy (see the
+   FAIRSHARE keyword in lsb.queues(5) and HostPartition keyword
+   in lsb.hosts (5)).
+.sp 2
+   To prevent users from changing the queue position of a pending
+   job with btop, configure JOB_POSITION_CONTROL_BY_ADMIN=Y in
+   lsb.params.
+.sp 2
+   You cannot run btop on jobs pending in an absolute priority
+   scheduling (APS) queue.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID[index_list]\fB"\fR
+.br
+               Required. Job ID of the job or of the job array on
+               which to operate.
+.sp 2
+               For a job array, the index list, the square
+               brackets, and the quotation marks are required. An
+               index list is used to operate on a job array. The
+               index list is a comma separated list whose
+               elements have the syntax
+               start_index[-end_index[:step] ] where start_index,
+               end_index and step are positive integers. If the
+               step is omitted, a step of one is assumed. The job
+               array index starts at one. The maximum job array
+               index is 1000. All jobs in the array share the
+               same job_ID and parameters. Each element of the
+               array is distinguished by its array index.
+.sp 2
+   \fB\fIposition\fB\fR
+.br
+               Optional. The \fIposition\fR argument can be
+               specified to indicate where in the queue the job
+               is to be placed. position is a positive number
+               that indicates the target position of the job from
+               the beginning of the queue. The positions are
+               relative to only the applicable jobs in the queue,
+               depending on whether the invoker is a regular user
+               or the LSF administrator. The default value of 1
+               means the position is before all the other jobs in
+               the queue that have the same priority.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bbot(1), bjobs(1), bswitch(1)

@@ -1,0 +1,86 @@
+
+.ad l
+
+.ll 72
+
+.TH taskman 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBtaskman\fR
+.sp 2
+   checks out a license token and manages interactive UNIX
+   applications
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+taskman -Lp project -R “rusage[token=number[:duration=minutes |
+hours h] [:token=number[:duration=minutes | hours h]]...] [-N
+n_retries] [-v] command
+.sp 2
+taskman [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Runs the interactive UNIX application on behalf of the user.
+   When it starts, the task manager connects to License Scheduler
+   to request the application license tokens. When all the
+   requested licenses are available, the task manager starts the
+   application. While the application is running, the task
+   manager monitors resource usage, CPU, and memory, and reports
+   the usage to License Scheduler. When the application
+   terminates, the task manager exits.
+.sp 2
+   By default, a license is reserved for the duration of the
+   task, so the application can check out the license at any
+   time. Use the duration keyword if you want unused licenses to
+   be reallocated if the application fails to check out the
+   license before the reservation expires.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIcommand\fB\fR
+.br
+               Required. The command to start the job that
+               requires the license.
+.sp 2
+   \fB-v\fR
+.br
+               Verbose mode. Displays detailed messages about the
+               status of configuration files.
+.sp 2
+   \fB-N \fIn_retries\fB\fR
+.br
+               Specifies the maximum number of retry attempts
+               taskman takes to connect to the daemon. If this
+               option is not specified, taskman retries
+               indefinitely.
+.sp 2
+   \fB-Lp \fIproject\fB\fR
+.br
+               Required. Specifies the interactive license
+               project that is requesting tokens. The client must
+               be known to LSF License Scheduler.
+.sp 2
+   \fB-R “rusage[token=\fInumber\fB [:\fIduration=minutes\fB |
+   \fIhours\fB h] [:\fItoken=number\fB [:\fIduration=minutes\fB |
+   \fIhours\fB h] ] ...]\fR
+.br
+               Required. Specifies the type and number of license
+               tokens to request from License Scheduler.
+               Optionally, specifies a time limit for the license
+               reservation, expressed as an integer (the keyword
+               h following the number indicates hours instead of
+               minutes). You may specify multiple license types,
+               with different duration values. Separate each
+               requirement with a colon (:). Enclose the entire
+               list in one set of square brackets.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints the License Scheduler release version to
+               stderr and exits.

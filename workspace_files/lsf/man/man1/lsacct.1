@@ -1,0 +1,235 @@
+
+.ad l
+
+.ll 72
+
+.TH lsacct 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsacct\fR
+.sp 2
+   displays accounting statistics on finished RES tasks in the
+   LSF system
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsacct [-l] [-C time0,time1] [-S time0,time1] [-f logfile_name]
+[-m host_name] [-u user_name ... | -u all] [pid ...]
+.sp 2
+lsacct [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays statistics on finished tasks run through RES. When a
+   remote task completes, RES logs task statistics in the task
+   log file.
+.sp 2
+   By default, displays accounting statistics for only tasks
+   owned by the user who invoked the lsacct command.
+.sp 2
+   By default, displays accounting statistics for tasks executed
+   on all hosts in the LSF system.
+.sp 2
+   By default, displays statistics for tasks logged in the task
+   log file currently used by RES:
+   LSF_RES_ACCTDIR/lsf.acct.\fIhost_name\fR or
+   /tmp/lsf.acct.\fIhost_name\fR (see lsf.acct(5)).
+.sp 2
+   If -l is not specified, the default is to display the fields
+   in SUMMARY only (see OUTPUT).
+.sp 2
+   The RES on each host writes its own accounting log file. These
+   files can be merged using the lsacctmrg command to generate
+   statistics for the entire LSF cluster.
+.sp 2
+   All times are reported in seconds. All sizes are reported in
+   kilobytes.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l \fR
+.br
+               Per-task statistics. Displays statistics about
+               each task. See OUTPUT for a description of
+               information that is displayed.
+.sp 2
+   \fB-C \fItime0\fB,\fItime1\fB \fR
+.br
+               Displays accounting statistics for only tasks that
+               completed or exited during the specified time
+               interval.
+.sp 2
+               The time format is the same as in bhist(1).
+.sp 2
+   \fB-f \fIlogfile_name\fB \fR
+.br
+               Searches the specified task log file for
+               accounting statistics. Specify either an absolute
+               or a relative path.
+.sp 2
+               Useful for analyzing old task log files or files
+               merged with the \fRlsacctmrg\fR command.
+.sp 2
+   \fB-m \fIhost_name\fB ... \fR
+.br
+               Displays accounting statistics for only tasks
+               executed on the specified hosts.
+.sp 2
+               If a list of hosts is specified, host names must
+               be separated by spaces and enclosed in quotation
+               marks (") or (’).
+.sp 2
+   \fB-S \fItime0\fB,\fItime1\fB\fR
+.br
+               Displays accounting statistics for only tasks that
+               began executing during the specified time
+               interval.
+.sp 2
+               The time format is the same as in bhist(1).
+.sp 2
+   \fB-u \fIuser_name\fB ... | -u all \fR
+.br
+               Displays accounting statistics for only tasks
+               owned by the specified users, or by all users if
+               the keyword \fRall\fR is specified.
+.sp 2
+               If a list of users is specified, user names must
+               be separated by spaces and enclosed in quotation
+               marks (") or (’). You can specify both user names
+               and user IDs in the list of users. To specify a
+               Windows user account, include the domain name in
+               uppercase letters and use a single backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB\fIpid\fB ... \fR
+.br
+               Displays accounting statistics for only tasks with
+               the specified pid. This option overrides all other
+               options except for -l, -f, -h, -V.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output: SUMMARY (default format)"
+\fBOutput: SUMMARY (default format)\fR
+.sp 2
+   Overall statistics for tasks.
+.sp 2
+   The total, average, maximum and minimum resource usage
+   statistics apply to all specified tasks.
+.sp 2
+   The following fields are displayed:
+.sp 2
+   \fBTotal number of tasks \fR
+.br
+               Total number of tasks including tasks completed
+               successfully and total number of exited tasks.
+.sp 2
+   \fBTime range of started tasks \fR
+.br
+               Start time of the first and last task selected.
+.sp 2
+   \fBTime range of ended tasks \fR
+.br
+               Completion or exit time of the first and last task
+               selected.
+.sp 2
+   \fBResource usage of tasks selected \fR
+.br
+               See \fRgetrusage\fR (2).
+.sp 2
+   \fBCPU time \fR
+.br
+               Total CPU time consumed by the task.
+.sp 2
+   \fBPage faults \fR
+.br
+               Number of page faults.
+.sp 2
+   \fBSwaps\fR
+.br
+               Number of times the process was swapped out.
+.sp 2
+   \fBBlocks in \fR
+.br
+               Number of input blocks.
+.sp 2
+   \fBBlocks out \fR
+.br
+               Number of output blocks.
+.sp 2
+   \fBMessages sent \fR
+.br
+               Number of System VIPC messages sent.
+.sp 2
+   \fBMessages rcvd \fR
+.br
+               Number of IPC messages received.
+.sp 2
+   \fBVoluntary cont sw \fR
+.br
+               Number of voluntary context switches.
+.sp 2
+   \fBInvoluntary con sw \fR
+.br
+               Number of involuntary context switches.
+.sp 2
+   \fBTurnaround \fR
+.br
+               Elapsed time from task execution to task
+               completion.
+.sp 2 .SH "Output: Per Task Statistics ( -l)"
+\fBOutput: Per Task Statistics ( -l)\fR
+.sp 2
+   In addition to the fields displayed by default in SUMMARY,
+   displays the following fields for each task:
+.sp 2
+   \fBStarting time \fR
+.br
+               Time the task started.
+.sp 2
+   \fBUser and host name \fR
+.br
+               User who submitted the task, host from which the
+               task was submitted, in the format
+               \fIuser_name\fR@\fIhost\fR.
+.sp 2
+   \fBPID \fR
+.br
+               UNIX process ID of the task.
+.sp 2
+   \fBExecution host \fR
+.br
+               Host on which the command was run.
+.sp 2
+   \fBCommand line \fR
+.br
+               Complete command line that was executed.
+.sp 2
+   \fBCWD\fR
+.br
+               Current working directory of the task.
+.sp 2
+   \fBCompletion time \fR
+.br
+               Time at which the task completed.
+.sp 2
+   \fBExit status \fR
+.br
+               UNIX exit status of the task.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads lsf.acct.\fIhost_name\fR
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsf.acct(5), lsacctmrg(1), \fRres\fR(8), bhist(1)

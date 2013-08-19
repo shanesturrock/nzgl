@@ -1,0 +1,89 @@
+.\" $Id: lsfmc.1,v 5.7 1998/07/27 16:33:03 bzhang Exp $
+.ds ]W %
+.ds ]L
+.TH LSFMC 1 "1 August 1998"
+.SH NAME
+lsfmc \- \s-1LSF\s0 MultiCluster system.
+.SH DESCRIPTION
+\s-1LSF\s0 MultiCluster is the enabling software which allows
+load sharing among multiple \s-1LSF\s0 clusters.  It supports transparent
+access to remote cluster configuration and load information,  distribution
+of interactive jobs among clusters, importing and exporting of batch queues
+between clusters,  configurable user account mapping at the individual user
+level and automatic file transfer.   
+.SH TRANSPARENT INFORMATION ACCESS
+
+Through \s-1LSF\s0 Base and \s-1LSF\s0 Batch commands and APIs, 
+the cluster configuration
+(see 
+.BR lsf.cluster (5),
+.BR lsclusters (1), 
+.BR bclusters (1) 
+and
+.BR lsf.conf (5)) 
+and dynamic load information of  remote clusters can be obtained (see
+.BR lshosts (1),
+.BR lsload (1),
+.BR bhosts (1)
+and
+.BR bclusters (1)).  
+The requests directed to the master LIM of the local
+cluster, which in turn requests the information from its peers in other
+clusters.  The \fBEQUIV\fR keyword (see \fBlsf.cluster\fR(5))
+allows the load of many clusters to be monitored in one cluster.
+
+.SH DISTRIBUTION OF INTERACTIVE JOBS
+
+The  \fBRECV_FROM\fR keyword (see \fBlsf.cluster\fR(5)) enables
+collaborating clusters to run interactive jobs from other clusters
+with desired accessibility.  \s-1LSF\s0 Base system commands are 
+enhanced to take cluster names as well as host names when performing
+placement decisions and remote execution (see 
+.BR lsplace (1),
+.BR lsrun (1)
+and
+.BR lsgrun (1)).
+
+.SH COLLABORATIVE BATCH QUEUES
+
+Inter-cluster sharing of batch jobs is facilitated by importing and exporting
+batch queues through the use of \fBSNDJOBS_TO\fR and \fBRCVJOBS_FROM\fR
+keywords for \s-1LSF\s0 Batch queue configuration (see
+.BR lsfbatch (5)
+and
+.BR lsb.queues (5)).  Jobs submitted by a user to a queue may be processed
+locally, or transferred to another queue in a remote cluster if the desired 
+job slots can be allocated there.  
+
+.SH ACCOUNT MAPPING
+
+Mapping of user account names between clusters is supported at 
+individual user level (see .BR bsub (1)) through 
+the per-user \fB$HOME/.lsfhosts\fR file.
+
+.SH AUTOMATIC FILE TRANSFER
+
+When submitting a batch job, a user can specify the input and output files 
+(see 
+.BR bsub (1)) 
+so that \s-1LSF\s0 MultiCluster system can transfer them to/from the
+host on the selected execution cluster.  
+
+.SH REMARKS
+Presently,  \s-1LSF\s0 MultiCluster does not yet support \s-1LSF\s0 
+JobScheduler jobs.
+
+.SH SEE ALSO
+.BR lsf.conf (5),
+.BR lsf.cluster (5),
+.BR lsfbatch (5)
+.BR lsb.queues (5),
+.BR lsclusters (1),
+.BR lshosts (1),
+.BR lsload (1),
+.BR lsrun (1),
+.BR bclusters (1),
+.BR bhosts, (1),
+.BR bqueues (1),
+.BR bjobs (1)
+

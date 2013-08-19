@@ -1,0 +1,293 @@
+.\"
+.ds ]W %
+.ds ]L
+.TH XBSUB 1 "1 August 1998"
+.SH NAME
+\fBxbsub\fR \- Motif-based Graphical User Interface for batch job submission 
+.SH SYNOPSIS
+\fBxbsub\fR [standard X11/Motif options...]
+.SH DESCRIPTION
+\fBxbsub\fR provides a Motif-based graphical user interface for 
+submitting a batch job to the LSF system.
+.PP
+\fBNOTE:\fR
+.PP
+The UNIX X-GUI commands (xbmod, xlsbatch, xbsub, xlsmon) are obsolete. 
+The command binaries remain available in the distribution packages as a 
+courtesy, but are provided "as is" and are no longer officially supported.
+.BR
+.PP
+
+.sp
+.SH MAIN WINDOW 
+The main window of \fBxbsub\fR consists of a menu bar, a working area, some
+buttons and a message line. 
+
+The working area contains text fields to specify Command Line and 
+commonly-used job options such as candidate queues, hosts, resource
+requirement, input, output and error files. There is a button close to
+each field for opening a dialog box to help specify the job option.
+The advanced job options can be specified in the advanced dialog
+box, which is opened by clicking "Advanced..." button in the main window. 
+By clicking on different tabs in the working area, you may choose
+to submit a regular batch job, or a batch interactive job. 
+
+The current working directory is shown on the top-right of the working area.
+
+The queue, host and resource data used in \fBxbsub\fR are updated periodically, 
+and they can also be updated manually. The latest update time is shown
+on the bottom-right of the main window.
+.PP
+Menu Bar
+.PP
+The menu bar of the main window contains the following items:
+\fBFile\fR, \fBEdit\fR, \fBOptions\fR and \fBHelp\fR.
+.PP
+File Menu
+.RS 5
+.TP 5
+.B Update 
+Updates queue, host and resource data from the batch system.
+.TP 5
+.B New 
+Clears Command Line and sets default values to job options in the main window
+and advanced dialog box.
+.TP 5
+.B Load a Job Option File... 
+Loads a job option file, and sets the values specified in the file to
+appropriate job options in the main window and advanced dialog box.
+.TP 5
+.B Save Job Options into a File... 
+Saves the job options specified in the main window and advanced dialog box
+into a file.
+.TP 5
+.B Submit 
+Submits the job in Command Line to the batch system, with the job options
+specified in the main window and advanced dialog box.
+When submitting an batch interactive job, by default an xterm is opened 
+to run the job, you may specify the command for opening the terminal
+(e.g. hpterm) in \fB$XBSUB_TERM\fR environment variable.
+.TP 5
+.B Exit  
+Exits the application (\fBxbsub\fR).
+.RE
+.TP 5
+Edit Menu
+.RS 5
+.TP 5
+.B Defaults
+Sets default values to job options in the main window and advanced dialog box.
+.TP 5
+.B Revert 
+Reverts values of job options back to what is specified in the last loaded 
+job option file.
+.TP 5
+.B Advanced Parameters... 
+Opens the advanced dialog box for specifying more job options.
+.TP 5
+.B Change Current Directory... 
+Opens a file selection dialog box for changing current working directory.
+.RE
+.TP 5
+Options Menu
+.RS 5
+.TP 5
+.B Set Options... 
+Opens a dialog box to set \fBxbsub\fR settings,
+including the refresh period and command to print on-line help.
+.TP 5
+.B Save Options 
+Saves the current \fBxbsub\fR settings (size and position of the
+main window, the refresh period and command to print on-line help)
+into the
+.BR  ~/.XBsub
+resource file in your home directory. 
+\fBxbsub\fR reads this file, if available, on startup to
+obtain the configuration information.
+.TP 5
+.B Restore Options 
+Restores the \fBxbsub\fR settings (the refresh period and
+command to print on-line help) from the last saved
+.BR  ~/.XBsub
+resource file.
+.RE
+.TP 5
+Help Menu
+.RS 5
+.TP 5
+.B  On Version... 
+Displays the \s-1LSF\s0 version number and copyright information.
+.TP 5
+.B  On Window... 
+Opens an on-line \fBHelp\fR window to display information about the tasks that
+you can perform with \fBxbsub\fR.
+.TP 5
+.B  On Help... 
+Opens an on-line \fBHelp\fR window to display information about how to use the
+on-line help.
+.TP 5
+.B  On Company Info... 
+Displays the address of \s-1Platform Computing Corporation\s0.
+.RE
+.sp
+.SH ADVANCED DIALOG BOX
+The advanced dialog box consists of text fields and toggle buttons
+for specifying
+job name, project name, login shell, pre-execution command, job
+dependencies, mail user, when to notify, number of processors, job
+begin time, job terminate time and whether the job is exclusive, or 
+rerunnable. The three buttons below the text fields are for opening
+checkpoint dialog box, limits dialog box and file transfer dialog
+box to specify checkpoint option, resource limits and file transfer
+parameters.
+.RE
+.sp
+.SH CHECKPOINT DIALOG BOX
+The checkpoint dialog box consists of a "Checkpointable" toggle button,
+a "Checkpoint Period" text filed, and  a file selection area for
+specifying the checkpoint directory.
+To submit a checkpointable job, set the "Checkpointable" toggle, and
+specify the checkpoint period and directory; Otherwise, unset the
+"Checkpointable" toggle.
+.RE
+.sp
+.SH LIMITS DIALOG BOX
+The limits dialog box consists of a couple of text fields for
+specifying the CPU time limit, wall-clock run time limit, file limit,
+stack limit, memory limit, data limit and core limit for the whole job.
+.RE
+.sp
+.SH FILE TRANSFERS DIALOG BOX
+The file transfers dialog box consists of a file transfer list, a file
+transfer area and some buttons. To add a file transfer to the list,
+fill in the "File on Submission Host" and "File on Execution Host" field,
+select the transfer operators, and click the Add button. You can
+select a file transfer from the list, modify it and replace the old one
+by clicking the Replace button. To remove a file transfer. select it from
+the list, and click the Remove button.
+.RE
+.sp
+.SH X DEFAULTS
+The \fBxbsub\fR application uses the relevant resource specifications
+in the X default files to configure the \fBxbsub\fR window.
+The format for a resource specification in the X default files is:
+.RS 5
+.PP
+\fB[\fIname\fB*]\fIresource\fB:  \fIvalue\fR
+.PP
+.I name
+specifies the application name or the name string that restricts 
+the resource assignment to that application or to a
+component of an application.  If this argument is not specified, 
+the resource assignment is globally available to all X applications.
+.PD 0
+
+.I resource
+specifies the resource.
+
+.I value
+specifies the value that is to be assigned to the resource.
+.PD
+.RE
+.PP
+For \fBxbsub\fR, the application class is \fBXBsub\fR and 
+the application name is \fBxbsub\fR.
+.PP
+In addition to the general resources listed in \fBX\fR(1), resources
+available to \fBxbsub\fR include:
+.TP 5
+.B refreshRate
+Specifies the \fBxbsub\fR information refresh period.
+The permissible range for the refresh period is 1 to 60 minutes.
+The default is 2 minutes.
+.TP 5
+.B printCommand
+Specifies the command to print \fBxbsub\fR on line help. The default
+command is "lp".
+.TP 5
+.B multiClickTime
+Specifies the time interval between two consecutive mouse button clicks.
+The default is 0.5 sec.
+.TP 5
+.B customizedMenu 
+Customizes pulldown menus in the main window of \fBxbsub\fR.
+
+The value of \fBcustomizedMenu\fR should be a character string enclosed in
+double quotes, whose components are separated by spaces. For example,
+
+xbsub*customizedMenu:"A1 B1 C1 D1 A2 B2 C2 B2 ... An Bn Cn Dn"
+
+From the beginning of the string, every four consecutive components
+constitute a group which customizes one menu item. Each component is
+either a character string or several character strings encompassed
+by parentheses.
+
+(1) To remove a pulldown menu from the menu bar, specify
+\fBAi\fR: the pulldown menu name to be removed from the menu bar,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(2) To remove a menu item from a pulldown menu, specify
+\fBAi\fR: the pulldown menu name where some item will be removed,
+\fBBi\fR: the menu item name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(3) To remove a sub-pulldown menu from a pulldown menu, specify
+\fBAi\fR: the pulldown menu where some sub-pulldown will be removed,
+\fBBi\fR: the sub-pulldown menu name to be removed,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: 0 (zero).
+
+(4) To remove a menu item from a sub-pulldown menu, specify
+\fBAi\fR: the pulldown menu where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item will be removed,
+\fBCi\fR: the menu item name to be removed,
+\fBDi\fR: 0 (zero).
+
+(5) To add a new item in the menu bar, specify
+\fBAi\fR: new menu name to be added,
+\fBBi\fR: 0 (zero),
+\fBCi\fR: 0 (zero),
+\fBDi\fR: same as Ai.
+
+(6) To add a new item in a pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the new item will be added,
+\fBBi\fR: new menu item name to be added,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be execvpED when this item is chosen.
+
+(7) To add a new item in a sub-pulldown menu with an executable, specify
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where the new item will be added,
+\fBCi\fR: new menu item name to be added,
+\fBDi\fR: executable name which will be execvpED when this item is chosen.
+
+(8) To replace an item's command in the pulldown menu by a new executable, specify
+\fBAi\fR: the pulldown menu name where some item's command will be replaced,
+\fBBi\fR: the menu item name whose command will be replaced,
+\fBCi\fR: 0 (zero),
+\fBDi\fR: executable name which will be execvpED when the item specified in Bi is chosen.
+
+(9) To replace an item's command in the sub-pulldown menu by a new executable, specify 
+\fBAi\fR: the pulldown menu name where the sub-pulldown menu resides,
+\fBBi\fR: the sub-pulldown menu name where some item's command will be replaced,
+\fBCi\fR: the menu item name whose command will be replaced,
+\fBDi\fR: executable name which will be execvpED when the item specified in Ci is chosen.
+
+.PP
+.RE
+.SH X DEFAULT FILES
+.PD 0
+.TP 22
+.B ~/.Xdefaults
+.TP 22
+.B XLSF_APPDIR/XBsub
+.TP 22
+.B ~/.XBsub
+
+.SH SEE ALSO
+.BR bsub(1),
+.BR X (1)
+

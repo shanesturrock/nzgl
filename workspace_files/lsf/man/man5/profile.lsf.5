@@ -1,0 +1,678 @@
+
+.ad l
+
+.ll 72
+
+.TH profile.lsf 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBcshrc.lsf and profile.lsf\fR
+.sp 2
+
+.sp 2 .SH "About cshrc.lsf and profile.lsf"
+\fBAbout cshrc.lsf and profile.lsf\fR
+.sp 2
+   The user environment shell files cshrc.lsf and profile.lsf set
+   the LSF operating environment on an LSF host. They define
+   machine-dependent paths to LSF commands and libraries as
+   environment variables:
+.sp 2
+     o  
+         cshrc.lsf sets the C shell (csh or tcsh) user
+         environment for LSF commands and libraries
+.sp 2
+     o  
+         profile.lsf sets and exports the Bourne shell/Korn shell
+         (sh, ksh, or bash) user environment for LSF commands and
+         libraries
+.sp 2
+            \fBTip: \fR
+.sp 2
+               LSF Administrators should make sure that cshrc.lsf
+               or profile.lsf are available for users to set the
+               LSF environment variables correctly for the host
+               type running LSF.
+.sp 2 .SH "Location"
+\fBLocation\fR
+.sp 2
+   cshrc.lsf and profile.lsf are created by lsfinstall during
+   installaton. After installation, they are located in
+   LSF_CONFDIR (LSF_TOP/conf/).
+.sp 2 .SH "Format"
+\fBFormat\fR
+.sp 2
+   cshrc.lsf and profile.lsf are conventional UNIX shell scripts:
+.sp 2
+     o  
+         cshrc.lsf runs under /bin/csh
+.sp 2
+     o  
+         profile.lsf runs under /bin/sh
+.sp 2 .SH "What cshrc.lsf and profile.lsf do"
+\fBWhat cshrc.lsf and profile.lsf do\fR
+.sp 2
+   cshrc.lsf and profile.lsf determine the binary type
+   (BINARY_TYPE) of the host and set environment variables for
+   the paths to the following machine-dependent LSF directories,
+   according to the LSF version (LSF_VERSION) and the location of
+   the top-level installation directory (LSF_TOP) defined at
+   installation:
+.sp 2
+     o  
+         LSF_BINDIR
+.sp 2
+     o  
+         LSF_SERVERDIR
+.sp 2
+     o  
+         LSF_LIBDIR
+.sp 2
+     o  
+         XLSF_UIDDIR
+.sp 2
+   cshrc.lsf and profile.lsf also set the following user
+   environment variables:
+.sp 2
+     o  
+         LSF_ENVDIR
+.sp 2
+     o  
+         LD_LIBRARY_PATH
+.sp 2
+     o  
+         PATH to include the paths to:
+.sp 2
+           o  
+               LSF_BINDIR
+.sp 2
+           o  
+               LSF_SERVERDIR
+.sp 2
+     o  
+         MANPATH to include the path to the LSF man pages
+.sp 2 .SH "If Platform EGO is enabled"
+\fBIf Platform EGO is enabled\fR
+.sp 2
+   If Platform EGO is enabled in the LSF cluster
+   (LSF_ENABLE_EGO=Y and LSF_EGO_ENVDIR are defined in lsf.conf),
+   cshrc.lsf and profile.lsf set the following environment
+   variables.
+.sp 2
+     o  
+         EGO_BINDIR
+.sp 2
+     o  
+         EGO_CONFDIR
+.sp 2
+     o  
+         EGO_ESRVDIR
+.sp 2
+     o  
+         EGO_LIBDIR
+.sp 2
+     o  
+         EGO_LOCAL_CONFDIR
+.sp 2
+     o  
+         EGO_SERVERDIR
+.sp 2
+     o  
+         EGO_TOP
+.sp 2
+   See the Platform EGO Reference for more information about
+   these variables.
+.sp 2
+\fBSetting the LSF environment with cshrc.lsf and profile.lsf\fR
+.sp 2
+   Before using LSF, you must set the LSF execution environment.
+.sp 2
+   After logging on to an LSF host, use one of the following
+   shell environment files to set your LSF environment:
+.sp 2
+     o  
+         For example, in csh or tcsh:
+.sp 2
+         source /usr/share/lsf/lsf_7/conf/cshrc.lsf
+.sp 2
+     o  
+         For example, in sh, ksh, or bash:
+.sp 2
+         . /usr/share/lsf/lsf_7/conf/profile.lsf
+.sp 2 .SH "Making your cluster available to users with cshrc.lsf and
+profile.lsf"
+\fBMaking your cluster available to users with cshrc.lsf and
+profile.lsf\fR
+.sp 2
+   To set the LSF user environment, run one of the following two
+   shell files:
+.sp 2
+     o  
+         LSF_CONFDIR/cshrc.lsf (for csh, tcsh)
+.sp 2
+     o  
+         LSF_CONFDIR/profile.lsf (for sh, ksh, or bash)
+.sp 2
+            \fBTip: \fR
+.sp 2
+               LSF administrators should make sure all LSF users
+               include one of these files at the end of their own
+               .cshrc or .profile file, or run one of these two
+               files before using LSF.
+.sp 2 .SH "For csh or tcsh"
+\fBFor csh or tcsh\fR
+.sp 2
+   Add cshrc.lsf to the end of the .cshrc file for all users:
+.sp 2
+     o  
+         Copy the cshrc.lsf file into .cshrc, or
+.sp 2
+     o  
+         Add a line similar to the following to the end of
+         .cshrc:
+.sp 2
+         source /usr/share/lsf/lsf_7/conf/cshrc.lsf
+.sp 2
+   After running cshrc.lsf, use setenv to see the environment
+   variable settings. For example:
+.sp 2
+   setenv PATH=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin:/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc:/home/user1/bin:/local/private/user1/bin:/etc:/usr/etc:/usr/local/bin:/usr/local/sbin:/bin:/usr/bin:/usr/sbin:/opt/local/bin:/local/share/bin:/opt/gnu/bin:/sbin:/usr/bin/X11:/usr/bsd:/usr/ucb:/local/bin/X11:/usr/hosts:/usr/openwin/bin:/usr/ccs/bin:/usr/vue/bin:. ... MANPATH=/usr/share/lsf/lsf_7/7.0/man:/home/user1/man:/opt/SUNWhpc/man:/usr/man:/usr/local/man:/usr/softbench/man:/usr/openwin/man:/opt/SUNWmotif/man:/opt/ansic/share/man:/opt/hpnp/man:/usr/share/man:/usr/share/catman ... LSF_BINDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin LSF_SERVERDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc LSF_LIBDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib LD_LIBRARY_PATH=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib XLSF_UIDDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib/uid LSF_ENVDIR=/usr/share/lsf/lsf_7/conf
+.sp 2
+      \fBNote: \fR
+.sp 2
+         These variable settings are an example only. Your system
+         may set additional variables.
+.sp 2 .SH "For sh, ksh, or bash"
+\fBFor sh, ksh, or bash\fR
+.sp 2
+   Add profile.lsf to the end of the .profile file for all users:
+.sp 2
+     o  
+         Copy the profile.lsf file into .profile, or
+.sp 2
+     o  
+         Add a line similar to following to the end of .profile:
+.sp 2
+         . /usr/share/lsf/lsf_7/conf/profile.lsf
+.sp 2
+         After running profile.lsf, use the set command to see
+         the environment variable settings. For example:
+.sp 2
+         set ... LD_LIBRARY_PATH=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib LSF_BINDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin LSF_ENVDIR=/usr/share/lsf/lsf_7/conf LSF_LIBDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib LSF_SERVERDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc MANPATH=/usr/share/lsf/lsf_7/7.0/man:/home/user1/man:/opt/SUNWhpc/man:/usr/man:/usr/local/man:/usr/softbench/man:/usr/openwin/man:/opt/SUNWmotif/man:/opt/ansic/share/man:/opt/hpnp/man:/usr/share/man:/usr/share/catman PATH=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin:/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc:/home/user1/bin:/local/private/user1/bin:/etc:/usr/etc:/usr/local/bin:/usr/local/sbin:/bin:/usr/bin:/usr/sbin:/opt/local/bin:/local/share/bin:/opt/gnu/bin:/sbin:/usr/bin/X11:/usr/bsd:/usr/ucb:/local/bin/X11:/usr/hosts:/usr/openwin/bin:/usr/ccs/bin:/usr/vue/bin:. ...XLSF_UIDDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib/uid ...
+.sp 2
+            \fBNote: \fR
+.sp 2
+               These variable settings are an example only. Your
+               system may set additional variables.
+.sp 2 .SH "cshrc.lsf and profile.lsf on dynamically added LSF slave hosts"
+\fBcshrc.lsf and profile.lsf on dynamically added LSF slave hosts\fR
+.sp 2
+   Dynamically added LSF hosts that will not be master candidates
+   are \fIslave hosts\fR. Each dynamic slave host has its own LSF
+   binaries and local lsf.conf and shell environment scripts
+   (cshrc.lsf and profile.lsf).
+.sp 2
+
+.sp 2
+\fBLSF environment variables set by cshrc.lsf and profile.lsf\fR
+.sp 2
+\fBLSF_BINDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_BINDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where LSF user commands are installed.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv LSF_BINDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         LSF_BINDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv LSF_BINDIR $LSF_TOP/$LSF_VERSION/$BINARY_TYPE/bin
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         LSF_BINDIR=$LSF_TOP/$LSF_VERSION/$BINARY_TYPE/bin
+.sp 2
+\fBLSF_ENVDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_ENVDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory containing the lsf.conf file.
+.sp 2
+   By default, lsf.conf is installed by creating a shared copy in
+   LSF_CONFDIR and adding a symbolic link from /etc/lsf.conf to
+   the shared copy. If LSF_ENVDIR is set, the symbolic link is
+   installed in LSF_ENVDIR/lsf.conf.
+.sp 2
+   The lsf.conf file is a global environment configuration file
+   for all LSF services and applications. The LSF default
+   installation places the file in LSF_CONFDIR.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv LSF_ENVDIR /usr/share/lsf/lsf_7/conf
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         LSF_ENVDIR=/usr/share/lsf/lsf_7/conf
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv LSF_ENVDIR $LSF_TOP/conf
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         LSF_DIR=$LSF_TOP/conf
+.sp 2
+\fBLSF_LIBDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_LIBDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where LSF libraries are installed. Library files are
+   shared by all hosts of the same type.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv LSF_LIBDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         LSF_LIBDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv LSF_LIBDIR $LSF_TOP/$LSF_VERSION/$BINARY_TYPE/lib
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         LSF_LIBDIR=$LSF_TOP/$LSF_VERSION/$BINARY_TYPE/lib
+.sp 2
+\fBLSF_SERVERDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_SERVERDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where LSF server binaries and shell scripts are
+   installed.
+.sp 2
+   These include lim, res, nios, sbatchd, mbatchd, and mbschd. If
+   you use elim, eauth, eexec, esub, etc, they are also installed
+   in this directory.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv LSF_SERVERDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         LSF_SERVERDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv LSF_SERVERDIR $LSF_TOP/$LSF_VERSION/$BINARY_TYPE/etc
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         LSF_SERVERDIR=$LSF_TOP/$LSF_VERSION/$BINARY_TYPE/etc
+.sp 2
+\fBXLSF_UIDDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRXLSF_UIDDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   (UNIX and Linux only) Directory where Motif User Interface
+   Definition files are stored.
+.sp 2
+   These files are platform-specific.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv XLSF_UIDDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib/uid
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         XLSF_UIDDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib/uid
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv XLSF_UIDDIR $LSF_TOP/$LSF_VERSION/$BINARY_TYPE/lib/uid
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         XLSF_UIDDIR=$LSF_TOP/$LSF_VERSION/$BINARY_TYPE/lib/uid
+.sp 2
+\fBPlatform EGO environment variables set by cshrc.lsf and
+profile.lsf\fR
+.sp 2
+   See the Platform EGO Reference for more information about
+   these variables.
+.sp 2
+\fBEGO_BINDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_BINDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where Platform EGO user commands are installed.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_BINDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_BINDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/bin
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_BINDIR $LSF_BINDIR
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_BINDIR=$LSF_BINDIR
+.sp 2
+\fBEGO_CONFDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_CONFDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory containing the ego.conf file.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_CONFDIR /usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_CONFDIR=/usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_CONFDIR /usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_CONFDIR=/usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+\fBEGO_ESRVDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_ESRVDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where the EGO the service controller configuration
+   files are stored.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_ESRVDIR /usr/share/lsf/lsf_7/conf/ego/lsf702/eservice
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_ESRVDIR=/usr/share/lsf/lsf_7/conf/ego/lsf702/eservice
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_ESRVDIR /usr/share/lsf/lsf_7/conf/ego/lsf702/eservice
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_ESRVDIR=/usr/share/lsf/lsf_7/conf/ego/lsf702/eservice
+.sp 2
+\fBEGO_LIBDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_LIBDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where EGO libraries are installed. Library files are
+   shared by all hosts of the same type.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_LIBDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_LIBDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/lib
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_LIBDIR $LSF_LIBDIR
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_LIBDIR=$LSF_LIBDIR
+.sp 2
+\fBEGO_LOCAL_CONFDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_LOCAL_CONFDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The local EGO configuration directory containing the ego.conf
+   file.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_LOCAL_CONFDIR /usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_LOCAL_CONFDIR=/usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_LOCAL_CONFDIR /usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_LOCAL_CONFDIR=/usr/share/lsf/lsf_7/conf/ego/lsf1.2.3/kernel
+.sp 2
+\fBEGO_SERVERDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_SERVERDIR\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Directory where EGO server binaries and shell scripts are
+   installed. These include vemkd, pem, egosc, and shell scripts
+   for EGO startup and shutdown.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_SERVERDIR /usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_SERVERDIR=/usr/share/lsf/lsf_7/7.0/linux2.6-glibc2.3-x86/etc
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_SERVERDIR $LSF_SERVERDIR
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_SERVERDIR=$LSF_SERVERDIR
+.sp 2
+\fBEGO_TOP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_TOP\fR=\fIdir\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The the top-level installation directory. The path to EGO_TOP
+   must be shared and accessible to all hosts in the cluster.
+   Equivalent to LSF_TOP.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         Set in csh and tcsh by cshrc.lsf:
+.sp 2
+         setenv EGO_TOP /usr/share/lsf/lsf_7
+.sp 2
+     o  
+         Set and exported in sh, ksh, or bash by profile.lsf:
+.sp 2
+         EGO_TOP=/usr/share/lsf/lsf_7
+.sp 2 .SH "Values"
+\fBValues\fR
+.sp 2
+     o  
+         In cshrc.lsf for csh and tcsh:
+.sp 2
+         setenv EGO_TOP /usr/share/lsf/lsf_7
+.sp 2
+     o  
+         Set and exported in profile.lsf for sh, ksh, or bash:
+.sp 2
+         EGO_TOP=/usr/share/lsf/lsf_7

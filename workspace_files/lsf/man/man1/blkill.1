@@ -1,0 +1,51 @@
+
+.ad l
+
+.ll 72
+
+.TH blkill 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblkill\fR
+.sp 2
+   terminates an interactive License Scheduler task
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blkill [-t seconds] task_ID
+.sp 2
+blkill [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Terminates a running or waiting interactive task in License
+   Scheduler.
+.sp 2
+   Users can kill their own tasks. You must be a License
+   Scheduler administrator to terminate another user’s task.
+.sp 2
+   By default, blkill notifies the user and waits 30 seconds
+   before killing the task.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fItask_ID\fB\fR
+.br
+               Task ID of the task you want to kill.
+.sp 2
+   \fB-t \fIseconds\fB\fR
+.br
+               Specify how many seconds to delay before killing
+               the task. A value of 0 means to kill the task
+               immediately (do not give the user any time to save
+               work).
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints License Scheduler release version to stderr
+               and exits.

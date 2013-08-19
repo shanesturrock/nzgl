@@ -1,0 +1,86 @@
+.\" libckpt.a.3ckpt,v 1.2 1994/07/30 15:28:29 xxue Exp
+.ds ]W %
+.ds ]L
+.TH LIBCKPT.A 3CKPT "1 August 1998"
+.SH NAME
+libckpt.a \- the checkpoint user library
+.LP
+.SH DESCRIPTION
+This library consists of a set of file system call
+stubs for file operations intercepted by the checkpointing facility
+and routines used internally to implement checkpointing. It also
+contains a checkpoint signal handler.
+.PP
+All applications must be linked with \fBlibckpt.a\fR and a special checkpoint 
+startup routine \fBckpt_crt0.o\fR in order to be checkpointable. Because
+compilers will automatically link in \fBcrt0.o\fR, you must link your program
+by calling linker directly and replace \fBcrt0.o\fR with \fBckpt_crt0.o\fR.
+Your LSF administrator should have installed two special linkers \fBckpt_ld\fR
+and \fBckpt_ld_f\fR that will automatically take care of the linking with
+\fBlibckpt.a\fR and \fBckpt_crt0.o\fR. \fBckpt_ld\fR is for linking C
+programs and \fBckpt_ld_f\fR is for linking Fortran programs. You should be
+able to just use \fBckpt_ld\fR and \fBckpt_ld_f\fR in the same way as you do
+with an ordinary \fBld\fR.
+.PP
+For example, to build a checkpointable job using the C program myjob.c,
+do the following :
+.PP
+.nf
+.ft B
+%cc -c myjob.c 
+%ckpt_ld -o myjob myjob.o
+.ft 
+.fi
+.PP
+For IRIX 6, there are 5 sets of the checkpoint user library
+and the checkpoint startup routine, 
+\fBlibckpt.mips[2|3|4]-[32|64].a\fR,
+\fBckpt_crt0.mips[2|3|4]-[32|64].o\fR. They are to be linked with object files
+compiled under option "-mips2", "-mips3", or "-mips4", and option "-32", "-n32",
+or "-64" for 32-bit or 64-bit code (see
+.BR cc(1)).
+\fBckpt_ld\fR and \fBckpt_ld_f\fR accept these compile options and will
+choose the correct checkpoint library and startup routine automatically.
+The default is "-mips3 -32".
+.PP
+On IRIX 5.2 and IRIX 6, C and Fortran programs must be compiled
+with the "-non_shared" option in order to be linked with the checkpoint
+user library and the checkpoint startup routine.
+.PP
+.SH LIMITATIONS
+SIGHUP is used internally to implement checkpointing. Do not
+use the same signal in your program. 
+.PP
+Because of the way \s-1UNIX\s0 is implemented, it is impossible to checkpoint a 
+job with a checkpoint library if the job's context is too complicated to 
+recreate. Most compute intensive sequential jobs are examples of jobs that
+are suitable for checkpointing.
+.LP
+The following types of jobs are not suitable and are not guaranteed to work
+with the checkpoint facility:
+.IP "" 5
+Parallel jobs. There is no way to checkpoint a parallel job.
+.IP "" 5
+Jobs that use dynamic linking.
+.IP "" 5
+Jobs that fork a child.
+.IP "" 5
+Jobs that use \s-1UNIX\s0 sockets, semaphores or shared memory
+to communicate with other processes.
+.IP "" 5
+Jobs that call
+.BR setuid ()
+or
+.BR setgid ().
+.IP "" 5
+Jobs that use internal timers.
+.LP
+Trying to checkpoint a job that belongs to the above-mentioned types will
+result in unpredictable behavior. For more information about \s-1LSF\s0's
+checkpoint facility, see 
+.I
+LSF User's Guide.
+.SH SEE ALSO
+.BR ckpt_ld (1),
+.BR ckpt_ld_f (1), 
+.BR ckpt_crt0.o (3)

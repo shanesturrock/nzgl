@@ -1,0 +1,3812 @@
+
+.ad l
+
+.ll 72
+
+.TH lsb.queues 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsb.queues\fR
+.sp 2
+   The lsb.queues file defines batch queues. Numerous controls
+   are available at the queue level to allow cluster
+   administrators to customize site policies.
+.sp 2
+   This file is optional; if no queues are configured, LSF
+   creates a queue named \fRdefault\fR, with all parameters set
+   to default values.
+.sp 2
+   This file is installed by default in
+   LSB_CONFDIR/\fIcluster_name\fR/configdir.
+.sp 2 .SH "Changing lsb.queues configuration"
+\fBChanging lsb.queues configuration\fR
+.sp 2
+   After making any changes to lsb.queues, run badmin reconfig to
+   reconfigure mbatchd.
+.sp 2
+   Some parameters such as run window and run time limit do not
+   take effect immediately for running jobs unless you run
+   mbatchd restart or sbatchd restart on the job execution host.
+.sp 2 .SH "lsb.queues structure"
+\fBlsb.queues structure\fR
+.sp 2
+   Each queue definition begins with the line Begin Queue and
+   ends with the line End Queue. The queue name must be
+   specified; all other parameters are optional.
+.sp 2 .SH "Parameters"
+\fBParameters\fR
+.sp 2
+     o  
+         ADMINISTRATORS
+.sp 2
+     o  
+         APS_PRIORITY
+.sp 2
+     o  
+         BACKFILL
+.sp 2
+     o  
+         CHKPNT
+.sp 2
+     o  
+         CHUNK_JOB_SIZE
+.sp 2
+     o  
+         CORELIMIT
+.sp 2
+     o  
+         CPULIMIT
+.sp 2
+     o  
+         DATALIMIT
+.sp 2
+     o  
+         DEFAULT_EXTSCHED
+.sp 2
+     o  
+         DEFAULT_HOST_SPEC
+.sp 2
+     o  
+         DESCRIPTION
+.sp 2
+     o  
+         DISPATCH_ORDER
+.sp 2
+     o  
+         DISPATCH_WINDOW
+.sp 2
+     o  
+         EXCLUSIVE
+.sp 2
+     o  
+         FAIRSHARE
+.sp 2
+     o  
+         FAIRSHARE_QUEUES
+.sp 2
+     o  
+         FILELIMIT
+.sp 2
+     o  
+         HJOB_LIMIT
+.sp 2
+     o  
+         HOSTS
+.sp 2
+     o  
+         IGNORE_DEADLINE
+.sp 2
+     o  
+         IMPT_JOBBKLG
+.sp 2
+     o  
+         INTERACTIVE
+.sp 2
+     o  
+         INTERRUPTIBLE_BACKFILL
+.sp 2
+     o  
+         JOB_ACCEPT_INTERVAL
+.sp 2
+     o  
+         JOB_ACTION_WARNING_TIME
+.sp 2
+     o  
+         JOB_CONTROLS
+.sp 2
+     o  
+         JOB_IDLE
+.sp 2
+     o  
+         JOB_OVERRUN
+.sp 2
+     o  
+         JOB_STARTER
+.sp 2
+     o  
+         JOB_UNDERRUN
+.sp 2
+     o  
+         JOB_WARNING_ACTION
+.sp 2
+     o  
+         load_index
+.sp 2
+     o  
+         LOCAL_MAX_PREEXEC_RETRY
+.sp 2
+     o  
+         MANDATORY_EXTSCHED
+.sp 2
+     o  
+         MAX_JOB_PREEMPT
+.sp 2
+     o  
+         MAX_JOB_REQUEUE
+.sp 2
+     o  
+         MAX_PREEXEC_RETRY
+.sp 2
+     o  
+         MAX_RSCHED_TIME
+.sp 2
+     o  
+         MEMLIMIT
+.sp 2
+     o  
+         MIG
+.sp 2
+     o  
+         NEW_JOB_SCHED_DELAY
+.sp 2
+     o  
+         NICE
+.sp 2
+     o  
+         NQS_QUEUES
+.sp 2
+     o  
+         PJOB_LIMIT
+.sp 2
+     o  
+         POST_EXEC
+.sp 2
+     o  
+         PRE_EXEC
+.sp 2
+     o  
+         PREEMPTION
+.sp 2
+     o  
+         PRIORITY
+.sp 2
+     o  
+         PROCESSLIMIT
+.sp 2
+     o  
+         PROCLIMIT
+.sp 2
+     o  
+         QJOB_LIMIT
+.sp 2
+     o  
+         QUEUE_GROUP
+.sp 2
+     o  
+         QUEUE_NAME
+.sp 2
+     o  
+         RCVJOBS_FROM
+.sp 2
+     o  
+         REMOTE_MAX_PREEXEC_RETRY
+.sp 2
+     o  
+         REQUEUE_EXIT_VALUES
+.sp 2
+     o  
+         RERUNNABLE
+.sp 2
+     o  
+         RESOURCE_RESERVE
+.sp 2
+     o  
+         RES_REQ
+.sp 2
+     o  
+         RESRSV_LIMIT
+.sp 2
+     o  
+         RESUME_COND
+.sp 2
+     o  
+         RUN_WINDOW
+.sp 2
+     o  
+         RUNLIMIT
+.sp 2
+     o  
+         SLOT_POOL
+.sp 2
+     o  
+         SLOT_RESERVE
+.sp 2
+     o  
+         SLOT_SHARE
+.sp 2
+     o  
+         SNDJOBS_TO
+.sp 2
+     o  
+         STACKLIMIT
+.sp 2
+     o  
+         STOP_COND
+.sp 2
+     o  
+         SWAPLIMIT
+.sp 2
+     o  
+         THREADLIMIT
+.sp 2
+     o  
+         UJOB_LIMIT
+.sp 2
+     o  
+         USE_PAM_CREDS
+.sp 2
+     o  
+         USERS
+.sp 2
+\fBADMINISTRATORS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRADMINISTRATORS=\fR\fIuser_name\fR | \fIuser_group\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   List of queue administrators. To specify a Windows user
+   account or user group, include the domain name in uppercase
+   letters (\fIDOMAIN_NAME\fR\\\fIuser_name\fR or
+   \fIDOMAIN_NAME\fR\\\fIuser_group\fR).
+.sp 2
+   Queue administrators can perform operations on any user’s job
+   in the queue, as well as on the queue itself.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. You must be a cluster administrator to operate on
+   this queue.
+.sp 2
+\fBAPS_PRIORITY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRAPS_PRIORITY=WEIGHT[\fR[\fIfactor\fR\fR,\fR \fIvalue\fR]
+   [\fIsubfactor\fR\fR,\fR \fIvalue\fR]...]...\fR]
+   LIMIT[\fR[\fIfactor\fR\fR,\fR \fIvalue\fR]
+   [\fIsubfactor\fR\fR,\fR \fIvalue\fR]...]...\fR]
+   GRACE_PERIOD[\fR[\fIfactor\fR\fR,\fR \fIvalue\fR]
+   [\fIsubfactor\fR\fR,\fR \fIvalue\fR]...]...\fR]\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies calculation factors for absolute priority scheduling
+   (APS). Pending jobs in the queue are ordered according to the
+   calculated APS value.
+.sp 2
+   If weight of a subfactor is defined, but the weight of parent
+   factor is not defined, the parent factor weight is set as 1.
+.sp 2
+   The WEIGHT and LIMIT factors are floating-point values.
+   Specify a \fIvalue\fR for GRACE_PERIOD in seconds
+   (\fIvalue\fRs), minutes (\fIvalue\fRm), or hours
+   (\fIvalue\fRh).
+.sp 2
+   The default unit for grace period is hours.
+.sp 2
+   For example, the following sets a grace period of 10 hours for
+   the MEM factor, 10 minutes for the JPRIORITY factor, 10
+   seconds for the QPRIORITY factor, and 10 hours (default) for
+   the RSRC factor:
+.sp 2
+   GRACE_PERIOD[[MEM,10h] [JPRIORITY, 10m] [QPRIORITY,10s] [RSRC, 10]]
+.sp 2
+   You cannot specify zero (0) for the WEIGHT, LIMIT, and
+   GRACE_PERIOD of any factor or subfactor.
+.sp 2
+   APS queues cannot configure cross-queue fairshare
+   (FAIRSHARE_QUEUES). The QUEUE_GROUP parameter replaces
+   FAIRSHARE_QUEUES, which is obsolete in LSF 7.0.
+.sp 2
+   Suspended (bstop) jobs and migrated jobs (bmig) are always
+   scheduled before pending jobs. For migrated jobs, LSF keeps
+   the existing job priority information.
+.sp 2
+   If LSB_REQUEUE_TO_BOTTOM and LSB_MIG2PEND are configured in
+   lsf.conf, the migrated jobs keep their APS information. When
+   LSB_REQUEUE_TO_BOTTOM and LSB_MIG2PEND are configured, the
+   migrated jobs need to compete with other pending jobs based on
+   the APS value. If you want to reset the APS value, the you
+   should use brequeue, not bmig.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBBACKFILL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRBACKFILL=Y\fR | \fRN\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If Y, enables backfill scheduling for the queue.
+.sp 2
+   A possible conflict exists if BACKFILL and PREEMPTION are
+   specified together. If PREEMPT_JOBTYPE = BACKFILL is set in
+   the lsb.params file, a backfill queue can be preemptable.
+   Otherwise a backfill queue cannot be preemptable. If BACKFILL
+   is enabled do not also specify PREEMPTION = PREEMPTABLE.
+.sp 2
+   BACKFILL is required for interruptible backfill queues
+   (INTERRUPTIBLE_BACKFILL=\fIseconds\fR).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No backfilling.
+.sp 2
+\fBCHKPNT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCHKPNT=\fR\fIchkpnt_dir \fR[\fIchkpnt_period\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables automatic checkpointing for the queue. All jobs
+   submitted to the queue are checkpointable.
+.sp 2
+   The checkpoint directory is the directory where the checkpoint
+   files are created. Specify an absolute path or a path relative
+   to CWD, do not use environment variables.
+.sp 2
+   Specify the optional checkpoint period in minutes.
+.sp 2
+   Only running members of a chunk job can be checkpointed.
+.sp 2
+   If checkpoint-related configuration is specified in both the
+   queue and an application profile, the application profile
+   setting overrides queue level configuration.
+.sp 2
+   If checkpoint-related configuration is specified in the queue,
+   application profile, and at job level:
+.sp 2
+     o  
+         Application-level and job-level parameters are merged.
+         If the same parameter is defined at both job-level and
+         in the application profile, the job-level value
+         overrides the application profile value.
+.sp 2
+     o  
+         The merged result of job-level and application profile
+         settings override queue-level configuration.
+.sp 2
+   To enable checkpointing of MultiCluster jobs, define a
+   checkpoint directory in both the send-jobs and receive-jobs
+   queues (CHKPNT in lsb.queues), or in an application profile
+   (CHKPNT_DIR, CHKPNT_PERIOD, CHKPNT_INITPERIOD, CHKPNT_METHOD
+   in lsb.applications) of both submission cluster and execution
+   cluster. LSF uses the directory specified in the execution
+   cluster.
+.sp 2
+   To make a MultiCluster job checkpointable, both submission and
+   execution queues must enable checkpointing, and the
+   application profile or queue setting on the execution cluster
+   determines the checkpoint directory. Checkpointing is not
+   supported if a job runs on a leased host.
+.sp 2
+   The file path of the checkpoint directory can contain up to
+   4000 characters for UNIX and Linux, or up to 255 characters
+   for Windows, including the directory and file name.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBCHUNK_JOB_SIZE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCHUNK_JOB_SIZE=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Chunk jobs only. Enables job chunking and specifies the
+   maximum number of jobs allowed to be dispatched together in a
+   chunk. Specify a positive integer greater than 1.
+.sp 2
+   The ideal candidates for job chunking are jobs that have the
+   same host and resource requirements and typically take 1 to 2
+   minutes to run.
+.sp 2
+   Job chunking can have the following advantages:
+.sp 2
+     o  
+         Reduces communication between sbatchd and mbatchd and
+         reduces scheduling overhead in mbschd.
+.sp 2
+     o  
+         Increases job throughput in mbatchd and CPU utilization
+         on the execution hosts.
+.sp 2
+   However, throughput can deteriorate if the chunk job size is
+   too big. Performance may decrease on queues with
+   CHUNK_JOB_SIZE greater than 30. You should evaluate the chunk
+   job size on your own systems for best performance.
+.sp 2
+   With MultiCluster job forwarding model, this parameter does
+   not affect MultiCluster jobs that are forwarded to a remote
+   cluster.
+.sp 2 .SH "Compatibility"
+\fBCompatibility\fR
+.sp 2
+   This parameter is ignored in the following kinds of queues and
+   applications:
+.sp 2
+     o  
+         Interactive (INTERACTIVE=ONLY parameter)
+.sp 2
+     o  
+         CPU limit greater than 30 minutes (CPULIMIT parameter)
+.sp 2
+     o  
+         Run limit greater than 30 minutes (RUNLIMIT parameter)
+.sp 2
+     o  
+         Runtime estimate greater than 30 minutes (RUNTIME
+         parameter in lsb.applications only)
+.sp 2
+   If CHUNK_JOB_DURATION is set in lsb.params, chunk jobs are
+   accepted regardless of the value of CPULIMIT, RUNLIMIT or
+   RUNTIME.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following configures a queue named \fRchunk\fR, which
+   dispatches up to 4 jobs in a chunk:
+.sp 2
+   Begin Queue
+.sp 2
+   QUEUE_NAME     = chunk 
+.sp 2
+   PRIORITY       = 50 
+.sp 2
+   CHUNK_JOB_SIZE = 4 
+.sp 2
+   End Queue
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBCORELIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCORELIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The per-process (hard) core file size limit (in KB) for all of
+   the processes belonging to a job from this queue (see
+   getrlimit(2)).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBCPULIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRCPULIMIT=[\fR\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2
+   where \fIdefault_limit\fR and \fImaximum_limit\fR are:
+.sp 2
+   [\fIhour\fR:]\fIminute\fR[/\fIhost_name\fR |
+   /\fIhost_model\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum normalized CPU time and optionally, the default
+   normalized CPU time allowed for all processes of a job running
+   in this queue. The name of a host or host model specifies the
+   CPU time normalization host to use.
+.sp 2
+   Limits the total CPU time the job can use. This parameter is
+   useful for preventing runaway jobs or jobs that use up too
+   many resources.
+.sp 2
+   When the total CPU time for the whole job has reached the
+   limit, a SIGXCPU signal is sent to all processes belonging to
+   the job. If the job has no signal handler for SIGXCPU, the job
+   is killed immediately. If the SIGXCPU signal is handled,
+   blocked, or ignored by the application, then after the grace
+   period expires, LSF sends SIGINT, SIGTERM, and SIGKILL to the
+   job to kill it.
+.sp 2
+   If a job dynamically spawns processes, the CPU time used by
+   these processes is accumulated over the life of the job.
+.sp 2
+   Processes that exist for fewer than 30 seconds may be ignored.
+.sp 2
+   By default, if a default CPU limit is specified, jobs
+   submitted to the queue without a job-level CPU limit are
+   killed when the default CPU limit is reached.
+.sp 2
+   If you specify only one limit, it is the maximum, or hard, CPU
+   limit. If you specify two limits, the first one is the
+   default, or soft, CPU limit, and the second one is the maximum
+   CPU limit. The number of minutes may be greater than 59.
+   Therefore, three and a half hours can be specified either as
+   3:30 or 210.
+.sp 2
+   If no host or host model is given with the CPU time, LSF uses
+   the default CPU time normalization host defined at the queue
+   level (DEFAULT_HOST_SPEC in lsb.queues) if it has been
+   configured, otherwise uses the default CPU time normalization
+   host defined at the cluster level (DEFAULT_HOST_SPEC in
+   lsb.params) if it has been configured, otherwise uses the host
+   with the largest CPU factor (the fastest host in the cluster).
+.sp 2
+   On Windows, a job that runs under a CPU time limit may exceed
+   that limit by up to SBD_SLEEP_TIME. This is because sbatchd
+   periodically checks if the limit has been exceeded.
+.sp 2
+   On UNIX systems, the CPU limit can be enforced by the
+   operating system at the process level.
+.sp 2
+   You can define whether the CPU limit is a per-process limit
+   enforced by the OS or a per-job limit enforced by LSF with
+   LSB_JOB_CPULIMIT in lsf.conf.
+.sp 2
+   Jobs submitted to a chunk job queue are not chunked if
+   CPULIMIT is greater than 30 minutes.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBDATALIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDATALIMIT=\fR[\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The per-process data segment size limit (in KB) for all of the
+   processes belonging to a job from this queue (see
+   getrlimit(2)).
+.sp 2
+   By default, if a default data limit is specified, jobs
+   submitted to the queue without a job-level data limit are
+   killed when the default data limit is reached.
+.sp 2
+   If you specify only one limit, it is the maximum, or hard,
+   data limit. If you specify two limits, the first one is the
+   default, or soft, data limit, and the second one is the
+   maximum data limit
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBDEFAULT_EXTSCHED\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDEFAULT_EXTSCHED=\fR\fIexternal_scheduler_options\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies default external scheduling options for the queue.
+.sp 2
+   -extsched options on the bsub command are merged with
+   DEFAULT_EXTSCHED options, and -extsched options override any
+   conflicting queue-level options set by DEFAULT_EXTSCHED.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBDEFAULT_HOST_SPEC\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDEFAULT_HOST_SPEC=\fR\fIhost_name | host_model\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The default CPU time normalization host for the queue.
+.sp 2
+   The CPU factor of the specified host or host model is used to
+   normalize the CPU time limit of all jobs in the queue, unless
+   the CPU time normalization host is specified at the job level.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The queue uses the DEFAULT_HOST_SPEC defined in
+   lsb.params. If DEFAULT_HOST_SPEC is not defined in either
+   file, LSF uses the fastest host in the cluster.
+.sp 2
+\fBDESCRIPTION \fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDESCRIPTION=\fR\fItext\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Description of the job queue displayed by bqueues -l.
+.sp 2
+   This description should clearly describe the service features
+   of this queue, to help users select the proper queue for each
+   job.
+.sp 2
+   The text can include any characters, including white space.
+   The text can be extended to multiple lines by ending the
+   preceding line with a backslash (\\). The maximum length for
+   the text is 512 characters.
+.sp 2
+\fBDISPATCH_ORDER\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDISPATCH_ORDER=QUEUE\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Defines an \fIordered\fR cross-queue fairshare set.
+   DISPATCH_ORDER indicates that jobs are dispatched according to
+   the order of queue priorities first, then user fairshare
+   priority.
+.sp 2
+   By default, a user has the same priority across the master and
+   slave queues. If the same user submits several jobs to these
+   queues, user priority is calculated by taking into account all
+   the jobs the user has submitted across the master-slave set.
+.sp 2
+   If DISPATCH_ORDER=QUEUE is set in the master queue, jobs are
+   dispatched according to queue priorities first, then user
+   priority. Jobs from users with lower fairshare priorities who
+   have pending jobs in higher priority queues are dispatched
+   before jobs in lower priority queues. This avoids having users
+   with higher fairshare priority getting jobs dispatched from
+   low-priority queues.
+.sp 2
+   Jobs in queues having the same priority are dispatched
+   according to user priority.
+.sp 2
+   Queues that are not part of the cross-queue fairshare can have
+   any priority; they are not limited to fall outside of the
+   priority range of cross-queue fairshare queues.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBDISPATCH_WINDOW\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDISPATCH_WINDOW=\fR\fItime_window\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The time windows in which jobs from this queue are dispatched.
+   Once dispatched, jobs are no longer affected by the dispatch
+   window.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. Dispatch window is always open.
+.sp 2
+\fBEXCLUSIVE \fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREXCLUSIVE=Y\fR | \fRN\fR | \fRCU\fR[\fIcu_type\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If Y, specifies an exclusive queue.
+.sp 2
+   If CU, CU[], or CU[\fIcu_type\fR], specifies an exclusive
+   queue as well as a queue exclusive to compute units of type
+   \fIcu_type\fR (as defined in lsb.params). If no type is
+   specified, the default compute unit type is used.
+.sp 2
+   Jobs submitted to an exclusive queue with bsub -x are only
+   dispatched to a host that has no other LSF jobs running. Jobs
+   submitted to a compute unit exclusive queue with bsub -R
+   "cu[excl]" only run on a compute unit that has no other jobs
+   running.
+.sp 2
+   For hosts shared under the MultiCluster resource leasing
+   model, jobs are not dispatched to a host that has LSF jobs
+   running, even if the jobs are from another cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   N
+.sp 2
+\fBFAIRSHARE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRFAIRSHARE=USER_SHARES\fR[\fR[\fR\fIuser\fR\fR,
+   \fR\fInumber_shares\fR\fR]\fR ...]
+.sp 2
+     o  
+         Specify at least one user share assignment.
+.sp 2
+     o  
+         Enclose the list in square brackets, as shown.
+.sp 2
+     o  
+         Enclose each user share assignment in square brackets,
+         as shown.
+.sp 2
+     o  
+         \fIuser: \fRSpecify users who are also configured to use
+         queue. You can assign the shares to:
+.sp 2
+           o  
+               A single user (specify \fIuser_name\fR). To
+               specify a Windows user account, include the domain
+               name in uppercase letters
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR).
+.sp 2
+           o  
+               Users in a group, individually (specify
+               \fIgroup_name\fR@) or collectively (specify
+               \fIgroup_name\fR). To specify a Windows user
+               group, include the domain name in uppercase
+               letters (\fIDOMAIN_NAME\fR\\\fIgroup_name)\fR.
+.sp 2
+           o  
+               Users not included in any other share assignment,
+               individually (specify the keyword default) or
+               collectively (specify the keyword others)
+.sp 2
+                 o  
+                     By default, when resources are assigned
+                     collectively to a group, the group members
+                     compete for the resources on a first-come,
+                     first-served (FCFS) basis. You can use
+                     hierarchical fairshare to further divide the
+                     shares among the group members.
+.sp 2
+                 o  
+                     When resources are assigned to members of a
+                     group individually, the share assignment is
+                     recursive. Members of the group and of all
+                     subgroups always compete for the resources
+                     according to FCFS scheduling, regardless of
+                     hierarchical fairshare policies.
+.sp 2
+     o  
+         \fInumber_shares\fR
+.sp 2
+           o  
+               Specify a positive integer representing the number
+               of shares of the cluster resources assigned to the
+               user.
+.sp 2
+           o  
+               The number of shares assigned to each user is only
+               meaningful when you compare it to the shares
+               assigned to other users or to the total number of
+               shares. The total number of shares is just the sum
+               of all the shares assigned in each share
+               assignment.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables queue-level user-based fairshare and specifies share
+   assignments. Only users with share assignments can submit jobs
+   to the queue.
+.sp 2 .SH "Compatibility"
+\fBCompatibility\fR
+.sp 2
+   Do not configure hosts in a cluster to use fairshare at both
+   queue and host levels. However, you can configure user-based
+   fairshare and queue-based fairshare together.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No fairshare.
+.sp 2
+\fBFAIRSHARE_QUEUES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRFAIRSHARE_QUEUES=\fR\fIqueue_name\fR[\fIqueue_name\fR ...]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Defines cross-queue fairshare. When this parameter is defined:
+.sp 2
+     o  
+         The queue in which this parameter is defined becomes the
+         “\fImaster queue\fR”.
+.sp 2
+     o  
+         Queues listed with this parameter are “\fIslave
+         queues\fR” and inherit the fairshare policy of the
+         master queue.
+.sp 2
+     o  
+         A user has the same priority across the master and slave
+         queues. If the same user submits several jobs to these
+         queues, user priority is calculated by taking into
+         account all the jobs the user has submitted across the
+         master-slave set.
+.sp 2 .SH "Notes"
+\fBNotes\fR
+.sp 2
+     o  
+         By default, the PRIORITY range defined for queues in
+         cross-queue fairshare cannot be used with any other
+         queues. For example, you have 4 queues: queue1, queue2,
+         queue3, \fRqueue4\fR. You configure cross-queue
+         fairshare for queue1, queue2, queue3 and assign
+         priorities of 30, 40, 50 respectively.
+.sp 2
+     o  
+         By default, the priority of \fRqueue4\fR (which is not
+         part of the cross-queue fairshare) cannot fall between
+         the priority range of the cross-queue fairshare queues
+         (30-50). It can be any number up to 29 or higher than
+         50. It does not matter if \fRqueue4\fR is a fairshare
+         queue or FCFS queue. If DISPATCH_ORDER=QUEUE is set in
+         the master queue, the priority of \fRqueue4\fR (which is
+         not part of the cross-queue fairshare) can be any
+         number, including a priority falling between the
+         priority range of the cross-queue fairshare queues
+         (30-50).
+.sp 2
+     o  
+         FAIRSHARE must be defined in the master queue. If it is
+         also defined in the queues listed in FAIRSHARE_QUEUES,
+         it is ignored.
+.sp 2
+     o  
+         Cross-queue fairshare can be defined more than once
+         within lsb.queues. You can define several sets of
+         master-slave queues. However, a queue cannot belong to
+         more than one master-slave set. For example, you can
+         define:
+.sp 2
+           o  
+               In queue \fRnormal\fR: \fRFAIRSHARE_QUEUES=short
+               license\fR
+.sp 2
+           o  
+               In queue \fRpriority\fR: \fRFAIRSHARE_QUEUES=night
+               owners\fR
+.sp 2
+                  \fBRestriction: \fR
+.sp 2
+                     You cannot, however, define \fRnight\fR,
+                     \fRowners\fR, or \fRpriority \fRas slaves in
+                     the queue \fRnormal\fR; or \fRnormal\fR,
+                     \fRshort\fR and \fRlicense\fR as slaves in
+                     the \fRpriority\fR queue; or \fRshort\fR,
+                     \fRlicense\fR, \fRnight\fR, \fRowners\fR as
+                     master queues of their own.
+.sp 2
+     o  
+         Cross-queue fairshare cannot be used with host partition
+         fairshare . It is part of queue-level fairshare.
+.sp 2
+     o  
+         Cross-queue fairshare cannot be used with absolute
+         priority scheduling.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBFILELIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRFILELIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The per-process (hard) file size limit (in KB) for all of the
+   processes belonging to a job from this queue (see
+   getrlimit(2)).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBHJOB_LIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHJOB_LIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Per-host job slot limit.
+.sp 2
+   Maximum number of job slots that this queue can use on any
+   host. This limit is configured per host, regardless of the
+   number of processors it may have.
+.sp 2
+   This may be useful if the queue dispatches jobs that require a
+   node-locked license. If there is only one node-locked license
+   per host then the system should not dispatch more than one job
+   to the host even if it is a multiprocessor host.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following runs a maximum of one job on each of
+   \fRhostA\fR, \fRhostB\fR, and \fRhostC\fR:
+.sp 2
+   Begin Queue 
+.sp 2
+   ... 
+.sp 2
+   HJOB_LIMIT = 1 
+.sp 2
+   HOSTS=hostA hostB hostC 
+.sp 2
+   ... 
+.sp 2
+   End Queue
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBHOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRHOSTS=\fR\fIhost_list\fR | \fRnone\fR
+.sp 2
+     o  
+         \fIhost_list\fR is a space-separated list of the
+         following items:
+.sp 2
+           o  
+               \fIhost_name\fR[@\fIcluster_name\fR][[!] |
+               +\fIpref_level\fR]
+.sp 2
+           o  
+               \fIhost_partition\fR[+\fIpref_level\fR]
+.sp 2
+           o  
+               \fIhost_group\fR[[!] | +\fIpref_level\fR]
+.sp 2
+           o  
+               \fIcompute_unit\fR[[!] | +\fIpref_level\fR]
+.sp 2
+           o  
+               [~]\fIhost_name\fR
+.sp 2
+           o  
+               [~]\fIhost_group\fR
+.sp 2
+           o  
+               [~]\fIcompute_unit\fR
+.sp 2
+     o  
+         The list can include the following items only once:
+.sp 2
+           o  
+               all@\fIcluster_name \fR
+.sp 2
+           o  
+               others[+\fIpref_level\fR]
+.sp 2
+           o  
+               all
+.sp 2
+           o  
+               allremote
+.sp 2
+     o  
+         The none keyword is only used with the MultiCluster job
+         forwarding model, to specify a remote-only queue.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of hosts on which jobs from this queue
+   can be run.
+.sp 2
+   If compute units, host groups, or host partitions are included
+   in the list, the job can run on any host in the unit, group,
+   or partition. All the members of the host list should either
+   belong to a single host partition or not belong to any host
+   partition. Otherwise, job scheduling may be affected.
+.sp 2
+   Some items can be followed by a plus sign (+) and a positive
+   number to indicate the preference for dispatching a job to
+   that host. A higher number indicates a higher preference. If a
+   host preference is not given, it is assumed to be 0. If there
+   are multiple candidate hosts, LSF dispatches the job to the
+   host with the highest preference; hosts at the same level of
+   preference are ordered by load.
+.sp 2
+   If compute units, host groups, or host partitions are assigned
+   a preference, each host in the unit, group, or partition has
+   the same preference.
+.sp 2
+   Use the keyword others to include all hosts not explicitly
+   listed.
+.sp 2
+   Use the keyword all to include all hosts not explicitly
+   excluded.
+.sp 2
+   Use the keyword all@\fIcluster_name\fR \fIhostgroup_name \fRor
+   allremote \fIhostgroup_name\fR to include lease in hosts.
+.sp 2
+   Use the not operator (~) to exclude hosts from the all
+   specification in the queue. This is useful if you have a large
+   cluster but only want to exclude a few hosts from the queue
+   definition.
+.sp 2
+   The not operator can only be used with the all keyword. It is
+   \fInot\fR valid with the keywords others and none.
+.sp 2
+   The not operator (~) can be used to exclude host groups.
+.sp 2
+   For parallel jobs, specify first execution host candidates
+   when you want to ensure that a host has the required resources
+   or runtime environment to handle processes that run on the
+   first execution host.
+.sp 2
+   To specify one or more hosts, host groups, or compute units as
+   first execution host candidates, add the exclamation point (!)
+   symbol after the name.
+.sp 2
+   Follow these guidelines when you specify first execution host
+   candidates:
+.sp 2
+     o  
+         If you specify a compute unit or host group, you must
+         first define the unit or group in the file lsb.hosts.
+.sp 2
+     o  
+         Do not specify a dynamic host group as a first execution
+         host.
+.sp 2
+     o  
+         Do not specify “all,” "allremote," or “others,” or a
+         host partition as a first execution host.
+.sp 2
+     o  
+         Do not specify a preference (+) for a host identified by
+         (!) as a first execution host candidate.
+.sp 2
+     o  
+         For each parallel job, specify enough regular hosts to
+         satisfy the CPU requirement for the job. Once LSF
+         selects a first execution host for the current job, the
+         other first execution host candidates
+.sp 2
+           o  
+               Become unavailable to the current job
+.sp 2
+           o  
+               Remain available to other jobs as either regular
+               or first execution hosts
+.sp 2
+     o  
+         You cannot specify first execution host candidates when
+         you use the brun command.
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         If you have enabled EGO, host groups and compute units
+         are not honored.
+.sp 2
+   With MultiCluster resource leasing model, use the format
+   \fIhost_name\fR\fR@\fR\fIcluster_name\fR to specify a borrowed
+   host. LSF does not validate the names of remote hosts. The
+   keyword others indicates all local hosts not explicitly
+   listed. The keyword all indicates all local hosts not
+   explicitly excluded. Use the keyword allremote to specify all
+   hosts borrowed from all remote clusters. Use
+   \fRall@\fR\fIcluster_name\fR to specify the group of all hosts
+   borrowed from one remote cluster. You cannot specify a host
+   group or partition that includes remote resources, unless it
+   uses the keyword allremote to include all remote hosts. You
+   cannot specify a compute unit that includes remote resources.
+.sp 2
+   With MultiCluster resource leasing model, the not operator (~)
+   can be used to exclude local hosts or host groups. You cannot
+   use the not operator (~) with remote hosts.
+.sp 2
+      \fBRestriction: \fR
+.sp 2
+         Hosts that participate in queue-based fairshare cannot
+         be in a host partition.
+.sp 2 .SH "Behavior with host intersection"
+\fBBehavior with host intersection\fR
+.sp 2
+   Host preferences specified by bsub -m combine intelligently
+   with the queue specification and advance reservation hosts.
+   The jobs run on the hosts that are both specified at job
+   submission and belong to the queue or have advance
+   reservation.
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   HOSTS=hostA+1 hostB hostC+1 hostD+3
+.sp 2
+   This example defines three levels of preferences: run jobs on
+   \fRhostD\fR as much as possible, otherwise run on either
+   \fRhostA\fR or \fRhostC\fR if possible, otherwise run on
+   \fRhostB\fR. Jobs should not run on \fRhostB\fR unless all
+   other hosts are too busy to accept more jobs.
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   HOSTS=hostD+1 others
+.sp 2
+   Run jobs on \fRhostD\fR as much as possible, otherwise run
+   jobs on the least-loaded host available.
+.sp 2
+   With MultiCluster resource leasing model, this queue does not
+   use borrowed hosts.
+.sp 2 .SH "Example 3"
+\fBExample 3\fR
+.sp 2
+   HOSTS=all ~hostA
+.sp 2
+   Run jobs on all hosts in the cluster, except for \fRhostA\fR.
+.sp 2
+   With MultiCluster resource leasing model, this queue does not
+   use borrowed hosts.
+.sp 2 .SH "Example 4"
+\fBExample 4\fR
+.sp 2
+   HOSTS=Group1 ~hostA hostB hostC
+.sp 2
+   Run jobs on \fRhostB\fR, \fRhostC\fR, and all hosts in
+   \fRGroup1\fR except for \fRhostA\fR.
+.sp 2
+   With MultiCluster resource leasing model, this queue uses
+   borrowed hosts if Group1 uses the keyword allremote.
+.sp 2 .SH "Example 5"
+\fBExample 5\fR
+.sp 2
+   HOSTS=hostA! hostB+ hostC hostgroup1!
+.sp 2
+   Runs parallel jobs using either hostA or a host defined in
+   hostgroup1 as the first execution host. If the first execution
+   host cannot run the entire job due to resource requirements,
+   runs the rest of the job on hostB. If hostB is too busy to
+   accept the job, or if hostB does not have enough resources to
+   run the entire job, runs the rest of the job on hostC.
+.sp 2 .SH "Example 6"
+\fBExample 6\fR
+.sp 2
+   HOSTS=computeunit1! hostB hostC
+.sp 2
+   Runs parallel jobs using a host in computeunit1 as the first
+   execution host. If the first execution host cannot run the
+   entire job due to resource requirements, runs the rest of the
+   job on other hosts in computeunit1 followed by hostB and
+   finally hostC.
+.sp 2 .SH "Example 7"
+\fBExample 7\fR
+.sp 2
+   HOSTS=hostgroup1! computeunitA computeunitB computeunitC
+.sp 2
+   Runs parallel jobs using a host in hostgroup1 as the first
+   execution host. If additional hosts are required, runs the
+   rest of the job on other hosts in the same compute unit as the
+   first execution host, followed by hosts in the remaining
+   compute units in the order they are defined in the lsb.hosts
+   ComputeUnit section.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (the queue can use all hosts in the cluster, and every
+   host has equal preference)
+.sp 2
+   With MultiCluster resource leasing model, this queue can use
+   all local hosts, but no borrowed hosts.
+.sp 2
+\fBIGNORE_DEADLINE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRIGNORE_DEADLINE=Y\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If Y, disables deadline constraint scheduling (starts all jobs
+   regardless of deadline constraints).
+.sp 2
+\fBIMPT_JOBBKLG\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRIMPT_JOBBKLG=\fR\fIinteger\fR |\fRinfinit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   MultiCluster job forwarding model only. Specifies the
+   MultiCluster pending job limit for a receive-jobs queue. This
+   represents the maximum number of MultiCluster jobs that can be
+   pending in the queue; once the limit has been reached, the
+   queue stops accepting jobs from remote clusters.
+.sp 2
+   Use the keyword infinit to make the queue accept an unlimited
+   number of pending MultiCluster jobs.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   50
+.sp 2
+\fBINTERACTIVE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRINTERACTIVE=YES\fR | \fRNO\fR | \fRONLY\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   YES causes the queue to accept both interactive and
+   non-interactive batch jobs, NO causes the queue to reject
+   interactive batch jobs, and ONLY causes the queue to accept
+   interactive batch jobs and reject non-interactive batch jobs.
+.sp 2
+   Interactive batch jobs are submitted via bsub -I.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   YES. The queue accepts both interactive and non-interactive
+   jobs.
+.sp 2
+\fBINTERRUPTIBLE_BACKFILL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRINTERRUPTIBLE_BACKFILL=\fR\fIseconds\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Configures interruptible backfill scheduling policy, which
+   allows reserved job slots to be used by low priority small
+   jobs that are terminated when the higher priority large jobs
+   are about to start.
+.sp 2
+   There can only be one interruptible backfill queue.It should
+   be the lowest priority queue in the cluster.
+.sp 2
+   Specify the minimum number of seconds for the job to be
+   considered for backfilling.This minimal time slice depends on
+   the specific job properties; it must be longer than at least
+   one useful iteration of the job. Multiple queues may be
+   created if a site has jobs of distinctively different classes.
+.sp 2
+   An interruptible backfill job:
+.sp 2
+     o  
+         Starts as a regular job and is killed when it exceeds
+         the queue runtime limit, or
+.sp 2
+     o  
+         Is started for backfill whenever there is a backfill
+         time slice longer than the specified minimal time, and
+         killed before the slot-reservation job is about to start
+.sp 2
+   The queue RUNLIMIT corresponds to a maximum time slice for
+   backfill, and should be configured so that the wait period for
+   the new jobs submitted to the queue is acceptable to users. 10
+   minutes of runtime is a common value.
+.sp 2
+   You should configure REQUEUE_EXIT_VALUES for interruptible
+   backfill queues.
+.sp 2
+   BACKFILL and RUNLIMIT must be configured in the queue. The
+   queue is disabled if BACKFILL and RUNLIMIT are not configured.
+.sp 2 .SH "Assumptions and limitations:"
+\fBAssumptions and limitations:\fR
+.sp 2
+     o  
+         The interruptible backfill job holds the slot-reserving
+         job start until its calculated start time, in the same
+         way as a regular backfill job. The interruptible
+         backfill job are not preempted in any way other than
+         being killed when its time come.
+.sp 2
+     o  
+         While the queue is checked for the consistency of
+         interruptible backfill, backfill and runtime
+         specifications, the requeue exit value clause is not
+         verified, nor executed automatically. Configure requeue
+         exit values according to your site policies.
+.sp 2
+     o  
+         The interruptible backfill job must be able to do at
+         least one unit of useful calculations and save its data
+         within the minimal time slice, and be able to continue
+         its calculations after it has been restarted
+.sp 2
+     o  
+         Interruptible backfill paradigm does not explicitly
+         prohibit running parallel jobs, distributed across
+         multiple nodes; however, the chance of success of such
+         job is close to zero.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No interruptible backfilling.
+.sp 2
+\fBJOB_ACCEPT_INTERVAL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_ACCEPT_INTERVAL=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The number you specify is multiplied by the value of
+   lsb.params MBD_SLEEP_TIME (60 seconds by default). The result
+   of the calculation is the number of seconds to wait after
+   dispatching a job to a host, before dispatching a second job
+   to the same host.
+.sp 2
+   If 0 (zero), a host may accept more than one job in each
+   dispatch turn. By default, there is no limit to the total
+   number of jobs that can run on a host, so if this parameter is
+   set to 0, a very large number of jobs might be dispatched to a
+   host all at once. This can overload your system to the point
+   that it is unable to create any more processes. It is not
+   recommended to set this parameter to 0.
+.sp 2
+   JOB_ACCEPT_INTERVAL set at the queue level (lsb.queues)
+   overrides JOB_ACCEPT_INTERVAL set at the cluster level
+   (lsb.params).
+.sp 2
+      \fBNote: \fR
+.sp 2
+         The parameter JOB_ACCEPT_INTERVAL only applies when
+         there are running jobs on a host. A host running a short
+         job which finishes before JOB_ACCEPT_INTERVAL has
+         elapsed is free to accept a new job without waiting.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The queue uses JOB_ACCEPT_INTERVAL defined in
+   lsb.params, which has a default value of 1.
+.sp 2
+\fBJOB_ACTION_WARNING_TIME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_ACTION_WARNING_TIME=\fR[\fIhour\fR\fR:\fR]\fIminute\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies the amount of time before a job control action
+   occurs that a job warning action is to be taken. For example,
+   2 minutes before the job reaches runtime limit or termination
+   deadline, or the queue's run window is closed, an URG signal
+   is sent to the job.
+.sp 2
+   Job action warning time is not normalized.
+.sp 2
+   A job action warning time must be specified with a job warning
+   action in order for job warning to take effect.
+.sp 2
+   The warning time specified by the bsub -wt option overrides
+   JOB_ACTION_WARNING_TIME in the queue. JOB_ACTION_WARNING_TIME
+   is used as the default when no command line option is
+   specified.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_ACTION_WARNING_TIME=2
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBJOB_CONTROLS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_CONTROLS=SUSPEND[\fR\fIsignal\fR | \fIcommand\fR |
+   \fRCHKPNT]\fR \fRRESUME[\fR\fIsignal\fR | \fIcommand\fR\fR]
+   TERMINATE[\fR\fIsignal\fR | \fIcommand\fR | \fRCHKPNT]\fR
+.sp 2
+     o  
+         \fIsignal\fR is a UNIX signal name (for example, SIGTSTP
+         or SIGTERM). The specified signal is sent to the job.
+         The same set of signals is not supported on all UNIX
+         systems. To display a list of the symbolic names of the
+         signals (without the SIG prefix) supported on your
+         system, use the kill -l command.
+.sp 2
+     o  
+         \fIcommand\fR specifies a /bin/sh command line to be
+         invoked.
+.sp 2
+            \fBRestriction: \fR
+.sp 2
+               Do not quote the command line inside an action
+               definition. Do not specify a signal followed by an
+               action that triggers the same signal. For example,
+               do not specify \fRJOB_CONTROLS=TERMINATE[bkill]\fR
+               or \fRJOB_CONTROLS=TERMINATE[brequeue]\fR. This
+               causes a deadlock between the signal and the
+               action.
+.sp 2
+     o  
+         CHKPNT is a special action, which causes the system to
+         checkpoint the job. Only valid for SUSPEND and TERMINATE
+         actions:
+.sp 2
+           o  
+               If the SUSPEND action is CHKPNT, the job is
+               checkpointed and then stopped by sending the
+               SIGSTOP signal to the job automatically.
+.sp 2
+           o  
+               If the TERMINATE action is CHKPNT, then the job is
+               checkpointed and killed automatically.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Changes the behavior of the SUSPEND, RESUME, and TERMINATE
+   actions in LSF.
+.sp 2
+     o  
+         The contents of the configuration line for the action
+         are run with \fR/bin/sh -c\fR so you can use shell
+         features in the command.
+.sp 2
+     o  
+         The standard input, output, and error of the command are
+         redirected to the NULL device, so you cannot tell
+         directly whether the command runs correctly. The default
+         null device on UNIX is /dev/null.
+.sp 2
+     o  
+         The command is run as the user of the job.
+.sp 2
+     o  
+         All environment variables set for the job are also set
+         for the command action. The following additional
+         environment variables are set:
+.sp 2
+           o  
+               LSB_JOBPGIDS: a list of current process group IDs
+               of the job
+.sp 2
+           o  
+               LSB_JOBPIDS: a list of current process IDs of the
+               job
+.sp 2
+     o  
+         For the SUSPEND action command, the following
+         environment variables are also set:
+.sp 2
+           o  
+               LSB_SUSP_REASONS :  an integer representing a
+               bitmap of suspending reasons as defined in
+               lsbatch.h. The suspending reason can allow the
+               command to take different actions based on the
+               reason for suspending the job.
+.sp 2
+           o  
+               LSB_SUSP_SUBREASONS :  an integer representing the
+               load index that caused the job to be suspended.
+               When the suspending reason SUSP_LOAD_REASON
+               (suspended by load) is set in LSB_SUSP_REASONS,
+               LSB_SUSP_SUBREASONS set to one of the load index
+               values defined in lsf.h. Use LSB_SUSP_REASONS and
+               LSB_SUSP_SUBREASONS together in your custom job
+               control to determine the exact load threshold that
+               caused a job to be suspended.
+.sp 2
+     o  
+         If an additional action is necessary for the SUSPEND
+         command, that action should also send the appropriate
+         signal to the application. Otherwise, a job can continue
+         to run even after being suspended by LSF. For example,
+         \fRJOB_CONTROLS=SUSPEND[kill $LSB_JOBPIDS;
+         \fR\fIcommand\fR\fR]\fR
+.sp 2
+     o  
+         If you set preemption with the signal SIGTSTP you use
+         Platform License Scheduler, define
+         \fBLIC_SCHED_PREEMPT_STOP=Y\fR in lsf.conf for License
+         Scheduler preemption to work.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   On UNIX, by default, SUSPEND sends SIGTSTP for parallel or
+   interactive jobs and SIGSTOP for other jobs. RESUME sends
+   SIGCONT. TERMINATE sends SIGINT, SIGTERM and SIGKILL in that
+   order.
+.sp 2
+   On Windows, actions equivalent to the UNIX signals have been
+   implemented to do the default job control actions. Job control
+   messages replace the SIGINT and SIGTERM signals, but only
+   customized applications are able to process them. Termination
+   is implemented by the \fRTerminateProcess( )\fR system call.
+.sp 2
+\fBJOB_IDLE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_IDLE=\fR\fInumber\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies a threshold for idle job exception handling. The
+   value should be a number between 0.0 and 1.0 representing CPU
+   time/runtime. If the job idle factor is less than the
+   specified threshold, LSF invokes LSF_SERVERDIR/eadmin to
+   trigger the action for a job idle exception.
+.sp 2
+   The minimum job run time before mbatchd reports that the job
+   is idle is defined as DETECT_IDLE_JOB_AFTER in lsb.params.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Any positive number between 0.0 and 1.0
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_IDLE=0.10
+.sp 2
+   A job idle exception is triggered for jobs with an idle value
+   (CPU time/runtime) less than 0.10.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job idle exceptions are detected.
+.sp 2
+\fBJOB_OVERRUN\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_OVERRUN=\fR\fIrun_time\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies a threshold for job overrun exception handling. If a
+   job runs longer than the specified run time, LSF invokes
+   LSF_SERVERDIR/eadmin to trigger the action for a job overrun
+   exception.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_OVERRUN=5
+.sp 2
+   A job overrun exception is triggered for jobs running longer
+   than 5 minutes.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job overrun exceptions are detected.
+.sp 2
+\fBJOB_STARTER\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_STARTER=\fR\fIstarter\fR [\fIstarter\fR]
+   [\fR"%USRCMD"\fR] [\fIstarter\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Creates a specific environment for submitted jobs prior to
+   execution.
+.sp 2
+   \fIstarter\fR is any executable that can be used to start the
+   job (i.e., can accept the job as an input argument).
+   Optionally, additional strings can be specified.
+.sp 2
+   By default, the user commands run after the job starter. A
+   special string, %USRCMD, can be used to represent the position
+   of the user’s job in the job starter command line. The %USRCMD
+   string and any additional commands must be enclosed in
+   quotation marks (\fR" "\fR).
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_STARTER=csh -c "%USRCMD;sleep 10"
+.sp 2
+   In this case, if a user submits a job
+.sp 2
+   % bsub myjob arguments
+.sp 2
+   the command that actually runs is:
+.sp 2
+   % csh -c "myjob arguments;sleep 10"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job starter is used.
+.sp 2
+\fBJOB_UNDERRUN\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_UNDERRUN=\fR\fIrun_time\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies a threshold for job underrun exception handling. If
+   a job exits before the specified number of minutes, LSF
+   invokes LSF_SERVERDIR/eadmin to trigger the action for a job
+   underrun exception.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_UNDERRUN=2
+.sp 2
+   A job underrun exception is triggered for jobs running less
+   than 2 minutes.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job underrun exceptions are detected.
+.sp 2
+\fBJOB_WARNING_ACTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRJOB_WARNING_ACTION=\fR\fIsignal\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies the job action to be taken before a job control
+   action occurs. For example, 2 minutes before the job reaches
+   runtime limit or termination deadline, or the queue's run
+   window is closed, an URG signal is sent to the job.
+.sp 2
+   A job warning action must be specified with a job action
+   warning time in order for job warning to take effect.
+.sp 2
+   If JOB_WARNING_ACTION is specified, LSF sends the warning
+   action to the job before the actual control action is taken.
+   This allows the job time to save its result before being
+   terminated by the job control action.
+.sp 2
+   The warning action specified by the bsub -wa option overrides
+   JOB_WARNING_ACTION in the queue. JOB_WARNING_ACTION is used as
+   the default when no command line option is specified.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   JOB_WARNING_ACTION=URG
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fB\fIload_index\fB\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fIload_index\fR\fR=\fR\fIloadSched\fR[\fR/\fR\fIloadStop\fR]
+.sp 2
+   Specify \fRio\fR, \fRit\fR, \fRls\fR, \fRmem\fR, \fRpg\fR,
+   \fRr15s\fR, \fRr1m\fR, \fRr15m\fR, \fRswp\fR, \fRtmp\fR,
+   \fRut\fR, or a non-shared custom external load index. Specify
+   multiple lines to configure thresholds for multiple load
+   indices.
+.sp 2
+   Specify \fRio\fR, \fRit\fR, \fRls\fR, \fRmem\fR, \fRpg\fR,
+   \fRr15s\fR, \fRr1m\fR, \fRr15m\fR, \fRswp\fR, \fRtmp\fR,
+   \fRut\fR, or a non-shared custom external load index as a
+   column. Specify multiple columns to configure thresholds for
+   multiple load indices.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Scheduling and suspending thresholds for the specified dynamic
+   load index.
+.sp 2
+   The \fRloadSched\fR condition must be satisfied before a job
+   is dispatched to the host. If a RESUME_COND is not specified,
+   the \fRloadSched\fR condition must also be satisfied before a
+   suspended job can be resumed.
+.sp 2
+   If the \fRloadStop\fR condition is satisfied, a job on the
+   host is suspended.
+.sp 2
+   The \fRloadSched\fR and \fRloadStop\fR thresholds permit the
+   specification of conditions using simple AND/OR logic. Any
+   load index that does not have a configured threshold has no
+   effect on job scheduling.
+.sp 2
+   LSF does not suspend a job if the job is the only batch job
+   running on the host and the machine is interactively idle
+   (\fRit\fR>0).
+.sp 2
+   The \fRr15s\fR, \fRr1m\fR, and \fRr15m\fR CPU run queue length
+   conditions are compared to the effective queue length as
+   reported by lsload -E, which is normalized for multiprocessor
+   hosts. Thresholds for these parameters should be set at
+   appropriate levels for single processor hosts.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   MEM=100/10 
+.sp 2
+   SWAP=200/30
+.sp 2
+   These two lines translate into a \fRloadSched\fR condition of
+.sp 2
+   mem>=100 && swap>=200 
+.sp 2
+   and a \fRloadStop\fR condition of
+.sp 2
+   mem < 10 || swap < 30
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBLOCAL_MAX_PREEXEC_RETRY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLOCAL_MAX_PREEXEC_RETRY=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The maximum number of times to attempt the pre-execution
+   command of a job on the local cluster.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   0 < MAX_PREEXEC_RETRY < INFINIT_INT
+.sp 2
+   INFINIT_INT is defined in lsf.h.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The number of preexec retry times is unlimited
+.sp 2
+\fBMANDATORY_EXTSCHED\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMANDATORY_EXTSCHED=\fR\fIexternal_scheduler_options\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies mandatory external scheduling options for the queue.
+.sp 2
+   -extsched options on the bsub command are merged with
+   MANDATORY_EXTSCHED options, and MANDATORY_EXTSCHED options
+   override any conflicting job-level options set by -extsched.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBMAX_JOB_PREEMPT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMAX_JOB_PREEMPT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The maximum number of times a job can be preempted. Applies to
+   queue-based preemption only.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   0 < MAX_JOB_PREEMPT < INFINIT_INT
+.sp 2
+   INFINIT_INT is defined in lsf.h.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The number of preemption times is unlimited.
+.sp 2
+\fBMAX_JOB_REQUEUE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMAX_JOB_REQUEUE=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The maximum number of times to requeue a job automatically.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   0 < MAX_JOB_REQUEUE < INFINIT_INT
+.sp 2
+   INFINIT_INT is defined in lsf.h.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The number of requeue times is unlimited
+.sp 2
+\fBMAX_PREEXEC_RETRY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMAX_PREEXEC_RETRY=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   MultiCluster job forwarding model only. The maximum number of
+   times to attempt the pre-execution command of a job from a
+   remote cluster.
+.sp 2
+   If the job's pre-execution command fails all attempts, the job
+   is returned to the submission cluster.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   0 < MAX_PREEXEC_RETRY < INFINIT_INT
+.sp 2
+   INFINIT_INT is defined in lsf.h.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   5
+.sp 2
+\fBMAX_RSCHED_TIME \fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMAX_RSCHED_TIME=\fR\fIinteger\fR | \fRinfinit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   MultiCluster job forwarding model only. Determines how long a
+   MultiCluster job stays pending in the execution cluster before
+   returning to the submission cluster. The remote timeout limit
+   in seconds is:
+.sp 2
+   MAX_RSCHED_TIME * MBD_SLEEP_TIME=timeout
+.sp 2
+   Specify infinit to disable remote timeout (jobs always get
+   dispatched in the correct FCFS order because MultiCluster jobs
+   never get rescheduled, but MultiCluster jobs can be pending in
+   the receive-jobs queue forever instead of being rescheduled to
+   a better queue).
+.sp 2
+      \fBNote: \fR
+.sp 2
+         apply to the queue in the submission cluster (only).
+         This parameter is ignored by the receiving queue.
+.sp 2
+   Remote timeout limit never affects advance reservation jobs
+.sp 2
+   Jobs that use an advance reservation always behave as if
+   remote timeout is disabled.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   20 (20 minutes by default)
+.sp 2
+\fBMEMLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMEMLIMIT=\fR[\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The per-process (hard) process resident set size limit (in KB)
+   for all of the processes belonging to a job from this queue
+   (see getrlimit(2)).
+.sp 2
+   Sets the maximum amount of physical memory (resident set size,
+   RSS) that may be allocated to a process.
+.sp 2
+   By default, if a default memory limit is specified, jobs
+   submitted to the queue without a job-level memory limit are
+   killed when the default memory limit is reached.
+.sp 2
+   If you specify only one limit, it is the maximum, or hard,
+   memory limit. If you specify two limits, the first one is the
+   default, or soft, memory limit, and the second one is the
+   maximum memory limit.
+.sp 2
+   LSF has two methods of enforcing memory usage:
+.sp 2
+     o  
+         OS Memory Limit Enforcement
+.sp 2
+     o  
+         LSF Memory Limit Enforcement
+.sp 2 .SH "OS memory limit enforcement"
+\fBOS memory limit enforcement\fR
+.sp 2
+   OS memory limit enforcement is the default MEMLIMIT behavior
+   and does not require further configuration. OS enforcement
+   usually allows the process to eventually run to completion.
+   LSF passes MEMLIMIT to the OS that uses it as a guide for the
+   system scheduler and memory allocator. The system may allocate
+   more memory to a process if there is a surplus. When memory is
+   low, the system takes memory from and lowers the scheduling
+   priority (re-nice) of a process that has exceeded its declared
+   MEMLIMIT. Only available on systems that support RLIMIT_RSS
+   for setrlimit().
+.sp 2
+   Not supported on:
+.sp 2
+     o  
+         Sun Solaris 2.x
+.sp 2
+     o  
+         Windows
+.sp 2 .SH "LSF memory limit enforcement"
+\fBLSF memory limit enforcement\fR
+.sp 2
+   To enable LSF memory limit enforcement, set
+   LSB_MEMLIMIT_ENFORCE in lsf.conf to y. LSF memory limit
+   enforcement explicitly sends a signal to kill a running
+   process once it has allocated memory past MEMLIMIT.
+.sp 2
+   You can also enable LSF memory limit enforcement by setting
+   LSB_JOB_MEMLIMIT in lsf.conf to y. The difference between
+   LSB_JOB_MEMLIMIT set to y and LSB_MEMLIMIT_ENFORCE set to y is
+   that with LSB_JOB_MEMLIMIT, only the per-job memory limit
+   enforced by LSF is enabled. The per-process memory limit
+   enforced by the OS is disabled. With LSB_MEMLIMIT_ENFORCE set
+   to y, both the per-job memory limit enforced by LSF and the
+   per-process memory limit enforced by the OS are enabled.
+.sp 2
+   Available for all systems on which LSF collects total memory
+   usage.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following configuration defines a queue with a memory
+   limit of 5000 KB:
+.sp 2
+   Begin Queue 
+.sp 2
+   QUEUE_NAME  = default 
+.sp 2
+   DESCRIPTION = Queue with memory limit of 5000 kbytes 
+.sp 2
+   MEMLIMIT    = 5000 
+.sp 2
+   End Queue
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBMIG\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRMIG=\fR\fIminutes\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables automatic job migration and specifies the migration
+   threshold for checkpointable or rerunnable jobs, in minutes.
+.sp 2
+   LSF automatically migrates jobs that have been in the SSUSP
+   state for more than the specified number of minutes. Specify a
+   value of 0 to migrate jobs immediately upon suspension. The
+   migration threshold applies to all jobs running on the host.
+.sp 2
+   Job-level command line migration threshold overrides threshold
+   configuration in application profile and queue. Application
+   profile configuration overrides queue level configuration.
+.sp 2
+   When a host migration threshold is specified, and is lower
+   than the value for the job, the queue, or the application, the
+   host value is used..
+.sp 2
+   Members of a chunk job can be migrated. Chunk jobs in WAIT
+   state are removed from the job chunk and put into PEND state.
+.sp 2
+   Does not affect MultiCluster jobs that are forwarded to a
+   remote cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. LSF does not migrate checkpointable or rerunnable
+   jobs automatically.
+.sp 2
+\fBNEW_JOB_SCHED_DELAY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNEW_JOB_SCHED_DELAY=\fR\fIseconds\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The number of seconds that a new job waits, before being
+   scheduled. A value of zero (0) means the job is scheduled
+   without any delay.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   2 seconds
+.sp 2
+\fBNICE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNICE=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Adjusts the UNIX scheduling priority at which jobs from this
+   queue execute.
+.sp 2
+   The default value of 0 (zero) maintains the default scheduling
+   priority for UNIX interactive jobs. This value adjusts the
+   run-time priorities for batch jobs on a queue-by-queue basis,
+   to control their effect on other batch or interactive jobs.
+   See the \fRnice\fR(1) manual page for more details.
+.sp 2
+   On Windows, this value is mapped to Windows process priority
+   classes as follows:
+.sp 2
+     o  
+         \fRnice>=0\fR corresponds to an priority class of
+         \fRIDLE\fR
+.sp 2
+     o  
+         \fRnice<0\fR corresponds to an priority class of
+         \fRNORMAL\fR
+.sp 2
+   Platform LSF on Windows does not support \fRHIGH\fR or
+   \fRREAL-TIME\fR priority classes.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   0 (zero)
+.sp 2
+\fBNQS_QUEUES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRNQS_QUEUES=\fR\fINQS_ queue_name\fR@\fINQS_host_name\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Makes the queue an NQS forward queue.
+.sp 2
+   \fINQS_host_name\fR is an NQS host name that can be the
+   official host name or an alias name known to the LSF master
+   host.
+.sp 2
+   \fINQS_queue_name\fR is the name of an NQS destination queue
+   on this host. NQS destination queues are considered for job
+   routing in the order in which they are listed here. If a queue
+   accepts the job, it is routed to that queue. If no queue
+   accepts the job, it remains pending in the NQS forward queue.
+.sp 2
+   lsb.nqsmaps must be present for the LSF system to route jobs
+   in this queue to NQS systems.
+.sp 2
+   You must configure LSB_MAX_NQS_QUEUES in lsf.conf to specify
+   the maximum number of NQS queues allowed in the LSF cluster.
+   This is required for LSF to work with NQS.
+.sp 2
+   Since many features of LSF are not supported by NQS, the
+   following queue configuration parameters are ignored for NQS
+   forward queues: PJOB_LIMIT, POLICIES, RUN_WINDOW,
+   DISPATCH_WINDOW, RUNLIMIT, HOSTS, MIG. The application-level
+   RUNTIME parameter in lsb.applications is also ignored. In
+   addition, scheduling load threshold parameters are ignored
+   because NQS does not provide load information about hosts.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBPJOB_LIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPJOB_LIMIT=\fR\fIfloat\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Per-processor job slot limit for the queue.
+.sp 2
+   Maximum number of job slots that this queue can use on any
+   processor. This limit is configured per processor, so that
+   multiprocessor hosts automatically run more jobs.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBPOST_EXEC\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+POST_EXEC=command
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables post-execution processing at the queue level. The
+   \fBPOST_EXEC\fR command runs on the execution host after the
+   job finishes. Post-execution commands can be configured at the
+   application and queue levels. Application-level post-execution
+   commands run \fIbefore\fR queue-level post-execution commands.
+.sp 2
+   The \fBPOST_EXEC\fR command uses the same environment variable
+   values as the job, and, by default, runs under the user
+   account of the user who submits the job. To run post-execution
+   commands under a different user account (such as root for
+   privileged operations), configure the parameter
+   \fBLSB_PRE_POST_EXEC_USER\fR in lsf.sudoers.
+.sp 2
+   When a job exits with one of the queue’s
+   \fBREQUEUE_EXIT_VALUES\fR, LSF requeues the job and sets the
+   environment variable \fBLSB_JOBPEND\fR. The post-execution
+   command runs after the requeued job finishes.
+.sp 2
+   When the post-execution command is run, the environment
+   variable LSB_JOBEXIT_STAT is set to the exit status of the
+   job. If the execution environment for the job cannot be set
+   up, LSB_JOBEXIT_STAT is set to 0 (zero).
+.sp 2
+   The command path can contain up to 4094 characters for UNIX
+   and Linux, or up to 255 characters for Windows, including the
+   directory, file name, and expanded values for %J
+   \fI(job_ID\fR) and %I (\fIindex_ID\fR).
+.sp 2
+   For UNIX:
+.sp 2
+     o  
+         The pre- and post-execution commands run in the /tmp
+         directory under /bin/sh -c, which allows the use of
+         shell features in the commands. The following example
+         shows valid configuration lines:
+.sp 2
+         PRE_EXEC= /usr/share/lsf/misc/testq_pre >> /tmp/pre.out
+.sp 2
+         POST_EXEC= /usr/share/lsf/misc/testq_post | grep -v "Hey!"
+.sp 2
+     o  
+         LSF sets the \fBPATH\fR environment variable to
+.sp 2
+         PATH='/bin /usr/bin /sbin /usr/sbin'
+.sp 2
+     o  
+         The stdin, stdout, and stderr are set to /dev/null
+.sp 2
+     o  
+         To allow UNIX users to define their own post-execution
+         commands, an LSF administrator specifies the environment
+         variable $USER_POSTEXEC as the \fBPOST_EXEC\fR command.
+         A user then defines the post-execution command:
+.sp 2
+         setenv USER_POSTEXEC /path_name
+.sp 2
+            \fBNote: \fR
+.sp 2
+               The path name for the post-execution command must
+               be an absolute path. Do not define
+               \fBPOST_EXEC\fR=$USER_POSTEXEC when
+               \fBLSB_PRE_POST_EXEC_USER\fR=root.
+.sp 2
+   For Windows:
+.sp 2
+     o  
+         The pre- and post-execution commands run under cmd.exe
+         /c
+.sp 2
+     o  
+         The standard input, standard output, and standard error
+         are set to NULL
+.sp 2
+     o  
+         The \fBPATH\fR is determined by the setup of the LSF
+         Service
+.sp 2
+      \fBNote: \fR
+.sp 2
+         For post-execution commands that execute on a Windows
+         Server 2003, x64 Edition platform, users must have read
+         and execute privileges for cmd.exe.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No post-execution commands are associated with
+   the queue.
+.sp 2
+\fBPRE_EXEC\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+PRE_EXEC=command
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables pre-execution processing at the queue level. The
+   \fBPRE_EXEC\fR command runs on the execution host before the
+   job starts. If the \fBPRE_EXEC\fR command exits with a
+   non-zero exit code, LSF requeues the job to the front of the
+   queue.
+.sp 2
+   Pre-execution commands can be configured at the queue,
+   application, and job levels and run in the following order:
+.sp 2
+   1. 
+         The queue-level command
+.sp 2
+   2. 
+         The application-level or job-level command. If you
+         specify a command at both the application and job
+         levels, the job-level command overrides the
+         application-level command; the application-level command
+         is ignored.
+.sp 2
+   The \fBPRE_EXEC\fR command uses the same environment variable
+   values as the job, and runs under the user account of the user
+   who submits the job. To run pre-execution commands under a
+   different user account (such as root for privileged
+   operations), configure the parameter
+   \fBLSB_PRE_POST_EXEC_USER\fR in lsf.sudoers.
+.sp 2
+   The command path can contain up to 4094 characters for UNIX
+   and Linux, or up to 255 characters for Windows, including the
+   directory, file name, and expanded values for %J
+   \fI(job_ID\fR) and %I (\fIindex_ID\fR).
+.sp 2
+   For UNIX:
+.sp 2
+     o  
+         The pre- and post-execution commands run in the /tmp
+         directory under /bin/sh -c, which allows the use of
+         shell features in the commands. The following example
+         shows valid configuration lines:
+.sp 2
+         PRE_EXEC= /usr/share/lsf/misc/testq_pre >> /tmp/pre.out
+.sp 2
+         POST_EXEC= /usr/share/lsf/misc/testq_post | grep -v "Hey!"
+.sp 2
+     o  
+         LSF sets the \fBPATH\fR environment variable to
+.sp 2
+         PATH='/bin /usr/bin /sbin /usr/sbin'
+.sp 2
+     o  
+         The stdin, stdout, and stderr are set to /dev/null
+.sp 2
+   For Windows:
+.sp 2
+     o  
+         The pre- and post-execution commands run under cmd.exe
+         /c
+.sp 2
+     o  
+         The standard input, standard output, and standard error
+         are set to NULL
+.sp 2
+     o  
+         The \fBPATH\fR is determined by the setup of the LSF
+         Service
+.sp 2
+      \fBNote: \fR
+.sp 2
+         For pre-execution commands that execute on a Windows
+         Server 2003, x64 Edition platform, users must have read
+         and execute privileges for cmd.exe.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No pre-execution commands are associated with the
+   queue.
+.sp 2
+\fBPREEMPTION\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+PREEMPTION=PREEMPTIVE[[low_queue_name[+pref_level]...]]
+PREEMPTION=PREEMPTABLE[[hi_queue_name...]]
+PREEMPTION=PREEMPTIVE[[low_queue_name[+pref_level]...]]
+PREEMPTABLE[[hi_queue_name...]]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   \fBPREEMPTIVE\fR
+.br
+               Enables preemptive scheduling and defines this
+               queue as preemptive. Jobs in this queue preempt
+               jobs from the specified lower-priority queues or
+               from all lower-priority queues if the parameter is
+               specified with no queue names. PREEMPTIVE can be
+               combined with PREEMPTABLE to specify that jobs in
+               this queue can preempt jobs in lower-priority
+               queues, and can be preempted by jobs in
+               higher-priority queues.
+.sp 2
+   \fBPREEMPTABLE\fR
+.br
+               Enables preemptive scheduling and defines this
+               queue as preemptable. Jobs in this queue can be
+               preempted by jobs from specified higher-priority
+               queues, or from all higher-priority queues, even
+               if the higher-priority queues are not preemptive.
+               PREEMPTIVE can be combined with PREEMPTIVE to
+               specify that jobs in this queue can be preempted
+               by jobs in higher-priority queues, and can preempt
+               jobs in lower-priority queues.
+.sp 2
+   \fB\fIlow_queue_name\fB \fR
+.br
+               Specifies the names of lower-priority queues that
+               can be preempted.
+.sp 2
+               To specify multiple queues, separate the queue
+               names with a space, and enclose the list in a
+               single set of square brackets.
+.sp 2
+   \fB\fR+\fB\fIpref_level\fB\fR
+.br
+               Specifies to preempt this queue before preempting
+               other queues. When multiple queues are indicated
+               with a preference level, an order of preference is
+               indicated: queues with higher relative preference
+               levels are preempted before queues with lower
+               relative preference levels set.
+.sp 2
+   \fB\fIhi_queue_name\fB \fR
+.br
+               Specifies the names of higher-priority queues that
+               can preempt jobs in this queue.
+.sp 2
+               To specify multiple queues, separate the queue
+               names with a space and enclose the list in a
+               single set of square brackets.
+.sp 2 .SH "Example: configure selective, ordered preemption across queues"
+\fBExample: configure selective, ordered preemption across queues\fR
+.sp 2
+   The following example defines four queues, as follows:
+.sp 2
+     o  
+         high
+.sp 2
+           o  
+               Has the highest relative priority of 99
+.sp 2
+           o  
+               Jobs from this queue can preempt jobs from all
+               other queues
+.sp 2
+     o  
+         medium
+.sp 2
+           o  
+               Has the second-highest relative priority at 10
+.sp 2
+           o  
+               Jobs from this queue can preempt jobs from
+               \fRnormal\fR and \fRlow\fR queues, beginning with
+               jobs from \fRlow\fR, as indicated by the
+               preference (+1)
+.sp 2
+     o  
+         normal
+.sp 2
+           o  
+               Has the second-lowest relative priority, at 5
+.sp 2
+           o  
+               Jobs from this queue can preempt jobs from
+               \fRlow\fR, and can be preempted by jobs from both
+               \fRhigh\fR and \fRmedium\fR queues
+.sp 2
+     o  
+         low
+.sp 2
+           o  
+               Has the lowest relative priority, which is also
+               the default priority, at 1
+.sp 2
+           o  
+               Jobs from this queue can be preempted by jobs from
+               all preemptive queues, even though it does not
+               have the PREEMPTABLE keyword set
+.sp 2
+   Begin Queue
+.sp 2
+   QUEUE_NAME=high 
+.sp 2
+   PREEMPTION=PREEMPTIVE 
+.sp 2
+   PRIORITY=99 
+.sp 2
+   End Queue
+.sp 2
+
+.sp 2
+   Begin Queue
+.sp 2
+   QUEUE_NAME=medium 
+.sp 2
+   PREEMPTION=PREEMPTIVE[normal low+1] 
+.sp 2
+   PRIORITY=10 
+.sp 2
+   End Queue
+.sp 2
+
+.sp 2
+   Begin Queue
+.sp 2
+   QUEUE_NAME=normal
+.sp 2
+   PREEMPTION=PREEMPTIVE[low]
+.sp 2
+   PREEMPTABLE[high medium]
+.sp 2
+   PRIORITY=5 
+.sp 2
+   End Queue
+.sp 2
+
+.sp 2
+   Begin Queue 
+.sp 2
+   QUEUE_NAME=low 
+.sp 2
+   PRIORITY=1 
+.sp 2
+   End Queue
+.sp 2
+\fBPRIORITY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+PRIORITY=integer
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Specifies the relative queue priority for dispatching jobs. A
+   higher value indicates a higher job-dispatching priority,
+   relative to other queues.
+.sp 2
+   LSF schedules jobs from one queue at a time, starting with the
+   highest-priority queue. If multiple queues have the same
+   priority, LSF schedules all the jobs from these queues in
+   first-come, first-served order.
+.sp 2
+   LSF queue priority is independent of the UNIX scheduler
+   priority system for time-sharing processes. In LSF, the NICE
+   parameter is used to set the UNIX time-sharing priority for
+   batch jobs.
+.sp 2
+   \fB\fBinteger\fB\fR
+.br
+               Specify a number greater than or equal to 1, where
+               1 is the lowest priority.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   1
+.sp 2
+\fBPROCESSLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPROCESSLIMIT=[\fR\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Limits the number of concurrent processes that can be part of
+   a job.
+.sp 2
+   By default, if a default process limit is specified, jobs
+   submitted to the queue without a job-level process limit are
+   killed when the default process limit is reached.
+.sp 2
+   If you specify only one limit, it is the maximum, or hard,
+   process limit. If you specify two limits, the first one is the
+   default, or soft, process limit, and the second one is the
+   maximum process limit.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBPROCLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPROCLIMIT=\fR[\fIminimum_limit\fR [\fIdefault_limit\fR]]
+   \fImaximum_limit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Maximum number of slots that can be allocated to a job. For
+   parallel jobs, the maximum number of processors that can be
+   allocated to the job.
+.sp 2
+   Job-level processor limits (bsub -n) override queue-level
+   PROCLIMIT. Job-level limits must fall within the maximum and
+   minimum limits of the application profile and the queue.
+   Application-level PROCLIMIT in lsb.applications overrides
+   queue-level specificiation.
+.sp 2
+   Optionally specifies the minimum and default number of job
+   slots.
+.sp 2
+   All limits must be positive numbers greater than or equal to 1
+   that satisfy the following relationship:
+.sp 2
+   1 <= \fIminimum\fR <= \fIdefault\fR <= \fImaximum\fR
+.sp 2
+   You can specify up to three limits in the PROCLIMIT parameter:
+.sp 2
+   Jobs that request fewer slots than the minimum PROCLIMIT or
+   more slots than the maximum PROCLIMIT cannot use the queue and
+   are rejected. If the job requests minimum and maximum job
+   slots, the maximum slots requested cannot be less than the
+   minimum PROCLIMIT, and the minimum slots requested cannot be
+   more than the maximum PROCLIMIT.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited, the default number of slots is 1
+.sp 2
+\fBQJOB_LIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRQJOB_LIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Job slot limit for the queue. Total number of job slots that
+   this queue can use.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBQUEUE_GROUP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRQUEUE_GROUP=\fR\fIqueue1\fR, \fIqueue2\fR ...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Configures absolute priority scheduling (APS) across multiple
+   queues.
+.sp 2
+   When APS is enabled in the queue with APS_PRIORITY, the
+   FAIRSHARE_QUEUES parameter is ignored. The QUEUE_GROUP
+   parameter replaces FAIRSHARE_QUEUES, which is obsolete in LSF
+   7.0.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBQUEUE_NAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRQUEUE_NAME=\fR\fIstring\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   \fIRequired.\fR Name of the queue.
+.sp 2
+   Specify any ASCII string up to 59 characters long. You can use
+   letters, digits, underscores (_) or dashes (-). You cannot use
+   blank spaces. You cannot specify the reserved name
+   \fRdefault\fR.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   You must specify this parameter to define a queue. The default
+   queue automatically created by LSF is named \fRdefault\fR.
+.sp 2
+\fBRCVJOBS_FROM\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRCVJOBS_FROM=\fR\fIcluster_name\fR ... | \fRallclusters\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   MultiCluster only. Defines a MultiCluster receive-jobs queue.
+.sp 2
+   Specify cluster names, separated by a space. The administrator
+   of each remote cluster determines which queues in that cluster
+   forward jobs to the local cluster.
+.sp 2
+   Use the keyword allclusters to specify any remote cluster.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   RCVJOBS_FROM=cluster2 cluster4 cluster6
+.sp 2
+   This queue accepts remote jobs from clusters 2, 4, and 6.
+.sp 2
+\fBREMOTE_MAX_PREEXEC_RETRY\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRREMOTE_MAX_PREEXEC_RETRY=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The maximum number of times to attempt the pre-execution
+   command of a job on the remote cluster.
+.sp 2 .SH "Valid values"
+\fBValid values\fR
+.sp 2
+   0 < MAX_PREEXEC_RETRY < INFINIT_INT
+.sp 2
+   INFINIT_INT is defined in lsf.h.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   5
+.sp 2
+\fBREQUEUE_EXIT_VALUES\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRREQUEUE_EXIT_VALUES=\fR[\fIexit_code \fR...]
+   [\fREXCLUDE(\fR\fIexit_code ...\fR\fR)\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables automatic job requeue and sets the LSB_EXIT_REQUEUE
+   environment variable. Use spaces to separate multiple exit
+   codes. Application-level exit values override queue-level
+   values. Job-level exit values (bsub -Q) override
+   application-level and queue-level values.
+.sp 2
+   \fIexit_code\fR has the following form:
+.sp 2
+   "[all] [~number ...] | [number ...]"
+.sp 2
+   The reserved keyword all specifies all exit codes. Exit codes
+   are typically between 0 and 255. Use a tilde (~) to exclude
+   specified exit codes from the list.
+.sp 2
+   Jobs are requeued to the head of the queue. The output from
+   the failed run is not saved, and the user is not notified by
+   LSF.
+.sp 2
+   Define an exit code as EXCLUDE(\fIexit_code\fR) to enable
+   exclusive job requeue. Exclusive job requeue does not work for
+   parallel jobs.
+.sp 2
+   For MultiCluster jobs forwarded to a remote execution cluster,
+   the exit values specified in the submission cluster with the
+   EXCLUSIVE keyword are treated as if they were non-exclusive.
+.sp 2
+   You can also requeue a job if the job is terminated by a
+   signal.
+.sp 2
+   If a job is killed by a signal, the exit value is
+   128+\fIsignal_value\fR. The sum of 128 and the signal value
+   can be used as the exit code in the parameter
+   REQUEUE_EXIT_VALUES.
+.sp 2
+   For example, if you want a job to rerun if it is killed with a
+   signal 9 (SIGKILL), the exit value would be 128+9=137. You can
+   configure the following requeue exit value to allow a job to
+   be requeue if it was kill by signal 9:
+.sp 2
+   REQUEUE_EXIT_VALUES=137
+.sp 2
+   If mbatchd is restarted, it does not remember the previous
+   hosts from which the job exited with an exclusive requeue exit
+   code. In this situation, it is possible for a job to be
+   dispatched to hosts on which the job has previously exited
+   with an exclusive exit code.
+.sp 2
+   You should configure REQUEUE_EXIT_VALUES for interruptible
+   backfill queues (INTERRUPTIBLE_BACKFILL=\fIseconds\fR).
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   REQUEUE_EXIT_VALUES=30 EXCLUDE(20)
+.sp 2
+   means that jobs with exit code 30 are requeued, jobs with exit
+   code 20 are requeued exclusively, and jobs with any other exit
+   code are not requeued.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. Jobs are not requeued.
+.sp 2
+\fBRERUNNABLE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRERUNNABLE=yes\fR | \fRno\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If yes, enables automatic job rerun (restart).
+.sp 2
+   Rerun is disabled when RERUNNABLE is set to no. The yes and no
+   arguments are not case sensitive.
+.sp 2
+   For MultiCluster jobs, the setting in the submission queue is
+   used, and the setting in the execution queue is ignored.
+.sp 2
+   Members of a chunk job can be rerunnable. If the execution
+   host becomes unavailable, rerunnable chunk job members are
+   removed from the job chunk and dispatched to a different
+   execution host.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   no
+.sp 2
+\fBRESOURCE_RESERVE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRESOURCE_RESERVE=MAX_RESERVE_TIME[\fR\fIinteger\fR\fR]\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables processor reservation and memory reservation for
+   pending jobs for the queue. Specifies the number of dispatch
+   turns (MAX_RESERVE_TIME) over which a job can reserve job
+   slots and memory.
+.sp 2
+   Overrides the SLOT_RESERVE parameter. If both RESOURCE_RESERVE
+   and SLOT_RESERVE are defined in the same queue, an error is
+   displayed when the cluster is reconfigured, and SLOT_RESERVE
+   is ignored. Job slot reservation for parallel jobs is enabled
+   by RESOURCE_RESERVE if the LSF scheduler plugin module names
+   for both resource reservation and parallel batch jobs
+   (schmod_parallel and schmod_reserve) are configured in the
+   lsb.modules file: The schmod_parallel name \fImust\fR come
+   before schmod_reserve in lsb.modules.
+.sp 2
+   If a job has not accumulated enough memory or job slots to
+   start by the time MAX_RESERVE_TIME expires, it releases all
+   its reserved job slots or memory so that other pending jobs
+   can run. After the reservation time expires, the job cannot
+   reserve memory or slots for one scheduling session, so other
+   jobs have a chance to be dispatched. After one scheduling
+   session, the job can reserve available memory and job slots
+   again for another period specified by MAX_RESERVE_TIME.
+.sp 2
+   If BACKFILL is configured in a queue, and a run limit is
+   specified with -W on bsub or with RUNLIMIT in the queue,
+   backfill jobs can use the accumulated memory reserved by the
+   other jobs in the queue, as long as the backfill job can
+   finish before the predicted start time of the jobs with the
+   reservation.
+.sp 2
+   Unlike slot reservation, which only applies to parallel jobs,
+   memory reservation and backfill on memory apply to sequential
+   and parallel jobs.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   RESOURCE_RESERVE=MAX_RESERVE_TIME[5]
+.sp 2
+   This example specifies that jobs have up to 5 dispatch turns
+   to reserve sufficient job slots or memory (equal to 5 minutes,
+   by default).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job slots or memory is reserved.
+.sp 2
+\fBRES_REQ\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRES_REQ=\fR\fIres_req\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Resource requirements used to determine eligible hosts.
+   Specify a resource requirement string as usual. The resource
+   requirement string lets you specify conditions in a more
+   flexible manner than using the load thresholds. Resource
+   requirement strings can be simple (applying to the entire job)
+   or compound (applying to the specified number of slots).
+.sp 2
+   When a compound resource requirement is set for a queue, it
+   will be ignored unless it is the only resource requirement
+   specified (no resource requirements are set at the job-level
+   or application-level).
+.sp 2
+   When a simple resource requirement is set for a queue and a
+   compound resource requirement is set at the job-level or
+   application-level, the queue-level requirements merge as they
+   do for simple resource requirements. However, any job-based
+   resources defined in the queue only apply to the first term of
+   the merged compound resource requirements.
+.sp 2
+   When \fRLSF_STRICT_RESREQ=Y\fR is configured in lsf.conf,
+   resource requirement strings in select sections must conform
+   to a more strict syntax. The strict resource requirement
+   syntax only applies to the select section. It does not apply
+   to the other resource requirement sections (order, rusage,
+   same, span, or cu). When \fRLSF_STRICT_RESREQ=Y\fR in
+   lsf.conf, LSF rejects resource requirement strings where an
+   rusage section contains a non-consumable resource.
+.sp 2
+   For simple resource requirements, the \fRselect\fR sections
+   from all levels must be satisfied and the same sections from
+   all levels are combined. cu, order, and span sections at the
+   job-level overwrite those at the application-level which
+   overwrite those at the queue-level. Multiple rusage
+   definitions are merged, with the job-level rusage taking
+   precedence over the application-level, and application-level
+   taking precedence over the queue-level.
+.sp 2
+   The simple resource requirement \fRrusage\fR section can
+   specify additional requests. To do this, use the \fROR\fR
+   (\fR||\fR) operator to separate additional \fRrusage\fR
+   strings. Multiple -R options cannot be used with multi-phase
+   rusage resource requirements.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         Compound resource requirements do not support use of the
+         || operator within rusage sections, multiple -R options,
+         or the cu section.
+.sp 2
+         The \fBRES_REQ\fR consumable resource requirements must
+         satisfy any limits set by the parameter
+         \fBRESRSV_LIMIT\fR in lsb.queues, or the \fBRES_REQ\fR
+         will be ignored.
+.sp 2
+         When both the \fBRES_REQ\fR and \fBRESRSV_LIMIT\fR are
+         set in lsb.queues for a consumable resource, the
+         queue-level \fBRES_REQ\fR no longer acts as a hard limit
+         for the merged \fBRES_REQ\fR rusage values from the job
+         and application levels. In this case only the limits set
+         by \fBRESRSV_LIMIT\fR must be satisfied, and the
+         queue-level RES_REQ acts as a default value.
+.sp 2
+   For example:
+.sp 2
+   \fBQueue-level RES_REQ:\fR
+.br
+               RES_REQ=rusage[mem=200:lic=1] ...
+.sp 2
+               For the job submission:
+.sp 2
+               bsub -R'rusage[mem=100]' ...
+.sp 2
+               the resulting requirement for the job is
+.sp 2
+               rusage[mem=100:lic=1]
+.sp 2
+               where \fRmem=100\fR specified by the job overrides
+               \fRmem=200\fR specified by the queue. However,
+               \fRlic=1\fR from queue is kept, since job does not
+               specify it.
+.sp 2
+   \fBQueue-level RES_REQ with decay and duration defined:\fR
+.br
+               RES_REQ=rusage[mem=200:duration=20:decay=1] ...
+.sp 2
+               For a job submission with no decay or duration:
+.sp 2
+               bsub -R'rusage[mem=100]' ...
+.sp 2
+               the resulting requirement for the job is:
+.sp 2
+               rusage[mem=100:duration=20:decay=1]
+.sp 2
+               Queue-level duration and decay are merged with the
+               job-level specification, and \fRmem=100\fR for the
+               job overrides \fRmem=200\fR specified by the
+               queue. However, \fRduration=20\fR and
+               \fRdecay=1\fR from queue are kept, since job does
+               not specify them.
+.sp 2
+   \fBQueue-level RES_REQ with multi-phase job-level rusage:\fR
+.br
+               RES_REQ=rusage[mem=200:duration=20:decay=1] ...
+.sp 2
+               For a job submission with no decay or duration:
+.sp 2
+               bsub -R'rusage[mem=(300 200 100):duration=(10 10 10)]' ...
+.sp 2
+               the resulting requirement for the job is:
+.sp 2
+               rusage[mem=(300 200 100):duration=(10 10 10)]
+.sp 2
+               Multi-phase rusage values in the job submission
+               override the single phase specified by the queue.
+.sp 2
+                 o  
+                     If \fBRESRSV_LIMIT\fR is defined in
+                     lsb.queues and has a maximum memory limit of
+                     300 MB or greater, this job will be
+                     accepted.
+.sp 2
+                 o  
+                     If \fBRESRSV_LIMIT\fR is defined in
+                     lsb.queues and has a maximum memory limit of
+                     less than 300 MB, this job will be rejected.
+.sp 2
+                 o  
+                     If \fBRESRSV_LIMIT\fR is not defined in
+                     lsb.queues and the queue-level \fBRES_REQ\fR
+                     value of 200 MB acts as a ceiling, this job
+                     will be rejected.
+.sp 2
+   \fBQueue-level multi-phase rusage RES_REQ:\fR
+.br
+               RES_REQ=rusage[mem=(350 200):duration=(20):decay=(1)] ...
+.sp 2
+               For a single phase job submission with no decay or
+               duration:
+.sp 2
+               bsub -q q_name -R'rusage[mem=100:swap=150]' ...
+.sp 2
+               the resulting requirement for the job is:
+.sp 2
+               rusage[mem=100:swap=150]
+.sp 2
+               The job-level rusage string overrides the
+               queue-level multi-phase rusage string.
+.sp 2
+   The \fRorder\fR section defined at the job level overwrites
+   any resource requirements specified at the application level
+   or queue level. The \fRorder\fR section defined at the
+   application level overwrites any resource requirements
+   specified at the queue level. The default \fRorder\fR string
+   is \fRr15s:pg\fR.
+.sp 2
+   If RES_REQ is defined at the queue level and there are no load
+   thresholds defined, the pending reasons for each individual
+   load index are not displayed by bjobs.
+.sp 2
+   The \fRspan\fR section defined at the queue level is ignored
+   if the \fRspan\fR section is also defined at the job level or
+   in an application profile.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         Define span[hosts=-1] in the application profile or bsub
+         -R resource requirement string to override the span
+         section setting in the queue.
+.sp 2
+   Resource requirements determined by the queue no longer apply
+   to a running job after running badmin reconfig, For example,
+   if you change the RES_REQ parameter in a queue and reconfigure
+   the cluster, the previous queue-level resource requirements
+   for running jobs are lost.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   select[type==local] order[r15s:pg]. If this parameter is
+   defined and a host model or Boolean resource is specified, the
+   default type is any.
+.sp 2
+\fBRESRSV_LIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRESRSV_LIMIT=\fR[\fIres1\fR={\fImin1\fR,} \fImax1\fR]
+   [\fIres2\fR={\fImin2\fR,} \fImax2\fR]...
+.sp 2
+   Where \fIres\fR is a consumable resource name, \fImin\fR is an
+   optional minimum value and \fImax\fR is the maximum allowed
+   value. Both \fImax\fR and \fImin\fR must be float numbers
+   between 0 and 2147483647, and \fImin\fR cannot be greater than
+   \fImax\fR.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Sets a range of allowed values for \fBRES_REQ\fR resources.
+.sp 2
+   Queue-level \fBRES_REQ\fR rusage values (set in lsb.queues)
+   must be in the range set by \fBRESRSV_LIMIT\fR, or the
+   queue-level \fBRES_REQ\fR is ignored. Merged \fBRES_REQ\fR
+   rusage values from the job and application levels must be in
+   the range of \fBRESRSV_LIMIT\fR, or the job is rejected.
+.sp 2
+   Changes made to the rusage values of running jobs using bmod
+   -R cannot exceed the maximum values of \fBRESRSV_LIMIT\fR, but
+   can be lower than the minimum values.
+.sp 2
+   When both the \fBRES_REQ\fR and \fBRESRSV_LIMIT\fR are set in
+   lsb.queues for a consumable resource, the queue-level
+   \fBRES_REQ\fR no longer acts as a hard limit for the merged
+   \fBRES_REQ\fR rusage values from the job and application
+   levels. In this case only the limits set by \fBRESRSV_LIMIT\fR
+   must be satisfied, and the queue-level RES_REQ acts as a
+   default value.
+.sp 2
+   For MultiCluster, jobs must satisfy the \fBRESRSV_LIMIT\fR
+   range set for the send-jobs queue in the submission cluster.
+   After the job is forwarded the resource requirements are also
+   checked against the \fBRESRSV_LIMIT\fR range set for the
+   receive-jobs queue in the execution cluster.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         Only consumable resource limits can be set in
+         \fBRESRSV_LIMIT\fR. Other resources will be ignored.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined.
+.sp 2
+   If \fImax\fR is defined and optional \fImin\fR is not, the
+   default for \fImin\fR is 0.
+.sp 2
+\fBRESUME_COND\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRESUME_COND=\fR\fIres_req\fR
+.sp 2
+   Use the \fRselect\fR section of the resource requirement
+   string to specify load thresholds. All other sections are
+   ignored.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   LSF automatically resumes a suspended (SSUSP) job in this
+   queue if the load on the host satisfies the specified
+   conditions.
+.sp 2
+   If RESUME_COND is not defined, then the loadSched thresholds
+   are used to control resuming of jobs. The loadSched thresholds
+   are ignored, when resuming jobs, if RESUME_COND is defined.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. The loadSched thresholds are used to control
+   resuming of jobs.
+.sp 2
+\fBRUN_WINDOW\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRUN_WINDOW=\fR\fItime_window \fR...
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Time periods during which jobs in the queue are allowed to
+   run.
+.sp 2
+   When the window closes, LSF suspends jobs running in the queue
+   and stops dispatching jobs from the queue. When the window
+   reopens, LSF resumes the suspended jobs and begins dispatching
+   additional jobs.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. Queue is always active.
+.sp 2
+\fBRUNLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRRUNLIMIT=\fR[\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2
+   where \fIdefault_limit\fR and \fImaximum_limit\fR are:
+.sp 2
+   [\fIhour\fR:]\fIminute\fR[/\fIhost_name\fR |
+   /\fIhost_model\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The maximum run limit and optionally the default run limit.
+   The name of a host or host model specifies the runtime
+   normalization host to use.
+.sp 2
+   By default, jobs that are in the RUN state for longer than the
+   specified maximum run limit are killed by LSF. You can
+   optionally provide your own termination job action to override
+   this default.
+.sp 2
+   Jobs submitted with a job-level run limit (bsub -W) that is
+   less than the maximum run limit are killed when their
+   job-level run limit is reached. Jobs submitted with a run
+   limit greater than the maximum run limit are rejected by the
+   queue.
+.sp 2
+   If a default run limit is specified, jobs submitted to the
+   queue without a job-level run limit are killed when the
+   default run limit is reached. The default run limit is used
+   with backfill scheduling of parallel jobs.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         If you want to provide an estimated run time for
+         scheduling purposes without killing jobs that exceed the
+         estimate, define the RUNTIME parameter in an application
+         profile instead of a run limit (see lsb.applications for
+         details).
+.sp 2
+   If you specify only one limit, it is the maximum, or hard, run
+   limit. If you specify two limits, the first one is the
+   default, or soft, run limit, and the second one is the maximum
+   run limit. The number of minutes may be greater than 59.
+   Therefore, three and a half hours can be specified either as
+   3:30, or 210.
+.sp 2
+   The run limit is in the form of [hour:]minute. The minutes can
+   be specified as a number greater than 59. For example, three
+   and a half hours can either be specified as 3:30, or 210.
+.sp 2
+   The run limit you specify is the normalized run time. This is
+   done so that the job does approximately the same amount of
+   processing, even if it is sent to host with a faster or slower
+   CPU. Whenever a normalized run time is given, the actual time
+   on the execution host is the specified time multiplied by the
+   CPU factor of the normalization host then divided by the CPU
+   factor of the execution host.
+.sp 2
+   If ABS_RUNLIMIT=Y is defined in lsb.params, the runtime limit
+   is not normalized by the host CPU factor. Absolute wall-clock
+   run time is used for all jobs submitted to a queue with a run
+   limit configured.
+.sp 2
+   Optionally, you can supply a host name or a host model name
+   defined in LSF. You must insert ‘\fR/\fR’ between the run
+   limit and the host name or model name. (See lsinfo(1) to get
+   host model information.)
+.sp 2
+   If no host or host model is given, LSF uses the default
+   runtime normalization host defined at the queue level
+   (DEFAULT_HOST_SPEC in lsb.queues) if it has been configured;
+   otherwise, LSF uses the default CPU time normalization host
+   defined at the cluster level (DEFAULT_HOST_SPEC in lsb.params)
+   if it has been configured; otherwise, the host with the
+   largest CPU factor (the fastest host in the cluster).
+.sp 2
+   For MultiCluster jobs, if no other CPU time normalization host
+   is defined and information about the submission host is not
+   available, LSF uses the host with the largest CPU factor (the
+   fastest host in the cluster).
+.sp 2
+   Jobs submitted to a chunk job queue are not chunked if
+   RUNLIMIT is greater than 30 minutes.
+.sp 2
+   RUNLIMIT is required for queues configured with
+   INTERRUPTIBLE_BACKFILL.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBSLOT_POOL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOT_POOL=\fR\fIpool_name\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Name of the pool of job slots the queue belongs to for
+   queue-based fairshare. A queue can only belong to one pool.
+   All queues in the pool must share the same set of hosts.
+.sp 2 .SH "Valid value"
+\fBValid value\fR
+.sp 2
+   Specify any ASCII string up to 60 characters long. You can use
+   letters, digits, underscores (_) or dashes (-). You cannot use
+   blank spaces.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job slots are reserved.
+.sp 2
+\fBSLOT_RESERVE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOT_RESERVE=MAX_RESERVE_TIME[\fR\fIinteger\fR\fR]\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables processor reservation for the queue and specifies the
+   reservation time. Specify the keyword MAX_RESERVE_TIME and, in
+   square brackets, the number of MBD_SLEEP_TIME cycles over
+   which a job can reserve job slots. MBD_SLEEP_TIME is defined
+   in lsb.params; the default value is 60 seconds.
+.sp 2
+   If a job has not accumulated enough job slots to start before
+   the reservation expires, it releases all its reserved job
+   slots so that other jobs can run. Then, the job cannot reserve
+   slots for one scheduling session, so other jobs have a chance
+   to be dispatched. After one scheduling session, the job can
+   reserve job slots again for another period specified by
+   SLOT_RESERVE.
+.sp 2
+   SLOT_RESERVE is overridden by the RESOURCE_RESERVE parameter.
+.sp 2
+   If both RESOURCE_RESERVE and SLOT_RESERVE are defined in the
+   same queue, job slot reservation and memory reservation are
+   enabled and an error is displayed when the cluster is
+   reconfigured. SLOT_RESERVE is ignored.
+.sp 2
+   Job slot reservation for parallel jobs is enabled by
+   RESOURCE_RESERVE if the LSF scheduler plugin module names for
+   both resource reservation and parallel batch jobs
+   (schmod_parallel and schmod_reserve) are configured in the
+   lsb.modules file: The schmod_parallel name \fImust\fR come
+   before schmod_reserve in lsb.modules.
+.sp 2
+   If BACKFILL is configured in a queue, and a run limit is
+   specified at the job level (bsub -W), application level
+   (RUNLIMIT in lsb.applications), or queue level (RUNLIMIT in
+   lsb.queues), or if an estimated run time is specified at the
+   application level (RUNTIME in lsb.applications), backfill
+   parallel jobs can use job slots reserved by the other jobs, as
+   long as the backfill job can finish before the predicted start
+   time of the jobs with the reservation.
+.sp 2
+   Unlike memory reservation, which applies both to sequential
+   and parallel jobs, slot reservation applies only to parallel
+   jobs.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   SLOT_RESERVE=MAX_RESERVE_TIME[5]
+.sp 2
+   This example specifies that parallel jobs have up to 5 cycles
+   of MBD_SLEEP_TIME (5 minutes, by default) to reserve
+   sufficient job slots to start.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined. No job slots are reserved.
+.sp 2
+\fBSLOT_SHARE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSLOT_SHARE=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Share of job slots for queue-based fairshare. Represents the
+   percentage of running jobs (job slots) in use from the queue.
+   SLOT_SHARE must be greater than zero (0) and less than or
+   equal to 100.
+.sp 2
+   The sum of SLOT_SHARE for all queues in the pool does not need
+   to be 100%. It can be more or less, depending on your needs.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Not defined
+.sp 2
+\fBSNDJOBS_TO\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSNDJOBS_TO=\fR\fIqueue_name\fR\fR@\fR\fIcluster_name ...\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Defines a MultiCluster send-jobs queue.
+.sp 2
+   Specify remote queue names, in the form
+   \fIqueue_name\fR@\fIcluster_name\fR, separated by a space.
+.sp 2
+   This parameter is ignored if lsb.queues HOSTS specifies remote
+   (borrowed) resources.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   SNDJOBS_TO=queue2@cluster2 queue3@cluster2 queue3@cluster3
+.sp 2
+\fBSTACKLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSTACKLIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The per-process (hard) stack segment size limit (in KB) for
+   all of the processes belonging to a job from this queue (see
+   getrlimit(2)).
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBSTOP_COND\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSTOP_COND=\fR\fIres_req\fR
+.sp 2
+   Use the \fRselect\fR section of the resource requirement
+   string to specify load thresholds. All other sections are
+   ignored.
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   LSF automatically suspends a running job in this queue if the
+   load on the host satisfies the specified conditions.
+.sp 2
+     o  
+         LSF does not suspend the only job running on the host if
+         the machine is interactively idle (\fRit\fR > 0).
+.sp 2
+     o  
+         LSF does not suspend a forced job (brun -f).
+.sp 2
+     o  
+         LSF does not suspend a job because of paging rate if the
+         machine is interactively idle.
+.sp 2
+   If STOP_COND is specified in the queue and there are no load
+   thresholds, the suspending reasons for each individual load
+   index is not displayed by bjobs.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   STOP_COND= select[((!cs && it < 5) || (cs && mem < 15 && swp < 50))]
+.sp 2
+   In this example, assume “cs” is a Boolean resource indicating
+   that the host is a computer server. The stop condition for
+   jobs running on computer servers is based on the availability
+   of swap memory. The stop condition for jobs running on other
+   kinds of hosts is based on the idle time.
+.sp 2
+\fBSWAPLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRSWAPLIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The amount of total virtual memory limit (in KB) for a job
+   from this queue.
+.sp 2
+   This limit applies to the whole job, no matter how many
+   processes the job may contain.
+.sp 2
+   The action taken when a job exceeds its SWAPLIMIT or
+   PROCESSLIMIT is to send SIGQUIT, SIGINT, SIGTERM, and SIGKILL
+   in sequence. For CPULIMIT, SIGXCPU is sent before SIGINT,
+   SIGTERM, and SIGKILL.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBTERMINATE_WHEN\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRTERMINATE_WHEN=\fR[\fRLOAD\fR] [\fRPREEMPT\fR]
+   [\fRWINDOW\fR]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Configures the queue to invoke the TERMINATE action instead of
+   the SUSPEND action in the specified circumstance.
+.sp 2
+     o  
+         LOAD: kills jobs when the load exceeds the suspending
+         thresholds.
+.sp 2
+     o  
+         PREEMPT: kills jobs that are being preempted.
+.sp 2
+     o  
+         WINDOW: kills jobs if the run window closes.
+.sp 2
+   If the TERMINATE_WHEN job control action is applied to a chunk
+   job, sbatchd kills the chunk job element that is running and
+   puts the rest of the waiting elements into pending state to be
+   rescheduled later.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   Set TERMINATE_WHEN to WINDOW to define a night queue that
+   kills jobs if the run window closes:
+.sp 2
+   Begin Queue 
+.sp 2
+   NAME           = night 
+.sp 2
+   RUN_WINDOW     = 20:00-08:00 
+.sp 2
+   TERMINATE_WHEN = WINDOW 
+.sp 2
+   JOB_CONTROLS   = TERMINATE[kill -KILL $LS_JOBPGIDS; mail - s "job $LSB_JOBID killed by queue run window" $USER < /dev/null] 
+.sp 2
+   End Queue
+.sp 2
+\fBTHREADLIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRTHREADLIMIT=\fR[\fIdefault_limit\fR] \fImaximum_limit\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Limits the number of concurrent threads that can be part of a
+   job. Exceeding the limit causes the job to terminate. The
+   system sends the following signals in sequence to all
+   processes belongs to the job: SIGINT, SIGTERM, and SIGKILL.
+.sp 2
+   By default, if a default thread limit is specified, jobs
+   submitted to the queue without a job-level thread limit are
+   killed when the default thread limit is reached.
+.sp 2
+   If you specify only one limit, it is the maximum, or hard,
+   thread limit. If you specify two limits, the first one is the
+   default, or soft, thread limit, and the second one is the
+   maximum thread limit.
+.sp 2
+   Both the default and the maximum limits must be positive
+   integers. The default limit must be less than the maximum
+   limit. The default limit is ignored if it is greater than the
+   maximum limit.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   THREADLIMIT=6
+.sp 2
+   No default thread limit is specified. The value 6 is the
+   default and maximum thread limit.
+.sp 2
+   THREADLIMIT=6 8
+.sp 2
+   The first value (6) is the default thread limit. The second
+   value (8) is the maximum thread limit.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBUJOB_LIMIT\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUJOB_LIMIT=\fR\fIinteger\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Per-user job slot limit for the queue. Maximum number of job
+   slots that each user can use in this queue.
+.sp 2
+   \fBUJOB_LIMIT\fR must be within or greater than the range set
+   by \fBPROCLIMIT\fR or bsub -n (if either is used), or jobs are
+   rejected.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Unlimited
+.sp 2
+\fBUSE_PAM_CREDS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUSE_PAM_CREDS=y\fR | \fRn\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   If \fBUSE_PAM_CREDS=y\fR, applies PAM limits to a queue when
+   its job is dispatched to a Linux host using PAM. PAM limits
+   are system resource limits defined in limits.conf.
+.sp 2
+   When \fBUSE_PAM_CREDS\fR is enabled, PAM limits override
+   others. For example, the PAM limit is used even if queue-level
+   soft limit is less than PAM limit. However, it still cannot
+   exceed queue's hard limit.
+.sp 2
+   If the execution host does not have PAM configured and this
+   parameter is enabled, the job fails.
+.sp 2
+   For parallel jobs, only takes effect on the first execution
+   host.
+.sp 2
+   USE_PAM_CREDS only applies on the following platforms:
+.sp 2
+     o  
+         linux2.6-glibc2.3-ia64
+.sp 2
+     o  
+         linux2.6-glibc2.3-ia64-slurm
+.sp 2
+     o  
+         linux2.6-glibc2.3-ppc64
+.sp 2
+     o  
+         linux2.6-glibc2.3-sn-ipf
+.sp 2
+     o  
+         linux2.6-glibc2.3-x86
+.sp 2
+     o  
+         linux2.6-glibc2.3-x86_64
+.sp 2
+     o  
+         linux2.6-glibc2.3-x86_64-slurm
+.sp 2
+   Overrides \fBMEMLIMIT_TYPE=Process\fR.
+.sp 2
+   Overridden (for CPU limit only) by \fBLSB_JOB_CPULIMIT=y\fR.
+.sp 2
+   Overridden (for memory limits only) by
+   \fBLSB_JOB_MEMLIMIT=y\fR.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   n
+.sp 2
+\fBUSERS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRUSERS=all\fR [\fR~\fR\fIuser_name\fR ...]
+   [\fR~\fR\fIuser_group\fR ...] | [\fIuser_name\fR ...]
+   [\fIuser_group\fR [\fR~\fR\fIuser_group\fR ...] ...]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   A space-separated list of user names or user groups that can
+   submit jobs to the queue. LSF cluster administrators are
+   automatically included in the list of users. LSF cluster
+   administrators can submit jobs to this queue, or switch
+   (bswitch) any user’s jobs into this queue.
+.sp 2
+   If user groups are specified, each user in the group can
+   submit jobs to this queue. If FAIRSHARE is also defined in
+   this queue, only users defined by both parameters can submit
+   jobs, so LSF administrators cannot use the queue if they are
+   not included in the share assignments.
+.sp 2
+   User names must be valid login names. To specify a Windows
+   user account, include the domain name in uppercase letters
+   (\fIDOMAIN_NAME\fR\\\fIuser_name\fR).
+.sp 2
+   User group names can be LSF user groups or UNIX and Windows
+   user groups. To specify a Windows user group, include the
+   domain name in uppercase letters
+   (\fIDOMAIN_NAME\fR\\\fIuser_group\fR).
+.sp 2
+   Use the keyword all to specify all users or user groups in a
+   cluster.
+.sp 2
+   Use the not operator (~) to exclude users from the all
+   specification or from user groups. This is useful if you have
+   a large number of users but only want to exclude a few users
+   or groups from the queue definition.
+.sp 2
+   The not operator (~) can only be used with the all keyword or
+   to exclude users from user groups.
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         The not operator does not exclude LSF administrators
+         from the queue definintion.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   all (all users can submit jobs to the queue)
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+     o  
+         \fRUSERS=user1 user2\fR
+.sp 2
+     o  
+         \fRUSERS=all ~user1 ~user2\fR
+.sp 2
+     o  
+         \fRUSERS=all ~ugroup1\fR
+.sp 2
+     o  
+         \fRUSERS=groupA ~user3 ~user4\fR
+.sp 2
+\fBAutomatic time-based configuration\fR
+.sp 2
+   Variable configuration is used to automatically change LSF
+   configuration based on time windows. You define automatic
+   configuration changes in lsb.queues by using if-else
+   constructs and time expressions. After you change the files,
+   reconfigure the cluster with the badmin reconfig command.
+.sp 2
+   The expressions are evaluated by LSF every 10 minutes based on
+   mbatchd start time. When an expression evaluates true, LSF
+   dynamically changes the configuration based on the associated
+   configuration statements. Reconfiguration is done in real time
+   without restarting mbatchd, providing continuous system
+   availability.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   Begin Queue
+.sp 2
+    ... 
+.sp 2
+   #if time(8:30-18:30)   
+.sp 2
+   INTERACTIVE  = ONLY  # interactive only during day shift #endif
+.sp 2
+    ... 
+.sp 2
+   End Queue

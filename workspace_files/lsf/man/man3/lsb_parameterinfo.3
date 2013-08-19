@@ -1,0 +1,1227 @@
+.TH "lsb_parameterinfo" 3 "3 Sep 2009" "Version 7.0" "Platform LSF 7.0.6 C API Reference" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lsb_parameterinfo \- lsb_parameterinfo 
+Returns information about the LSF cluster.
+.PP
+\fBlsb_parameterinfo\fP gets information about the LSF cluster.
+.PP
+The static storage for the \fBparameterInfo\fP structure is reused on the next call.
+.PP
+\fB#include <lsf/lsbatch.h>\fP
+.PP
+\fB struct \fBparameterInfo\fP *lsb_parameterinfo(char **names, int *numUsers, int options)\fP
+.PP
+.SH "Parameters:"
+\fI**names\fP Reserved but not used; supply NULL. 
+.br
+\fI*numUsers\fP Reserved but not used; supply NULL. 
+.br
+\fIoptions\fP Reserved but not used; supply 0.
+.PP
+.SH "Data Structures:" 
+.PP
+\fBparameterInfo\fP
+.PP
+.SH "Define Statements:" 
+.PP
+none
+.PP
+.SH "Returns:"
+struct \fBparameterInfo\fP *:A pointer to a \fBparameterInfo\fP structure.
+.br
+ The function was a successful. 
+.PP
+NULL 
+.br
+ Function failed.
+.PP
+.SH "Errors:" 
+.PP
+If the function fails, lsberrno is set to indicate the error.
+.PP
+.SH "Equivalent line command:" 
+.PP
+none
+.PP
+.SH "Files:" 
+.PP
+$LSB_CONFDIR/cluster_name/configdir/lsb.params
+.PP
+.SH "See also:"
+none 
+.PP
+
+.ad l
+.nh
+.SH NAME
+parameterInfo \- The \fBparameterInfo\fP structure contains the following fields:.  
+
+.PP
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "char * \fBdefaultQueues\fP"
+.br
+.ti -1c
+.RI "char * \fBdefaultHostSpec\fP"
+.br
+.ti -1c
+.RI "int \fBmbatchdInterval\fP"
+.br
+.ti -1c
+.RI "int \fBsbatchdInterval\fP"
+.br
+.ti -1c
+.RI "int \fBjobAcceptInterval\fP"
+.br
+.ti -1c
+.RI "int \fBmaxDispRetries\fP"
+.br
+.ti -1c
+.RI "int \fBmaxSbdRetries\fP"
+.br
+.ti -1c
+.RI "int \fBpreemptPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBcleanPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBmaxNumJobs\fP"
+.br
+.ti -1c
+.RI "float \fBhistoryHours\fP"
+.br
+.ti -1c
+.RI "int \fBpgSuspendIt\fP"
+.br
+.ti -1c
+.RI "char * \fBdefaultProject\fP"
+.br
+.ti -1c
+.RI "int \fBretryIntvl\fP"
+.br
+.ti -1c
+.RI "int \fBnqsQueuesFlags\fP"
+.br
+.ti -1c
+.RI "int \fBnqsRequestsFlags\fP"
+.br
+.ti -1c
+.RI "int \fBmaxPreExecRetry\fP"
+.br
+.ti -1c
+.RI "int \fBlocalMaxPreExecRetry\fP"
+.br
+.ti -1c
+.RI "int \fBeventWatchTime\fP"
+.br
+.ti -1c
+.RI "float \fBrunTimeFactor\fP"
+.br
+.ti -1c
+.RI "float \fBwaitTimeFactor\fP"
+.br
+.ti -1c
+.RI "float \fBrunJobFactor\fP"
+.br
+.ti -1c
+.RI "int \fBeEventCheckIntvl\fP"
+.br
+.ti -1c
+.RI "int \fBrusageUpdateRate\fP"
+.br
+.ti -1c
+.RI "int \fBrusageUpdatePercent\fP"
+.br
+.ti -1c
+.RI "int \fBcondCheckTime\fP"
+.br
+.ti -1c
+.RI "int \fBmaxSbdConnections\fP"
+.br
+.ti -1c
+.RI "int \fBrschedInterval\fP"
+.br
+.ti -1c
+.RI "int \fBmaxSchedStay\fP"
+.br
+.ti -1c
+.RI "int \fBfreshPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBpreemptFor\fP"
+.br
+.ti -1c
+.RI "int \fBadminSuspend\fP"
+.br
+.ti -1c
+.RI "int \fBuserReservation\fP"
+.br
+.ti -1c
+.RI "float \fBcpuTimeFactor\fP"
+.br
+.ti -1c
+.RI "int \fBfyStart\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobArraySize\fP"
+.br
+.ti -1c
+.RI "time_t \fBexceptReplayPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBjobTerminateInterval\fP"
+.br
+.ti -1c
+.RI "int \fBdisableUAcctMap\fP"
+.br
+.ti -1c
+.RI "int \fBenforceFSProj\fP"
+.br
+.ti -1c
+.RI "int \fBenforceProjCheck\fP"
+.br
+.ti -1c
+.RI "int \fBjobRunTimes\fP"
+.br
+.ti -1c
+.RI "int \fBdbDefaultIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbHjobCountIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbQjobCountIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbUjobCountIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbJobResUsageIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbLoadIntval\fP"
+.br
+.ti -1c
+.RI "int \fBdbJobInfoIntval\fP"
+.br
+.ti -1c
+.RI "int \fBjobDepLastSub\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobNameDep\fP"
+.br
+.ti -1c
+.RI "char * \fBdbSelectLoad\fP"
+.br
+.ti -1c
+.RI "int \fBjobSynJgrp\fP"
+.br
+.ti -1c
+.RI "char * \fBpjobSpoolDir\fP"
+.br
+.ti -1c
+.RI "int \fBmaxUserPriority\fP"
+.br
+.ti -1c
+.RI "int \fBjobPriorityValue\fP"
+.br
+.ti -1c
+.RI "int \fBjobPriorityTime\fP"
+.br
+.ti -1c
+.RI "int \fBenableAutoAdjust\fP"
+.br
+.ti -1c
+.RI "int \fBautoAdjustAtNumPend\fP"
+.br
+.ti -1c
+.RI "float \fBautoAdjustAtPercent\fP"
+.br
+.ti -1c
+.RI "int \fBsharedResourceUpdFactor\fP"
+.br
+.ti -1c
+.RI "int \fBscheRawLoad\fP"
+.br
+.ti -1c
+.RI "char * \fBjobAttaDir\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobMsgNum\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobAttaSize\fP"
+.br
+.ti -1c
+.RI "int \fBmbdRefreshTime\fP"
+.br
+.ti -1c
+.RI "int \fBupdJobRusageInterval\fP"
+.br
+.ti -1c
+.RI "char * \fBsysMapAcct\fP"
+.br
+.ti -1c
+.RI "int \fBpreExecDelay\fP"
+.br
+.ti -1c
+.RI "int \fBupdEventUpdateInterval\fP"
+.br
+.ti -1c
+.RI "int \fBresourceReservePerSlot\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobId\fP"
+.br
+.ti -1c
+.RI "char * \fBpreemptResourceList\fP"
+.br
+.ti -1c
+.RI "int \fBpreemptionWaitTime\fP"
+.br
+.ti -1c
+.RI "int \fBmaxAcctArchiveNum\fP"
+.br
+.ti -1c
+.RI "int \fBacctArchiveInDays\fP"
+.br
+.ti -1c
+.RI "int \fBacctArchiveInSize\fP"
+.br
+.ti -1c
+.RI "float \fBcommittedRunTimeFactor\fP"
+.br
+.ti -1c
+.RI "int \fBenableHistRunTime\fP"
+.br
+.ti -1c
+.RI "int \fBmcbOlmReclaimTimeDelay\fP"
+.br
+.ti -1c
+.RI "int \fBchunkJobDuration\fP"
+.br
+.ti -1c
+.RI "int \fBsessionInterval\fP"
+.br
+.ti -1c
+.RI "int \fBpublishReasonJobNum\fP"
+.br
+.ti -1c
+.RI "int \fBpublishReasonInterval\fP"
+.br
+.ti -1c
+.RI "int \fBpublishReason4AllJobInterval\fP"
+.br
+.ti -1c
+.RI "int \fBmcUpdPendingReasonInterval\fP"
+.br
+.ti -1c
+.RI "int \fBmcUpdPendingReasonPkgSize\fP"
+.br
+.ti -1c
+.RI "int \fBnoPreemptRunTime\fP"
+.br
+.ti -1c
+.RI "int \fBnoPreemptFinishTime\fP"
+.br
+.ti -1c
+.RI "char * \fBacctArchiveAt\fP"
+.br
+.ti -1c
+.RI "int \fBabsoluteRunLimit\fP"
+.br
+.ti -1c
+.RI "int \fBlsbExitRateDuration\fP"
+.br
+.ti -1c
+.RI "int \fBlsbTriggerDuration\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobinfoQueryPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBjobSubRetryInterval\fP"
+.br
+.ti -1c
+.RI "int \fBpendingJobThreshold\fP"
+.br
+.ti -1c
+.RI "int \fBmaxConcurrentJobQuery\fP"
+.br
+.ti -1c
+.RI "int \fBminSwitchPeriod\fP"
+.br
+.ti -1c
+.RI "int \fBcondensePendingReasons\fP"
+.br
+.ti -1c
+.RI "int \fBslotBasedParallelSched\fP"
+.br
+.ti -1c
+.RI "int \fBdisableUserJobMovement\fP"
+.br
+.ti -1c
+.RI "int \fBdetectIdleJobAfter\fP"
+.br
+.ti -1c
+.RI "int \fBuseSymbolPriority\fP"
+.br
+.ti -1c
+.RI "int \fBJobPriorityRound\fP"
+.br
+.ti -1c
+.RI "char * \fBpriorityMapping\fP"
+.br
+.ti -1c
+.RI "int \fBmaxInfoDirs\fP"
+.br
+.ti -1c
+.RI "int \fBminMbdRefreshTime\fP"
+.br
+.ti -1c
+.RI "int \fBenableStopAskingLicenses2LS\fP"
+.br
+.ti -1c
+.RI "int \fBexpiredTime\fP"
+.br
+.ti -1c
+.RI "char * \fBmbdQueryCPUs\fP"
+.br
+.ti -1c
+.RI "char * \fBdefaultApp\fP"
+.br
+.ti -1c
+.RI "int \fBenableStream\fP"
+.br
+.ti -1c
+.RI "char * \fBstreamFile\fP"
+.br
+.ti -1c
+.RI "int \fBstreamSize\fP"
+.br
+.ti -1c
+.RI "int \fBsyncUpHostStatusWithLIM\fP"
+.br
+.ti -1c
+.RI "char * \fBdefaultSLA\fP"
+.br
+.ti -1c
+.RI "int \fBslaTimer\fP"
+.br
+.ti -1c
+.RI "int \fBmbdEgoTtl\fP"
+.br
+.ti -1c
+.RI "int \fBmbdEgoConnTimeout\fP"
+.br
+.ti -1c
+.RI "int \fBmbdEgoReadTimeout\fP"
+.br
+.ti -1c
+.RI "int \fBmbdUseEgoMXJ\fP"
+.br
+.ti -1c
+.RI "int \fBmbdEgoReclaimByQueue\fP"
+.br
+.ti -1c
+.RI "int \fBdefaultSLAvelocity\fP"
+.br
+.ti -1c
+.RI "char * \fBexitRateTypes\fP"
+.br
+.ti -1c
+.RI "float \fBglobalJobExitRate\fP"
+.br
+.ti -1c
+.RI "int \fBenableJobExitRatePerSlot\fP"
+.br
+.ti -1c
+.RI "int \fBenableMetric\fP"
+.br
+.ti -1c
+.RI "int \fBschMetricsSample\fP"
+.br
+.ti -1c
+.RI "float \fBmaxApsValue\fP"
+.br
+.ti -1c
+.RI "int \fBnewjobRefresh\fP"
+.br
+.ti -1c
+.RI "int \fBpreemptJobType\fP"
+.br
+.ti -1c
+.RI "char * \fBdefaultJgrp\fP"
+.br
+.ti -1c
+.RI "int \fBjobRunlimitRatio\fP"
+.br
+.ti -1c
+.RI "int \fBjobIncludePostproc\fP"
+.br
+.ti -1c
+.RI "int \fBjobPostprocTimeout\fP"
+.br
+.ti -1c
+.RI "int \fBsschedUpdateSummaryInterval\fP"
+.br
+.ti -1c
+.RI "int \fBsschedUpdateSummaryByTask\fP"
+.br
+.ti -1c
+.RI "int \fBsschedRequeueLimit\fP"
+.br
+.ti -1c
+.RI "int \fBsschedRetryLimit\fP"
+.br
+.ti -1c
+.RI "int \fBsschedMaxTasks\fP"
+.br
+.ti -1c
+.RI "int \fBsschedMaxRuntime\fP"
+.br
+.ti -1c
+.RI "char * \fBsschedAcctDir\fP"
+.br
+.ti -1c
+.RI "int \fBjgrpAutoDel\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobPreempt\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobRequeue\fP"
+.br
+.ti -1c
+.RI "int \fBnoPreemptRunTimePercent\fP"
+.br
+.ti -1c
+.RI "int \fBnoPreemptFinishTimePercent\fP"
+.br
+.ti -1c
+.RI "int \fBslotReserveQueueLimit\fP"
+.br
+.ti -1c
+.RI "int \fBmaxJobPercentagePerSession\fP"
+.br
+.ti -1c
+.RI "int \fBuseSuspSlots\fP"
+.br
+.ti -1c
+.RI "int \fBmaxStreamFileNum\fP"
+.br
+.ti -1c
+.RI "int \fBprivilegedUserForceBkill\fP"
+.br
+.ti -1c
+.RI "int \fBmcSchedulingEnhance\fP"
+.br
+.ti -1c
+.RI "int \fBmcUpdateInterval\fP"
+.br
+.ti -1c
+.RI "int \fBintersectCandidateHosts\fP"
+.br
+.ti -1c
+.RI "int \fBenforceOneUGLimit\fP"
+.br
+.ti -1c
+.RI "int \fBlogRuntimeESTExceeded\fP"
+.br
+.ti -1c
+.RI "char * \fBcomputeUnitTypes\fP"
+.br
+.ti -1c
+.RI "float \fBfairAdjustFactor\fP"
+.br
+.ti -1c
+.RI "int \fBsimAbsoluteTime\fP"
+.br
+.ti -1c
+.RI "int \fBextendJobException\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBparameterInfo\fP structure contains the following fields:. 
+.SH "Field Documentation"
+.PP 
+.SS "char* \fBparameterInfo::defaultQueues\fP"
+.PP
+DEFAULT_QUEUE: A blank_separated list of queue names for automatic queue selection. 
+.PP
+
+.SS "char* \fBparameterInfo::defaultHostSpec\fP"
+.PP
+DEFAULT_HOST_SPEC: The host name or host model name used as the system default for scaling CPULIMIT and RUNLIMIT. 
+.PP
+
+.SS "int \fBparameterInfo::mbatchdInterval\fP"
+.PP
+MBD_SLEEP_TIME: The interval in seconds at which the mbatchd dispatches jobs. 
+.PP
+
+.SS "int \fBparameterInfo::sbatchdInterval\fP"
+.PP
+SBD_SLEEP_TIME: The interval in seconds at which the sbatchd suspends or resumes jobs. 
+.PP
+
+.SS "int \fBparameterInfo::jobAcceptInterval\fP"
+.PP
+JOB_ACCEPT_INTERVAL: The interval at which a host accepts two successive jobs. 
+.PP
+(In units of SBD_SLEEP_TIME.) 
+.SS "int \fBparameterInfo::maxDispRetries\fP"
+.PP
+MAX_RETRY: The maximum number of retries for dispatching a job. 
+.PP
+
+.SS "int \fBparameterInfo::maxSbdRetries\fP"
+.PP
+MAX_SBD_FAIL: The maximum number of retries for reaching an sbatchd. 
+.PP
+
+.SS "int \fBparameterInfo::preemptPeriod\fP"
+.PP
+PREEM_PERIOD: The interval in seconds for preempting jobs running on the same host. 
+.PP
+
+.SS "int \fBparameterInfo::cleanPeriod\fP"
+.PP
+CLEAN_PERIOD: The interval in seconds during which finished jobs are kept in core. 
+.PP
+
+.SS "int \fBparameterInfo::maxNumJobs\fP"
+.PP
+MAX_JOB_NUM: The maximum number of finished jobs that are logged in the current event file. 
+.PP
+
+.SS "float \fBparameterInfo::historyHours\fP"
+.PP
+HIST_HOURS: The number of hours of resource consumption history used for fair share scheduling and scheduling within a host partition. 
+.PP
+
+.SS "int \fBparameterInfo::pgSuspendIt\fP"
+.PP
+PG_SUSP_IT: The interval a host must be idle before resuming a job suspended for excessive paging. 
+.PP
+
+.SS "char* \fBparameterInfo::defaultProject\fP"
+.PP
+The default project assigned to jobs. 
+.PP
+
+.SS "int \fBparameterInfo::retryIntvl\fP"
+.PP
+Job submission retry interval. 
+.PP
+.SS "int \fBparameterInfo::nqsQueuesFlags\fP"
+.PP
+For Cray NQS compatiblilty only. 
+.PP
+Used by LSF to get the NQS queue information 
+.SS "int \fBparameterInfo::nqsRequestsFlags\fP"
+.PP
+nqsRequestsFlags 
+.PP
+.SS "int \fBparameterInfo::maxPreExecRetry\fP"
+.PP
+The maximum number of times to attempt the preexecution command of a job from a remote cluster ( MultiCluster only). 
+.PP
+.SS "int \fBparameterInfo::localMaxPreExecRetry\fP"
+.PP
+Maximum number of pre-exec retry times for local cluster. 
+.PP
+.SS "int \fBparameterInfo::eventWatchTime\fP"
+.PP
+Event watching Interval in seconds. 
+.PP
+.SS "float \fBparameterInfo::runTimeFactor\fP"
+.PP
+Run time weighting factor for fairshare scheduling. 
+.PP
+.SS "float \fBparameterInfo::waitTimeFactor\fP"
+.PP
+Used for calcultion of the fairshare scheduling formula. 
+.PP
+.SS "float \fBparameterInfo::runJobFactor\fP"
+.PP
+Job slots weighting factor for fairshare scheduling. 
+.PP
+.SS "int \fBparameterInfo::eEventCheckIntvl\fP"
+.PP
+Default check interval. 
+.PP
+.SS "int \fBparameterInfo::rusageUpdateRate\fP"
+.PP
+sbatchd report every sbd_sleep_time 
+.PP
+.SS "int \fBparameterInfo::rusageUpdatePercent\fP"
+.PP
+sbatchd updates jobs \fBjRusage\fP in mbatchd if more than 10% changes 
+.PP
+.SS "int \fBparameterInfo::condCheckTime\fP"
+.PP
+Time period to check for reconfig. 
+.PP
+.SS "int \fBparameterInfo::maxSbdConnections\fP"
+.PP
+The maximum number of connections between master and slave batch daemons. 
+.PP
+.SS "int \fBparameterInfo::rschedInterval\fP"
+.PP
+The interval for rescheduling jobs. 
+.PP
+.SS "int \fBparameterInfo::maxSchedStay\fP"
+.PP
+Max time mbatchd stays in scheduling routine, after which take a breather. 
+.PP
+.SS "int \fBparameterInfo::freshPeriod\fP"
+.PP
+During which load remains fresh. 
+.PP
+.SS "int \fBparameterInfo::preemptFor\fP"
+.PP
+The preemption behavior, GROUP_MAX, GROUP_JLP, USER_JLP, HOST_JLU,MINI_JOB, LEAST_RUN_TIME. 
+.PP
+.SS "int \fBparameterInfo::adminSuspend\fP"
+.PP
+Flags whether users can resume their jobs when suspended by the LSF administrator. 
+.PP
+.SS "int \fBparameterInfo::userReservation\fP"
+.PP
+Flags to enable/disable normal user to create advance reservation. 
+.PP
+.SS "float \fBparameterInfo::cpuTimeFactor\fP"
+.PP
+CPU time weighting factor for fairshare scheduling. 
+.PP
+.SS "int \fBparameterInfo::fyStart\fP"
+.PP
+The starting month for a fiscal year. 
+.PP
+.SS "int \fBparameterInfo::maxJobArraySize\fP"
+.PP
+The maximum number of jobs in a job array. 
+.PP
+.SS "time_t \fBparameterInfo::exceptReplayPeriod\fP"
+.PP
+Replay period for exceptions, in seconds. 
+.PP
+.SS "int \fBparameterInfo::jobTerminateInterval\fP"
+.PP
+The interval to terminate a job. 
+.PP
+.SS "int \fBparameterInfo::disableUAcctMap\fP"
+.PP
+User level account mapping for remote jobs is disabled. 
+.PP
+.SS "int \fBparameterInfo::enforceFSProj\fP"
+.PP
+If set to TRUE, Project name for a job will be considerred when doing fairshare scheduling, i.e., as if user has submitted jobs using -G. 
+.PP
+.SS "int \fBparameterInfo::enforceProjCheck\fP"
+.PP
+Enforces the check to see if the invoker of bsub is in the specifed group when the -P option is used. 
+.PP
+.SS "int \fBparameterInfo::jobRunTimes\fP"
+.PP
+Run time for a job. 
+.PP
+.SS "int \fBparameterInfo::dbDefaultIntval\fP"
+.PP
+Event table Job default interval. 
+.PP
+.SS "int \fBparameterInfo::dbHjobCountIntval\fP"
+.PP
+Event table Job Host Count. 
+.PP
+.SS "int \fBparameterInfo::dbQjobCountIntval\fP"
+.PP
+Event table Job Queue Count. 
+.PP
+.SS "int \fBparameterInfo::dbUjobCountIntval\fP"
+.PP
+Event table Job User Count. 
+.PP
+.SS "int \fBparameterInfo::dbJobResUsageIntval\fP"
+.PP
+Event table Job Resource Interval. 
+.PP
+.SS "int \fBparameterInfo::dbLoadIntval\fP"
+.PP
+Event table Resource Load Interval. 
+.PP
+.SS "int \fBparameterInfo::dbJobInfoIntval\fP"
+.PP
+Event table Job Info. 
+.PP
+.SS "int \fBparameterInfo::jobDepLastSub\fP"
+.PP
+Used with job dependency scheduling. 
+.PP
+.SS "int \fBparameterInfo::maxJobNameDep\fP"
+.PP
+Used with job dependency scheduling, deprecated. 
+.PP
+.SS "char* \fBparameterInfo::dbSelectLoad\fP"
+.PP
+Select resources to be logged. 
+.PP
+.SS "int \fBparameterInfo::jobSynJgrp\fP"
+.PP
+Job synchronizes its group status. 
+.PP
+.SS "char* \fBparameterInfo::pjobSpoolDir\fP"
+.PP
+The batch jobs' temporary output directory. 
+.PP
+.SS "int \fBparameterInfo::maxUserPriority\fP"
+.PP
+Maximal job priority defined for all users. 
+.PP
+.SS "int \fBparameterInfo::jobPriorityValue\fP"
+.PP
+Job priority is increased by the system dynamically based on waiting time. 
+.PP
+.SS "int \fBparameterInfo::jobPriorityTime\fP"
+.PP
+Waiting time to increase Job priority by the system dynamically. 
+.PP
+.SS "int \fBparameterInfo::enableAutoAdjust\fP"
+.PP
+Enable internal statistical adjustment. 
+.PP
+.SS "int \fBparameterInfo::autoAdjustAtNumPend\fP"
+.PP
+Start to autoadjust when the user has this number of pending jobs. 
+.PP
+.SS "float \fBparameterInfo::autoAdjustAtPercent\fP"
+.PP
+If this number of jobs has been visited skip the user. 
+.PP
+.SS "int \fBparameterInfo::sharedResourceUpdFactor\fP"
+.PP
+Static shared resource update interval for the cluster actor. 
+.PP
+.SS "int \fBparameterInfo::scheRawLoad\fP"
+.PP
+Schedule job based on raw load info. 
+.PP
+.SS "char* \fBparameterInfo::jobAttaDir\fP"
+.PP
+The batch jobs' external storage for attached data. 
+.PP
+.SS "int \fBparameterInfo::maxJobMsgNum\fP"
+.PP
+Maximum message number for each job. 
+.PP
+.SS "int \fBparameterInfo::maxJobAttaSize\fP"
+.PP
+Maximum attached data size to be transferred for each message. 
+.PP
+.SS "int \fBparameterInfo::mbdRefreshTime\fP"
+.PP
+The life time of a child MBD to serve queries in the MT way. 
+.PP
+.SS "int \fBparameterInfo::updJobRusageInterval\fP"
+.PP
+The interval of the execution cluster updating the job's resource usage. 
+.PP
+.SS "char* \fBparameterInfo::sysMapAcct\fP"
+.PP
+The account to which all windows workgroup users are to be mapped. 
+.PP
+.SS "int \fBparameterInfo::preExecDelay\fP"
+.PP
+Dispatch delay internal. 
+.PP
+.SS "int \fBparameterInfo::updEventUpdateInterval\fP"
+.PP
+Update duplicate event interval. 
+.PP
+.SS "int \fBparameterInfo::resourceReservePerSlot\fP"
+.PP
+Resources are reserved for parallel jobs on a per-slot basis. 
+.PP
+.SS "int \fBparameterInfo::maxJobId\fP"
+.PP
+Maximum job id --- read from the lsb.params. 
+.PP
+.SS "char* \fBparameterInfo::preemptResourceList\fP"
+.PP
+Define a list of preemptable resource names. 
+.PP
+.SS "int \fBparameterInfo::preemptionWaitTime\fP"
+.PP
+The preemption wait time. 
+.PP
+.SS "int \fBparameterInfo::maxAcctArchiveNum\fP"
+.PP
+Maximum number of rollover lsb.acct files kept by mbatchd. 
+.PP
+.SS "int \fBparameterInfo::acctArchiveInDays\fP"
+.PP
+mbatchd Archive Interval 
+.PP
+.SS "int \fBparameterInfo::acctArchiveInSize\fP"
+.PP
+mbatchd Archive threshold 
+.PP
+.SS "float \fBparameterInfo::committedRunTimeFactor\fP"
+.PP
+Committed run time weighting factor. 
+.PP
+.SS "int \fBparameterInfo::enableHistRunTime\fP"
+.PP
+Enable the use of historical run time in the calculation of fairshare scheduling priority, Disable the use of historical run time in the calculation of fairshare scheduling priority. 
+.PP
+.SS "int \fBparameterInfo::mcbOlmReclaimTimeDelay\fP"
+.PP
+Open lease reclaim time. 
+.PP
+.SS "int \fBparameterInfo::chunkJobDuration\fP"
+.PP
+Enable chunk job dispatch for jobs with CPU limit or run limits. 
+.PP
+.SS "int \fBparameterInfo::sessionInterval\fP"
+.PP
+The interval for scheduling jobs by scheduler daemon. 
+.PP
+.SS "int \fBparameterInfo::publishReasonJobNum\fP"
+.PP
+The number of jobs per user per queue whose pending reason is published at the PEND_REASON_UPDATE_INTERVAL interval. 
+.PP
+.SS "int \fBparameterInfo::publishReasonInterval\fP"
+.PP
+The interval for publishing job pending reason by scheduler daemon. 
+.PP
+.SS "int \fBparameterInfo::publishReason4AllJobInterval\fP"
+.PP
+Interval(in seconds) of pending reason publish for all jobs. 
+.PP
+.SS "int \fBparameterInfo::mcUpdPendingReasonInterval\fP"
+.PP
+MC pending reason update interval (0 means no updates). 
+.PP
+.SS "int \fBparameterInfo::mcUpdPendingReasonPkgSize\fP"
+.PP
+MC pending reason update package size (0 means no limit). 
+.PP
+.SS "int \fBparameterInfo::noPreemptRunTime\fP"
+.PP
+No preemption if the run time is greater than the value defined in here. 
+.PP
+.SS "int \fBparameterInfo::noPreemptFinishTime\fP"
+.PP
+No preemption if the finish time is less than the value defined in here. 
+.PP
+.SS "char* \fBparameterInfo::acctArchiveAt\fP"
+.PP
+mbatchd Archive Time 
+.PP
+.SS "int \fBparameterInfo::absoluteRunLimit\fP"
+.PP
+Absolute run limit for job. 
+.PP
+.SS "int \fBparameterInfo::lsbExitRateDuration\fP"
+.PP
+The job exit rate duration. 
+.PP
+.SS "int \fBparameterInfo::lsbTriggerDuration\fP"
+.PP
+The duration to trigger eadmin. 
+.PP
+.SS "int \fBparameterInfo::maxJobinfoQueryPeriod\fP"
+.PP
+Maximum time for job information query commands (for example,with bjobs) to wait. 
+.PP
+.SS "int \fBparameterInfo::jobSubRetryInterval\fP"
+.PP
+Job submission retrial interval for client. 
+.PP
+.SS "int \fBparameterInfo::pendingJobThreshold\fP"
+.PP
+System wide max pending jobs. 
+.PP
+.SS "int \fBparameterInfo::maxConcurrentJobQuery\fP"
+.PP
+Max number of concurrent query. 
+.PP
+.SS "int \fBparameterInfo::minSwitchPeriod\fP"
+.PP
+Min event switch time period. 
+.PP
+.SS "int \fBparameterInfo::condensePendingReasons\fP"
+.PP
+Condense pending reasons enabled. 
+.PP
+.SS "int \fBparameterInfo::slotBasedParallelSched\fP"
+.PP
+Schedule Parallel jobs based on slots instead of CPUs. 
+.PP
+.SS "int \fBparameterInfo::disableUserJobMovement\fP"
+.PP
+Disable user job movement operations, like btop/bbot. 
+.PP
+.SS "int \fBparameterInfo::detectIdleJobAfter\fP"
+.PP
+Detect and report idle jobs only after specified minutes. 
+.PP
+.SS "int \fBparameterInfo::useSymbolPriority\fP"
+.PP
+Use symbolic when specifing priority of symphony jobs. 
+.PP
+.SS "int \fBparameterInfo::JobPriorityRound\fP"
+.PP
+Priority rounding for symphony jobs. 
+.PP
+.SS "char* \fBparameterInfo::priorityMapping\fP"
+.PP
+The mapping of the symbolic priority for symphony jobs. 
+.PP
+.SS "int \fBparameterInfo::maxInfoDirs\fP"
+.PP
+Maximum number of subdirectories under LSB_SHAREDIR/cluster/logdir/info. 
+.PP
+.SS "int \fBparameterInfo::minMbdRefreshTime\fP"
+.PP
+The minimum period of a child MBD to serve queries in the MT way. 
+.PP
+.SS "int \fBparameterInfo::enableStopAskingLicenses2LS\fP"
+.PP
+Stop asking license to LS not due to lack license. 
+.PP
+.SS "int \fBparameterInfo::expiredTime\fP"
+.PP
+Expire time for finished job which will not taken into account when calculating queue fairshare priority. 
+.PP
+.SS "char* \fBparameterInfo::mbdQueryCPUs\fP"
+.PP
+MBD child query processes will only run on the following CPUs. 
+.PP
+.SS "char* \fBparameterInfo::defaultApp\fP"
+.PP
+The default application profile assigned to jobs. 
+.PP
+.SS "int \fBparameterInfo::enableStream\fP"
+.PP
+Enable or disable data streaming. 
+.PP
+.SS "char* \fBparameterInfo::streamFile\fP"
+.PP
+File to which lsbatch data is streamed. 
+.PP
+.SS "int \fBparameterInfo::streamSize\fP"
+.PP
+File size in MB to which lsbatch data is streamed. 
+.PP
+.SS "int \fBparameterInfo::syncUpHostStatusWithLIM\fP"
+.PP
+Sync up host status with master LIM is enabled. 
+.PP
+.SS "char* \fBparameterInfo::defaultSLA\fP"
+.PP
+Project schedulign default SLA. 
+.PP
+.SS "int \fBparameterInfo::slaTimer\fP"
+.PP
+EGO Enabled SLA scheduling timer period. 
+.PP
+.SS "int \fBparameterInfo::mbdEgoTtl\fP"
+.PP
+EGO Enabled SLA scheduling time to live. 
+.PP
+.SS "int \fBparameterInfo::mbdEgoConnTimeout\fP"
+.PP
+EGO Enabled SLA scheduling connection timeout. 
+.PP
+.SS "int \fBparameterInfo::mbdEgoReadTimeout\fP"
+.PP
+EGO Enabled SLA scheduling read timeout. 
+.PP
+.SS "int \fBparameterInfo::mbdUseEgoMXJ\fP"
+.PP
+EGO Enabled SLA scheduling use MXJ flag. 
+.PP
+.SS "int \fBparameterInfo::mbdEgoReclaimByQueue\fP"
+.PP
+EGO Enabled SLA scheduling reclaim by queue. 
+.PP
+.SS "int \fBparameterInfo::defaultSLAvelocity\fP"
+.PP
+EGO Enabled SLA scheduling default velocity. 
+.PP
+.SS "char* \fBparameterInfo::exitRateTypes\fP"
+.PP
+Type of host exit rate exception handling types: EXIT_RATE_TYPE. 
+.PP
+.SS "float \fBparameterInfo::globalJobExitRate\fP"
+.PP
+Type of host exit rate exception handling types: GLOBAL_EXIT_RATE. 
+.PP
+.SS "int \fBparameterInfo::enableJobExitRatePerSlot\fP"
+.PP
+Type of host exit rate exception handling types ENABLE_EXIT_RATE_PER_SLOT. 
+.PP
+.SS "int \fBparameterInfo::enableMetric\fP"
+.PP
+Performance metrics monitor is enabled flag. 
+.PP
+.SS "int \fBparameterInfo::schMetricsSample\fP"
+.PP
+Performance metrics monitor sample period flag. 
+.PP
+.SS "float \fBparameterInfo::maxApsValue\fP"
+.PP
+Used to bound: (1) factors, (2) weights, and (3) APS values. 
+.PP
+.SS "int \fBparameterInfo::newjobRefresh\fP"
+.PP
+Child mbatchd gets updated information about new jobs from the parent mbatchd. 
+.PP
+.SS "int \fBparameterInfo::preemptJobType\fP"
+.PP
+Job type to preempt, PREEMPT_JOBTYPE_BACKFILL, PREEMPT_JOBTYPE_EXCLUSIVE. 
+.PP
+.SS "char* \fBparameterInfo::defaultJgrp\fP"
+.PP
+The default job group assigned to jobs. 
+.PP
+.SS "int \fBparameterInfo::jobRunlimitRatio\fP"
+.PP
+Max ratio between run limit and runtime estimation. 
+.PP
+.SS "int \fBparameterInfo::jobIncludePostproc\fP"
+.PP
+Enable the post-execution processing of the job to be included as part of the job flag. 
+.PP
+.SS "int \fBparameterInfo::jobPostprocTimeout\fP"
+.PP
+Timeout of post-execution processing. 
+.PP
+.SS "int \fBparameterInfo::sschedUpdateSummaryInterval\fP"
+.PP
+The interval, in seconds, for updating the session scheduler status summary. 
+.PP
+.SS "int \fBparameterInfo::sschedUpdateSummaryByTask\fP"
+.PP
+The number of completed tasks for updating the session scheduler status summary. 
+.PP
+.SS "int \fBparameterInfo::sschedRequeueLimit\fP"
+.PP
+The maximum number of times a task can be requeued via requeue exit values. 
+.PP
+.SS "int \fBparameterInfo::sschedRetryLimit\fP"
+.PP
+The maximum number of times a task can be retried after a dispatch error. 
+.PP
+.SS "int \fBparameterInfo::sschedMaxTasks\fP"
+.PP
+The maximum number of tasks that can be submitted in one session. 
+.PP
+.SS "int \fBparameterInfo::sschedMaxRuntime\fP"
+.PP
+The maximum run time of a single task. 
+.PP
+.SS "char* \fBparameterInfo::sschedAcctDir\fP"
+.PP
+The output directory for task accounting files. 
+.PP
+.SS "int \fBparameterInfo::jgrpAutoDel\fP"
+.PP
+If TRUE enable the job group automatic deletion functionality (default is FALSE). 
+.PP
+
+.SS "int \fBparameterInfo::maxJobPreempt\fP"
+.PP
+Maximum number of job preempted times. 
+.PP
+.SS "int \fBparameterInfo::maxJobRequeue\fP"
+.PP
+Maximum number of job re-queue times. 
+.PP
+.SS "int \fBparameterInfo::noPreemptRunTimePercent\fP"
+.PP
+No preempt run time percent. 
+.PP
+.SS "int \fBparameterInfo::noPreemptFinishTimePercent\fP"
+.PP
+No preempt finish time percent. 
+.PP
+.SS "int \fBparameterInfo::slotReserveQueueLimit\fP"
+.PP
+The reservation request being within JL/U. 
+.PP
+
+.SS "int \fBparameterInfo::maxJobPercentagePerSession\fP"
+.PP
+Job accept limit percentage. 
+.PP
+
+.SS "int \fBparameterInfo::useSuspSlots\fP"
+.PP
+The low priority job will use the slots freed by preempted jobs. 
+.PP
+
+.SS "int \fBparameterInfo::maxStreamFileNum\fP"
+.PP
+Maximum number of the backup stream.utc files. 
+.PP
+.SS "int \fBparameterInfo::privilegedUserForceBkill\fP"
+.PP
+If enforced only admin can use bkill -r option. 
+.PP
+.SS "int \fBparameterInfo::mcSchedulingEnhance\fP"
+.PP
+It controls the remote queue selection flow. 
+.PP
+
+.SS "int \fBparameterInfo::mcUpdateInterval\fP"
+.PP
+It controls update interval of the counters and other original data in MC implementation. 
+.PP
+.SS "int \fBparameterInfo::intersectCandidateHosts\fP"
+.PP
+Jobs run on only on hosts belonging to the intersection of the queue the job was submitted to, advance reservation hosts, and any hosts specified by bsub -m at the time of submission. 
+.PP
+
+.SS "int \fBparameterInfo::enforceOneUGLimit\fP"
+.PP
+Enforces the limitations of a single specified user group. 
+.PP
+
+.SS "int \fBparameterInfo::logRuntimeESTExceeded\fP"
+.PP
+Enable or disable logging runtime estimation exceeded event. 
+.PP
+.SS "char* \fBparameterInfo::computeUnitTypes\fP"
+.PP
+Compute unit types. 
+.PP
+
+.SS "float \fBparameterInfo::fairAdjustFactor\fP"
+.PP
+Fairshare adjustment weighting factor. 
+.PP
+.SS "int \fBparameterInfo::simAbsoluteTime\fP"
+.PP
+abs runtime and cputime for LSF simulator 
+.PP
+.SS "int \fBparameterInfo::extendJobException\fP"
+.PP
+switch for job exception enhancement 
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Platform LSF 7.0.6 C API Reference from the source code.

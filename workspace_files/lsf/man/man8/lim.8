@@ -1,0 +1,277 @@
+.ds ]W %
+.ds ]L
+.hy 0
+.nh
+.na
+.TH lim 8 "June 2007   Platform EGO 1.2.2"
+.br
+
+.SH NAME
+\fBlim\fR - Load information daemon or service, monitoring host load.
+
+.SH Synopsis
+.BR
+.PP
+ lim [-d conf_dir] [-c license_file] [-debug_level]  lim -C  lim -t  lim -h  lim -V 
+.SH Description
+.BR
+.PP
+
+.PP
+There is one lim daemon/service on every host in the cluster. Of these, one lim from 
+the master list is elected master lim for the cluster. The master lim receives load 
+information from the other lim daemons, and provides services to all host.
+
+.PP
+The lim does the following for the host on which it runs:
+.RS
+.HP 3
+o  
+Starts pem on that host
+.HP 3
+o  
+Provides system configuration information to vemkd
+.HP 3
+o  
+Monitors load and provides load information statistics to vemkd and users
+.RE
+
+.PP
+The master lim starts vemkd and pem on the master host.
+
+.PP
+The non-master lim daemons monitor the status of the master lim and elect a new 
+master (from the master list) if the current master lim becomes unavailable.
+
+.PP
+Collectively, the lims in the cluster coordinate the collection and transmission of 
+load information. Load information is collected in the form of load indices. For a 
+list of the load indices collected, refer to Load indices.
+
+.PP
+caution:  
+
+.PP
+Never start the daemon manually without options: specify the -V option to check the 
+version, the -d option to start the daemon in debug mode, or the -C option to validate its 
+configuration files.
+
+.SH Options
+.BR
+.PP
+
+.SS -d conf_dir
+.BR
+.PP
+
+.PP
+Starts the daemon, reading from the EGO configuration file ego.conf in the 
+specified directory, rather than from the directory set via the EGO_CONFDIR 
+environment variable.
+
+.PP
+Use this option when starting the daemon in debug mode.
+
+.PP
+caution:  
+
+.PP
+Never start the daemon manually unless directed to do so by Platform Technical 
+Support.
+
+.SS -c license _file
+.BR
+.PP
+
+.PP
+Specifies an alternative location to look for the license file rather than the default 
+directory or the directory specified by the EGO_LICENSE_FILE environment 
+parameter in ego.conf.
+
+.PP
+Specify the full path to the license file including the file name.
+
+.PP
+caution:  
+
+.PP
+Never start the daemon manually unless directed to do so by Platform Technical 
+Support.
+
+.SS -debug_level
+.BR
+.PP
+
+.PP
+Starts the lim in debug mode. When running in debug mode, the lim uses a 
+hard-coded port number rather than the one registered in system services.
+
+.PP
+Specify one of the following values:
+
+.SS -1
+.BR
+.PP
+
+.PP
+Starts the lim in the background, with no associated control terminal.
+
+.SS -2
+.BR
+.PP
+
+.PP
+Starts the lim in the foreground, displaying the log messages to the terminal.
+
+.PP
+caution:  
+
+.PP
+Never start the daemon manually unless directed to do so by Platform Technical 
+Support.
+
+.SS -t
+.BR
+.PP
+
+.PP
+Displays host information, such as host type, host architecture, number of physical 
+processors, number of cores per physical processor, number of threads per core, 
+and license requirements.
+
+.PP
+note:  
+
+.PP
+When running Linux kernel version 2.4, you must run lim -t as root to ensure consistent 
+output with other clustered application management commands (for example, output from 
+running Platform LSF command lshosts).
+
+.SS -h
+.BR
+.PP
+
+.PP
+Outputs command usage and exits.
+
+.SS -V
+.BR
+.PP
+
+.PP
+Outputs product version and exits.
+
+.SH Files
+.BR
+.PP
+
+.SS ego.conf
+.BR
+.PP
+
+.PP
+The lim reads the configuration file ego.conf to retrieve configuration 
+information. ego.conf is a generic configuration file shared by all 
+daemons/services and clients. It contains configuration information and other 
+information that dictates the behavior of the software.
+
+.PP
+Some of the parameters lim retrieves from ego.conf are as follows:
+
+.SS EGO_LIM_PORT
+.BR
+.PP
+
+.PP
+The TCP port the lim uses to serve all applications.
+
+.SS EGO_SERVERDIR
+.BR
+.PP
+
+.PP
+The directory used for reconfiguring the lim--where the lim binary is stored.
+
+.SS EGO_LOGDIR
+.BR
+.PP
+
+.PP
+The directory used for message logs.
+
+.SS EGO_LOG_MASK
+.BR
+.PP
+
+.PP
+The log level used to determine the amount of detail logged.
+
+.SS EGO_DEBUG_LIM
+.BR
+.PP
+
+.PP
+The log class setting for the lim.
+
+.SS EGO_LICENSE_FILE
+.BR
+.PP
+
+.PP
+The full path to and name of the EGO license file.
+
+.SS EGO_DEFINE_NCPUS	 
+.BR
+.PP
+
+.PP
+Defines whether ncpus is to be defined as procs, cores, or threads. This 
+parameter overrides LSF_ENABLE_DUALCORE. If EGO_ENABLE_DUALCORE 
+is set, EGO_DEFINE_NCPUS settings take precedent.
+.RS
+.HP 3
+o  
+procs (if ncpus defined as procs, then ncpus = nprocs)
+.HP 3
+o  
+cores (if ncpus defined as cores, then ncpus = nprocs x ncores)
+.HP 3
+o  
+threads (if ncpus defined as threads, then ncpus = nprocs x ncores x nthreads)
+.RE
+
+.IP
+note:  
+
+.RE
+
+.IP
+When EGO_DEFINE_NCPUS is set, run queue-length values (r1* values returned by lsload) 
+are automatically normalized based on the set value.
+
+.RE
+
+.IP
+If EGO_DEFINE_NCPUS is not defined, but EGO_ENABLE_DUALCORE is set, the lim reports the 
+number of cores. If both EGO_DEFINE_NCPUS and LSF_ENABLE_DUALCORE are set, then the EGO 
+parameter takes precedence.
+
+.RE
+
+.SH Customization
+.BR
+.PP
+
+.PP
+You can customize the lim by changing configuration files in EGO_CONFDIR 
+directory. Configure ego.cluster.<cluster_name> to define various cluster 
+properties such as the resources on individual hosts, the load threshold values for a 
+host, and so on. Configure ego.shared to define host models read by the lim, or 
+the CPU factor of individual hosts.
+
+.\" Generated by Quadralay WebWorks Publisher 2003 for FrameMaker 8.0.5.1556
+.\" Generated on June 21, 2007 
+.\" Man section: 8 
+.\" File Name: lim 
+.\" Based on template structured_wwp8_man_page
+.\" Copyright 1994-2007 Platform Computing Corporation

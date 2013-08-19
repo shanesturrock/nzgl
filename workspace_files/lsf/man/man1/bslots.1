@@ -1,0 +1,106 @@
+
+.ad l
+
+.ll 72
+
+.TH bslots 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbslots\fR
+.sp 2
+   displays slots available and backfill windows available for
+   backfill jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bslots [-l] [-n slots] [-R "res_req"] [-W [hour:]minutes]
+.sp 2
+bslots [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   The available slots displayed by bslots are not currently used
+   for running jobs and can be used for backfill jobs. bslots
+   displays a snapshot of the slots currently not in use by
+   parallel jobs or advance reservations. They are not guaranteed
+   to be available at job submission.
+.sp 2
+   By default, displays all available slots, and the available
+   run times (backfill windows) for those slots. When no slots
+   are available for backfill, bslots displays
+.sp 2
+   No backfill window exists at this time
+.sp 2
+   bslots calculates the backfill window based on the estimated
+   start time of potential backfill jobs. Estimated start time is
+   only relatively accurate according to current running job
+   information. If running jobs finish earlier or later,
+   estimated start time may be moved to earlier or later time.
+   There may be a small delay of a few minutes between the job
+   finish time on which the estimate was based and the actual
+   start time of the allocated job.
+.sp 2
+   If the available backfill window has no run time limit, its
+   length is displayed as UNLIMITED.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l \fR
+.br
+               Displays backfill windows in a long multi-line
+               format. The -l option displays host names and the
+               number of slots on each host available for
+               backfill.
+.sp 2
+   \fB-n \fIslots\fB \fR
+.br
+               Specifies required slots (processors). Backfill
+               windows whose widths are equal or larger than
+               specified value are returned.
+.sp 2
+               When no slots are available for backfill, bslots
+               -n displays
+.sp 2
+               No backfill window meets these requirements at this time
+.sp 2
+   \fB-R "\fIres_req\fB" \fR
+.br
+               Selects hosts for calculating the backfill windows
+               according to the specified resource requirement.
+               By default, selects hosts of any type. The -R
+               option only supports the select resource
+               requirement string. Other resource requirement
+               sections are not supported.
+.sp 2
+               If LSF_STRICT_RESREQ=y in lsf.conf, the selection
+               string must conform to the stricter resource
+               requirement string syntax described in
+               Administering Platform LSF. The strict resource
+               requirement syntax only applies to the select
+               section.
+.sp 2
+               When no slots are available for backfill, bslots
+               -R displays
+.sp 2
+               No backfill window meets these requirements at this time
+.sp 2
+   \fB-W [\fIhour\fB:]\fIminutes\fB\fR
+.br
+               Specifies expected runtime limit. Backfill windows
+               whose lengths are equal or larger than specified
+               value are returned.
+.sp 2
+               When no slots are available for backfill, bslots
+               -W displays
+.sp 2
+               No backfill window meets these requirements at this time
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2

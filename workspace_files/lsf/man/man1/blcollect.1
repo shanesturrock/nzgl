@@ -1,0 +1,90 @@
+
+.ad l
+
+.ll 72
+
+.TH blcollect 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblcollect\fR
+.sp 2
+   license information collection daemon that collects license
+   usage information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blcollect -c collector_name -m host_name [...] -p
+license_scheduler_port [-i lmstat_interval | -D lmstat_path]
+.sp 2
+
+.sp 2
+blcollect [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Periodically collects license usage information from Acresso
+   FLEXnet. It queries FLEXnet for license usage information from
+   the FLEXnet lmstat command, and passes the information to the
+   License Scheduler daemon (bld). The blcollect daemon improves
+   performance by allowing you to distribute license information
+   queries on multiple hosts.
+.sp 2
+   By default, license information is collected from FLEXnet on
+   one host. Use blcollect to distribute the license collection
+   on multiple hosts.
+.sp 2
+   For each service domain configuration in lsf.licensescheduler,
+   specify one name for blcollect to use. You can only specify
+   one collector per service domain, but you can specify one
+   collector to serve multiple service domains. You can choose
+   any collector name you want, but must use that exact name when
+   you run blcollect.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-c\fR
+.br
+               Required. Specify the collector name you set in
+               lsf.licensescheduler. You must use the collector
+               name (\fRLIC_COLLECT)\fR you define in the
+               \fRServiceDomain\fR section of the configuration
+               file.
+.sp 2
+   \fB-m\fR
+.br
+               Required. Specifies a space-separated list of
+               hosts to which license information is sent. The
+               hosts do not need to be running License Scheduler
+               or a FLEXnet. Use fully qualified host names.
+.sp 2
+   \fB-p\fR
+.br
+               Required. You must specify the License Scheduler
+               listening port, which is set in
+               lsf.licensescheduler and has a default value of
+               9581.
+.sp 2
+   \fB-i \fIlmstat_interval\fB\fR
+.br
+               Optional. The frequency in seconds of the calls
+               that License Scheduler makes to lmstat to collect
+               license usage information from FLEXnet.
+.sp 2
+               The default interval is 60 seconds.
+.sp 2
+   \fB-D \fIlmstat_path\fB\fR
+.br
+               Optional. Location of the FLEXnet command lmstat.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints release version to stderr and exits.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsf.licensescheduler

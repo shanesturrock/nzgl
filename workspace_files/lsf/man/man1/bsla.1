@@ -1,0 +1,262 @@
+
+.ad l
+
+.ll 72
+
+.TH bsla 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbsla\fR
+.sp 2
+   displays information about service class configuration for
+   goal-oriented service-level agreement (SLA) scheduling
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bsla [service_class_name]
+.sp 2
+bsla [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   bsla displays the properties of service classes configured in
+   lsb.serviceclasses and dynamic information about the state of
+   each configured service class.
+.sp 2
+   If a default system service class is configured with
+   ENABLE_DEFAULT_EGO_SLA in lsb.params but no other service
+   classes are explicitly configured in lsb.serviceclasses, bsla
+   only displays information for the default SLA.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB\fIservice_class_name\fB\fR
+.br
+               The name of a service class configured in
+               lsb.serviceclasses.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   A list of job groups is displayed with the following fields:
+.sp 2
+   \fBSERVICE CLASS NAME\fR
+.br
+               The name of the service class, followed by its
+               description, if any.
+.sp 2
+   \fBPRIORITY\fR
+.br
+               The service class priority. A higher value
+               indicates a higher priority, relative to other
+               service classes. Similar to queue priority,
+               service classes access the cluster resources in
+               priority order.
+.sp 2
+   \fBCONSUMER\fR
+.br
+               For EGO-enabled SLA service classes, the name of
+               the EGO consumer from which hosts are allocated to
+               the SLA.
+.sp 2
+   \fBEGO_RES_REQ\fR
+.br
+               For EGO-enabled SLA service classes, the EGO
+               resource requirement defined in the SLA.
+.sp 2
+   \fBMAX_HOST_IDLE_TIME\fR
+.br
+               For EGO-enabled SLA service classes, how long the
+               SLA holds its idle hosts before LSF releases them
+               to EGO.
+.sp 2
+   \fBNUM_RECALLED_HOSTS\fR
+.br
+               For EGO-enabled SLA service classes, the number of
+               hosts allocated to the SLA that EGO has reclaimed.
+.sp 2
+   \fBRECALLED_HOSTS_TIMEOUT\fR
+.br
+               For EGO-enabled SLA service classes, the amount of
+               time EGO gives to LSF to clean up its workload
+               before EGO reclaims the host.
+.sp 2
+   \fBUSER GROUP\fR
+.br
+               User names or user groups who can submit jobs to
+               the service class.
+.sp 2
+   \fBGOAL\fR
+.br
+               The type of service class goal and its configured
+               value:
+.sp 2
+                 o  
+                     THROUGHPUT
+.sp 2
+                 o  
+                     VELOCITY
+.sp 2
+                 o  
+                     DEADLINE
+.sp 2
+   \fBACTIVE WINDOW\fR
+.br
+               The configured time window when the service class
+               goal is active. If a throughput or velocity goal
+               has no time window configured, ACTIVE WINDOW is
+               Always Open.
+.sp 2
+   \fBSTATUS\fR
+.br
+               Current status of the service class goal:
+.sp 2
+                 o  
+                     Active:On time — the goal is active and
+                     meeting its target.
+.sp 2
+                 o  
+                     Active:Delayed — the goal is active but is
+                     missing its target.
+.sp 2
+                 o  
+                     Inactive — the goal is not active; its time
+                     window is closed. Jobs are scheduled as if
+                     no service class is defined. LSF does not
+                     enforce any service-level goal for an
+                     inactive SLA.
+.sp 2
+   \fBTHROUGHPUT\fR
+.br
+               For throughput goals, the configured job
+               throughput (finished jobs per hour) for the
+               service class.
+.sp 2
+   \fBSLA THROUGHPUT\fR
+.br
+               The current throughput for the SLA finished jobs
+               per clean period.
+.sp 2
+   \fBESTIMATED FINISH TIME\fR
+.br
+               For goals with a time window, estimated finish
+               time of the SLA. If the service class status is on
+               time, the finish time is before the configured
+               deadline. If the service class status is delayed,
+               the service class is missing its goal and bsla
+               shows a finish time later than the deadline.
+.sp 2
+   \fBOPTIMUM NUMBER OF RUNNING JOBS\fR
+.br
+               For goals with a time window, the optimum number
+               of jobs that should be running in the service
+               class for the SLA to meet its goal.
+.sp 2
+   \fBNJOBS\fR
+.br
+               The current number of jobs in the specified
+               service class. A parallel job is counted as 1 job,
+               regardless of the number of job slots it uses.
+.sp 2
+   \fBPEND\fR
+.br
+               The number of pending jobs in the specified
+               service class.
+.sp 2
+   \fBRUN\fR
+.br
+               The number of running jobs in the specified
+               service class.
+.sp 2
+   \fBSSUSP\fR
+.br
+               The number of system-suspended jobs in the service
+               class.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The number of user-suspended jobs in the specified
+               service class.
+.sp 2
+   \fBFINISH\fR
+.br
+               The number of jobs in the specified service class
+               in EXITED or DONE state.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   The following service class named \fRKyuquot\fR is configured
+   in lsb.serviceclasses:
+.sp 2
+   Begin ServiceClass
+.sp 2
+   NAME = Kyuquot
+.sp 2
+   CONSUMER = Kyuquot
+.sp 2
+   PRIORITY = 23
+.sp 2
+   USER_GROUP = user1 user2
+.sp 2
+   GOALS = [VELOCITY 8 timeWindow (9:00-17:30)] \\ 
+.sp 2
+   [DEADLINE timeWindow (17:30-9:00)] 
+.sp 2
+   DESCRIPTION = Daytime/Nighttime SLA
+.sp 2
+   End ServiceClass
+.sp 2
+   bsla shows the following properties and current status:
+.sp 2
+   bsla Kyuquot 
+.sp 2
+   SERVICE CLASS NAME:  Kyuquot 
+.sp 2
+    -- Daytime/Nighttime SLA
+.sp 2
+   PRIORITY:  23
+.sp 2
+   CONSUMER: Kyuquot
+.sp 2
+   EGO_RES_REQ: any host
+.sp 2
+   MAX_HOST_IDLE_TIME: 120
+.sp 2
+   USER_GROUP:  user1 user2
+.sp 2
+
+.sp 2
+   GOAL:  VELOCITY 8
+.sp 2
+   ACTIVE WINDOW: (9:00-17:30) 
+.sp 2
+   STATUS:  Active:On time
+.sp 2
+   SLA THROUGHPUT:  0.00 JOBS/CLEAN_PERIOD
+.sp 2
+   GOAL:  DEADLINE 
+.sp 2
+   ACTIVE WINDOW: (17:30-9:00) 
+.sp 2
+   STATUS:  Inactive
+.sp 2
+   SLA THROUGHPUT:  0.00 JOBS/CLEAN_PERIOD
+.sp 2
+
+.sp 2
+    NJOBS   PEND    RUN     SSUSP   USUSP   FINISH
+.sp 2
+         0      0       0        0       0       0
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsla(1), bhist(1), bjobs(1), bkill(1), bmod(1), bsub(1),
+   lsb.acct(5), lsb.serviceclasses(5)

@@ -1,0 +1,350 @@
+
+.ad l
+
+.ll 72
+
+.TH lsload 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsload\fR
+.sp 2
+   displays load information for hosts
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsload [-l] [-N | -E] [-I load_index[:load_index] ...] [-n
+num_hosts] [-R res_req] [host_name ... | cluster_name ...]
+.sp 2
+lsload -s [resource_name ...]
+.sp 2
+lsload [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays load information for hosts. Load information can be
+   displayed on a per-host basis, or on a per-resource basis.
+.sp 2
+   By default, displays load information for all hosts in the
+   local cluster, per host.
+.sp 2
+   With MultiCluster, also displays load information for all
+   hosts in equivalent clusters (see lsf.cluster(5)).
+.sp 2
+   By default, displays raw load indices.
+.sp 2
+   By default, load information for resources is displayed
+   according to CPU and paging load.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays load information without
+               truncation along with additional fields for I/O
+               and external load indices.
+.sp 2
+               This option overrides the index names specified
+               with the -I option.
+.sp 2
+   \fB-N\fR
+.br
+               Displays normalized CPU run queue length load
+               indices.
+.sp 2
+   \fB-E\fR
+.br
+               Displays effective CPU run queue length load
+               indices. Options -N and -E are mutually exclusive.
+.sp 2
+   \fB-w\fR
+.br
+               Displays load information in wide format. Fields
+               are displayed without truncation.
+.sp 2
+   \fB-I \fIload_index\fB[:\fIload_index\fB] ...\fR
+.br
+               Displays only the specified load indices. Separate
+               multiple index names with colons (for example,
+               \fRr1m:pg:ut\fR).
+.sp 2
+               Specify any built-in load index. Specify external
+               load indices only for host-based resources that
+               are numeric and dynamic (you cannot specify
+               external load indices for shared, string or
+               Boolean resources).
+.sp 2
+   \fB-n \fInum_hosts\fB\fR
+.br
+               Displays only load information for the requested
+               number of hosts. Information for up to num_hosts
+               hosts that best satisfy the resource requirements
+               is displayed.
+.sp 2
+   \fB-R \fIres_req\fB\fR
+.br
+               Displays only load information for hosts that
+               satisfy the specified resource requirements. See
+               Administering Platform LSF for a list of built-in
+               resource names.
+.sp 2
+               Load information for the hosts is sorted according
+               to load on the specified resources.
+.sp 2
+               If \fIres_req\fR contains special resource names,
+               only load information for hosts that provide these
+               resources is displayed (run lshosts to find out
+               what resources are available on each host).
+.sp 2
+               If one or more host names are specified, only load
+               information about the hosts that satisfy the
+               resource requirements is displayed.
+.sp 2
+               With MultiCluster, when a cluster name is
+               specified, displays load information of hosts in
+               the specified cluster that satisfy the resource
+               requirements.
+.sp 2
+   \fB\fIhost_name\fB ... | \fIcluster_name\fB ...\fR
+.br
+               Displays only load information for the specified
+               hosts.
+.sp 2
+               With MultiCluster, displays only load information
+               for hosts in the specified clusters.
+.sp 2
+   \fB-s [\fIresource_name\fB ...]\fR
+.br
+               Displays information about all dynamic resources
+               configured in the cluster, or about the specified
+               resources only. Specify dynamic resources (shared
+               or host-based).
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Host-Based Output (default output)"
+\fBHost-Based Output (default output)\fR
+.sp 2
+   Built-in load indices include \fRr15s\fR, \fRr1m\fR,
+   \fRr15m\fR, \fRut\fR, \fRpg\fR, \fRio\fR, \fRls\fR, \fRit\fR,
+   \fRswp\fR, \fRmem\fR and \fRtmp\fR. External load indices are
+   configured in the file lsf.cluster.\fIcluster_name\fR (see
+   lsf.cluster(5)). The selection and order sections of res_req
+   control for which hosts are displayed and how the information
+   is ordered.
+.sp 2
+   The display includes the following fields:
+.sp 2
+   \fBHOST_NAME\fR
+.br
+               Standard host name used by LSF, typically an
+               Internet domain name with two components.
+.sp 2
+   \fBstatus\fR
+.br
+               Status of the host. A minus sign (-) may precede
+               the status, indicating that RES is not running on
+               the host.
+.sp 2
+               Possible statuses are:
+.sp 2
+               \fBok\fR
+.br
+                           The host is in normal load sharing
+                           state and can accept remote jobs. The
+                           ok status indicates that the Load
+                           Information Manager (LIM) is unlocked
+                           and that both LIM and the Remote
+                           Execution Server (RES) are running.
+.sp 2
+               \fB-ok\fR
+.br
+                           The (LIM) on the host is running but
+                           RES is unreachable.
+.sp 2
+               \fBbusy\fR
+.br
+                           The host is overloaded because some
+                           load indices exceed configured
+                           thresholds. Load index values that
+                           caused the host to be busy are
+                           preceded by an asterisk (\fR*\fR).
+.sp 2
+               \fBlockW\fR
+.br
+                           The host is locked by its run window.
+                           Run windows for a host are specified
+                           in the configuration file (see
+                           lsf.conf(5)) and can be displayed by
+                           lshosts. A locked host does not accept
+                           load shared jobs from other hosts.
+.sp 2
+               \fBlockU\fR
+.br
+                           The host is locked by the LSF
+                           administrator or root.
+.sp 2
+               \fBunavail\fR
+.br
+                           The host is down or the LIM on the
+                           host is not running.
+.sp 2
+               \fBunlicensed\fR
+.br
+                           The host does not have a valid LSF
+                           license.
+.sp 2
+   \fBr15s\fR
+.br
+               The 15-second exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBr1m\fR
+.br
+               The 1-minute exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBr15m\fR
+.br
+               The 15-minute exponentially averaged CPU run queue
+               length.
+.sp 2
+   \fBut\fR
+.br
+               The CPU utilization exponentially averaged over
+               the last minute, between 0 and 1.
+.sp 2
+   \fBpg\fR
+.br
+               The memory paging rate exponentially averaged over
+               the last minute, in pages per second.
+.sp 2
+   \fBls\fR
+.br
+               The number of current login users.
+.sp 2
+   \fBit\fR
+.br
+               On UNIX, the idle time of the host (keyboard not
+               touched on all logged in sessions), in minutes.
+.sp 2
+               On Windows, the \fRit\fR index is based on the
+               time a screen saver has been active on a
+               particular host.
+.sp 2
+   \fBtmp\fR
+.br
+               The amount of free space in \fR/tmp\fR, in MB.
+.sp 2
+   \fBswp\fR
+.br
+               The amount of available swap space.
+.sp 2
+               By default, the amount is displayed in KB. The
+               amount may appear in MB depending on the actual
+               system swap space. Use LSF_UNIT_FOR_LIMITS in
+               lsf.conf to specify a larger unit for the limit
+               (GB, TB, PB, or EB).
+.sp 2
+   \fBmem\fR
+.br
+               The amount of available RAM.
+.sp 2
+               By default, the amount is displayed in KB. The
+               amount may appear in MB depending on the actual
+               system memory. Use LSF_UNIT_FOR_LIMITS in lsf.conf
+               to specify a larger unit for the limit (GB, TB,
+               PB, or EB).
+.sp 2
+   \fBio\fR
+.br
+               By default, \fRio\fR is not shown.
+.sp 2
+               If -l is specified, shows the disk I/O rate
+               exponentially averaged over the last minute, in KB
+               per second.
+.sp 2
+   \fB\fIexternal_index\fB\fR
+.br
+               By default, external load indices are not shown.
+.sp 2
+               If -l is specified, shows indices for all dynamic
+               custom resources available on the host, including
+               shared, string and Boolean resources.
+.sp 2
+               If -I\fI load_index\fR is specified, only shows
+               indices for specified non-shared (host-based)
+               dynamic numeric custom resources.
+.sp 2 .SH "Resource-Based Output (lsload -s)"
+\fBResource-Based Output (lsload -s)\fR
+.sp 2
+   Displays information about dynamic resources (shared or
+   host-based). Each line gives the value and the associated
+   hosts for an instance of the resource. See lim(8), and
+   lsf.cluster(5) for information on configuring dynamic shared
+   resources.
+.sp 2
+   The displayed information consists of the following fields:
+.sp 2
+   \fBRESOURCE\fR
+.br
+               Name of the resource.
+.sp 2
+   \fBVALUE\fR
+.br
+               Value for an instance of the resource.
+.sp 2
+   \fBLOCATION\fR
+.br
+               Hosts associated with the instance of the
+               resource.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   \fRlsload -R "select[r1m<=0.5 && swp>=20 && type==ALPHA]"\fR
+.sp 2
+   OR, in restricted format:
+.sp 2
+   \fRlsload -R r1m=0.5:swp=20:type=ALPHA\fR
+.sp 2
+   Displays the load of ALPHA hosts with at least 20 MB of swap
+   space, and a 1-minute run queue length less than 0.5.
+.sp 2
+   \fRlsload -R "select[(1-swp/maxswp)<0.75] order[pg]"\fR
+.sp 2
+   Displays the load of the hosts whose swap space utilization is
+   less than 75%. The resulting hosts are ordered by paging rate.
+.sp 2
+   \fRlsload -I r1m:ut:io:pg\fR
+.sp 2
+   Displays the 1-minute CPU raw run queue length, the CPU
+   utilization, the disk I/O and paging rates for all hosts in
+   the cluster.
+.sp 2
+   \fRlsload -E\fR
+.sp 2
+   Displays the load of all hosts, ordered by \fRr15s:pg\fR, with
+   the CPU run queue lengths being the effective run queue
+   lengths.
+.sp 2
+   \fRlsload -s verilog_license\fR
+.sp 2
+   Displays the value and location of all the
+   \fRverilog_license\fR dynamic shared resource instances.
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   Exit status is -10 for LSF problems or a bad resource names.
+.sp 2
+   Exit status is -1 if a bad parameter is specified, otherwise
+   lsload returns 0.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lim(8), lsf.cluster(5), lsplace(1), lshosts(1), lsinfo(1),
+   \fRlslockhost\fR(8), \fRls_load\fR(3)

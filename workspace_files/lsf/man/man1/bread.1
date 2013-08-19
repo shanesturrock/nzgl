@@ -1,0 +1,140 @@
+
+.ad l
+
+.ll 72
+
+.TH bread 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbread\fR
+.sp 2
+   reads messages and attached data files from a job
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bread [-i message_index] [-a file_name] job_ID | "job_ID[index]"
+| -J job_name
+.sp 2
+bread [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Reads messages and data posted to an unfinished job with
+   bpost.
+.sp 2
+   By default, displays the message description text of the job.
+   By default, operates on the message with index 0.
+.sp 2
+   You can read messages and data from a job until it is cleaned
+   from the system. You cannot read messages and data from done
+   or exited jobs.
+.sp 2
+   If a you specify a job ID:
+.sp 2
+     o  
+         You can get read messages of jobs submitted by other
+         users, but you cannot read data files attached to jobs
+         submitted by other users.
+.sp 2
+     o  
+         You can only read data files attached to your own jobs.
+.sp 2
+     o  
+         Root and LSF administrators can read messages of jobs
+         submitted by other users.
+.sp 2
+     o  
+         Root and LSF administrators cannot read data files
+         attached to jobs submitted by other users.
+.sp 2
+   Job names are not unique; if you specify -J \fIjob_name\fR:
+.sp 2
+     o  
+         You only can read messages and data from your own jobs.
+.sp 2
+     o  
+         You cannot read messages and data from jobs submitted by
+         other users.
+.sp 2
+     o  
+         Root and the LSF administrators can only read messages
+         and data from their own jobs.
+.sp 2
+   The command:
+.sp 2
+   bstatus
+.sp 2
+   is equivalent to:
+.sp 2
+   bread -i 0
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-a \fIfile_name\fB\fR
+.br
+               Gets the text message and copies the data file
+               attached to the specified message index of the job
+               to the file specified by \fIfile_name\fR. Data
+               files cannot be attached to MultiCluster jobs.
+.sp 2
+               If you do not specify a message index, copies the
+               attachment of message index 0 to the file. The job
+               must have an attachment, and you must specify a
+               name for the file you are copying the attachment
+               to. If the file already exists, -a overwrites it
+               with the new file.
+.sp 2
+               By default, -a gets the attachment file from the
+               directory specified by the JOB_ATTA_DIR parameter.
+               If JOB_ATTA_DIR is not specified, job message
+               attachments are saved in LSB_SHAREDIR/info/.
+.sp 2
+   \fB-i \fImessage_index\fB\fR
+.br
+               Specifies the message index to be retrieved.
+.sp 2
+               Default: 0
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID[index]\fB" | -J \fIjob_name\fB\fR
+.br
+               Required. Specify the job to operate on.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   bpost -i 1 -d "step 1" -a step1.out 2500
+.sp 2
+   bread -i 1 -a step2.in 2500
+.sp 2
+   JOBID      MSG_ID FROM      POST_TIME      DESCRIPTION
+.sp 2
+   2500       1      user1     May 19 13:59   step 1
+.sp 2
+   Displays the message description text\fR step 1\fR for message
+   index 1 of job 2500 and copies the data in the file
+   \fRstep1.out\fR attached to message 1 to the file
+   \fRstep2.in\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bpost(1), bstatus(1), bsub(1), JOB_ATTA_DIR

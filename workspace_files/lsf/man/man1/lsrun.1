@@ -1,0 +1,171 @@
+
+.ad l
+
+.ll 72
+
+.TH lsrun 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlsrun\fR
+.sp 2
+   runs an interactive task through LSF
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lsrun [-l] [-L] [-P] [-S] [-v] [-m "host_name ..." | -m
+"cluster_name ..."] [-R "res_req"] command [argument ...]
+.sp 2
+lsrun [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Submits a task to LSF for execution.
+.sp 2
+   With MultiCluster job forwarding model, the default is to run
+   the task on a host in the local cluster.
+.sp 2
+   By default, lsrun first tries to obtain resource requirement
+   information from the remote task list to find an eligible
+   host. (See lseligible(1) and \fRls_task\fR(3).) Otherwise,
+   lsrun runs the task on a host that is of the same host type
+   (or architecture) as the submission host. If several hosts of
+   the same architecture are available, the host with the lowest
+   CPU and memory load is selected.
+.sp 2
+   By default, if execution fails and the local host satisfies
+   resource requirements, LSF runs the task locally.
+.sp 2
+   By default, lsrun does not create a pseudo-terminal when
+   running the task.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l \fR
+.br
+               If execution on another host fails, runs the task
+               locally.
+.sp 2
+   \fB-L\fR
+.br
+               Forces lsrun to go through RES to execute a task.
+               By default, lsrun does not use RES if the task is
+               going to run on the current host.
+.sp 2
+   \fB-P\fR
+.br
+               Creates a pseudo-terminal when starting the task
+               on UNIX hosts. This is necessary to run programs
+               that require a pseudo-terminal (for example,
+               \fRvi\fR).
+.sp 2
+               This option is not supported on Windows.
+.sp 2
+   \fB-S\fR
+.br
+               Creates a pseudo-terminal with shell mode support
+               when starting the task on a UNIX host. Shell mode
+               support is required for running interactive shells
+               or applications that redefine the CTRL-C and
+               CTRL-Z keys (for example, jove).
+.sp 2
+               This option is not supported on Windows.
+.sp 2
+   \fB-v\fR
+.br
+               Displays the name of the host running the task.
+.sp 2
+   \fB-m "\fIhost_name\fB ..." | -m "\fIcluster_name\fB ..."\fR
+.br
+               The execution host must be one of the specified
+               hosts. If a single host is specified, all resource
+               requirements are ignored.
+.sp 2
+               If multiple hosts are specified and you do not use
+               the -R option, the execution host must satisfy the
+               resource requirements in the remote task list (see
+               lsrtasks(1)). If none of the specified hosts
+               satisfy the resource requirements, the task does
+               not run.
+.sp 2
+               With MultiCluster job forwarding model, the
+               execution host can be a host in one of the
+               specified clusters, if the remote cluster accepts
+               tasks from the local cluster. (See
+               \fRRemoteClusters\fR section in lsf.cluster(5).)
+.sp 2
+   \fB-R "\fIres_req\fB" \fR
+.br
+               Runs the task on a host that meets the specified
+               resource requirement. The size of the resource
+               requirement string is limited to 512 bytes. For a
+               complete explanation of resource requirement
+               expressions, see Administering Platform LSF. To
+               find out what resources are configured in your
+               system, use lsinfo and lshosts.
+.sp 2
+               LSF supports ordering of resource requirements on
+               all load indices, including external load indices,
+               either static or dynamic.
+.sp 2
+               Exclusive resources need to be explicitly
+               specified within the resource requirement string.
+               For example, you defined a resource called
+               \fRbigmem\fR in lsf.shared and defined it as an
+               exclusive resource for \fRhostE\fR in
+               lsf.cluster.mycluster. Use the following command
+               to submit a task to run on \fRhostE\fR:
+.sp 2
+               \fRlsrun -R "bigmem" myjob\fR
+.sp 2
+               or
+.sp 2
+               \fRlsrun -R "defined(bigmem)" myjob\fR
+.sp 2
+               If the -m option is specified with a single host
+               name, the -R option is ignored.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Usage"
+\fBUsage\fR
+.sp 2
+   You can use lsrun together with other utility commands such as
+   lsplace, lsload, lsloadadj, and lseligible to write load
+   sharing applications in the form of UNIX shell scripts.
+.sp 2
+   lsrun supports interactive job control. Suspending lsrun
+   suspends both the task and lsrun, and continuing lsrun
+   continues the task.
+.sp 2
+   If \fBLSB_DISABLE_LIMLOCK_EXCL=y\fR (to enable preemption of
+   exclusive jobs, for example), you can use lsrun to start a
+   task on a host that is currently running an exclusive job.
+.sp 2
+   The -n option of rsh can be simulated by redirecting input
+   from /dev/null. For example:
+.sp 2
+   lsrun cat </dev/null &
+.sp 2 .SH "Diagnostics"
+\fBDiagnostics\fR
+.sp 2
+   lsrun exits with status -10 and prints an error message to
+   stderr if a problem is detected in LSF and the task is not
+   run.
+.sp 2
+   The exit status is -1 and an error message is printed to
+   stderr if a system call fails or incorrect arguments are
+   specified.
+.sp 2
+   Otherwise, the exit status is the exit status of the task.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   rsh, ls_rexecv, lsplace, lseligible, lsload, lshosts,
+   lsrtasks, lsf.cluster
+.sp 2

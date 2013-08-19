@@ -1,0 +1,127 @@
+
+.ad l
+
+.ll 72
+
+.TH brlainfo 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbrlainfo\fR
+.sp 2
+   displays host topology information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+brlainfo [-l] [host_name ...]
+.sp 2
+brlainfo [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   brlainfo contacts the Platform LSF HPC topology adapter (RLA)
+   on the specified host and presents topology information to the
+   user. By default, displays information about all hosts running
+   RLA.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-l\fR
+.br
+               Long format. Displays additional host topology
+               information.
+.sp 2
+   \fB\fIhost_name\fB ...\fR
+.br
+               Only displays information about the specified
+               host.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Default output"
+\fBDefault output\fR
+.sp 2
+   Displays the following fields:
+.sp 2
+   \fBHOSTNAME\fR
+.br
+               Name of the host running RLA
+.sp 2
+   \fBCPUSET_OS \fR
+.br
+               RLA host operating system
+.sp 2
+   \fBNCPUS \fR
+.br
+               Total number of CPUs
+.sp 2
+   \fBFREECPUS\fR
+.br
+               Number of free CPUS
+.sp 2
+   \fBNNODES\fR
+.br
+               Number of nodes allocated
+.sp 2
+   \fBNCPU/NODE \fR
+.br
+               Number of CPUs per node
+.sp 2
+   \fBNSTATIC_CPUSETS\fR
+.br
+               Number of static cpusets allocated
+.sp 2 .SH "Long output (-l)"
+\fBLong output (-l)\fR
+.sp 2
+   The \fR-l\fR option displays a long format listing with the
+   following additional fields:
+.sp 2
+   \fBFREE CPU LIST\fR
+.br
+               List of free CPUs in the cpuset
+.sp 2
+               For example:
+.sp 2
+               0-2
+.sp 2
+   \fBNFREECPUS ON EACH NODE\fR
+.br
+               Number of free CPUs on each node
+.sp 2
+               For example:
+.sp 2
+               2/0,1/1
+.sp 2
+   \fBSTATIC CPUSETS\fR
+.br
+               List of static cpuset names
+.sp 2
+               For example:
+.sp 2
+               NO STATIC CPUSETS
+.sp 2
+   \fBCPU_RADIUS\fR
+.br
+               For example:
+.sp 2
+               2,3,3,3,3,3,3,3
+.sp 2
+                 o  
+                     2 CPUs are available within radius 0
+.sp 2
+                 o  
+                     3 CPUs are available within radius 1, 2, 3,
+                     4, 5, 6, and 7.
+.sp 2
+               CPUs grouped within a smaller radius can be
+               thought of as being closer together and therefore
+               have better communications performance.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   brlainfo hostA hostB hostCHOSTNAME          CPUSET_OS  NCPUS  NFREECPUS NNODES  NCPU/NODE NSTATIC_CPUSETShostA             SGI_IRIX   2      2         1       2         0hostB             PROPACK_4  4      4         2       2         0hostC             PROPACK_4  4      3         2       2         0brlainfo -lHOST: hostCCPUSET_OS   NCPUS  NFREECPUS NNODES  NCPU/NODE NSTATIC_CPUSETSPROPACK_4   4      3         2       2         0FREE CPU LIST: 0-2NFREECPUS ON EACH NODE: 2/0,1/1STATIC CPUSETS: NO STATIC CPUSETSCPU_RADIUS: 2,3,3,3,3,3,3,3

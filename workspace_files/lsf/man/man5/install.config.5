@@ -1,0 +1,811 @@
+
+.ad l
+
+.ll 72
+
+.TH install.config 5 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBinstall.config\fR
+.sp 2
+\fBAbout install.config\fR
+.sp 2
+   The install.config file contains options for LSF installation
+   and configuration. Use lsfinstall -f install.config to install
+   LSF using the options specified in install.config.
+.sp 2 .SH "Template location"
+\fBTemplate location\fR
+.sp 2
+   A template install.config is included in the installation
+   script tar file lsf7Update6_lsfinstall.tar.Z and is located in
+   the lsf7Update6_lsfinstall directory created when you
+   uncompress and extract installation script tar file. Edit the
+   file and uncomment the options you want in the template file.
+   Replace the example values with your own settings to specify
+   the options for your new installation.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         The sample values in the install.config template file
+         are examples only. They are not default installation
+         values.
+.sp 2
+   After installation, the install.config containing the options
+   you specified is located in LSF_TOP/7.0/install/.
+.sp 2 .SH "Format"
+\fBFormat\fR
+.sp 2
+   Each entry in install.config has the form:
+.sp 2
+   NAME="STRING1 STRING2 ..."
+.sp 2
+   The equal sign \fR=\fR must follow each \fRNAME\fR even if no
+   value follows and there should be no spaces around the equal
+   sign.
+.sp 2
+   A value that contains multiple strings separated by spaces
+   must be enclosed in quotation marks.
+.sp 2
+   Blank lines and lines starting with a pound sign (\fR#\fR) are
+   ignored.
+.sp 2
+
+.sp 2
+\fBParameters\fR
+.sp 2
+     o  
+         DERBY_DB_HOST
+.sp 2
+     o  
+         EGO_DAEMON_CONTROL
+.sp 2
+     o  
+         EGO_PERF_CONTROL
+.sp 2
+     o  
+         EGO_PMC_CONTROL
+.sp 2
+     o  
+         ENABLE_DYNAMIC_HOSTS
+.sp 2
+     o  
+         ENABLE_EGO
+.sp 2
+     o  
+         ENABLE_HPC_CONFIG
+.sp 2
+     o  
+         EP_BACKUP
+.sp 2
+     o  
+         LSF_ADD_SERVERS
+.sp 2
+     o  
+         LSF_ADD_CLIENTS
+.sp 2
+     o  
+         LSF_ADMINS
+.sp 2
+     o  
+         LSF_CLUSTER_NAME
+.sp 2
+     o  
+         LSF_DYNAMIC_HOST_WAIT_TIME
+.sp 2
+     o  
+         LSF_LICENSE
+.sp 2
+     o  
+         LSF_MASTER_LIST
+.sp 2
+     o  
+         LSF_QUIET_INST
+.sp 2
+     o  
+         LSF_TARDIR
+.sp 2
+     o  
+         LSF_TOP
+.sp 2
+     o  
+         PATCH_BACKUP_DIR
+.sp 2
+     o  
+         PATCH_HISTORY_DIR
+.sp 2
+     o  
+         PERF_HOST
+.sp 2
+     o  
+         PMC_HOST
+.sp 2
+\fBDERBY_DB_HOST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRDERBY_DB_HOST="\fR\fIhost_name\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Reporting database host. This parameter is used when you
+   install the HPC Portal package for the first time, and is
+   ignored for all other cases.
+.sp 2
+   Specify the name of a reliable host where the Derby database
+   for Reporting data collection will be installed. You must
+   specify a host from LSF_MASTER_LIST. Leave this parameter
+   undefined if you will use another database for Reporting.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRDERBY_DB_HOST="hostd"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Database is undefined.
+.sp 2
+\fBEGO_DAEMON_CONTROL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_DAEMON_CONTROL="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables EGO to control LSF res and sbatchd. Set the value to
+   "Y" if you want EGO Service Controller to start res and
+   sbatchd, and restart if they fail. To avoid conflicts, leave
+   this parameter undefined if you use a script to start up LSF
+   daemons.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         If you specify EGO_ENABLE="N", this parameter is
+         ignored.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fREGO_DAEMON_CONTROL="N"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   N (res and sbatchd are started manually)
+.sp 2
+\fBEGO_PERF_CONTROL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_PERF_CONTROL="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables EGO Service Controller to control PERF daemons. Set
+   the value to "N" if you want to control PERF daemons manually.
+   If you do this, you must define PERF_HOST in this file.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         If you specify EGO_ENABLE="N", this parameter is
+         ignored.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         This parameter only takes effect when you install the
+         HPC portal package for the first time.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fREGO_PERF_CONTROL="N"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (PERF daemons are controlled by EGO unless EGO is disabled)
+.sp 2
+\fBEGO_PMC_CONTROL\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREGO_PMC_CONTROL="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables EGO Service Controller to control the HPC Portal. Set
+   the value to "N" if you want to control the HPC Portal
+   manually.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         If you specify EGO_ENABLE="N", this parameter is
+         ignored.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         This parameter only takes effect when you install the
+         HPC Portal package for the first time.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fREGO_PMC_CONTROL="N"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (HPC Portal is controlled by EGO unless EGO is disabled)
+.sp 2
+\fBENABLE_DYNAMIC_HOSTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRENABLE_DYNAMIC_HOSTS="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables dynamically adding and removing hosts. Set the value
+   to "Y" if you want to allow dynamically added hosts.
+.sp 2
+   If you enable dynamic hosts, any host can connect to cluster.
+   To enable security, configure LSF_HOST_ADDR_RANGE in
+   lsf.cluster.\fIcluster_name\fR after installation and restrict
+   the hosts that can connect to your cluster.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRENABLE_DYNAMIC_HOSTS="N"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   N (dynamic hosts not allowed)
+.sp 2
+\fBENABLE_EGO\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRENABLE_EGO="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables Platform EGO functionality in the LSF cluster.
+.sp 2
+   ENABLE_EGO="Y" causes lsfinstall uncomment LSF_EGO_ENVDIR and
+   sets LSF_ENABLE_EGO="Y" in lsf.conf.
+.sp 2
+   ENABLE_EGO="N" causes lsfinstall to comment out LSF_EGO_ENVDIR
+   and sets LSF_ENABLE_EGO="N" in lsf.conf.
+.sp 2
+   Set the value to "N" if you do not want to take advantage of
+   the following LSF features that depend on EGO:
+.sp 2
+     o  
+         LSF daemon control by EGO Service Controller
+.sp 2
+     o  
+         EGO-enabled SLA scheduling
+.sp 2
+     o  
+         HPC Portal
+.sp 2
+     o  
+         LSF reporting
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (EGO is enabled in the LSF cluster)
+.sp 2
+\fBENABLE_HPC_CONFIG\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRENABLE_HPC_CONFIG="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Set the value to "Y" to add LSF HPC configuration parameters
+   to the cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (Platform LSF HPC is enabled.)
+.sp 2
+\fBEP_BACKUP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fREP_BACKUP="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables backup and rollback for enhancement packs. Set the
+   value to "N" to disable backups when installing enhancement
+   packs (you will not be able to roll back to the previous patch
+   level after installing an EP, but you will still be able to
+   roll back any fixes installed on the new EP).
+.sp 2
+   You may disable backups to speed up install time, to save disk
+   space, or because you have your own methods to back up the
+   cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Y (backup and rollback are fully enabled)
+.sp 2
+\fBLSF_ADD_SERVERS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_ADD_SERVERS="\fR\fIhost_name\fR [
+   \fIhost_name\fR...]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   List of additional LSF server hosts.
+.sp 2
+   The hosts in LSF_MASTER_LIST are always LSF servers. You can
+   specify additional server hosts. Specify a list of host names
+   two ways:
+.sp 2
+     o  
+         Host names separated by spaces
+.sp 2
+     o  
+         Name of a file containing a list of host names, one host
+         per line.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Any valid LSF host name.
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   List of host names:
+.sp 2
+   LSF_ADD_SERVERS="hosta hostb hostc hostd"
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   Host list file:
+.sp 2
+   LSF_ADD_SERVERS=:lsf_server_hosts
+.sp 2
+   The file lsf_server_hosts contains a list of hosts:
+.sp 2
+   hostahostbhostchostd
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Only hosts in LSF_MASTER_LIST are LSF servers.
+.sp 2
+\fBLSF_ADD_CLIENTS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_ADD_CLIENTS="\fR\fIhost_name \fR[
+   \fIhost_name...\fR]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   List of LSF client-only hosts.
+.sp 2
+      \fBTip: \fR
+.sp 2
+         After installation, you must manually edit
+         lsf.cluster.\fIcluster_name\fR to include the host model
+         and type of each client listed in LSF_ADD_CLIENTS.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Any valid LSF host name.
+.sp 2 .SH "Example 1"
+\fBExample 1\fR
+.sp 2
+   List of host names:
+.sp 2
+   LSF_ADD_CLIENTS="hoste hostf"
+.sp 2 .SH "Example 2"
+\fBExample 2\fR
+.sp 2
+   Host list file:
+.sp 2
+   LSF_ADD_CLIENTS=:lsf_client_hosts
+.sp 2
+   The file lsf_client_hosts contains a list of hosts:
+.sp 2
+   hostehostf
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   No client hosts installed.
+.sp 2
+\fBLSF_ADMINS\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_ADMINS="\fR\fIuser_name \fR[ \fIuser_name ...
+   \fR]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. List of LSF administrators.
+.sp 2
+   The first user account name in the list is the primary LSF
+   administrator. It cannot be the root user account.
+.sp 2
+   Typically this account is named lsfadmin. It owns the LSF
+   configuration files and log files for job events. It also has
+   permission to reconfigure LSF and to control batch jobs
+   submitted by other users. It typically does not have authority
+   to start LSF daemons. Usually, only root has permission to
+   start LSF daemons.
+.sp 2
+   All the LSF administrator accounts must exist on all hosts in
+   the cluster before you install LSF. Secondary LSF
+   administrators are optional.
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         You should \fInot\fR configure the root account as the
+         primary LSF administrator.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Existing user accounts
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_ADMINS="lsfadmin user1 user2"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None—required variable
+.sp 2
+\fBLSF_CLUSTER_NAME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_CLUSTER_NAME="\fR\fIcluster_name\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. The name of the LSF cluster.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_CLUSTER_NAME="cluster1"\fR
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   Any alphanumeric string containing no more than 39 characters.
+   The name cannot contain white spaces.
+.sp 2
+      \fBImportant: \fR
+.sp 2
+         Do not use the name of any host, user, or user group as
+         the name of your cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None—required variable
+.sp 2
+\fBLSF_DYNAMIC_HOST_WAIT_TIME\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_DYNAMIC_HOST_WAIT_TIME=\fR\fIseconds\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Time in seconds slave LIM waits after startup before calling
+   master LIM to add the slave host dynamically.
+.sp 2
+   This parameter only takes effect if you set
+   ENABLE_DYNAMIC_HOSTS="Y" in this file. If the slave LIM
+   receives the master announcement while it is waiting, it does
+   not call the master LIM to add itself.
+.sp 2 .SH "Recommended value"
+\fBRecommended value\fR
+.sp 2
+   Up to 60 seconds for every 1000 hosts in the cluster, for a
+   maximum of 15 minutes. Selecting a smaller value will result
+   in a quicker response time for new hosts at the expense of an
+   increased load on the master LIM.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_DYNAMIC_HOST_WAIT_TIME=60\fR
+.sp 2
+   Hosts will wait 60 seconds from startup to receive an
+   acknowledgement from the master LIM. If it does not receive
+   the acknowledgement within the 60 seconds, it will send a
+   request for the master LIM to add it to the cluster.
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Slave LIM waits forever
+.sp 2
+\fBLSF_LICENSE\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_LICENSE="/\fR\fIpath\fR\fR/\fR\fIlicense_file\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Full path to the name of the LSF license file, license.dat.
+.sp 2
+   You must have a valid license file to install LSF.
+.sp 2
+      \fBCAUTION: \fR
+.sp 2
+         If you do not specify LSF_LICENSE, or lsfinstall cannot
+         find a valid license file in the default location,
+         lsfinstall exits.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_LICENSE="/usr/share/lsf_distrib/license.dat"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   The parent directory of the current working directory. For
+   example, if lsfinstall is running under
+   usr/share/lsf_distrib/lsf_lsfinstall the LSF_LICENSE default
+   value is usr/share/lsf_distrib/license.dat.
+.sp 2
+\fBLSF_MASTER_LIST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_MASTER_LIST="\fR\fIhost_name \fR[ \fIhost_name
+   ...\fR]\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required for a first-time installation. List of LSF server
+   hosts to be master or master candidates in the cluster.
+.sp 2
+   You must specify at least one valid server host to start the
+   cluster. The first host listed is the LSF master host.
+.sp 2
+   During upgrade, specify the existing value.
+.sp 2 .SH "Valid Values"
+\fBValid Values\fR
+.sp 2
+   LSF server host names
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_MASTER_LIST="hosta hostb hostc hostd"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None — required variable
+.sp 2
+\fBLSF_QUIET_INST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_QUIET_INST="Y"\fR | \fR"N"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Enables quiet installation.
+.sp 2
+   Set the value to Y if you want to hide the LSF installation
+   messages.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_QUIET_INST="Y"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   N (installer displays messages during installation)
+.sp 2
+\fBLSF_TARDIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_TARDIR="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Full path to the directory containing the LSF distribution tar
+   files.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_TARDIR="/usr/share/lsf_distrib"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   The parent directory of the current working directory. For
+   example, if lsfinstall is running under
+   usr/share/lsf_distrib/lsf_lsfinstall the LSF_TARDIR default
+   value is usr/share/lsf_distrib.
+.sp 2
+\fBLSF_TOP\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRLSF_TOP="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Required. Full path to the top-level LSF installation
+   directory.
+.sp 2 .SH "Valid Value"
+\fBValid Value\fR
+.sp 2
+   The path to LSF_TOP must be shared and accessible to all hosts
+   in the cluster. It cannot be the root directory (/). The file
+   system containing LSF_TOP must have enough disk space for all
+   host types (approximately 300 MB per host type).
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRLSF_TOP="/usr/share/lsf"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   None — required variable
+.sp 2
+\fBPATCH_BACKUP_DIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPATCH_BACKUP_DIR="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Full path to the patch backup directory. This parameter is
+   used when you install a new cluster for the first time, and is
+   ignored for all other cases.
+.sp 2
+   The file system containing the patch backup directory must
+   have sufficient disk space to back up your files
+   (approximately 400 MB per binary type if you want to be able
+   to install and roll back one enhancement pack and a few
+   additional fixes). It cannot be the root directory (/).
+.sp 2
+   If the directory already exists, it must be writable by the
+   cluster administrator (\fRlsfadmin\fR).
+.sp 2
+   If you need to change the directory after installation, edit
+   PATCH_BACKUP_DIR in LSF_TOP/patch.conf and move the saved
+   backup files to the new directory manually.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRPATCH_BACKUP_DIR="/usr/share/lsf/patch/backup"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   LSF_TOP/patch/backup
+.sp 2
+\fBPATCH_HISTORY_DIR\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPATCH_HISTORY_DIR="/\fR\fIpath\fR\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Full path to the patch history directory. This parameter is
+   used when you install a new cluster for the first time, and is
+   ignored for all other cases.
+.sp 2
+   It cannot be the root directory (/). If the directory already
+   exists, it must be writable by \fRlsfadmin\fR.
+.sp 2
+   The location is saved as PATCH_HISTORY_DIR in
+   LSF_TOP/patch.conf. Do not change the directory after
+   installation.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   PATCH_BACKUP_DIR="/usr/share/lsf/patch"
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   LSF_TOP/patch
+.sp 2
+\fBPERF_HOST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPERF_HOST="\fIhost_name\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Dedicated host for PERF daemons. Required if
+   EGO_PERF_CONTROL="N". To allow failover, we recommend that you
+   leave this parameter undefined when EGO control is enabled for
+   the PERF daemons.
+.sp 2
+   Specify the name of one host that will run PERF daemons:
+   \fRplc\fR, \fRjobdt\fR, and \fRpurger\fR. If EGO controls PERF
+   daemons, you must specify a host from LSF_MASTER_LIST.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         This parameter only takes effect when you install the
+         HPC Portal package for the first time.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRPERF_HOST="hostp"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined.
+.sp 2
+\fBPMC_HOST\fR
+.sp 2
+
+.sp 2 .SH "Syntax"
+\fBSyntax\fR
+.sp 2
+   \fRPMC_HOST="\fIhost_name\fR"\fR
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Dedicated host for HPC Portal. Required if
+   EGO_PMC_CONTROL="N". To allow failover, we recommend that you
+   leave this parameter undefined when EGO control is enabled for
+   the HPC Portal.
+.sp 2
+   Specify the name of one host that will always run the HPC
+   Portal. If EGO controls HPC Portal, you must specify a host
+   from LSF_MASTER_LIST.
+.sp 2
+      \fBNote: \fR
+.sp 2
+         This parameter only takes effect when you install the
+         HPC Portal package for the first time.
+.sp 2 .SH "Example"
+\fBExample\fR
+.sp 2
+   \fRPMC_HOST="hostg"\fR
+.sp 2 .SH "Default"
+\fBDefault\fR
+.sp 2
+   Undefined.

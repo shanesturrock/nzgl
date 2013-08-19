@@ -1,0 +1,76 @@
+.\" ckpt_ld.1,v 1.1.1.1 1994/07/30 14:13:21 xxue Exp
+.ds ]W %
+.ds ]L
+.TH CKPT_LD 1 "1 August 1998"
+.SH NAME
+ckpt_ld, ckpt_ld_f \- replacement linkers for C and Fortran programs to be checkpointed
+.SH SYNOPSIS
+.B ckpt_ld \fR[ \fIoptions ... \fR] \fIfile ...\fR
+.PP
+.B ckpt_ld_f \fR[ \fIoptions ... \fR] \fIfile ...\fR
+.SH DESCRIPTION
+.B ckpt_ld
+and
+.B ckpt_ld_f
+are shell scripts provided to simplify the linking of the 
+user's object files with the checkpoint user library
+.B libckpt.a
+and the special checkpoint startup routine
+.BR ckpt_crt0.o .
+.B ckpt_ld
+is for C programs and
+.B ckpt_ld_f
+is for Fortran 77 programs.
+To link with the checkpoint library, the source code should first be
+compiled without linking. Then the object files should be linked using
+.B ckpt_ld
+or
+.B ckpt_ld_f
+instead of 
+.BR ld .
+.B ckpt_ld
+and
+.B ckpt_ld_f
+accept the same options as
+.BR ld .
+.PP
+For IRIX 6.0, there are three sets of the checkpoint user library
+and the checkpoint startup routine, \fBlibckpt.mips[234].a\fR and
+\fBckpt_crt0.mips[234].o\fR. They are to be linked with object files
+compiled under option "-mips2", "-mips3", or "-mips4" respectively.
+\fBckpt_ld\fR and \fBckpt_ld_f\fR use option "-mips2", "-mips3", or
+"-mips4" to distinguish the instruction set used and will
+choose the correct checkpoint library and startup routine automatically.
+The default is "-mips4". 
+.PP
+On IRIX 5.2 and IRIX 6.0, C and Fortran programs must be compiled
+with the "-non_shared" option in order to be linked with the checkpoint
+user library and the checkpoint startup routine.
+.SH EXAMPLES
+.nf
+.ft B
+C:
+  %cc -c test1.c
+  %cc -c test2.c
+  %ckpt_ld -o test test1.o test2.o
+Fortran:
+  %f77 -c test1.f
+  %f77 -c test2.f
+  %ckpt_ld_f -o test test1.o test2.o
+.ft
+.fi
+.SH NOTES
+The LSF administrator may need to edit the
+.B ckpt_ld
+script at install time to reflect where you installed
+.B libckpt.a
+and
+.B ckpt_crt0.o
+before use.
+.PP
+SIGHUP is used internally to implement checkpointing. Do not
+use this signal in programs to be checkpointed.
+.SH SEE ALSO
+.BR ld (1), 
+.BR libckpt.a (3), 
+.BR ckpt_crt0.o (3)

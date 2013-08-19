@@ -1,0 +1,31 @@
+
+.ad l
+
+.ll 72
+
+.TH pmcremoverc 8 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBpmcremoverc.sh\fR
+.sp 2
+   Prevents automatic startup of the HPC Portal on a UNIX host.
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+pmcremoverc.sh
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   This is an administrative command. You must be logged on as
+   root to issue this command.
+.sp 2
+   Prevents automatic startup of HPC Portal on a UNIX host when a
+   system reboot command is issued. After this command is issued,
+   HPC Portal no longer starts automatically if the host gets
+   rebooted. In such a case, you must manually start HPC Portal
+   after the host has started up.
+.sp 2
+   Removes the file pmc created in the system startup directory
+   by pmcsetrc.sh.
+.sp 2

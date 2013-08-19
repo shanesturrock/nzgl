@@ -1,0 +1,78 @@
+
+.ad l
+
+.ll 72
+
+.TH lspasswd 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBlspasswd\fR
+.sp 2
+   registers user passwords in LSF on Windows
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+lspasswd [-u user_name] [-p password]
+.sp 2
+lspasswd [-r] [-u user_name]
+.sp 2
+lspasswd [-c] [-u user_name] [-p password]
+.sp 2
+lspassword [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Registers user passwords in LSF on Windows. Passwords must be
+   longer than 3 characters and 31 characters or less.
+.sp 2
+   By default, if no options are specified, the password applies
+   to the user who issued the command.
+.sp 2
+   Users must update the password maintained by LSF if they
+   change their Windows user account password.
+.sp 2
+   Passwords are Windows user account passwords and are saved in
+   the LSF database. LSF uses the passwords to start jobs on
+   behalf of the user.
+.sp 2
+   lspasswd communicates with LSF services to store the password.
+   The password is stored in encrypted format and the password
+   database is protected by file access permissions. The password
+   remains encrypted as it travels through the network.
+.sp 2
+   The -p option allows scripts to use lspasswd. You should not
+   use this option directly on the command line because the
+   password is entered in full view on the command line. Only
+   error messages are displayed when using the -p option.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-c -u \fIuser_name\fB -p \fIpassword\fB\fR
+.br
+               Check that the password is valid for the specified
+               user.
+.sp 2
+   \fB-r -u \fIuser_name\fB\fR
+.br
+               Remove the user entry from the password database.
+.sp 2
+   \fB-u \fIuser_name\fB -p \fIpassword\fB\fR
+.br
+               Specify the user and password for the user whose
+               password you want to register or change. Include
+               the domain name in uppercase letters
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR).
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Limitations"
+\fBLimitations\fR
+.sp 2
+   You must run lspasswd from an LSF Windows host.
+.sp 2

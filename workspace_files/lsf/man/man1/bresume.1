@@ -1,0 +1,154 @@
+
+.ad l
+
+.ll 72
+
+.TH bresume 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbresume\fR
+.sp 2
+   resumes one or more suspended jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bresume [-app application_profile_name] [-g job_group_name] [-J
+job_name] [-m host_name] [-q queue_name] [-sla
+service_class_name] [-u user_name | -u user_group | -u all] [0]
+.sp 2
+bresume [job_ID | "job_ID[index_list]"] ...
+.sp 2
+bresume [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Sends the SIGCONT signal to resume one or more of your
+   suspended jobs.
+.sp 2
+   Only root and LSF administrators can operate on jobs submitted
+   by other users. You cannot resume a job that is not suspended.
+   Using bresume on a job that is not in either the PSUSP or the
+   USUSP state has no effect.
+.sp 2
+   You must specify a job ID or -g, -J, -m, -u, or -q. You cannot
+   resume a job that is not suspended. Specify 0 (zero) to resume
+   multiple jobs.
+.sp 2
+   You can also use bkill -s CONT to send the resume signal to a
+   job.
+.sp 2
+   If a signal request fails to reach the job execution host, LSF
+   retries the operation later when the host becomes reachable.
+   LSF retries the most recent signal request.
+.sp 2
+   Jobs that are suspended by the administrator can only be
+   resumed by the administrator or root; users do not have
+   permission to resume a job suspended by another user or the
+   administrator. Administrators or root can resume jobs
+   suspended by users or administrators.
+.sp 2 .SH "ENABLE_USER_RESUME parameter (lsb.params)"
+\fBENABLE_USER_RESUME parameter (lsb.params)\fR
+.sp 2
+   If ENABLE_USER_RESUME=Y in lsb.params, users can resume their
+   own jobs that have been suspended by the administrator.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB0\fR
+.br
+               Resumes all the jobs that satisfy other options
+               (-g, -m, -q, -u, and -J).
+.sp 2
+   \fB-app \fIapplication_profile_name\fB\fR
+.br
+               Resumes only jobs associated with the specified
+               application profile. You must specify an existing
+               application profile.
+.sp 2
+   \fB-g \fIjob_group_name\fB\fR
+.br
+               Resumes only jobs in the specified job group.
+.sp 2
+   \fB-J \fIjob_name\fB \fR
+.br
+               Resumes only jobs with the specified name.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-m \fIhost_name\fB\fR
+.br
+               Resumes only jobs dispatched to the specified
+               host.
+.sp 2
+   \fB-q \fIqueue_name\fB \fR
+.br
+               Resumes only jobs in the specified queue.
+.sp 2
+   \fB-sla \fIservice_class_name\fB\fR
+.br
+               Resume jobs belonging to the specified service
+               class.
+.br
+               Use bsla to display the properties of service
+               classes configured in
+               LSB_CONFDIR/\fIcluster_name\fR/configdir/lsb.serviceclasses
+               (see lsb.serviceclasses(5)) and dynamic
+               information about the state of each configured
+               service class.
+.sp 2
+   \fB-u \fIuser_name\fB | -u \fIuser_group\fB | -u all \fR
+.br
+               Resumes only jobs owned by the specified user or
+               group, or all users if the reserved user name all
+               is specified. To specify a Windows user account,
+               include the domain name in uppercase letters and
+               use a single backslash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double backslash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB\fIjob_ID\fB ... | "\fIjob_ID\fB[\fIindex_list\fB]" ... \fR
+.br
+               Resumes only the specified jobs. Jobs submitted by
+               any user can be specified here without using the
+               -u option.
+.sp 2
+   \fB-h \fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints LSF release version to stderr and exits.
+.sp 2 .SH "Examples"
+\fBExamples\fR
+.sp 2
+   bresume -q night 0
+.sp 2
+   Resumes all of the user’s suspended jobs that are in the
+   \fRnight\fR queue. If the user is the LSF administrator,
+   resumes all suspended jobs in the \fRnight\fR queue.
+.sp 2
+   bresume -g /risk_group 0
+.sp 2
+   Resumes all suspended jobs in the job group \fR/risk_group\fR.
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   bsub(1), bjobs(1), bqueues(1), bhosts(1), bstop(1), bkill(1),
+   bgadd(1), bgdel(1), bjgroup(1), bparams(1), bapp(1),
+   mbatchd(8), kill(1), signal(2) lsb.params(5),
+   lsb.applications(5)
+.sp 2

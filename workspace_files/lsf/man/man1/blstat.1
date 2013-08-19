@@ -1,0 +1,400 @@
+
+.ad l
+
+.ll 72
+
+.TH blstat 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBblstat\fR
+.sp 2
+   displays dynamic license information
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+blstat [-a] [-c token_name] [-G] [-s] [-S] [-D
+service_domain_name | "service_domain_name ..."] [-Lp
+ls_project_name | "ls_project_name ..."] [-P][-t token_name |
+"token_name ..."] [-o alpha | total | avail] [-g "feature_group
+..."]
+.sp 2
+blstat [ -h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   Displays license usage statistics.
+.sp 2
+   By default, shows information about all licenses and all
+   clusters.
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-a\fR
+.br
+               Displays each project group’s accumulated value of
+               licenses. The license token dispatching order is
+               based on the sort order, which is based on the
+               scaled accumulate value of each project. The lower
+               the value, the sooner the license token is
+               dispatched to that project.
+.sp 2
+   \fB-c \fItoken_name\fB\fR
+.br
+               Displays cross cluster information for tokens,
+               sorted by the value of SCALED_ACUM. The first
+               cluster listed receives tokens first.
+.sp 2
+               Information displayed includes token usage,
+               reserved tokens, free tokens, demand for tokens,
+               accumulated value of tokens, and scaled accumulate
+               value of tokens in each cluster.
+.sp 2
+                 o  
+                     FREE: Allocated to the cluster but not used.
+.sp 2
+                 o  
+                     AVAIL: If the feature is configured as
+                     dynamic, AVAIL=reserve + free – preempted.
+                     If it is not dynamic, AVAIL= in use +
+                     reserve + free – preempted.
+.sp 2
+                 o  
+                     NEED: Total number of tokens required by
+                     pending jobs (rusage).
+.sp 2
+   \fB-G\fR
+.br
+               Displays dynamic hierarchical license information.
+.sp 2
+               blstat -G also works with the -t option to only
+               display hierarchical information for the specified
+               feature names.
+.sp 2
+   \fB-S\fR
+.br
+               Displays information on the license server
+               associated with license features.
+.sp 2
+   \fB-s\fR
+.br
+               Displays license usage of the LSF and non-LSF
+               workloads. Workload distributions are defined by
+               WORKLOAD_DISTRIBUTION in lsf.licensescheduler. If
+               there are any distribution policy violations,
+               blstat marks these with an asterisk (*) at the
+               beginning of the line.
+.sp 2
+   \fB-D \fIservice_domain_name\fB | "\fIservice_domain_name\fB
+   ..."\fR
+.br
+               Only shows information about specified service
+               domains. Use spaces to separate multiple names,
+               and enclose them in quotation marks.
+.sp 2
+   \fB-g \fIfeature_group\fB ...\fR
+.br
+               When FEATURE_GROUP is configured for a group of
+               license features in lsf.licensescheduler, shows
+               only information about the features configured in
+               the FEATURE_LIST of specified feature groups. You
+               can specify more than one feature group at a time.
+.sp 2
+               When you specify feature names with -t, features
+               in the FEATURE_LIST defined by -t and feature
+               groups are both displayed.
+.sp 2
+               Feature groups listed with -g but not defined in
+               lsf.licensescheduler are ignored.
+.sp 2
+   \fB-Lp \fIls_project_name\fB | "\fIls_project_name\fB ..."\fR
+.br
+               Shows project description for specified projects
+               (non-hierarchical). Use spaces to separate
+               multiple names and enclose them in quotation
+               marks.
+.sp 2
+   \fB-o alpha | total | avail\fR
+.br
+               Sorts license feature information alphabetically,
+               by total licenses, or by available licenses.
+.sp 2
+                 o  
+                     alpha: Features are listed in descending
+                     alphabetical order.
+.sp 2
+                 o  
+                     total: Features are sorted by the descending
+                     order of the sum of licenses that are
+                     allocated to LSF workload from all the
+                     service domains configured to supply
+                     licenses to the feature. Licenses borrowed
+                     by non-LSF workload are not included in this
+                     amount.
+.sp 2
+                 o  
+                     avail: Features are sorted by descending
+                     order of licenses available, including free
+                     tokens.
+.sp 2
+   \fB-P\fR
+.br
+               Displays percentage values for INUSE and RESERVE.
+               The percentage value represents the number of
+               tokens this project has used and reserved compared
+               to total number of licenses.
+.sp 2
+   \fB-t \fItoken_name\fB | "\fItoken_name\fB ..."\fR
+.br
+               Only shows information about specified licenses.
+               Use spaces to separate multiple names, and enclose
+               them in quotation marks.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V\fR
+.br
+               Prints the release version to stderr and exits.
+.sp 2 .SH "Output"
+\fBOutput\fR
+.sp 2
+   Information is organized first by license feature, then by
+   service domain. For each combination of license and service
+   domain, License Scheduler displays a line of summary
+   information followed by rows of license project information
+   (one row for each license project configured to use the
+   license).
+.sp 2
+   In each group of statistics, numbers and percentages refer
+   only to licenses of the specified license feature that can be
+   checked out from FLEXnet license server hosts in the specified
+   service domain.
+.sp 2 .SH "Summary output"
+\fBSummary output\fR
+.sp 2
+   \fBFEATURE\fR
+.br
+               The license name. (This appears only once for each
+               feature.)
+.sp 2
+   \fBSERVICE_DOMAIN\fR
+.br
+               The name of the service domain that provided the
+               license.
+.sp 2
+   \fBTOTAL_INUSE\fR
+.br
+               The number of licenses in use by License Scheduler
+               projects. (Licenses in use have been checked out
+               from the FLEXnet license manager.)
+.sp 2
+   \fBTOTAL_RESERVE\fR
+.br
+               The number of licenses reserved for License
+               Scheduler projects. (Licenses that are reserved
+               and have not been checked out from the FLEXnet
+               license manager.)
+.sp 2
+   \fBTOTAL_FREE\fR
+.br
+               The number of free licenses that are available to
+               License Scheduler projects. (Licenses that are not
+               reserved or in use.)
+.sp 2
+   \fBOTHERS\fR
+.br
+               The number of licenses checked out by users who
+               are not submitting their jobs to License Scheduler
+               projects.
+.sp 2
+               By default, these licenses are not being managed
+               by License Scheduler policies.
+.sp 2
+               To enforce license distribution policies for these
+               license features, configure
+               ENABLE_DYNAMIC_RUSAGE=Y in the feature section for
+               those features in lsf.licensescheduler.
+.sp 2 .SH "Workload output"
+\fBWorkload output\fR
+.sp 2
+   \fBLSF_USE\fR
+.br
+               The total number of licenses in use by License
+               Scheduler projects in the LSF workload.
+.sp 2
+   \fBLSF_DESERVE\fR
+.br
+               The total number of licenses assigned to License
+               Scheduler projects in the LSF workload.
+.sp 2
+   \fBLSF_FREE\fR
+.br
+               The total number of free licenses available to
+               License Scheduler projects in the LSF workload.
+.sp 2
+   \fBNON_LSF_USE\fR
+.br
+               The total number of licenses in use by projects in
+               the non-LSF workload.
+.sp 2
+   \fBNON_LSF_DESERVE\fR
+.br
+               The total number of licenses assigned to projects
+               in the non-LSF workload.
+.sp 2
+   \fBNON_LSF_FREE\fR
+.br
+               The total number of free licenses available to
+               projects in the non-LSF workload.
+.sp 2 .SH "Project output"
+\fBProject output\fR
+.sp 2
+   For each project that is configured to use the license,
+   \fRblstat\fR displays the following information.
+.sp 2
+   \fBPROJECT\fR
+.br
+               The License Scheduler project name.
+.sp 2
+   \fBSHARE\fR
+.br
+               The percentage of licenses assigned to the license
+               project by the License Scheduler administrator.
+               This determines how many licenses the project is
+               entitled to when there is competition for
+               licenses. This information is static.
+.sp 2
+               The percentage is calculated to one decimal place
+               using the share assignment in
+               lsf.licensescheduler.
+.sp 2
+   \fBLIMITS\fR
+.br
+               The maximum number of licenses that the
+               hierarchical group member project can use at any
+               one time.
+.sp 2
+   \fBOWN\fR
+.br
+               Numeric value indicating the number of tokens
+               owned by each project.
+.sp 2
+   \fBINUSE\fR
+.br
+               The number of licenses in use by the license
+               project. (Licenses in use have been checked out
+               from the FLEXnet license manager.)
+.sp 2
+   \fBRESERVE\fR
+.br
+               The number of licenses reserved for the license
+               project. (The corresponding job has started to
+               run, but has not yet checked out its license from
+               the FLEXnet license manager.)
+.sp 2
+   \fBFREE\fR
+.br
+               The number of licenses the license project has
+               free. (The license tokens have been allocated to
+               the license project by License Scheduler, but the
+               licenses are not reserved and have not yet been
+               checked out from the FLEXnet license manager.)
+.sp 2
+   \fBDEMAND\fR
+.br
+               Numeric value indicating the number of tokens
+               required by each project.
+.sp 2
+   \fBNON_SHARED\fR
+.br
+               The number of non-shared licenses belonging to the
+               license project. (The license tokens allocated to
+               non-shared distribution are scheduled before the
+               tokens allocated to shared distribution.)
+.sp 2
+   \fBDESCRIPTION\fR
+.br
+               Description of the project.
+.sp 2
+   \fBACUM_USE\fR
+.br
+               The number of tokens accumulated by each consumer
+               at runtime. It is the number of licenses assigned
+               to a given consumer for a specific feature.
+.sp 2
+   \fBSCALED_ACUM\fR
+.br
+               The number of tokens accumulated by each consumer
+               at runtime divided by the SHARE value. License
+               Scheduler uses this value to schedule the tokens
+               for each project.
+.sp 2 .SH "Hierarchical output"
+\fBHierarchical output\fR
+.sp 2
+   \fBSHARE_INFO_FOR\fR
+.br
+               The root member and name of the hierarchical
+               group. The project information displayed after
+               this title shows the information specific to this
+               particular hierarchical group. If this root member
+               is itself a member of another hierarchical group,
+               the relationship is displayed as follows:
+.sp 2
+               /\fIroot_name\fR/\fImember_name\fR/...
+.sp 2
+   \fBPROJECT/GROUP\fR
+.br
+               The members of the hierarchical group, listed by
+               its group or project name.
+.sp 2 .SH "Viewing license feature locality"
+\fBViewing license feature locality\fR
+.sp 2
+   When LOCAL_TO is configured for a feature in
+   lsf.licensescheduler, blstat shows the cluster locality
+   information for the license features. For example, with a
+   group distribution configuration blstat shows the locality of
+   the hspice feature configured for various sites:
+.sp 2
+   blstat
+.sp 2
+   FEATURE: hspice
+.sp 2
+    SERVICE_DOMAIN: SD3 SD4
+.sp 2
+    TOTAL_INUSE: 0    TOTAL_RESERVE: 0    TOTAL_FREE: 22   OTHERS: 0
+.sp 2
+     PROJECT                 SHARE   OWN  INUSE RESERVE FREE   DEMAND 
+.sp 2
+     Lp1                     50.0 %   3     1    0        0     11
+.sp 2
+     Lp2                     50.0 %   1     3    0        0     11
+.sp 2
+   FEATURE: hspice@clusterA
+.sp 2
+    SERVICE_DOMAIN: SD1
+.sp 2
+    TOTAL_INUSE: 0    TOTAL_RESERVE: 0    TOTAL_FREE: 25   OTHERS: 0
+.sp 2
+     PROJECT                 SHARE   OWN  INUSE RESERVE FREE   DEMAND 
+.sp 2
+     Lp1                     50.0 %   4     0    0      12       3
+.sp 2
+     Lp2                     50.0 %   5     0    0      13       1
+.sp 2
+   FEATURE: hspice@siteB
+.sp 2
+    SERVICE_DOMAIN: SD2
+.sp 2
+    TOTAL_INUSE: 0    TOTAL_RESERVE: 0    TOTAL_FREE: 65   OTHERS: 0
+.sp 2
+     PROJECT                 SHARE   OWN  INUSE RESERVE FREE   DEMAND 
+.sp 2
+     Lp1                     50.0 %   4     0    0      32       2
+.sp 2
+     Lp2                     50.0 %   5     0    0      33       6
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   \fR\fRblhosts, \fR\fRblinfo

@@ -1,0 +1,682 @@
+
+.ad l
+
+.ll 72
+
+.TH bhist 1 September 2009" "" "Platform LSF Version 7.0.6"
+.nh
+\fBbhist\fR
+.sp 2
+   displays historical information about jobs
+.sp 2
+
+.sp 2 .SH "Synopsis"
+\fBSynopsis\fR
+.sp 2
+bhist [-a |-d | -e |-p | -r | -s] [-b | -w] [-l] [-C
+start_time,end_time] [-D start_time,end_time] [-f logfile_name |
+-n number_logfiles | -n 0] [-S start_time,end_time] [-J job_name]
+[-Jd "job_description"] [-Lp ls_project_name] [-m "host_name"
+...] [-N host_name | -N host_model | -N CPU_factor] [-P
+project_name] [-q queue_name] [-u user_name | -u all | -G
+user_group]
+.sp 2
+bhist [-t] [-f logfile_name] [-T start_time,end_time]
+.sp 2
+bhist [-J job_name] [-Jd "job_description"] [-N host_name | -N
+host_model | -N cpu_factor] [job_ID ... | "job_ID[index]" ...]
+.sp 2
+bhist [-h | -V]
+.sp 2 .SH "Description"
+\fBDescription\fR
+.sp 2
+   By default:
+.sp 2
+     o  
+         Displays information about your own pending, running and
+         suspended jobs. Groups information by job
+.sp 2
+     o  
+         CPU time is not normalized
+.sp 2
+     o  
+         Searches the event log file currently used by the LSF
+         system:
+         $LSB_SHAREDIR/\fIcluster_name\fR/logdir/lsb.events (see
+         lsb.events(5))
+.sp 2
+     o  
+         Displays events occurring in the past week, but this can
+         be changed by setting the environment variable
+         LSB_BHIST_HOURS to an alternative number of hours
+.sp 2 .SH "Options"
+\fBOptions\fR
+.sp 2
+   \fB-a\fR
+.br
+               Displays information about both finished and
+               unfinished jobs.
+.sp 2
+               This option overrides -d, -p, -s, and -r.
+.sp 2
+   \fB-b\fR
+.br
+               Brief format.
+.sp 2
+   \fB-d\fR
+.br
+               Only displays information about finished jobs.
+.sp 2
+   \fB-e\fR
+.br
+               Only displays information about exited jobs.
+.sp 2
+   \fB-l \fR
+.br
+               Long format.
+.sp 2
+               If the job was submitted bsub -K, the -l option
+               displays \fRSynchronous execution\fR.
+.sp 2
+               If you submitted a job using the OR (||)
+               expression to specify alternative resources, this
+               option displays the successful Execution rusage
+               string with which the job ran.
+.sp 2
+               If you submitted a job with multiple resource
+               requirement strings using the bsub -R option for
+               the order, same, rusage, and select sections,
+               bhist -l displays a single, merged resource
+               requirement string for those sections, as if they
+               were submitted using a single -R.
+.sp 2
+               Long format includes information about:
+.sp 2
+                 o  
+                     Job exit codes.
+.sp 2
+                 o  
+                     Job exceptions (for example, if a job's
+                     runtime exceeds the runtime estimate, a job
+                     exception of \fRruntime_est_exceeded\fR
+                     displays)
+.sp 2
+                 o  
+                     Resizable job information
+.sp 2
+                 o  
+                     SSH X11 forwarding information (-XF)
+.sp 2
+                 o  
+                     Changes to pending jobs as a result of the
+                     following bmod options:
+.sp 2
+                       o  
+                           Absolute priority scheduling (-aps |
+                           -apsn)
+.sp 2
+                       o  
+                           Runtime estimate (-We | -Wen)
+.sp 2
+                       o  
+                           Post-execution command (-Ep | -Epn)
+.sp 2
+                       o  
+                           User limits (-ul | -uln)
+.sp 2
+                       o  
+                           Current working directory (-cwd |
+                           -cwdn)
+.sp 2
+                       o  
+                           Checkpoint options (-k | -kn)
+.sp 2
+                       o  
+                           Migration threshold (-mig | -mign)
+.sp 2
+                       o  
+                           Autoreszizable job attribute (-ar |
+                           -arn)
+.sp 2
+                       o  
+                           Job resize notification command (-rnc
+                           | -rncn)
+.sp 2
+                       o  
+                           Job description (-Jd | -Jdn)
+.sp 2
+   \fB-p \fR
+.br
+               Only displays information about pending jobs.
+.sp 2
+   \fB-r \fR
+.br
+               Only displays information about running jobs.
+.sp 2
+   \fB-s\fR
+.br
+               Only displays information about suspended jobs.
+.sp 2
+   \fB-t \fR
+.br
+               Displays job events chronologically.
+.sp 2
+               By default only displays records from the last
+               week. For different time periods use -t with the
+               -T option.
+.sp 2
+   \fB-w\fR
+.br
+               Wide format. Displays the information in a wide
+               format.
+.sp 2
+   \fB-C \fIstart_time\fB,\fIend_time\fB \fR
+.br
+               Only displays jobs that completed or exited during
+               the specified time interval. Specify the span of
+               time for which you want to display the history. If
+               you do not specify a start time, the start time is
+               assumed to be the time of the first occurrence. If
+               you do not specify an end time, the end time is
+               assumed to be now.
+.sp 2
+               Specify the times in the format
+               "\fRyyyy/mm/dd/HH:MM\fR". Do not specify spaces in
+               the time interval string.
+.sp 2
+               The time interval can be specified in many ways.
+.sp 2
+   \fB-D \fIstart_time\fB,\fIend_time\fB \fR
+.br
+               Only displays jobs dispatched during the specified
+               time interval. Specify the span of time for which
+               you want to display the history. If you do not
+               specify a start time, the start time is assumed to
+               be the time of the first occurrence. If you do not
+               specify an end time, the end time is assumed to be
+               now.
+.sp 2
+               Specify the times in the format
+               "\fRyyyy/mm/dd/HH:MM\fR". Do not specify spaces in
+               the time interval string.
+.sp 2
+               The time interval can be specified in many ways.
+.sp 2
+   \fB-G \fIuser_group\fB \fR
+.br
+               Only displays jobs associated with a user group
+               submitted with bsub -G for the specified user
+               group. The –G option does not display jobs from
+               subgroups within the specified user group.
+.sp 2
+               The -G option cannot be used together with the -u
+               option. You can only specify a user group name.
+               The keyword all is not supported for -G.
+.sp 2
+   \fB-S \fIstart_time\fB,\fIend_time\fB\fR
+.br
+               Only displays information about jobs submitted
+               during the specified time interval. Specify the
+               span of time for which you want to display the
+               history. If you do not specify a start time, the
+               start time is assumed to be the time of the first
+               occurrence. If you do not specify an end time, the
+               end time is assumed to be now.
+.sp 2
+               Specify the times in the format
+               "\fRyyyy/mm/dd/HH:MM\fR". Do not specify spaces in
+               the time interval string.
+.sp 2
+               The time interval can be specified in many ways.
+.sp 2
+   \fB-T \fIstart_time\fB,\fIend_time\fB\fR
+.br
+               Used together with -t.
+.sp 2
+               Only displays information about job events within
+               the specified time interval. Specify the span of
+               time for which you want to display the history. If
+               you do not specify a start time, the start time is
+               assumed to be the time of the first occurrence. If
+               you do not specify an end time, the end time is
+               assumed to be now.
+.sp 2
+               Specify the times in the format
+               \fRyyyy/mm/dd/HH:MM\fR. Do not specify spaces in
+               the time interval string.
+.sp 2
+               The time interval can be specified in many ways.
+.sp 2
+   \fB-f \fIlogfile_name\fB \fR
+.br
+               Searches the specified event log. Specify either
+               an absolute or a relative path.
+.sp 2
+               Useful for analysis directly on the file.
+.sp 2
+               The specified file path can contain up to 4094
+               characters for UNIX, or up to 255 characters for
+               Windows.
+.sp 2
+   \fB-J \fIjob_name\fB\fR
+.br
+               Only displays the jobs that have the specified job
+               name.
+.sp 2
+               The job name can be up to 4094 characters long.
+               Job names are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job name, but cannot appear within array
+               indices. For example \fRjob*\fR returns jobA and
+               jobarray[1], \fR*AAA*[1]\fR returns the first
+               element in all job arrays with names containing
+               AAA, however \fRjob1[*]\fR will not return
+               anything since the wildcard is within the array
+               index.
+.sp 2
+   \fB-Jd "\fIjob_description\fB"\fR
+.br
+               Only displays the jobs that have the specified job
+               description.
+.sp 2
+               The job description can be up to 4094 characters
+               long. Job descriptions are not unique.
+.sp 2
+               The wildcard character (*) can be used anywhere
+               within a job description.
+.sp 2
+   \fB-Lp \fIls_project_name\fB \fR
+.br
+               Only displays information about jobs belonging to
+               the specified License Scheduler project.
+.sp 2
+   \fB-m "\fIhost_name\fB" ...\fR
+.br
+               Only displays jobs dispatched to the specified
+               host.
+.sp 2
+   \fB-n \fInumber_logfiles\fB | -n 0\fR
+.br
+               Searches the specified number of event logs,
+               starting with the current event log and working
+               through the most recent consecutively numbered
+               logs. The maximum number of logs you can search is
+               100. Specify 0 to specify all the event log files
+               in $(LSB_SHAREDIR)/\fIcluster_name\fR/logdir (up
+               to a maximum of 100 files).
+.sp 2
+               If you delete a file, you break the consecutive
+               numbering, and older files are inaccessible to
+               bhist.
+.sp 2
+               For example, if you specify 3, LSF searches
+               lsb.events, lsb.events.1, and lsb.events.2. If you
+               specify 4, LSF searches lsb.events, lsb.events.1,
+               lsb.events.2, and lsb.events.3. However, if
+               lsb.events.2 is missing, both searches include
+               only lsb.events and lsb.events.1.
+.sp 2
+   \fB-N \fIhost_name\fB | -N \fIhost_model\fB | -N
+   \fIcpu_factor\fB\fR
+.br
+               Normalizes CPU time by the specified CPU factor,
+               or by the CPU factor of the specified host or host
+               model.
+.sp 2
+               If you use bhist directly on an event log, you
+               must specify a CPU factor.
+.sp 2
+               Use lsinfo to get host model and CPU factor
+               information.
+.sp 2
+   \fB-P \fIproject_name\fB \fR
+.br
+               Only displays information about jobs belonging to
+               the specified project.
+.sp 2
+   \fB-q \fIqueue_name\fB \fR
+.br
+               Only displays information about jobs submitted to
+               the specified queue.
+.sp 2
+   \fB-u \fIuser_name\fB | -u all \fR
+.br
+               Displays information about jobs submitted by the
+               specified user, or by all users if the keyword all
+               is specified. To specify a Windows user account,
+               include the domain name in uppercase letters and
+               use a single back slash
+               (\fIDOMAIN_NAME\fR\\\fIuser_name\fR) in a Windows
+               command line or a double back slash
+               (\fIDOMAIN_NAME\fR\\\\\fIuser_name\fR) in a UNIX
+               command line.
+.sp 2
+   \fB\fIjob_ID\fB | "\fIjob_ID\fB[\fIindex\fB]"\fR
+.br
+               Searches all event log files and only displays
+               information about the specified jobs. If you
+               specify a job array, displays all elements
+               chronologically.
+.sp 2
+               This option overrides all other options except -J,
+               -Jd, -N, -h, and -V. When it is used with -J, only
+               those jobs listed here that have the specified job
+               name are displayed. When it is used with -Jd, only
+               those jobs listed here that have the specified job
+               description are displayed.
+.sp 2
+   \fB-h\fR
+.br
+               Prints command usage to stderr and exits.
+.sp 2
+   \fB-V \fR
+.br
+               Prints release version to stderr and exits.
+.sp 2 .SH "Output: Default format"
+\fBOutput: Default format\fR
+.sp 2
+   Statistics of the amount of time that a job has spent in
+   various states:
+.sp 2
+   \fBPEND\fR
+.br
+               The total waiting time excluding user suspended
+               time before the job is dispatched.
+.sp 2
+   \fBPSUSP\fR
+.br
+               The total user suspended time of a pending job.
+.sp 2
+   \fBRUN\fR
+.br
+               The total run time of the job.
+.sp 2
+   \fBUSUSP\fR
+.br
+               The total user suspended time after the job is
+               dispatched.
+.sp 2
+   \fBSSUSP \fR
+.br
+               The total system suspended time after the job is
+               dispatched.
+.sp 2
+   \fBUNKWN \fR
+.br
+               The total unknown time of the job (job status
+               becomes unknown if sbatchd on the execution host
+               is temporarily unreachable).
+.sp 2
+   \fBTOTAL\fR
+.br
+               The total time that the job has spent in all
+               states; for a finished job, it is the turnaround
+               time (that is, the time interval from job
+               submission to job completion).
+.sp 2 .SH "Output: Long format (-l)"
+\fBOutput: Long format (-l)\fR
+.sp 2
+   The \fR-l\fR option displays a long format listing with the
+   following additional fields:
+.sp 2
+   \fBProject\fR
+.br
+               The project the job was submitted from.
+.sp 2
+   \fBApplication Profile\fR
+.br
+               The application profile the job was submitted to.
+.sp 2
+   \fBCommand \fR
+.br
+               The job command.
+.sp 2
+               Detailed history includes job group modification,
+               the date and time the job was forwarded and the
+               name of the cluster to which the job was
+               forwarded.
+.sp 2
+               The displayed job command can contain up to 4094
+               characters for UNIX, or up to 255 characters for
+               Windows.
+.sp 2
+   \fBInitial checkpoint period\fR
+.br
+               The initial checkpoint period specified at the job
+               level, by bsub -k, or in an application profile
+               with CHKPNT_INITPERIOD.
+.sp 2
+   \fBCheckpoint period\fR
+.br
+               The checkpoint period specified at the job level,
+               by bsub -k, in the queue with CHKPNT, or in an
+               application profile with CHKPNT_PERIOD.
+.sp 2
+   \fBCheckpoint directory\fR
+.br
+               The checkpoint directory specified at the job
+               level, by bsub -k, in the queue with CHKPNT, or in
+               an application profile with CHKPNT_DIR.
+.sp 2
+   \fBMigration threshold\fR
+.br
+               The migration threshold specified at the job
+               level, by bsub -mig.
+.sp 2
+   \fBResizable job information\fR
+.br
+                 o  
+                     For JOB_NEW events, bhist displays the auto
+                     resizable attribute and resize notification
+                     command in the submission line.
+.sp 2
+                 o  
+                     For JOB_MODIFY2 events (bmod), bhist
+                     displays the auto resizable attribute and
+                     resize notification command in the
+                     submission line.
+.sp 2
+                       o  
+                           bmod -arn \fIjobID\fR:
+.sp 2
+                           Parameters of Job are changed: Autoresizable attribute is removed;
+.sp 2
+                       o  
+                           bmod -ar \fIjobID\fR:
+.sp 2
+                           Parameters of Job are changed: Job changes to autoresizable;
+.sp 2
+                       o  
+                           bmod -rnc
+                           \fIresize_notification_cmd\fR
+                           \fIjobID\fR:
+.sp 2
+                           Parameters of Job are changed: Resize notification command changes to: <resize_notification_cmd>;
+.sp 2
+                       o  
+                           bmod -rncn \fIjobID\fR:
+.sp 2
+                           Parameters of Job are changed: Resize notification command is removed;
+.sp 2
+                 o  
+                     For JOB_RESIZE_NOTIFY_START event, bhist
+                     displays:
+.sp 2
+                     Additional allocation on <num_hosts> Hosts/Processors <host_list>
+.sp 2
+                 o  
+                     For JOB_RESIZE_NOTIFY_ACCEPT event, bhist
+                     displays the following:
+.sp 2
+                       o  
+                           If the notification command is
+                           configured and sbatchd successfully
+                           initializes notification command.
+                           bhist displays
+.sp 2
+                           Resize notification accepted. Notification command initialized (Command PID: 123456)
+.sp 2
+                       o  
+                           If a notification command is not
+                           defined, bhist displays
+.sp 2
+                           Resize notification accepted
+.sp 2
+                       o  
+                           If sbatchd reports failure for
+                           whatever reason, bhist displays
+.sp 2
+                           Resize notification failed
+.sp 2
+                 o  
+                     For JOB_RESIZE_NOTIFY_DONE event, bhist
+                     displays the following:
+.sp 2
+                       o  
+                           \fRResize notification command
+                           completed\fR if status is 0
+.sp 2
+                       o  
+                           \fRResize notification command
+                           failed\fR if status is 1
+.sp 2
+                 o  
+                     For JOB_RESIZE_RELEASE event, bhist displays
+.sp 2
+                     Release allocation on <num_hosts> Hosts/Processors <host_list> by user or administrator <user_name>, Resize notification command: <command_line>, Cancel pending allocation request;
+.sp 2
+                     For bmod -rncn, bhist displays
+.sp 2
+                     Resize notification command disabled 
+.sp 2
+                 o  
+                     For JOB_RESIZE_CANCEL event, bhist displays
+.sp 2
+                     Cancel pending allocation request
+.sp 2
+   \fBSynchronous execution\fR
+.br
+               Job was submitted with the -K option. LSF submits
+               the job and waits for the job to complete.
+.sp 2
+   \fBInteractive jobs\fR
+.br
+               For interactive jobs, bhist -l does NOT display
+               information about a job’s execution home, cwd, or
+               running PID.
+.sp 2 .SH "Files"
+\fBFiles\fR
+.sp 2
+   Reads \fRlsb.events\fR
+.sp 2 .SH "See also"
+\fBSee also\fR
+.sp 2
+   lsb.events, bgadd, bgdel, bjgroup, bsub, bjobs, lsinfo
+.sp 2 .SH "Time interval format"
+\fBTime interval format\fR
+.sp 2
+   You use the time interval to define a start and end time for
+   collecting the data to be retrieved and displayed. While you
+   can specify both a start and an end time, you can also let one
+   of the values default. You can specify either of the times as
+   an absolute time, by specifying the date or time, or you can
+   specify them relative to the current time.
+.sp 2
+   Specify the time interval is follows:
+.sp 2
+   \fIstart_time\fR,\fIend_time\fR|\fIstart_time\fR,|,\fIend_time\fR|\fIstart_time\fR
+.sp 2
+   Specify \fIstart_time\fR or \fIend_time\fR in the following
+   format:
+.sp 2
+   [\fIyear\fR/][\fImonth\fR/][\fIday\fR][/\fIhour\fR:\fIminute\fR|/\fIhour\fR:]|.|.-\fIrelative_int\fR
+.sp 2
+   Where:
+.sp 2
+     o  
+         \fIyear\fR is a four-digit number representing the
+         calendar year.
+.sp 2
+     o  
+         \fImonth\fR is a number from 1 to 12, where 1 is January
+         and 12 is December.
+.sp 2
+     o  
+         \fIday\fR is a number from 1 to 31, representing the day
+         of the month.
+.sp 2
+     o  
+         \fIhour\fR is an integer from 0 to 23, representing the
+         hour of the day on a 24-hour clock.
+.sp 2
+     o  
+         \fIminute\fR is an integer from 0 to 59, representing
+         the minute of the hour.
+.sp 2
+     o  
+         . (period) represents the current month/day/hour:minute.
+.sp 2
+     o  
+         .-\fIrelative_int\fR is a number, from 1 to 31,
+         specifying a relative start or end time prior to now.
+.sp 2
+         \fBstart_time,end_time\fR
+.br
+                     Specifies both the start and end times of
+                     the interval.
+.sp 2
+         \fBstart_time,\fR
+.br
+                     Specifies a start time, and lets the end
+                     time default to now.
+.sp 2
+         \fB,end_time\fR
+.br
+                     Specifies to start with the first logged
+                     occurrence, and end at the time specified.
+.sp 2
+         \fBstart_time\fR
+.br
+                     Starts at the beginning of the most specific
+                     time period specified, and ends at the
+                     maximum value of the time period specified.
+                     For example, \fR2/ \fRspecifies the month of
+                     February—start February 1 at 00:00 a.m. and
+                     end at the last possible minute in February:
+                     February 28th at midnight.
+.sp 2 .SH "Absolute time examples"
+\fBAbsolute time examples\fR
+.sp 2
+   Assume the current time is May 9 17:06 2008:
+.sp 2
+   1,8 = May 1 00:00 2008 to May 8 23:59 2008
+.sp 2
+   ,4 = the time of the first occurrence to May 4 23:59 2008
+.sp 2
+   6 = May 6 00:00 2008 to May 6 23:59 2008
+.sp 2
+   2/ = Feb 1 00:00 2008 to Feb 28 23:59 2008
+.sp 2
+   /12: = May 9 12:00 2008 to May 9 12:59 2008
+.sp 2
+   2/1 = Feb 1 00:00 2008 to Feb 1 23:59 2008
+.sp 2
+   2/1, = Feb 1 00:00 to the current time
+.sp 2
+   ,. = the time of the first occurrence to the current time
+.sp 2
+   ,2/10: = the time of the first occurrence to May 2 10:59 2008
+.sp 2
+   2001/12/31,2008/5/1 = from Dec 31, 2001 00:00:00 to May 1st
+   2008 23:59:59
+.sp 2 .SH "Relative time examples"
+\fBRelative time examples\fR
+.sp 2
+   .-9, = April 30 17:06 2008 to the current time
+.sp 2
+   ,.-2/ = the time of the first occurrence to Mar 7 17:06 2008
+.sp 2
+   .-9,.-2 = nine days ago to two days ago (April 30 17:06 2008
+   to May 7 17:06 2008)
+.sp 2
