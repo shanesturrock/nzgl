@@ -1,2 +1,3 @@
 0 1 * * * root yum --quiet -y upgrade &>/dev/null
 30 2 * * * root /home/build/nzgl/bin/log_updates; /home/build/nzgl/bin/mail_report
+0 8 * * 0 root /usr/sbin/updateallrepos
