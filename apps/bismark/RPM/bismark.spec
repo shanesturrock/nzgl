@@ -1,6 +1,6 @@
 Name:		bismark
 Version:	0.9.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
 License:	GNU GPL v3
@@ -41,6 +41,9 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Mon Aug 26 2013 Shane Sturrock <shane@biomatters.com> - 0.9.0-2
+- Peter Stockwell confirms this works for him so putting into stable repo
+
 * Mon Aug 19 2013 Shane Sturrock <shane@biomatters.com> - 0.9.0-1
 - New upstream release - release notes don't say why, put into testing repo
 
