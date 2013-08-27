@@ -1,0 +1,30 @@
+#! /bin/bash
+
+# Copies files to $REMOTE_SERVERS. Must be able to log in to these servers with no password or other prompts.
+# NB The slowest transfer we've seen is ~10 MB/s over SCP, doing ~4GB at that speed would take ~7 minutes.
+# Try not to have multiple copies of this script running simultaneoulsy within the environment!
+
+REMOTE_SERVERS=( "10.10.2.64" "10.10.2.54" "10.10.2.60" "10.10.2.69" )
+DIR_ON_REMOTE_SERVER="/tmp/automated-file-transfer-tests/cron-transfer-from-remote-server-${HOSTNAME}"
+DIR_TO_COPY="/home/simon/file-transfer-test/files/*"
+FILENAME_TO_DD_ON_REMOTE="H0V69ADXX_NZGL00472_A1_L001_R1.fastq.gz"
+
+echo "started at $(date)"
+echo "dir on remote servers: ${DIR_ON_REMOTE_SERVER}"
+echo "sleeping for 3 seconds so you can ctrl-c"
+sleep 3
+
+for REMOTE_SERVER in "${REMOTE_SERVERS[@]}"
+do
+        printf "\n================\nremote server: $REMOTE_SERVER, time is $(date)\n================\n"
+        ssh $REMOTE_SERVER "rm -rfv ${DIR_ON_REMOTE_SERVER}; mkdir -pv ${DIR_ON_REMOTE_SERVER}; sync"
+        sleep 5
+        printf "\nscp files to remote server\n"
+        scp ${DIR_TO_COPY} simon@${REMOTE_SERVER}:${DIR_ON_REMOTE_SERVER}
+        sleep 5
+        printf "\ndd file on remote server, NB time at end includes sync call\n"
+        ssh $REMOTE_SERVER "sync; sleep 5; time "dd bs=1M if=${DIR_ON_REMOTE_SERVER}/${FILENAME_TO_DD_ON_REMOTE} of=${DIR_ON_REMOTE_SERVER}/${FILENAME_TO_DD_ON_REMOTE}.copy; sync""
+done
+
+printf "\nfinished at $(date)\n"
+
