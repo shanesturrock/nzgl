@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.61
+Version:          1.62
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,20 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 1.62-1
+- Final release with support for Python 2.5.  
+- Adds warnings when translating partial codons.
+- Modifies handling of joins and complex features in GenBank/EMBL files.
+- Phylo module gains NeXML and CDAO format support.
+- Newick parser faster and can extract bootstrap values from Newick comments.
+- New Bio.UniPro module.
+- BioSQL module supported in Jython.
+- Feature labels on circular GenomeDiagram now support label_position.
+- 3D structure parsing in mmCIF files updated.
+- Bio.Sequencing.Applications module now includes BWA wrapper.
+- Bio.motifs supports JASPAR format files.
+- Other minor bug fixes and unit tests.
+
 * Thu Feb 07 2013 Carl Jones <carl@biomatters.com> - 1.61-1
 - New upstream release
 

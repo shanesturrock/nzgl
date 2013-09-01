@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.96
+Version:	1.97
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,9 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Aug 28 2013 Shane Sturrock <shane@biomatters.com> - 1.97-1
+- Requires Java 6.  Added new MarkIlluminaAdapters program and various bug fixes
+
 * Wed Jul 31 2013 Shane Sturrock <shane@biomatters.com> - 1.96-1
 - New upstream release
 

@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.9
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -80,6 +80,9 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
+- New upstream release - no changelog
+
 * Mon Jul 01 2013 Shane Sturrock <shane@biomatters.com> - 2.0.9-1
 - New upstream release
 
