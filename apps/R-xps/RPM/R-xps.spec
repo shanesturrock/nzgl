@@ -3,8 +3,8 @@
 
 
 Name:             R-%{packname}
-Version:          1.20.2
-Release:          1%{?dist}
+Version:          1.20.3
+Release:          2%{?dist}
 Summary:          Processing and Analysis of Affymetrix Oligonucleotide Arrays including Exon Arrays, Whole Genome Arrays and Plate Arrays
 
 Group:            Applications/Engineering 
@@ -13,7 +13,7 @@ URL:              http://bioconductor.org/packages/release/bioc/html/%{packname}
 Source0:          http://bioconductor.org/packages/release/bioc/src/contrib/%{packname}_%{version}.tar.gz
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:         R-methods 
+Requires:         R-methods R >= 3.0.0
 
 BuildRequires:    R-devel tex(latex) R-methods root root-tree-viewer root-physics
 
@@ -72,6 +72,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep 03 2013 Shane Sturrock <shane@biomatters.com> 1.20.3-2
+- New upstream release - rebuilt for R 3.0
 * Mon May 13 2013 Shane Sturrock <shane@biomatters.com> 1.20.2-1
 - New upstream release
 * Wed Apr 24 2013 Shane Sturrock <shane@biomatters.com> 1.20.1-1
