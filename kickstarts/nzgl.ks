@@ -24,6 +24,7 @@ coreutils
 yum
 rpm
 e2fsprogs
+ftp
 grub
 openssh-server
 openssh-clients
