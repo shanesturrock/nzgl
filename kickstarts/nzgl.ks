@@ -51,6 +51,8 @@ munin-node
 valgrind
 rstudio
 cpan
+libcurl-devel
+libxml2-devel
 perl-Bio-SamTools
 perl-Module-Build
 nzgl-release
