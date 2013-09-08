@@ -21,6 +21,8 @@
       <packagereq type="mandatory">R-limma</packagereq>
       <packagereq type="mandatory">R-pcot2</packagereq>
       <packagereq type="mandatory">R-xps</packagereq>
+      <packagereq type="mandatory">R-devel</packagereq>
+      <packagereq type="mandatory">bamtools</packagereq>
       <packagereq type="mandatory">bfast</packagereq>
       <packagereq type="mandatory">bismark</packagereq>
       <packagereq type="mandatory">bowtie</packagereq>
@@ -50,6 +52,7 @@
       <packagereq type="mandatory">perl-bioperl</packagereq>
       <packagereq type="mandatory">perm</packagereq>
       <packagereq type="mandatory">phast</packagereq>
+      <packagereq type="mandatory">phylip</packagereq>
       <packagereq type="mandatory">picard</packagereq>
       <packagereq type="mandatory">plink</packagereq>
       <packagereq type="mandatory">python-biopython</packagereq>
@@ -62,6 +65,9 @@
       <packagereq type="mandatory">trinityrnaseq</packagereq>
       <packagereq type="mandatory">vcftools</packagereq>
       <packagereq type="mandatory">velvet</packagereq>
+      <packagereq type="mandatory">FLASH</packagereq>
+      <packagereq type="mandatory">SOAPdenovo2</packagereq>
+      <packagereq type="mandatory">mothur</packagereq>
     </packagelist>
   </group>
 </comps>
