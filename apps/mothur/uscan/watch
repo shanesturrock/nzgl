@@ -1,0 +1,3 @@
+version=3
+http://www.mothur.org/wiki/Download_mothur \
+    /w/images/.*/.*/Mothur\.([\d\.]+)\.zip
