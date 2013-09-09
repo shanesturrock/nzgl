@@ -1,6 +1,6 @@
 Name:		seqmonk
-Version:	0.24.1
-Release:	0%{?dist}
+Version:	0.25.0
+Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -59,6 +59,20 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Tue Sep 10 2013 Shane Sturrock <shane@biomatters.com> - 0.25.0-1
+- Added a quantitation trend plot to allow the examination of complex pattersn around features
+- Added a muti-lane chi-square test for allele specific analysis and other applications
+- Improved the options in the feature probe generator
+- Allow multiple data stores in the aligned probes plot and allow custom sorting
+- Allow filtering of reads against features when re-importing
+- Added nice colour options to the hierarchical cluster plot
+- Added a domainogram plot to look at quantitations at different levels
+- Added an option to find sets of features using a list of search terms
+- Added the ability to add comments to probe lists so you can remember why you did what you did
+- Added a probe list description report to completely record the results of an analysis
+- Added a subset normalisation quantitation method
+- Reorganised the relative quantitation method to allow for specific pairings of references and samples
+- Lots of other bug fixes and improvements
 * Mon Feb 25 2013 Carl Jones <carl@biomatters.com> - 0.24.1-0
 - New upstream release
 
