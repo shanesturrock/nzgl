@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.97
+Version:	1.98
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Sep 11 2013 Shane Sturrock <shane@biomatters.com> - 1.98-1
+- MarkDuplicates and EstimateLibraryComplexity: In usage message, clarify that optimization is done instead of applying default regex.  Clarify that read name regex must match entire read name.
+- AddOrReplaceReadGroups.java: added predicted insert size option.
+- ProcessExecutor.java: Add methods for executing a command, interleaving stdout and stderr, and return exit status in addition to command output.
+
 * Wed Aug 28 2013 Shane Sturrock <shane@biomatters.com> - 1.97-1
 - Requires Java 6.  Added new MarkIlluminaAdapters program and various bug fixes
 
