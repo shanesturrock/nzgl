@@ -38,6 +38,7 @@ wget
 man
 screen
 evince
+emacs
 nfs-utils
 pam_ldap
 pam_krb5

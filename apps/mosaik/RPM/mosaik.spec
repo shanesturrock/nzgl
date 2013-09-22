@@ -1,5 +1,5 @@
 Name:		mosaik
-Version:	2.1.73
+Version:	2.2.3
 Release:	1%{?dist}
 Summary:	Reference-guided aligner for next-generation sequencing technologies
 Group:		Applications/Engineering
@@ -45,6 +45,8 @@ rm -rf %{buildroot}
 %{_bindir}/MosaikText
 
 %changelog
+* Mon Sep 23 2013 Shane Sturrock <shane@biomatters.com> - 2.2.3-1
+- Four fold speedup due to improved Smith-Waterman strategy
 * Mon Nov 12 2012 Carl Jones <carl@biomatters.com> - 2.1.73-1
 - New upstream release.
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> - 2.1.33-1
