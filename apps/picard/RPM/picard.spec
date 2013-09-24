@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.98
+Version:	1.99
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,12 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Sep 25 2013 Shane Sturrock <shane@biomatters.com> - 1.99-1
+- Implementing an easier-to-use VCF file reader API.
+- Adding an option to not require indexes on VcfFormatConverter.
+- SAMFileReader.java: Modify SAMFileReader.streamLooksLikeBam to accept URL.
+- MakeSitesOnlyVcf.java: Bug fix: if SEQUENCE_DICTIONARY is null, NullPointerException is necessarily thrown.
+- ReadNameFilter.java: eliminate Scanner class usage to reduce memory footprint.
 * Wed Sep 11 2013 Shane Sturrock <shane@biomatters.com> - 1.98-1
 - MarkDuplicates and EstimateLibraryComplexity: In usage message, clarify that optimization is done instead of applying default regex.  Clarify that read name regex must match entire read name.
 - AddOrReplaceReadGroups.java: added predicted insert size option.
