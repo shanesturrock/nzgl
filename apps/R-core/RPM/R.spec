@@ -5,7 +5,7 @@
 %endif
 
 Name: R
-Version: 3.0.1
+Version: 3.0.2
 Release: 1%{?dist}
 Summary: A language for data analysis and graphics
 URL: http://www.r-project.org
@@ -60,26 +60,26 @@ Requires: perl, sed, gawk, tex(latex), tex(dvips), less, vi
 # packager convenience.
 Provides: R-base = %{version}
 Provides: R-boot = 1.3.9
-Provides: R-class = 7.3.7
+Provides: R-class = 7.3.9
 Provides: R-cluster = 1.14.4
 Provides: R-codetools = 0.2.8
 Provides: R-datasets = %{version}
-Provides: R-foreign = 0.8.53
+Provides: R-foreign = 0.8.55
 Provides: R-graphics = %{version}
 Provides: R-grDevices = %{version}
 Provides: R-grid = %{version}
 Provides: R-KernSmooth = 2.23.10
-Provides: R-lattice = 0.20.15
-Provides: R-MASS = 7.3.26
-Provides: R-Matrix = 1.0.12
+Provides: R-lattice = 0.20.23
+Provides: R-MASS = 7.3.29
+Provides: R-Matrix = 1.0.14
 Obsoletes: R-Matrix < 0.999375-7
 Provides: R-methods = %{version}
-Provides: R-mgcv = 1.7.22
-Provides: R-nlme = 3.1.109
-Provides: R-nnet = 7.3.6
+Provides: R-mgcv = 1.7.26
+Provides: R-nlme = 3.1.111
+Provides: R-nnet = 7.3.7
 Provides: R-parallel = %{version}
-Provides: R-rpart = 4.1.1
-Provides: R-spatial = 7.3.6
+Provides: R-rpart = 4.1.3
+Provides: R-spatial = 7.3.7
 Provides: R-splines = %{version}
 Provides: R-stats = %{version}
 Provides: R-stats4 = %{version}
@@ -390,7 +390,6 @@ popd
 %{_libdir}/R/library/class/html/
 %{_libdir}/R/library/class/INDEX
 %{_libdir}/R/library/class/libs/
-%{_libdir}/R/library/class/LICENCE
 %{_libdir}/R/library/class/Meta/
 %{_libdir}/R/library/class/NAMESPACE
 %{_libdir}/R/library/class/NEWS
@@ -525,10 +524,13 @@ popd
 %{_libdir}/R/library/lattice/Meta/
 %{_libdir}/R/library/lattice/NAMESPACE
 %{_libdir}/R/library/lattice/NEWS
+%{_libdir}/R/library/lattice/po/pl_PL/
 %dir %{_libdir}/R/library/lattice/po/
 %lang(de) %{_libdir}/R/library/lattice/po/de/
 %lang(en) %{_libdir}/R/library/lattice/po/en*/
 %lang(fr) %{_libdir}/R/library/lattice/po/fr/
+%lang(ko) %{_libdir}/R/library/lattice/po/ko/
+%lang(pl_PL) %{_libdir}/R/library/lattice/po/pl_PL/
 %{_libdir}/R/library/lattice/R/
 # MASS
 %dir %{_libdir}/R/library/MASS/
@@ -539,7 +541,6 @@ popd
 %{_libdir}/R/library/MASS/html/
 %{_libdir}/R/library/MASS/INDEX
 %{_libdir}/R/library/MASS/libs/
-%{_libdir}/R/library/MASS/LICENCE
 %{_libdir}/R/library/MASS/Meta/
 %{_libdir}/R/library/MASS/NAMESPACE
 %{_libdir}/R/library/MASS/NEWS
@@ -605,7 +606,6 @@ popd
 %{_libdir}/R/library/nlme/html/
 %{_libdir}/R/library/nlme/INDEX
 %{_libdir}/R/library/nlme/libs/
-%{_libdir}/R/library/nlme/LICENCE
 %{_libdir}/R/library/nlme/Meta/
 %{_libdir}/R/library/nlme/mlbook/
 %{_libdir}/R/library/nlme/NAMESPACE
@@ -614,6 +614,7 @@ popd
 %lang(en) %{_libdir}/R/library/nlme/po/en*/
 %lang(fr) %{_libdir}/R/library/nlme/po/fr/
 %lang(pl) %{_libdir}/R/library/nlme/po/pl/
+%lang(ko) %{_libdir}/R/library/nlme/po/ko/
 %{_libdir}/R/library/nlme/R/
 %{_libdir}/R/library/nlme/scripts/
 # nnet
@@ -624,7 +625,6 @@ popd
 %{_libdir}/R/library/nnet/html/
 %{_libdir}/R/library/nnet/INDEX
 %{_libdir}/R/library/nnet/libs/
-%{_libdir}/R/library/nnet/LICENCE
 %{_libdir}/R/library/nnet/Meta/
 %{_libdir}/R/library/nnet/NAMESPACE
 %{_libdir}/R/library/nnet/NEWS
@@ -674,7 +674,6 @@ popd
 %{_libdir}/R/library/spatial/html/
 %{_libdir}/R/library/spatial/INDEX
 %{_libdir}/R/library/spatial/libs/
-%{_libdir}/R/library/spatial/LICENCE
 %{_libdir}/R/library/spatial/Meta/
 %{_libdir}/R/library/spatial/NAMESPACE
 %{_libdir}/R/library/spatial/NEWS
@@ -887,6 +886,9 @@ R CMD javareconf \
 %postun -n libRmath -p /sbin/ldconfig
 
 %changelog
+* Fri Sep 27 2013 Shane Sturrock <shane@biomatters.com> - 3.0.2-1
+- Update to 3.0.2
+
 * Mon May 20 2013 Simon Buxton <simon@biomatters.com> - 3.0.1-1
 - Update to 3.0.1
 
