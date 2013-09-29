@@ -71,6 +71,11 @@ if [ $ADDUSER -eq 1 ]; then
   chmod 700 /home/$USER
   chown -R $USER:$GROUP /home/$USER
   echo "Created /home/${USER}"
+  mkdir /home/galaxy/upload/${USER}@nzgenomics.co.nz
+  chown $USER:galaxygroup /home/galaxy/upload/${USER}@nzgenomics.co.nz
+  chmod 770 /home/galaxy/upload/${USER}@nzgenomics.co.nz
+  chmod g+s /home/galaxy/upload/${USER}@nzgenomics.co.nz
+  echo "Created /home/galaxy/upload/${USER}@nzgenomics.co.nz"
 fi
 
 # Create project directories

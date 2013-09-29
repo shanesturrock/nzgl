@@ -14,4 +14,8 @@ export BLASTDB=/databases/blast_db/
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
-source /home/qiime/qiime_current/activate.sh
+
+# Uncomment the following line to automatically activate QIIME but note that
+# this will override standard tools with possibly older versions such as R
+# and mothur.
+# source /home/qiime/qiime_current/activate.sh
