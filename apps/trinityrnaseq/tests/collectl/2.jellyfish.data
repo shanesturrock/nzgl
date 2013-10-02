@@ -1,0 +1,1 @@
+20131002 00:01:00 7068 build 20 6988 0 S 2771412 0 2346576 2757116 88 548 3336 0 1.60 1.27 57 00:02.87 0 223 1 60 2 3 0 0 78K /usr/libexec/trinityrnaseq/trinity-plugins/jellyfish/bin/jellyfish count -t 4 -m 25 -s 305803185 both.fa 

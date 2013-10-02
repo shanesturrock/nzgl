@@ -1,0 +1,33 @@
+--- rsem-calculate-expression.orig	2013-10-02 12:09:20.380610284 +1300
++++ rsem-calculate-expression	2013-10-02 12:10:50.017785059 +1300
+@@ -220,7 +220,7 @@
+     }
+ 
+     # pipe to samtools to generate a BAM file
+-    $command .= " | $dir\sam/samtools view -S -b -o $imdName.bam -";
++    $command .= " | $dir\samtools view -S -b -o $imdName.bam -";
+ 
+     if ($mTime) { $time_start = time(); }
+ 
+@@ -282,17 +282,17 @@
+ &collectResults("gene", "$imdName.gene_res", "$sampleName.genes.results"); # gene level
+ 
+ if ($genBamF) {
+-    $command = $dir."sam/samtools sort $sampleName.transcript.bam $sampleName.transcript.sorted";
++    $command = $dir."samtools sort $sampleName.transcript.bam $sampleName.transcript.sorted";
+     &runCommand($command);
+-    $command = $dir."sam/samtools index $sampleName.transcript.sorted.bam";
++    $command = $dir."samtools index $sampleName.transcript.sorted.bam";
+     &runCommand($command);
+ 
+     if ($genGenomeBamF) {
+ 	$command = $dir."rsem-tbam2gbam $refName $sampleName.transcript.bam $sampleName.genome.bam";
+ 	&runCommand($command);
+-	$command = $dir."sam/samtools sort $sampleName.genome.bam $sampleName.genome.sorted";
++	$command = $dir."samtools sort $sampleName.genome.bam $sampleName.genome.sorted";
+ 	&runCommand($command);
+-	$command = $dir."sam/samtools index $sampleName.genome.sorted.bam";
++	$command = $dir."samtools index $sampleName.genome.sorted.bam";
+ 	&runCommand($command);
+     }
+ }

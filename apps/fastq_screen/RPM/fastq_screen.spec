@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.4.1
+Version:	0.4.2
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,15 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Oct 02 2013 Shane Sturrock <shane@biomatters.com> - 0.4.2-1
+- v0.4.2 is a minor release. The script no longer defaults to 
+  Bowtie if "--aligner" is not specified.  Instead, the script checks 
+  the configuration file to determine if Bowtie/Bowtie2 paths and 
+  indices  have been specified. If both Bowtie and Bowtie2 indices 
+  have been specified, FastqScreen then defaults to the original 
+  Bowtie. The script now reports the number of reads mapping each 
+  genome in addition to percentages.
+
 * Wed Jun 26 2013 Shane Sturrock <shane@biomatters.com> - 0.4.1-1
 - New upstream release
 

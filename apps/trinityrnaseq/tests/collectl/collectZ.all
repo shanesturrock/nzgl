@@ -1,0 +1,119 @@
+#Date Time PID User PR PPID THRD S VmSize VmLck VmRSS VmData VmStk VmExe VmLib CPU SysT UsrT PCT AccumT RKB WKB RKBC WKBC RSYS WSYS CNCL MajF MinF Command
+20131002 00:01:00 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:00 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:00 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:00 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:00 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:00 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:00 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 0 0.01 0.00 0 00:00.06 72 4283 2967 4119 393 1325 1117 0 89 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:00 7046 build 20 6988 0 R 164884 0 22228 19924 148 4 4824 2 0.00 0.01 0 00:00.33 0 0 4 0 20 0 0 0 8 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:00 7068 build 20 6988 0 S 2771412 0 2346576 2757116 88 548 3336 0 1.60 1.27 57 00:02.87 0 223 1 60 2 3 0 0 78K /usr/libexec/trinityrnaseq/trinity-plugins/jellyfish/bin/jellyfish count -t 4 -m 25 -s 305803185 both.fa 
+20131002 00:01:00 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:00 7139 build 20 6988 0 S 18460 0 1504 300 88 236 3416 0 0.00 0.00 0 00:00.00 22 1715 187 1712 18 728 0 0 106 /usr/libexec/trinityrnaseq/Chrysalis/Chrysalis -i both.fa -iworm /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/inchworm.K25.L25.fa -o /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis -cpu 4 -min_glue 2 -min_iso_ratio 0.05 -glue_factor 0.05 -weldmer_size 48 -min 200 -dist 500 -max_reads 200000 -sort_buffer_size 2G -max_mem_reads 1000000 -strand 1 -paired -reads_for_pairs both.fa -butterfly /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -no_cleanup 
+20131002 00:01:00 7145 build 20 7144 0 R 2389748 0 41936 2375416 88 580 3336 1 0.05 0.47 10 00:00.52 7 546 2013 546 35424 68 0 0 388 bowtie -a -m 20 --best --strata --threads 4 --quiet --chunkmbs 512 -q -S --sam-nohead -f target both.fa 
+20131002 00:01:05 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:05 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:05 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:05 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:05 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:05 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:05 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 0 0.00 0.00 0 00:00.06 83 10752 13038 10746 36578 2516 2804 0 15 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:05 7046 build 20 6988 0 R 164884 0 22272 19924 148 4 4824 2 0.00 0.01 0 00:00.34 0 0 5 0 23 0 0 0 2 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:05 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:05 7178 build 20 6988 0 R 126848 0 6660 4964 88 4 4364 3 0.01 0.06 1 00:00.07 0 495 522 480 136 132 0 0 455 perl /usr/libexec/trinityrnaseq/util/partition_chrysalis_graphs_n_reads.pl --deBruijns /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/bundled_iworm_contigs.fasta.deBruijn --componentReads /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/readsToComponents.out.sort -N 1000 -L 200 
+20131002 00:01:10 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:10 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:10 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:10 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:10 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:10 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:10 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 2 0.00 0.00 0 00:00.06 0 4129 4665 4058 1392 1063 0 0 64 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:10 7046 build 20 6988 0 R 164884 0 22288 19924 148 4 4824 2 0.00 0.01 0 00:00.35 0 0 4 0 20 0 0 0 1 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:10 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:10 7238 build 20 6988 0 S 245592 0 1520 227632 88 40 3416 3 0.00 0.04 0 00:00.04 172 69 4551 1 2431 24 64 0 132 /usr/libexec/trinityrnaseq/trinity-plugins/parafly/bin/ParaFly -c /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/butterfly_commands -shuffle -CPU 4 -failed_cmds failed_butterfly_commands.6988.txt -v 
+20131002 00:01:10 7338 build 20 7238 0 S 23110144 0 218184 22967836 88 4 14080 3 0.11 2.61 54 00:02.72 0 6 539 0 243 1 0 0 5174 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c41.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:10 7424 build 20 7238 0 S 23110144 0 189392 22967836 88 4 14080 0 0.09 1.92 40 00:02.01 0 6 499 0 238 1 0 0 3752 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c42.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:10 7550 build 20 7238 0 S 23110144 0 70552 22967836 88 4 14080 3 0.03 1.01 20 00:01.04 0 6 522 0 221 1 0 0 1547 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c45.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:10 7609 build 20 7238 0 S 23110144 0 24844 22967836 88 4 14080 3 0.01 0.08 1 00:00.09 0 6 366 0 189 1 0 0 918 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c3.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:15 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:15 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:15 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:15 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:15 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:15 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:15 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 2 0.00 0.00 0 00:00.06 0 0 0 0 0 0 0 0 0 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:15 7046 build 20 6988 0 R 164884 0 22304 19924 148 4 4824 2 0.01 0.02 0 00:00.38 0 0 12 0 34 0 0 0 3 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:15 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:15 7238 build 20 6988 0 S 245592 0 1520 227632 88 40 3416 3 0.00 0.00 0 00:00.04 0 73 4876 6 2495 25 64 0 27 /usr/libexec/trinityrnaseq/trinity-plugins/parafly/bin/ParaFly -c /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/butterfly_commands -shuffle -CPU 4 -failed_cmds failed_butterfly_commands.6988.txt -v 
+20131002 00:01:15 7550 build 20 7238 0 S 23110144 0 388092 22967836 88 4 14080 3 0.18 4.50 93 00:05.72 0 0 246 0 84 0 0 0 4808 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c45.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:15 7715 build 20 7238 0 S 23110144 0 343344 22967836 88 4 14080 3 0.16 4.07 84 00:04.23 0 6 684 0 297 1 0 0 5377 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c47.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:15 7786 build 20 7238 0 S 23110144 0 194452 22967836 88 4 14080 3 0.08 1.70 35 00:01.78 0 6 510 0 220 1 0 0 2397 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c46.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:15 7843 build 20 7238 0 S 23110144 0 28360 22967836 88 4 14080 2 0.01 0.14 3 00:00.15 0 6 385 0 201 1 0 0 1097 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c18.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:20 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:20 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:20 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:20 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:20 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:20 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:20 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 2 0.00 0.00 0 00:00.06 0 0 0 0 0 0 0 0 0 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:20 7046 build 20 6988 0 R 164884 0 22304 19924 148 4 4824 2 0.00 0.01 0 00:00.39 0 0 6 0 27 0 0 0 0 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:20 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:20 7238 build 20 6988 0 S 245592 0 1520 227632 88 40 3416 0 0.00 0.00 0 00:00.04 0 107 7463 11 3606 36 89 0 39 /usr/libexec/trinityrnaseq/trinity-plugins/parafly/bin/ParaFly -c /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/butterfly_commands -shuffle -CPU 4 -failed_cmds failed_butterfly_commands.6988.txt -v 
+20131002 00:01:20 7949 build 20 7238 0 S 23110144 0 334260 22967836 88 4 14080 3 0.14 3.23 67 00:03.37 0 6 581 0 248 1 0 0 5040 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c44.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:20 7986 build 20 7238 0 S 23110144 0 196696 22967836 88 4 14080 2 0.08 2.25 46 00:02.33 0 6 508 0 239 1 0 0 3875 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c43.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:20 8022 build 20 7238 0 S 23110144 0 31512 22967836 88 4 14080 0 0.01 0.25 5 00:00.26 0 6 395 0 203 1 0 0 1172 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c35.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:20 8044 build 20 7238 0 S 21373064 0 8924 21329432 88 4 14080 2 0.00 0.00 0 00:00.00 0 6 7 0 10 1 0 0 526 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c49.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:25 18216 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:01.53 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18217 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 1 0.00 0.00 0 00:02.41 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18218 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.77 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18219 build 20 12860 0 S 179900 0 2832 1660 88 336 8776 2 0.00 0.00 0 00:01.94 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18220 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 1 0.00 0.00 0 00:01.83 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18221 build 20 12860 0 S 179900 0 2836 1660 88 336 8776 2 0.00 0.00 0 00:01.50 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18222 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 1 0.00 0.00 0 00:02.17 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 18223 build 20 12860 0 S 179900 0 2816 1660 88 336 8776 2 0.00 0.00 0 00:01.89 0 0 0 0 0 0 0 0 0 /usr/sbin/httpd 
+20131002 00:01:25 1947 build 20 1946 0 S 108424 0 2128 464 88 848 1876 2 0.00 0.00 0 00:00.90 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:25 31853 build 20 31852 0 S 108424 0 2064 464 88 848 1876 0 0.00 0.00 0 00:00.15 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:25 32130 build 20 32129 0 S 108424 0 2052 464 88 848 1876 1 0.00 0.00 0 00:00.10 0 0 0 0 0 0 0 0 0 -bash 
+20131002 00:01:25 6984 build 20 1947 0 S 106056 0 1416 200 88 848 1828 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./test_apps -v -t trinityrnaseq 
+20131002 00:01:25 6985 build 20 6984 0 S 106052 0 1328 196 88 848 1828 0 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 /bin/bash ./run_test 
+20131002 00:01:25 6988 build 20 6985 0 S 286224 0 8560 158120 88 4 4436 2 0.00 0.00 0 00:00.06 0 0 0 0 0 0 0 0 0 perl /usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring 
+20131002 00:01:25 7046 build 20 6988 0 R 164884 0 22304 19924 148 4 4824 2 0.00 0.02 0 00:00.41 0 0 5 0 26 0 0 0 0 /usr/bin/perl -w /usr/libexec/trinityrnaseq/trinity-plugins/collectl/bin/collectl -F1 -i5:5 -sZ --procfilt u500 -f /home/build/nzgl/apps/trinityrnaseq/tests/collectl/y 
+20131002 00:01:25 7108 build 20 7046 0 Z 0 0 0 0 0 0 0 1 0.00 0.00 0 00:00.00 0 0 0 0 0 0 0 0 0 sh
+20131002 00:01:25 7238 build 20 6988 0 S 245592 0 1520 227632 88 40 3416 0 0.00 0.23 4 00:00.27 0 79 5116 10 2548 26 64 0 26 /usr/libexec/trinityrnaseq/trinity-plugins/parafly/bin/ParaFly -c /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/butterfly_commands -shuffle -CPU 4 -failed_cmds failed_butterfly_commands.6988.txt -v 
+20131002 00:01:25 8044 build 20 7238 0 S 23110144 0 377420 22967836 88 4 14080 2 0.19 6.74 138 00:06.93 0 0 865 0 311 0 0 0 5766 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c49.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
+20131002 00:01:25 8130 build 20 7238 0 S 23110144 0 343728 22967836 88 4 14080 2 0.15 3.56 74 00:03.72 0 6 774 0 273 1 0 0 5030 java -Xmx20G -Xms1G -jar /usr/libexec/trinityrnaseq/Butterfly/Butterfly.jar -N 100000 -L 200 -F 500 -C /home/build/nzgl/apps/trinityrnaseq/tests/trinity_out_dir/chrysalis/Component_bins/Cbin0/c40.graph --max_number_of_paths_per_node=10 --path_reinforcement_distance=75 --triplet-lock 
