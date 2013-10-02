@@ -1,5 +1,5 @@
---- Mothur.source/makefile.orig	2013-09-05 13:56:57.491619749 +1200
-+++ Mothur.source/makefile	2013-09-05 13:57:12.190675886 +1200
+--- makefile.orig	2013-10-03 07:27:33.419083045 +1300
++++ makefile	2013-10-03 07:30:12.461980641 +1300
 @@ -28,7 +28,7 @@
  	#CXX = g++44
  	
@@ -13,8 +13,8 @@
   	#TARGET_ARCH += -m64 -static
  
  	#if you are a linux user use the following line
--	#CXXFLAGS += -mtune=native -march=native -m64
-+	CXXFLAGS += -mtune=native -march=native -m64
+-	#CXXFLAGS += -mtune=native -march=native 
++	CXXFLAGS += -mtune=native -march=native 
  	
  	CXXFLAGS += -DBIT_VERSION 
-     FORTRAN_FLAGS = -m64
+ endif

@@ -1,10 +1,10 @@
 Name:		mothur
-Version:	1.31.2
+Version:	1.32.0
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
 License:	GPLv3
-URL:		http://www.mothur.org/w/images/b/bc/Mothur.1.31.2.zip
+URL:		http://www.mothur.org/w/images/b/bc/Mothur.1.32.0.zip
 Source0:	Mothur.%{version}.zip
 patch0:		makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -25,7 +25,7 @@ features including calculators and visualization tools.
 #Deal with mistakenly included OS X files
 %setup -q   -n Mothur.source
 rm -rf __MACOSX* .DS_Store
-%patch0 -p1
+%patch0 -p0
 
 %build
 #makefile doesn't support SMP builds
@@ -45,5 +45,7 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Oct 03 2013 Shane Sturrock <shane@biomatters.com> - 1.32.0-1
+- Upstream update - see http://www.mothur.org/wiki/Mothur_v.1.32.0
 * Thu Sep 05 2013 Shane Sturrock <shane@biomatters.com> - 1.31.2-1
 - Initial build.
