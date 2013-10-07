@@ -69,5 +69,6 @@ fi
 /bin/rm -rf ds_rep1* hs_rep1* log_rep1* plat_rep1* Trinity_trans* Trinity.trans_lengths.txt __tmp_runTMM.R edgeR_trans
 /bin/rm Trinity_components.counts.matrix* Trinity.components_lengths.txt 
 /bin/rm -rf edgeR_components/
+/bin/rm -rf collectl
 
 exit 0
