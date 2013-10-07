@@ -1,1 +1,0 @@
-20131003 00:01:00 24894 root 20 24814 0 S 2761168 0 2346572 2746872 88 548 3336 1 1.76 3.89 113 00:05.65 0 487 1 326 2 17 0 0 69K /usr/libexec/trinityrnaseq/trinity-plugins/jellyfish/bin/jellyfish count -t 4 -m 25 -s 305803185 both.fa 

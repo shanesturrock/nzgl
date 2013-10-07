@@ -1,1 +1,0 @@
-20131003 00:01:00 24971 root 20 24970 0 R 2389748 0 52200 2375416 88 580 3336 1 0.08 1.94 40 00:02.02 7 2130 2730 2130 35426 268 0 0 392 bowtie -a -m 20 --best --strata --threads 4 --quiet --chunkmbs 512 -q -S --sam-nohead -f target both.fa 
