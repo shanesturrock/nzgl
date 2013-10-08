@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.99
+Version:	1.100
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,10 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Oct 09 2013 Shane Sturrock <shane@biomatters.com> - 1.100-1
+- explain_sam_flags.py: Add 0x800 (supplementary alignment) flag.
+- Updated IterableIterator to IterableOnceIterator that throws an exception if multiple calls to iterator() are made.
+- rnaSeqCoverage.R: When there are duplicate headers in the metrics file don't try to generate a PDF as it will crash and burn
 * Wed Sep 25 2013 Shane Sturrock <shane@biomatters.com> - 1.99-1
 - Implementing an easier-to-use VCF file reader API.
 - Adding an option to not require indexes on VcfFormatConverter.
