@@ -1,4 +1,4 @@
-echo "Put these in blast.loc"
+echo "Put these in blastdb.loc"
 /usr/bin/blast_db_add.sh nt
 /usr/bin/blast_db_add.sh env_nt
 /usr/bin/blast_db_add.sh est
@@ -19,7 +19,7 @@ echo "Put these in blast.loc"
 /usr/bin/blast_db_add.sh refseq_rna
 
 # Protein databases
-echo "Put these in blast_p.loc"
+echo "Put these in blastdb_p.loc"
 /usr/bin/blast_db_add.sh nr
 /usr/bin/blast_db_add.sh env_nr
 /usr/bin/blast_db_add.sh swissprot
@@ -28,5 +28,5 @@ echo "Put these in blast_p.loc"
 /usr/bin/blast_db_add.sh pataa
 
 # Domain databases
-echo "Put these in blast_d.loc"
+echo "Put these in blastdb_d.loc"
 /usr/bin/blast_db_add.sh cdd_delta
