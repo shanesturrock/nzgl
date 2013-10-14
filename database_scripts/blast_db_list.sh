@@ -1,32 +1,28 @@
-echo "Put these in blastdb.loc"
-/usr/bin/blast_db_add.sh nt
-/usr/bin/blast_db_add.sh env_nt
-/usr/bin/blast_db_add.sh est
-/usr/bin/blast_db_add.sh est_human
-/usr/bin/blast_db_add.sh est_mouse
-/usr/bin/blast_db_add.sh est_others
-/usr/bin/blast_db_add.sh gss
-/usr/bin/blast_db_add.sh htgs
-/usr/bin/blast_db_add.sh sts
-/usr/bin/blast_db_add.sh tsa_nt
-/usr/bin/blast_db_add.sh wgs
-/usr/bin/blast_db_add.sh all_contig
-/usr/bin/blast_db_add.sh patnt
-/usr/bin/blast_db_add.sh pdbnt
-/usr/bin/blast_db_add.sh human_genomic
-/usr/bin/blast_db_add.sh other_genomic
-/usr/bin/blast_db_add.sh refseq_genomic
-/usr/bin/blast_db_add.sh refseq_rna
+# Lists updated databases not present in Galaxy loc files
+
+blastdb="blastdb.loc"
+blastdb_p="blastdb_p.loc"
+blastdb_d="blastdb_d.loc"
+blast_db_add="/usr/bin/blast_db_add.sh"
+
+# Databases are listed in reverse desired order for the loc files
+
+nucleotide_dbs=( refseq_rna refseq_genomic other_genomic human_genomic pdbnt patnt all_contig wgs tsa_nt sts htgs gss est_others est_mouse est_human est env_nt nt )
+protein_dbs=( pataa pdbaa refseq_protein swissprot env_nr nr )
+
+echo "Adding new databases to ${blastdb}"
+for db_name in ${nucleotide_dbs[@]}
+do
+  ${blast_db_add} ${blastdb} ${db_name}
+done
 
 # Protein databases
-echo "Put these in blastdb_p.loc"
-/usr/bin/blast_db_add.sh nr
-/usr/bin/blast_db_add.sh env_nr
-/usr/bin/blast_db_add.sh swissprot
-/usr/bin/blast_db_add.sh refseq_protein
-/usr/bin/blast_db_add.sh pdbaa
-/usr/bin/blast_db_add.sh pataa
+echo "Adding new databases to ${blastdb_p}"
+for db_name in ${protein_dbs[@]} 
+do
+  ${blast_db_add} ${blastdb_p} ${db_name}
+done
 
 # Domain databases
-echo "Put these in blastdb_d.loc"
-/usr/bin/blast_db_add.sh cdd_delta
+echo "Adding new databases to ${blastdb_d}"
+${blast_db_add} ${blastdb_d} cdd_delta
