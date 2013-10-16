@@ -1,0 +1,3 @@
+version=3
+opts="downloadurlmangle=s|\.\.|packages/release/bioc|" \
+  http://www.bioconductor.org/packages/release/bioc/html/edgeR.html .*/edgeR_(.*).tar.gz
