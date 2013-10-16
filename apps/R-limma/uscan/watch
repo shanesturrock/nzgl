@@ -1,3 +1,0 @@
-version=3
-opts="downloadurlmangle=s|\.\.|packages/release/bioc|" \
-  http://www.bioconductor.org/packages/release/bioc/html/limma.html .*/limma_(.*).tar.gz
