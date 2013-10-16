@@ -87,12 +87,16 @@ mkdir /home/shane
 mkdir /home/simon
 mkdir /home/sidney
 mkdir /home/qiime
+mkdir /home/R-network
 mkdir -p /home/galaxy/upload
+ln -s /home/R-network/R-2.15.3/bin/R /usr/bin/R2
+ln -s /home/R-network/R-3.0.2/bin/R /usr/bin/R3
 
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/R-network /home/R-network nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/galaxy/upload /home/galaxy/upload nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 # echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
