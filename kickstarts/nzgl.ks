@@ -52,6 +52,7 @@ munin-node
 valgrind
 rstudio
 cpan
+cmake
 libcurl-devel
 libxml2-devel
 perl-Bio-SamTools
