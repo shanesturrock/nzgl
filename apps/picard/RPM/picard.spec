@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.100
+Version:	1.101
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,15 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Oct 23 2013 Shane Sturrock <shane@biomatters.com> - 1.101-1
+- explain_sam_flags.py: Add 0x800 (supplementary alignment) flag.
+- LongLineBufferedReader.java: Fix copyright message.
+- PedFile.java: Implementation of a simple ped-file parser and writer for PED files that contain family/pheno information 
+  but no genotypes.
+- MathUtil.java: Added a couple of methods for 1) doing vector multiplication of two arrays and b) summing values in an 
+  array.
+- VCFFileReader.java: Tidied up a little bit and then added a method to be able to query by region from the VCFFileReader.
+
 * Wed Oct 09 2013 Shane Sturrock <shane@biomatters.com> - 1.100-1
 - explain_sam_flags.py: Add 0x800 (supplementary alignment) flag.
 - Updated IterableIterator to IterableOnceIterator that throws an exception if multiple calls to iterator() are made.
@@ -62,9 +71,11 @@ rm -rf %{buildroot}
 - MakeSitesOnlyVcf.java: Bug fix: if SEQUENCE_DICTIONARY is null, NullPointerException is necessarily thrown.
 - ReadNameFilter.java: eliminate Scanner class usage to reduce memory footprint.
 * Wed Sep 11 2013 Shane Sturrock <shane@biomatters.com> - 1.98-1
-- MarkDuplicates and EstimateLibraryComplexity: In usage message, clarify that optimization is done instead of applying default regex.  Clarify that read name regex must match entire read name.
+- MarkDuplicates and EstimateLibraryComplexity: In usage message, clarify that optimization is done instead of applying default 
+  regex.  Clarify that read name regex must match entire read name.
 - AddOrReplaceReadGroups.java: added predicted insert size option.
-- ProcessExecutor.java: Add methods for executing a command, interleaving stdout and stderr, and return exit status in addition to command output.
+- ProcessExecutor.java: Add methods for executing a command, interleaving stdout and stderr, and return exit status in addition 
+  to command output.
 
 * Wed Aug 28 2013 Shane Sturrock <shane@biomatters.com> - 1.97-1
 - Requires Java 6.  Added new MarkIlluminaAdapters program and various bug fixes
