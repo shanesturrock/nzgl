@@ -53,6 +53,7 @@ valgrind
 rstudio
 cpan
 cmake
+python-argparse
 libcurl-devel
 libxml2-devel
 perl-Bio-SamTools
