@@ -1,0 +1,2 @@
+version=3
+http://drive5.com/uchime/uchime_download.html .*/uchime(\d\S*)_src\.tar\.gz
