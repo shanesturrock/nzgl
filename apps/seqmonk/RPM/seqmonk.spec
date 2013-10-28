@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.25.0
+Version:	0.26.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -59,6 +59,17 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Tue Oct 29 2013 Shane Sturrock <shane@biomatters.com> - 0.26.0-1
+- SeqMonk v0.26.0 adds a critical fix for the new OSX Mavericks release
+  and also adds some new functionality to make it easier to deal with 
+  incomplete genome assemblies or other custom genomes.
+- Fixed the launcher on OSX to adapt to changes in OSX Mavericks
+  which broke the auto configuration code.
+- Fixed a bug which caused the program to hang after downloading
+  a new genome in response to opening an existing seqmonk project.
+- Added a new graphical tool to aid in the creation of custom genomes
+  meaning that you can now create custom genomes including pseudo
+  chromosomes from either a collection of fasta files or a GTF file.
 * Tue Sep 10 2013 Shane Sturrock <shane@biomatters.com> - 0.25.0-1
 - Added a quantitation trend plot to allow the examination of complex pattersn around features
 - Added a muti-lane chi-square test for allele specific analysis and other applications
