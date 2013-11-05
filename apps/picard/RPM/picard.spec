@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.101
+Version:	1.102
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,29 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Nov 06 2013 Shane Sturrock <shane@biomatters.com> - 1.102-1
+- Changed default read name header formatting for fastq records emitted by 
+  `IlluminaBasecallsToFastq` to include new values and, in particular, 
+  passing-filter flags.  The old read name header formatting is referred to as 
+  "Illumina," and the new formatting "Casava 1.8".  This change necessitated 
+  adding two new required (by default) arguments: FLOWCELL_BARCODE and 
+  MACHINE_NAME.
+  You may control the formatting emitted by IlluminaBasecallsToFastq with the 
+  `READ_NAME_FORMAT` argument.  (For example, pass READ_NAME_FORMAT=ILLUMINA 
+  to emulate default functionality prior to this commit.)
+- ValidateSamFile.java: Do not check file termination if reading from a pipe.
+- Separating the VCF encoding functions from the VCFWriter class.
+- Change SeekableStreamFactory to a singleton.
+  Allow an application to set the implementation of SeekableStreamFactory. 
+  Default implementation is the same.
+- Moved `VariantContextUtil`'s `calcVCFGenotypeKeys` and a field member into 
+  `VariantContext` to avoid referencing `VariantContextUtils` in some 
+  command-line programs.  Referencing `VariantContextUtils` can cause 
+  `ClassInitializationException`s because it references jexl packages which 
+  do dynamic class-loading.  This is more of a band-aid than a fix.
+- MakeSitesOnlyVcf.java: Bug fix: do not call `VCFHeader` constructor that 
+  copies sample names, since that forces the writer to emit genotype data for 
+  those samples (which fails the requirements of a site-only VCF).
 * Wed Oct 23 2013 Shane Sturrock <shane@biomatters.com> - 1.101-1
 - explain_sam_flags.py: Add 0x800 (supplementary alignment) flag.
 - LongLineBufferedReader.java: Fix copyright message.
