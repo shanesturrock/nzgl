@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.2.1
+Version:	1.3
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,18 @@ rm -rf %{buildroot}
 
 %changelog
 
+* Mon Nov 11 2013 Shane Sturrock <shane@biomatters.com> - 1.3-1
+- Preliminary paired-end support with the --paired-output option (contributed by
+  James Casbon). See the README section on how to use it.
+- Improved statistics.
+- Fix incorrectly reported amount of quality-trimmed Mbp (issue 57, fix by 
+  Chris Penkett)
+- Add the `--too-long-output` option.
+- Add the `--no-trim` option, contributed by Dave Lawrence.
+- Port handwritten C alignment module to Cython.
+- Fix the `--rest-file` option (issue 56)
+- Slightly speed up alignment of 5' adapters.
+- Support bzip2-compressed files.
 * Mon Dec 03 2012 Carl Jones <carl@biomatters.com> - 1.2.1-1
 - New upstream release
 * Fri Jul 27 2012 Carl Jones <carl@biomatters.com> - 1.1-2
