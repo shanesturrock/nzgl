@@ -2,14 +2,17 @@
 # test --untrimmed-output
 # test with the --output option
 # test reading from standard input
-from __future__ import print_function, division
+from __future__ import print_function, division, absolute_import
+
 import os
+from nose.tools import raises
 from cutadapt.scripts import cutadapt
 
 
 def dpath(path):
-	"""get path to a data file (relative to the directory this
-	test lives in)"""
+	"""
+	get path to a data file (relative to the directory this test lives in)
+	"""
 	return os.path.join(os.path.dirname(__file__), path)
 
 def datapath(path):
@@ -28,7 +31,7 @@ def run(params, expected, inpath, inpath2=None):
 	if inpath2:
 		params += [ datapath(inpath2) ]
 
-	assert cutadapt.main(params) == 0
+	assert cutadapt.main(params) is None
 	# TODO redirect standard output
 	diff(dpath(os.path.join('cut', expected)), dpath('tmp.fastaq'))
 	os.remove(dpath('tmp.fastaq'))
@@ -65,19 +68,24 @@ def test_lowercase():
 def test_rest():
 	'''-r/--rest-file'''
 	run(['-b', 'ADAPTER', '-r', dpath('rest.tmp')], "rest.fa", "rest.fa")
-	diff(dpath('rest.tmp'), datapath('rest.txt'))
+	diff(datapath('rest.txt'), dpath('rest.tmp'))
 	os.remove(dpath('rest.tmp'))
 
 
 def test_restfront():
 	run(['-g', 'ADAPTER', '-r', dpath('rest.tmp')], "restfront.fa", "rest.fa")
-	diff(dpath('rest.tmp'), datapath('restfront.txt'))
+	diff(datapath('restfront.txt'), dpath('rest.tmp'))
 	os.remove(dpath('rest.tmp'))
 
 
 def test_discard():
 	'''--discard'''
 	run("-b TTAGACATATCTCCGTCG --discard", "discard.fastq", "small.fastq")
+
+
+def test_discard_untrimmed():
+	'''--discard-untrimmed'''
+	run('-b CAAGAT --discard-untrimmed', 'discard-untrimmed.fastq', 'small.fastq')
 
 
 def test_plus():
@@ -97,19 +105,33 @@ def test_format():
 
 def test_minimum_length():
 	'''-m/--minimum-length'''
-	run("-c -m 5 -a 330201030313112312", "minlen.fa", "minlen.fa")
+	run("-c -m 5 -a 330201030313112312", "minlen.fa", "lengths.fa")
 
 
 def test_too_short():
 	'''--too-short-output'''
-	run("-c -m 5 -a 330201030313112312 --too-short-output tooshort.tmp.fa", "minlen.fa", "minlen.fa")
+	run("-c -m 5 -a 330201030313112312 --too-short-output tooshort.tmp.fa", "minlen.fa", "lengths.fa")
 	diff(datapath('tooshort.fa'), "tooshort.tmp.fa")
+	os.remove('tooshort.tmp.fa')
+
+
+def test_too_short_no_primer():
+	'''--too-short-output and --trim-primer'''
+	run("-c -m 5 -a 330201030313112312 --trim-primer --too-short-output tooshort.tmp.fa", "minlen.noprimer.fa", "lengths.fa")
+	diff(datapath('tooshort.noprimer.fa'), "tooshort.tmp.fa")
 	os.remove('tooshort.tmp.fa')
 
 
 def test_maximum_length():
 	'''-M/--maximum-length'''
-	run("-c -M 5 -a 330201030313112312", "maxlen.fa", "maxlen.fa")
+	run("-c -M 5 -a 330201030313112312", "maxlen.fa", "lengths.fa")
+
+
+def test_too_long():
+	'''--too-long-output'''
+	run("-c -M 5 --too-long-output toolong.tmp.fa -a 330201030313112312", "maxlen.fa", "lengths.fa")
+	diff(datapath('toolong.fa'), "toolong.tmp.fa")
+	os.remove('toolong.tmp.fa')
 
 
 def test_length_tag():
@@ -129,6 +151,10 @@ def test_overlap_b():
 def test_qualtrim():
 	'''-q with low qualities'''
 	run("-q 10 -a XXXXXX", "lowqual.fastq", "lowqual.fastq")
+
+def test_qualtrim_csfastaqual():
+	'''-q with csfasta/qual files'''
+	run("-c -q 10", "solidqual.fastq", "solid.csfasta", 'solid.qual')
 
 def test_qualbase():
 	'''-q with low qualities, using ascii(quality+64) encoding'''
@@ -173,9 +199,9 @@ def test_read_wildcard():
 def test_adapter_wildcard():
 	'''wildcards in adapter'''
 	wildcardtmp = dpath("wildcardtmp.txt")
-	for adapter_type, expected in (("-a", "wildcard_adapter.fa"), 
+	for adapter_type, expected in (("-a", "wildcard_adapter.fa"),
 		("-b", "wildcard_adapter_anywhere.fa")):
-		run("--wildcard-file {0} {1} ACGTNNNACGT".format(wildcardtmp, adapter_type), 
+		run("--wildcard-file {0} {1} ACGTNNNACGT".format(wildcardtmp, adapter_type),
 			expected, "wildcard_adapter.fa")
 		lines = open(wildcardtmp).readlines()
 		lines = [ line.strip() for line in lines ]
@@ -210,11 +236,30 @@ def test_solid_basespace_adapter():
 def test_solid5p():
 	'''test 5' colorspace adapter'''
 	# this is not a real adapter, just a random string
-	run("-c -e 0.0 --trim-primer -g CCGGAGGTCAGCTCGCTATA", "solid5p.fasta", "solid5p.fasta")
+	# in colorspace: C0302201212322332333
+	run("-c -e 0.1 --trim-primer -g CCGGAGGTCAGCTCGCTATA", "solid5p.fasta", "solid5p.fasta")
+
+def test_solid5p_prefix_notrim():
+	'''test anchored 5' colorspace adapter, no primer trimming'''
+	run("-c -e 0.1 -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.notrim.fasta", "solid5p.fasta")
 
 def test_solid5p_prefix():
 	'''test anchored 5' colorspace adapter'''
-	run("-c -e 0.0 --trim-primer -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.fasta", "solid5p.fasta")
+	run("-c -e 0.1 --trim-primer -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.fasta", "solid5p.fasta")
+
+def test_solid5p_fastq():
+	'''test 5' colorspace adapter'''
+	# this is not a real adapter, just a random string
+	# in colorspace: C0302201212322332333
+	run("-c -e 0.1 --trim-primer -g CCGGAGGTCAGCTCGCTATA", "solid5p.fastq", "solid5p.fastq")
+
+def test_solid5p_prefix_notrim_fastq():
+	'''test anchored 5' colorspace adapter, no primer trimming'''
+	run("-c -e 0.1 -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.notrim.fastq", "solid5p.fastq")
+
+def test_solid5p_prefix_fastq():
+	'''test anchored 5' colorspace adapter'''
+	run("-c -e 0.1 --trim-primer -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.fastq", "solid5p.fastq")
 
 def test_sra_fastq():
 	'''test SRA-formatted colorspace FASTQ'''
@@ -225,3 +270,44 @@ def test_issue_46():
 	wildcardtmp = dpath("wildcardtmp.txt")
 	run("--anywhere=AACGTN --wildcard-file={0}".format(wildcardtmp), "issue46.fasta", "issue46.fasta")
 	os.remove(wildcardtmp)
+
+def test_strip_suffix():
+	run("--strip-suffix _sequence -a XXXXXXX", "stripped.fasta", "simple.fasta")
+
+# note: the actual adapter sequence in the illumina.fastq.gz data set is
+# GCCTAACTTCTTAGACTGCCTTAAGGACGT (fourth base is different)
+def test_info_file():
+	infotmp = dpath("infotmp.txt")
+	run(["--info-file", infotmp, '-a', 'GCCGAACTTCTTAGACTGCCTTAAGGACGT'], "illumina.fastq", "illumina.fastq.gz")
+	os.remove(infotmp)
+
+def test_named_adapter():
+	run("-a MY_ADAPTER=GCCGAACTTCTTAGACTGCCTTAAGGACGT", "illumina.fastq", "illumina.fastq.gz")
+
+def test_no_trim():
+	''' --no-trim '''
+	run("--no-trim --discard-untrimmed -a CCCTAGTTAAAC", 'no-trim.fastq', 'small.fastq')
+
+def test_bzip2():
+	'''test bzip2 support'''
+	run('-b TTAGACATATCTCCGTCG', 'small.fastq', 'small.fastq.bz2')
+
+
+def test_paired_separate():
+	'''test separate trimming of paired-end reads'''
+	run('-a TTAGACATAT', 'paired.1.fastq', 'paired.1.fastq')
+	run('-a CAGTGGAGTA', 'paired.2.fastq', 'paired.2.fastq')
+
+
+@raises(SystemExit)
+def test_paired_end_missing_file():
+	cutadapt.main(['-a', 'XX', '--paired-output', 'out.fastq', datapath('paired.1.fastq')])
+
+
+def test_paired_end():
+	'''--paired-output'''
+	pairedtmp = dpath("paired-tmp.fastq")
+	# the -m 14 filters out one read, which should then also be filtered out in the second output file
+	run(['-a', 'TTAGACATAT', '-m', '14', '--paired-output', pairedtmp], 'paired.m14.1.fastq', 'paired.1.fastq', 'paired.2.fastq')
+	diff(dpath(os.path.join('cut', 'paired.m14.2.fastq')), pairedtmp)
+	os.remove(pairedtmp)

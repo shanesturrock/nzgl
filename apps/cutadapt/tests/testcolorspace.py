@@ -1,3 +1,5 @@
+from __future__ import print_function, division, absolute_import
+
 from cutadapt.colorspace import encode, decode
 
 # If there are any unknown characters in the test sequence,
@@ -51,3 +53,7 @@ def test_decode():
 		expected = s.replace('.', 'N')
 		encoded = encode(s)
 		assert decode(encoded) == expected
+	assert decode('A.') == 'AN'
+	assert decode('C.') == 'CN'
+	assert decode('G.') == 'GN'
+	assert decode('T.') == 'TN'

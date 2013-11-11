@@ -18,6 +18,7 @@ that is sequenced, for example when sequencing microRNAs.
 %setup -q
 
 %build
+python setup.py build_ext -i
 python setup.py build
 
 %install
