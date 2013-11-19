@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.1.0
+Version:	2.0.10
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -80,6 +80,27 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Fri Nov 15 2013 Shane Sturrock <shane@biomatters.com> - 2.0.10-1
+- Improved support for adding unpaired reads to PE reads in the same TopHat2 
+  run (please see the manual entry for this usage). This includes reporting 
+  separate counts for the additional unpaired reads and making sure that the 
+  SAM flags in the output files reflect the paired or unpaired origin of the 
+  reads.
+- Added the possibility to run TopHat just for the purpose of preparing the 
+  transcriptome index files (please see the manual entry for this special 
+  usage).
+- The input read files can have different file formats, as TopHat now 
+  autodetects the FASTA/FASTQ format of each input file.
+- Fixed a bug that could sometimes incorrectly rename the reads in the output 
+  alignments.
+- The stats in align_summary.txt now reflect the reported mappings under the 
+  constraints of the provided Tophat options, instead of reflecting the 
+  internally detected alignments. As such, the number of reads with multiple 
+  mappings may appear to be incorrectly reported if the user provided options 
+  that directly affect the reporting of such multiple mapppings.
+- Fixed a bug that caused TopHat to fail when bowtie1 and pre-filtering options
+  were used together.
+
 * Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
 - New upstream release - no changelog
 
