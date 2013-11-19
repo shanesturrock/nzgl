@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.102
+Version:	1.103
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,13 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Nov 20 2013 Shane Sturrock <shane@biomatters.com> - 1.103-1
+- Optionally compute MD5 on the fly when writing FASTQ in 
+  IlluminaBasecallsToFastq and SamToFastq, and write to companion file.
+- For VCF and BCF writing, allow the caller to provide an IndexCreator 
+  instead of using the default.
+- Do not return non-zero exit status in SamToFastq if unmatched mates 
+  found and validation_stringency is not STRICT.
 * Wed Nov 06 2013 Shane Sturrock <shane@biomatters.com> - 1.102-1
 - Changed default read name header formatting for fastq records emitted by 
   `IlluminaBasecallsToFastq` to include new values and, in particular, 
