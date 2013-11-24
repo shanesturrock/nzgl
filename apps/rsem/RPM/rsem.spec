@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.7
+Version:	1.2.8
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -81,5 +81,9 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Nov 25 2013 Shane Sturrock <shane@biomatters.com> - 1.2.8-1
+- Provided a more detailed description for how to simulate RNA-Seq data using 'rsem-simulate-reads'. 
+- Provided more user-friendly error message if RSEM fails to extract transcript sequences due to 
+  the failure of reading certain chromosome sequences.
 * Wed Oct 02 2013 Shane Sturrock <shane@biomatters.com> - 1.2.7-1
 - Initial build.
