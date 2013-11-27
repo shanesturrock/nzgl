@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.10.0
+Version:	0.10.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,55 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Thu Nov 28 2013 Shane Sturrock <shane@biomatters.com> - 0.10.1-1
+- Bismark methylation extractor: The methylation extractor does now detect 
+  automatically whether Bismark alignment file(s) were run in single-end or 
+  paired-end mode. The automatic detection can be overridden by manually 
+  specifying -s or -p and this option is only available for SAM/BAM files
+- bismark2bedGraph: When run in stand-alone mode, the coverage file will 
+  replace 'bedGraph' as the file ending with 'bismark.cov'. If the output 
+  filename is anything other than 'bedGraph', '.bismark.cov' will be appended 
+  to the filename
+- bismark2bedGraph: When run in stand-alone mode, '--counts' will be enabled 
+  by default for the coverage output
+- bismark2bedGraph: Added a new option '--scaffolds/--gazillion' for users 
+  working with unfinished genomes sporting tens or even hundreds of thousands 
+  of scaffolds/contigs/chromosomes. Such a large number of reference sequences 
+  frequently resulted in errors with pre-sorting reads to individual chromosome
+  files because of the operating system's limitation of the number of 
+  filehandles that can be written to at any one time (typically this limit is 
+  anything between 128 and 1024 filehandles; to find out this limit on Linux, 
+  type: ulimit -a). To bypass the limitation of open filehandles, the option 
+  '--scaffolds' does not pre-sort methylation calls into individual chromosome 
+  files. Instead, all input files are temporarily merged into a single file 
+  (unless there is only a single file), and this file will then be sorted by 
+  both chromosome AND position using the UNIX sort command. Please be aware 
+  that this option might take a looooong time to complete, depending on the 
+  size of the input files, and the memory you allocate to this process (see 
+  '--buffer_size')
+- bismark2bedGraph: Added a new option '--ample_memory'. Using this option will 
+  not sort chromosomal positions using the UNIX sort command, but will instead 
+  use two arrays to sort methylated and unmethylated calls, respectively. This 
+  may result in a faster sorting process for very large files, but this comes 
+  at the cost of a larger memory footprint (as an estimate, two arrays of the 
+  length of the largest human chromosome 1 (~250 million bp) consume around 
+  16GB of RAM). Note however that due to the overhead of creating and looping 
+  through huge arrays this option might in fact be *slower* for small-ish files 
+  (up to a few million alignments). Note also that this option is not currently 
+  compatible with options '--scaffolds/--gazillion'. This option still needs 
+  some efficiency testing as to when it actually makes sense to use it, but it 
+  produces identical results to the default sort option. Thanks to Yi-Shiou 
+  Chen for contributing this twist
+- deduplicate_bismark: The deduplication script does now detect automatically 
+  whether a Bismark alignment file was run in single-end or paired-end mode 
+  (this happens separately for every file analysed). The automatic detection 
+  can be overridden by manually specifying -s or -p and this option is only 
+  available for SAM/BAM files
+- bismark2report: Specifying a single file for each of the optional reports 
+  does now will now work as intended, instead of being skipped
+- coverage2cytosine: Added some counting and statements to indicate when the 
+  run finished successfully (it proved to be difficult to follow the report 
+  process for a genome with nearly half a million scaffolds...)
 * Thu Oct 17 2013 Shane Sturrock <shane@biomatters.com> - 0.10.0-1
 - Bismark - The option --prefix <some.prefix> does now also work for the C->T and G->A 
   transcribed temporary files to allow multiple instances of Bismark to be run on the same 
