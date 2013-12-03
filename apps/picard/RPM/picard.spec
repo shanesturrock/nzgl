@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.103
+Version:	1.104
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,44 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Dec 04 2013 Shane Sturrock <shane@biomatters.com> - 1.104-1
+- Use Intel hardware-accelerated Deflater for writing BAM files where 
+  appropriate.  This is only supported on unix systems.  
+  net.sf.samtools.util.zip.IntelDeflater is used instead of 
+  java.util.zip.Deflater. See
+  https://sourceforge.net/apps/mediawiki/picard/index.php?title=IntelDeflater
+  In order to use IntelDeflater, a shared library libIntelDeflater.so must be 
+  dynamically loaded.  This library is included in the picard-tools zipfile.  
+  The shared library is found via one of the following methods:
+  If -Dsamjdk.intel_deflater_so_path is set and points to the shared library, 
+  it is loaded from that location.
+  Else if the shared library is in the same directory as the Picard jar that 
+  is executing, it is loaded from that location.  We presume that this will be 
+  the typical way in which the shared library will be found.
+  Else if the shared library is found on LD_LIBRARY_PATH, it is loaded from 
+  there.
+  Else java.util.zip.Deflater is used.
+  Use of IntelDeflater may be suppressed with
+  -Dsamjdk.try_use_intel_deflater=false.
+  In the header line written by Picard command-line programs, at the end of 
+  the line will appear either IntelDeflater or JdkDeflater to indicate which 
+  has been loaded.
+  We have seen compression time reduced by 13% to 33% depending on the hardware.
+- Tribble.java: More intelligent determination of index file path; Treat URLs 
+  with query strings properly, add index extension to the path element not 
+  just the end of the string
+- Have TabixReader use buffered seekable streams.
+- Allow TabixReader to take an index file as an input parameter, instead of 
+  just adding an extension. This is necessary for URLs with query parameters.
+- Added a capacity to conditionally ignore blank lines in the fastq files.
+- Setting the output read structure properly on IlluminaBasecallsToFastq when 
+  there are skips.
+- Improved assertion error messages in
+  `SAMSequenceDictionary#assertSameDictionary(SAMSequenceDictionary)`.
+- MultiLevelCollector.java: Handling missing read groups when requesting 
+  accumulation at level that requires read group.
+- Fix multi-threading bug in ExtractIlluminaBarcodes caused some metrics to 
+  accumulate incorrectly.
 * Wed Nov 20 2013 Shane Sturrock <shane@biomatters.com> - 1.103-1
 - Optionally compute MD5 on the fly when writing FASTQ in 
   IlluminaBasecallsToFastq and SamToFastq, and write to companion file.
