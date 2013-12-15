@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.62
+Version:          1.63
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Mon Dec 09 2013 Shane Sturrock <shane@biomatters.com> - 1.63-1
+- First release of biopython which officially supports Python 3.
+- Now uses the Python 3 style built-in next function in place of the Python 
+  2 style iterators’ .next() method.
+- The current version removed the requirement of the 2to3 library.
+
 * Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 1.62-1
 - Final release with support for Python 2.5.  
 - Adds warnings when translating partial codons.
