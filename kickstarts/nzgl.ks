@@ -47,6 +47,7 @@ sssd
 nx
 freenx
 gedit
+libreoffice
 yum-plugin-post-transaction-actions
 munin-node
 valgrind
