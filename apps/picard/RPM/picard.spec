@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.104
+Version:	1.105
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Dec 18 2013 Shane Sturrock <shane@biomatters.com> - 1.105-1
+- IOUtil.java: Reverse order of two conditions in order to avoid calling 
+  File.getUsableSpace for the last temp directory in the list.
+- MathUtil.java: Added a method to create sequences of doubles.
+
 * Wed Dec 04 2013 Shane Sturrock <shane@biomatters.com> - 1.104-1
 - Use Intel hardware-accelerated Deflater for writing BAM files where 
   appropriate.  This is only supported on unix systems.  

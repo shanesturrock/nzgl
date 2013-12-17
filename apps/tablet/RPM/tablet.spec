@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.13.12.13
+Version:	1.13.12.17
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -62,8 +62,20 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed Dec 18 2013 Shane Sturrock <shane@biomatters.com> - 1.13.12.17-1
+- BUG: Fixed a critical issue that prevented Tablet from parsing SAM files 
+  correctly.
+
 * Mon Dec 16 2013 Shane Sturrock <shane@biomatters.com> - 1.13.12.13-1
-- New upstream release
+- NEW: Added a new Assembly Summary dialog which can be launched from the 
+  "More" link above the Contigs listing.
+- NEW: Threaded off drag and drop file loading so that Windows Explorer no 
+  longer appears to hang after performing the drop.
+- BUG: Tablet's embedded samtools no longer worked with 64 bit Centos 6.
+- BUG: JNLP launched Tablet (on OS X) wasn't loading BAM files correctly.
+- BUG: Streaming BAM files when running under web start was failing.
+- BUG: Altering the BAM window size or moving the BAM window didn't update 
+  the features table.
 
 * Thu Aug 01 2013 Shane Sturrock <shane@biomatters.com> - 1.13.07.31-1
 - New upstream release
