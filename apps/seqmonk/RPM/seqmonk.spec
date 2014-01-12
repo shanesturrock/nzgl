@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.26.0
+Version:	0.27.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -59,6 +59,14 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Mon Jan 13 2014 Shane Sturrock <shane@biomatters.com> - 0.27.0-1
+- Made improvements to the RNA-Seq and HiC Analysis tools
+- Added a tool to automatically group DataSets based on their names
+- Added options to downsample datasets or filter reads by their length
+- Fixed a p-value correction bug in large HiC heatmaps
+- Fixed a bug which occurred when sorting very large numbers of reads
+- Fixed a bug when using GFFv3 files to create custom genomes
+- Added warnings to pipelines which wipe out existing probe sets
 * Tue Oct 29 2013 Shane Sturrock <shane@biomatters.com> - 0.26.0-1
 - SeqMonk v0.26.0 adds a critical fix for the new OSX Mavericks release
   and also adds some new functionality to make it easier to deal with 

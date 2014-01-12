@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.8
+Version:	1.2.9
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -81,6 +81,12 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Jan 13 2014 Shane Sturrock <shane@biomatters.com> - 1.2.9-1
+- Fixed a compilation error problem in Mac OS. 
+- Fixed a problem in makefile that affects 'make ebseq'. 
+- Added 'model_file_description.txt', which describes the format and meanings 
+  of file 'sample_name.stat/sample_name.model'. 
+- Updated samtools to version 0.1.19.
 * Mon Nov 25 2013 Shane Sturrock <shane@biomatters.com> - 1.2.8-1
 - Provided a more detailed description for how to simulate RNA-Seq data using 'rsem-simulate-reads'. 
 - Provided more user-friendly error message if RSEM fails to extract transcript sequences due to 
