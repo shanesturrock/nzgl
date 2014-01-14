@@ -185,7 +185,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-B
 /usr/sbin/nzgl-configure-services
 
 # Configure java
-/usr/sbin/nzgl-configure-java
+# /usr/sbin/nzgl-configure-java
 
 # Firewall setup
 yum -y install nzgl-iptables
