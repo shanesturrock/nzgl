@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Sets the Java version to Java 6 by disabling Java 7.
-# Tablet requires Java 7 in latest version so turning this off for testing
-# alternatives --remove java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java &>/dev/null
-# alternatives --remove jre_openjdk /usr/lib/jvm/jre-1.7.0-openjdk.x86_64 &>/dev/null
-# alternatives --remove jre_1.7.0 /usr/lib/jvm/jre-1.7.0-openjdk.x86_64 &>/dev/null
-exit 0
