@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.105
+Version:	1.106
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,51 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jan 15 2014 Shane Sturrock <shane@biomatters.com> - 1.106-1
+- Added new SAMFileReader.query method that enables querying of
+  multiple intervals in a single invocation.  In many cases this will be
+  much more efficient than querying each interval separately, because
+  due to the limitations of BAM index a query can result in many records
+  read from the file that do not satisfy the query parameters.  In
+  multiple query invocations, the same regions of the file may be read
+  more than once, whereas with the new method each candidate region of
+  the file will be read only once.
+- SamLocusIterator now uses this method.  It used to be the case that
+  for some inputs, having SamLocusIterator use an index was less
+  efficient than a linear scan through the whole file.  It should now be
+  the case that using the index will always be at least as efficient as
+  a linear scan, and generally using the index will be much more
+  efficient.
+- Added support for processing reads with hard clips in
+  MergeBamAlignment.  Implemented by transforming the hard clips to soft
+  clips and adding in dummy bases and qualities when reading the aligned
+  reads into memory.  This should addressed problems processing BWA MEM
+  output with MergeBamAlignment.
+- Fixed the handling of supplemental alignments in MergeBamAlignment.
+  Previous implementation was incorrect in assuming that when reads are
+  paired that each end of a pair would have the same number of
+  supplemental alignments.
+- PedFile.java: Conditionally allow for tabs in ped file fields
+- VariantContext.java: Fixed bad 'equals' bug in VC validation where
+  Integer != Integer was always returning true
+- MarkDuplicates.java: Avoid asking for an array bigger than JVM
+  allows if heap is huge.
+- Fixed up docs for VC and Allele and added a method to remove a list
+  of attributes for the VCBuilder.
+- AbstractVCFCodec.java: Instead of failing badly on format field
+  lists with '.'s, just ignore them.
+- SamAlignmentMerger.java: Changed the iterator returned by
+  getQuerynameSortedAlignedRecords() to return a header with
+  SortOrder.queryname instead of coordinate.  Also added a warning log
+  when SamAlignmentMerger decides it needs to re-sort the aligned reads
+  into queryname order.
+- BCF2FieldEncoder.java: Add BCF encoding support for Java arrays, not
+  just lists.
+- Fix CleanSam to handle unusual Cigar strings, and also so that it no
+longer clips 1 more than necessary.
+- SAMFileHeader.java: Treat SO:unknown as if it were SO:unsorted.
+- Support .fna and .fna.gz as valid extensions for fasta files.
+
 * Wed Dec 18 2013 Shane Sturrock <shane@biomatters.com> - 1.105-1
 - IOUtil.java: Reverse order of two conditions in order to avoid calling 
   File.getUsableSpace for the last temp directory in the list.
