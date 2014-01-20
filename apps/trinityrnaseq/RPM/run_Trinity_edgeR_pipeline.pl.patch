@@ -1,5 +1,5 @@
---- util/run_Trinity_edgeR_pipeline.pl.orig	2013-10-02 09:52:17.161053661 +1300
-+++ util/run_Trinity_edgeR_pipeline.pl	2013-10-02 09:54:12.927196885 +1300
+--- util/run_Trinity_edgeR_pipeline.pl.orig	2014-01-20 14:23:21.581834727 +1300
++++ util/run_Trinity_edgeR_pipeline.pl	2014-01-20 14:26:28.643180929 +1300
 @@ -8,7 +8,7 @@
  
  ######################################################

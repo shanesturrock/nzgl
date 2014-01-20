@@ -1,3 +1,4 @@
 version=3
-opts=uversionmangle=s/_//g \
-  http://sf.net/trinityrnaseq/trinityrnaseq_r(.+)\.tgz
+  opts=uversionmangle=s/_//g \
+  http://sf.net/trinityrnaseq/trinityrnaseq_r(.+)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
+
