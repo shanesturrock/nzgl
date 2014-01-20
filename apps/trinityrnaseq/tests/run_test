@@ -17,7 +17,7 @@ fi
 #######################################################
 
 ## use jellyfish
-/usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 --no_cleanup --monitoring
+/usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 # --bowtie_comp
 
 ##### Done Running Trinity #####
 
@@ -34,7 +34,7 @@ fi
 
 sleep 2
 
-/usr/libexec/trinityrnaseq/util/RSEM_util/run_RSEM_align_n_estimate.pl  --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left reads.left.fq --right reads.right.fq --SS_lib_type RF 
+/usr/libexec/trinityrnaseq/util/RSEM_util/run_RSEM_align_n_estimate.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left reads.left.fq --right reads.right.fq --SS_lib_type RF
 
 ###### Done running RSEM ########
 
@@ -52,11 +52,12 @@ then
     gunzip -c Trinity.fasta.gz > Trinity.fasta
 fi
 
-/usr/libexec/trinityrnaseq/trinity-plugins/transdecoder/transcripts_to_best_scoring_ORFs.pl -t Trinity.fasta -m 50
+/usr/libexec/trinityrnaseq/trinity-plugins/transdecoder/TransDecoder -t Trinity.fasta -m 50
 
 ####### Clean up temp files #######
 
-/bin/rm base_freqs.dat best_candidates.* hexamer.scores longest_orfs.* Trinity.fasta
+/bin/rm Trinity.fasta
+#/bin/rm base_freqs.dat best_candidates.* hexamer.scores longest_orfs.* Trinity.fasta
 
 # Taken from test_full_edgeR_pipeline/runMe.sh
 
@@ -70,5 +71,6 @@ fi
 /bin/rm Trinity_components.counts.matrix* Trinity.components_lengths.txt 
 /bin/rm -rf edgeR_components/
 /bin/rm -rf collectl
+/bin/rm -rf Trinity.fasta.transdecoder.* transdecoder.tmp.*
 
 exit 0
