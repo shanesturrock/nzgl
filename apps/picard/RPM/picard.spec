@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.106
+Version:	1.107
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,17 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jan 29 2014 Shane Sturrock <shane@biomatters.com> - 1.107-1
+- Build javadoc for variant and tribble packages as part of sourceforge 
+  release.
+- Fix annoying bug where in order to use SamLocusIterator as an iterator one 
+  first had to call the .iterator() method on it to prime it.  Now auto-primes.
+- Support writing of vcf.gz, i.e. bgzf format, but only without on-the-fly 
+  index creation.
+- Set buffer size of BclReader to Defaults.BUFFER_SIZE, which defaults to 
+  128K and can be controlled via -Dsamjdk.buffer_size=<buffer_size>.  Previous 
+  size was always 8192.
+- Added nominal support for VCF4.2 headers (but just the headers)
 * Wed Jan 15 2014 Shane Sturrock <shane@biomatters.com> - 1.106-1
 - Added new SAMFileReader.query method that enables querying of
   multiple intervals in a single invocation.  In many cases this will be
