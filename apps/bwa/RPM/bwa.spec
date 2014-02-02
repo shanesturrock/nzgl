@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.5a
+Version:        0.7.6a
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -50,6 +50,42 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 03 2014 Shane Sturrock <shane@biomatters.com> - 0.7.6a-1
+- Changes in BWA-MEM:
+ - Changed the way mapping quality is estimated. The new method tends to give
+   the same alignment a higher mapping quality. On paired-end reads, the change
+   is minor as with pairing, the mapping quality is usually high. For short
+   single-end reads, the difference is considerable.
+ - Improved load balance when many threads are spawned. However, bwa-mem is
+   still not very thread efficient, probably due to the frequent heap memory
+   allocation. Further improvement is a little difficult and may affect the
+   code stability.
+ - Allow to use different clipping penalties for 5'- and 3'-ends. This helps
+   when we do not want to clip one end.
+ - Print the @PG line, including the command line options.
+ - Improved the band width estimate: a) fixed a bug causing the band
+   width estimated from extension not used in the final global alignment; b)
+   try doubled band width if the global alignment score is smaller.
+   Insufficient band width leads to wrong CIGAR and spurious mismatches/indels.
+ - Added a new option -D to fine tune a heuristic on dropping suboptimal hits.
+   Reducing -D increases accuracy but decreases the mapping speed. If unsure,
+   leave it to the default.
+ - Bugfix: for a repetitive single-end read, the reported hit is not randomly
+   distributed among equally best hits.
+ - Bugfix: missing paired-end hits due to unsorted list of SE hits.
+ - Bugfix: incorrect CIGAR caused by a defect in the global alignment.
+ - Bugfix: incorrect CIGAR caused by failed SW rescue.
+ - Bugfix: alignments largely mapped to the same position are regarded to be
+   distinct from each other, which leads to underestimated mapping quality.
+ - Added the MD tag.
+- There are no changes to BWA-backtrack in this release. However, it has a few
+  known issues yet to be fixed. If you prefer BWA-track, It is still advised to
+  use bwa-0.6.x.
+- While I developed BWA-MEM, I also found a few issues with BWA-SW. It is now
+  possible to improve BWA-SW with the lessons learned from BWA-MEM. However, as
+  BWA-MEM is usually better, I will not improve BWA-SW until I find applications
+  where BWA-SW may excel.
+
 * Tue Jun 04 2013 Simon Buxton <simon@biomatters.com> - 0.7.5a-1
 - New upstream release
 
