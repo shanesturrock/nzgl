@@ -1,0 +1,3 @@
+version=3
+opts=uversionmangle=s/v//g \
+	http://githubredir.debian.net/github/arq5x/bedtools2/  (.*).tar.gz
