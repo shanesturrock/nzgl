@@ -1,11 +1,11 @@
 Name:		bedtools2
-Version:	2.18.2
+Version:	2.19.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://github.com/arq5x/bedtools2
-SOURCE:		bedtools2-2.18.2.tar.gz
+SOURCE:		bedtools2-2.19.0.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 
@@ -70,5 +70,26 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Feb 10 2014 Shane Sturrock <shane@biomatters.com> - 2.19.0-1
+- Bug Fixes
+  - Fixed a long standing bug in which the number of base pairs of overlap 
+    was incorrectly calculated when using the -wo option with the -split 
+    option.
+  - Fixed a bug in which certain flavors of unmapped BAM alignments were 
+    incorrectly rejected in the latest 2.18.* series.
+- Enhancements
+  - Substantially reduced memory usage, especially when dealing with unsorted 
+    data. Memory usage ballooned in the 2.18.* series owing to default buffer 
+    sizes we were using in a custom string class.  We have adjusted this and 
+    the memory usage has returned to 2.17.* levels while maintaining speed 
+    increases.
+- New Features
+  - The latest version of the "map" function is ~3X faster than the one 
+    available in version 2.17 and 2.18
+  - The map function now supports the "-split" option, as well as "absmin" 
+    and "absmax" operations.
+  - In addition, it supports multiple chromosome sorting criterion by 
+    supplying a genome file that defines the expected chromosome order. 
+
 * Tue Feb 04 2014 Shane Sturrock <shane@biomatters.com> - 2.18.2-1
 - Initial build.
