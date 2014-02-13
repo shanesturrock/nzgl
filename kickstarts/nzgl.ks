@@ -190,6 +190,9 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-B
 # Firewall setup
 yum -y install nzgl-iptables
 
+# Set the nzgl.cron job to run at a semi-random time
+sed -e 's/0/'$(date +%S)'/g' --in-place /etc/cron.d/nzgl.cron
+
 # Fix NX keyboard map problem and set it up
 touch /usr/share/X11/xkb/keymap.dir
 nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
