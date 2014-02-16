@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.10
+Version:	1.2.11
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -81,6 +81,12 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Feb 17 2014 Shane Sturrock <shane@biomatters.com> - 1.2.11-1
+- Enabled RSEM to use Bowtie 2 aligner (indel, local and discordant alignments 
+  are not supported yet)
+- Changed option names '--bowtie-phred33-quals', '--bowtie-phred64-quals' and 
+  '--bowtie-solexa-quals' back to '--phred33-quals', '--phred64-quals' and 
+  '--solexa-quals' 
 * Mon Feb 03 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-1
 - Fixed a bug which will lead to out-of-memory error when RSEM computes ngvector for EBSeq.
 * Mon Jan 13 2014 Shane Sturrock <shane@biomatters.com> - 1.2.9-1

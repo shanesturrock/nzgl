@@ -1,15 +1,24 @@
---- rsem-calculate-expression.orig	2013-10-02 12:09:20.380610284 +1300
-+++ rsem-calculate-expression	2013-10-02 12:10:50.017785059 +1300
-@@ -220,7 +220,7 @@
+--- rsem-calculate-expression.orig	2014-02-17 08:43:59.686012664 +1300
++++ rsem-calculate-expression	2014-02-17 08:46:21.707387081 +1300
+@@ -238,7 +238,7 @@
+ 	}
+ 
+ 	# pipe to samtools to generate a BAM file
+-	$command .= " | $dir\sam/samtools view -S -b -o $imdName.bam -";
++	$command .= " | $dir\samtools view -S -b -o $imdName.bam -";
+     }
+     else {
+ 	$command = $bowtie2_path."bowtie2";
+@@ -273,7 +273,7 @@
+ 	}
+ 
+ 	# pipe to samtools to generate a BAM file
+-	$command .= " | $dir\sam/samtools view -S -b -o $imdName.bam -";
++	$command .= " | $dir\samtools view -S -b -o $imdName.bam -";
      }
  
-     # pipe to samtools to generate a BAM file
--    $command .= " | $dir\sam/samtools view -S -b -o $imdName.bam -";
-+    $command .= " | $dir\samtools view -S -b -o $imdName.bam -";
- 
      if ($mTime) { $time_start = time(); }
- 
-@@ -282,17 +282,17 @@
+@@ -336,17 +336,17 @@
  &collectResults("gene", "$imdName.gene_res", "$sampleName.genes.results"); # gene level
  
  if ($genBamF) {
