@@ -200,4 +200,8 @@ nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # 32 bit binary support
 yum -y install glibc.i686 libstdc++.i686 libgomp.i686
 
+# Process Accounting
+yum -y install psacct
+chkconfig psacct on
+
 %end
