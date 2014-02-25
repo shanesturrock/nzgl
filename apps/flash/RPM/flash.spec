@@ -1,5 +1,5 @@
 Name:		FLASH
-Version:	1.2.8
+Version:	1.2.9
 Release:	1%{?dist}
 Summary:	Fast Length Adjustment of SHort reads
 Group:		Applications/Engineering
@@ -41,6 +41,16 @@ rm -rf %{buildroot}
 %{_bindir}/flash
 
 %changelog
+* Wed Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.2.9-1
+- The core algorithm of FLASH has been optimized using SSE and SSE2
+  instructions.  On x86_64 CPUs it now can run over twice as fast.
+- The help output of FLASH has been improved.
+- Added supported for tab-delimited input and output.
+- FLASH now displays more informative error messages in some cases.
+- Reorganized some of the code so that it's easier to modify.
+- Reading the data from standard input now works correctly.
+- With --to-stdout specified, informational messages are now written to standard
+  error rather than omitted.
 * Mon Dec 16 2013 Shane Sturrock <shane@biomatters.com> - 1.2.8-1
 - Upstream update
 * Tue Aug 06 2013 Shane Sturrock <shane@biomatters.com> - 1.2.7-1

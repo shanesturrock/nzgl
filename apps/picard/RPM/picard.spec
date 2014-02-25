@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.107
+Version:	1.108
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,61 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.108-1
+- Handle mix of paired and unpaired reads in MarkIlluminaAdapters, 
+  MergeBamAlignment and SamToFastq.
+  - Deprecated "is paired" argument in MergeBamAlignment.
+  - Added "unpaired record output" argument to `SamToFastq`, which emits 
+    unpaired reads to its own fastq, if set.
+- Support Illumina RTA2 (i.e. NextSeq) format for all programs that use 
+  IlluminaDataProviderFactory, i.e. IlluminaBasecallsToSam, 
+  IlluminaBasecallsToFastq, ExtractIlluminaBarcodes, CheckIlluminaDirectory.
+- Implement async I/O for writing bgzipped VCFs.  This can be enable 
+  programmatically, or by passing -Dsamjdk.use_async_io=true to the java 
+  command.
+- BasicFastqWriter.java: Use BufferedOutputStream.  Buffer size is controlled 
+  by system property samjdk.buffer_size.
+- BlockCompressedInputStream.java: By default BlockCompressedInputStream wants 
+  to ensure that the InputStream it is wrapping is buffered, by buffering if 
+  necessary.  For certain operations it's critical that buffering not be added, 
+  so added new constructor that allows the caller to force no buffering.
+- libIntelDeflater.so: Mark library as not requiring executable stack.  
+  Hopefully this will eliminate warnings that have been reported by some 
+  users.
+- Improved MarkIlluminaAdapters to clip for multiple different adapter 
+  sequences in one pass and correct progress logging and metrics that were 
+  only counting one read out of each pair.
+- Minor change so that VCFFileReader.getSequenceDictionary() does not require 
+  the VCF to be indexed.
+- Changed so that the VCFReader doesn't require the presence of an index since 
+  MakeSitesOnlyVcf doesn't use it anyway.
+- TabixUtils.java: Added utility code to pull out the sequence dictionary from 
+  a tabix index file.  Useful for quickly validating consistency of the 
+  sequence dictionary.
+- VariantContext.java, AbstractVCFCodec.java: Fixed a race condition causing 
+  occasional errors in AD and PL fields in multithreaded mode.  Removed the 
+  side-effect of decoding genotypes when calling VariantContext.toString().
+- VariantContextWriterFactory.java: Identify extensions .gz, .bgz, .bgzf as 
+  block-compressed vcf when writing VCF.  Add methods to create vcf, bcf, and 
+  block-compressed vcf explicitly as an alternative to determining format by 
+  examining file extension.
+- Fixed BCF2Utils.toList() to account for the possibility that the input may 
+  be an array.
+- VariantContext.java: Muliple alt alleles were being returned in arbitrary 
+  order from subContextFromSamples.  This change ensures original order.
+- VcfFormatConverter.java: Changed the way the CREATE_INDEX option is handled 
+  so that it is additive to the DEFAULT_OPTIONS and does not wipe out other 
+  default options for VCF writing.
+- Changed the way MakeSitesOnlyVcf handles index creation options so that it 
+  respects other default VCF writing options.
+- Added a new pair of options to RevertSam to allow for "Sanitizing" SAM and 
+  BAM files during revert operations.  When fully reverting and sorting by 
+  query mode this will optionally discard reads who's pairing information is 
+  non-sensical including: a) paired reads who's mates are not present in the 
+  file, b) non-paired reads that are duplicated in the file and c) reads 
+  marked as paired by not having a single R1 and R2 present.
+- IntervalListTools.java: Require at least one input file
+
 * Wed Jan 29 2014 Shane Sturrock <shane@biomatters.com> - 1.107-1
 - Build javadoc for variant and tribble packages as part of sourceforge 
   release.
