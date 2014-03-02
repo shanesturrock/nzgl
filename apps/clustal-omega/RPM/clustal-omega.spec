@@ -1,5 +1,5 @@
 Name:           clustal-omega
-Version:        1.2.0
+Version:        1.2.1
 Release:	1%{?dist}
 License:        GPL
 Group:          Productivity/Scientific/Chemistry
@@ -40,5 +40,7 @@ rm -rf %{buildroot}
 %{_bindir}/clustalo
 
 %changelog
+* Mon Mar 03 2014 shane@biomatters.com 1.2.1-1
+- Bug fix release
 * Fri Oct 11 2013 shane@biomatters.com 1.2.0-1
 - Initial build for NZGL repository

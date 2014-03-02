@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.0
+Version:	2.2.1
 Release:	0%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,18 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Mar 03 2014 Shane Sturrock <shane@biomatters.com> - 2.2.1-1
+- Improved way in which index files are loaded for alignment. Should fix 
+  efficiency problems on some filesystems.
+- Fixed a bug that made older systems unable to correctly deal with bowtie 
+  relative symbolic links.
+- Fixed a bug that, for very big indexes, could determine to determine file 
+  offsets correctly.
+- Fixed a bug where using --no-unal option incorrectly suppressed 
+  --un/--un-conc output.
+- Dropped a perl dependency that could cause problems on old systems.
+- Added --no-1mm-upfront option and clarified documentation for parameters 
+  governing the multiseed heuristic.
 * Wed Feb 12 2014 Shane Sturrock <shane@biomatters.com> - 2.2.0-1
 - Improved index querying efficiency using "population count" instructions 
   available since SSE4.2
