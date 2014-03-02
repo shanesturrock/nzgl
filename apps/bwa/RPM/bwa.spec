@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.6a
+Version:        0.7.7
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -50,6 +50,16 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 28 2014 Shane Sturrock <shane@biomatters.com> - 0.7.7-1
+- This release fixes incorrect MD tags in the BWA-MEM output.
+- A note about short-read mapping to GRCh38. The new human reference genome
+  GRCh38 contains 60Mbp program generated alpha repeat arrays, some of which 
+  are hard masked as they cannot be localized. These highly repetitive arrays 
+  make BWA-MEM ~50% slower. If you are concerned with the performance of 
+  BWA-MEM, you may consider to use option "-c2000 -m50". On simulated data, 
+  this setting helps the performance at a very minor cost on accuracy. May 
+  consider to change the default in future releases.
+
 * Mon Jan 03 2014 Shane Sturrock <shane@biomatters.com> - 0.7.6a-1
 - Changes in BWA-MEM:
  - Changed the way mapping quality is estimated. The new method tends to give
