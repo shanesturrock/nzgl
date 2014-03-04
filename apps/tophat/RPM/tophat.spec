@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.10
+Version:	2.0.11
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -80,6 +80,11 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 2.0.11-1
+- Version 2.0.11 is a maintenance release with the following simple fix:
+  This version is compatible with Bowtie2 v2.2.1, although it does not 
+  support a 64-bit Bowtie2 index yet.
+
 * Fri Nov 15 2013 Shane Sturrock <shane@biomatters.com> - 2.0.10-1
 - Improved support for adding unpaired reads to PE reads in the same TopHat2 
   run (please see the manual entry for this usage). This includes reporting 
