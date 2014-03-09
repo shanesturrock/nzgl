@@ -1,5 +1,5 @@
 Name:		vcftools
-Version:	0.1.11
+Version:	0.1.12
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
@@ -74,6 +74,38 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Mon Mar 10 2014 Shane Sturrock <shane@biomatters.com> - 1.12-1
+- Added options:
+  --stdout, -c : These options force the program to write to standard out
+  instead of directly to file
+  --relatedness2 : Calculate and output a relatedness statistic based on the
+  method of Manichaikul et al., Bioinformatics 2010
+
+- Removed options:
+  --min-indv-meanDP <float>
+  --max-indv-mean-DP <float>
+  --mind <float>
+  --recode-to-stream (functionality replaced by --recode used with --stdout)
+  --recode-bcf-to-stream (functionality replaced by --recode-bcf used with
+  --stdout)
+  --force-write-index
+
+- Changed options:
+  --vcf, --gzvcf, --bcf : These options now can accept a dash character "-"
+  instead of a filename, allowing the program to read from standard input.
+  --phased : Now this function only removes sites with unphased genotypes and
+  does not remove individuals with all unphased genotypes.
+  --missing : This function has been split into two separate functions that
+  provides the same functionality as the previously: --missing-indv and
+  --missing-site
+  --filtered-sites : This function has been split into two separate functions
+  that provides the same functionality as the previously: --kept-sites and
+  --removed-sites
+  --TsTv <int> : This function no longer outputs a summary along with the
+  TsTv bin file. To output only the summary file, use function: --TsTv-summary
+  --geno <float> : This option has been renamed --max-missing <float> but
+  keeps the same functionality.
+
 * Wed Jun 26 2013 Shane Sturrock <shane@biomatters.com> - 1.11-1
 - New upstream release
 

@@ -1,11 +1,11 @@
 Name:		bedtools2
-Version:	2.19.0
+Version:	2.19.1
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://github.com/arq5x/bedtools2
-SOURCE:		bedtools2-2.19.0.tar.gz
+SOURCE:		bedtools2-2.19.1.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 
@@ -70,6 +70,12 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Mar 10 2014 Shane Sturrock <shane@biomatters.com> - 2.19.1-1
+- Bug fix to intersect causing BAM footers to be erroneously written when 
+  -b is BAM
+- Speedup for the map tool.
+- Map tool now allows multiple columns and operations in a single run.
+
 * Mon Feb 10 2014 Shane Sturrock <shane@biomatters.com> - 2.19.0-1
 - Bug Fixes
   - Fixed a long standing bug in which the number of base pairs of overlap 
