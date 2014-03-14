@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.108
+Version:	1.109
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,36 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Mar 12 2014 Shane Sturrock <shane@biomatters.com> - 1.109-1
+- Add buffering for BAM file writing.  By default this will be 128K.  Buffer 
+  size can be controlled via -Dsamjdk.buffer_size=<value>.  Buffer size can 
+  be controlled programmatically via SAMFileWriterFactory.setBufferSize() 
+  method.
+- Added MateCigar to SAMRecord as an optional Attribute ("MC")
+  - Given a SAMRecord that is part of a pair, the MateCigar attribute (MC) 
+    will contain the cigar string for that read's mate iff the mate is mapped.
+  - Added getters (for String and Cigar) to SAMRecord.
+  - Moved utility methods (getClippedAlignmentStart/End...) to SAMRecord and 
+    commonified with similar methods for the Read itself.
+  - Added validations to MateCigar (not present when inappropriate, matches 
+    the Mate's Cigar String).
+- Added the command line tool RevertOriginalBaseQualitiesAndAddMateCigar
+  - meant to update a SAM/BAM to include the new Mate Cigar ("MC") optional tag.
+  - additionally, allows the user to optionally revert the original base 
+    qualities ("OQ" optional tag).
+  - will exit early with an INFO message if the SAM/BAM already has the "MC" 
+    tag, and therefore would not need to be reverted.
+- MergeBamAlignment, CleanSam, RevertOriginalBaseQualitiesAndAddMateCigar: Make 
+  sure that the mate CIGAR (MC) does not hang off the end of the reference.  
+  If it does, clip it, the same way we do with the record's CIGAR.
+- SortSam, MergeBamAlignment: Adding logging to record progress while writing 
+  SAM records to disk when sorting.
+- AbstractAsyncWriter.java: Handle case in which exception in writer thread is 
+  not detected because queuing thread is already blocking on full queue before 
+  exception occurs.
+- SAMHeaderRecordComparator.java: Adding a checksum generation method for SAM 
+  RG records
+
 * Wed Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.108-1
 - Handle mix of paired and unpaired reads in MarkIlluminaAdapters, 
   MergeBamAlignment and SamToFastq.
