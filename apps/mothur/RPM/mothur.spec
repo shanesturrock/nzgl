@@ -1,10 +1,10 @@
 Name:		mothur
-Version:	1.33.2
+Version:	1.33.3
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
 License:	GPLv3
-URL:		http://www.mothur.org/w/images/b/bc/Mothur.1.33.2.zip
+URL:		http://www.mothur.org/w/images/b/bc/Mothur.1.33.3.zip
 Source0:	Mothur.%{version}.zip
 patch0:		makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,6 +44,8 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Mar 24 2014 Shane Sturrock <shane@biomatters.com> - 1.33.3-1
+- Upstream update, no details of what
 * Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 1.33.2-1
 - Remove unnecessary error messages.
 * Thu Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.33.1-1

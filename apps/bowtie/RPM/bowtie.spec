@@ -1,5 +1,5 @@
 Name:		bowtie
-Version:	1.0.0
+Version:	1.0.1
 Release:	1%{?dist}
 Summary:	An ultrafast, memory-efficient short read aligner
 
@@ -58,6 +58,10 @@ rm -rf %{buildroot}
 %{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Mar 24 2014 Shane Sturrock <shane@biomatters.com> - 1.0.1-1
+- improved index querying efficiency using "population count" instructions 
+  available since SSE4.2.
+
 * Mon Apr 15 2013 Shane Sturrock <shane@biomatters.com> - 1.0.0-1
 - New upstream release
 
