@@ -77,6 +77,8 @@ wget http://10.10.2.50/R-2.15.3.tgz
 tar -xvf /home/R-network R-2.15.3.tgz
 wget http://10.10.2.50/R-3.0.3.tgz
 tar -xvf /home/R-network R-3.0.3.tgz
+ln -s /home/R-network/R-2 /home/R-network/R-2.15.3
+ln -s /home/R-network/R-3 /home/R-network/R-3.0.3
 
 # Install qiime isn't practical here since it is 1.1GB
 
