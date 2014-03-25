@@ -60,18 +60,25 @@ nzgl-sysscripts-appliance
 
 %post --logfile /root/post.log
 
-# NFS 
+# Standard directories
 mkdir /active 
 mkdir /archive 
 mkdir /scratch
 mkdir /databases
 mkdir /home/qiime
 mkdir /home/R-network
+
+# Install R packages
 ln -s /home/R-network/R-2/bin/R /usr/bin/R2
 ln -s /home/R-network/R-2/bin/Rscript /usr/bin/Rscript2
 ln -s /home/R-network/R-3/bin/R /usr/bin/R3
 ln -s /home/R-network/R-3/bin/Rscript /usr/bin/Rscript3
-ln -s /home/qiime/uchime /usr/bin/uchime
+wget http://10.10.2.50/R-2.15.3.tgz
+tar -xvf /home/R-network R-2.15.3.tgz
+wget http://10.10.2.50/R-3.0.3.tgz
+tar -xvf /home/R-network R-3.0.3.tgz
+
+# Install qiime isn't practical here since it is 1.1GB
 
 # Upgrade packages
 /usr/sbin/nzgl-yum-upgrade

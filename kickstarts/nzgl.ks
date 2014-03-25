@@ -96,7 +96,6 @@ ln -s /home/R-network/R-2/bin/R /usr/bin/R2
 ln -s /home/R-network/R-2/bin/Rscript /usr/bin/Rscript2
 ln -s /home/R-network/R-3/bin/R /usr/bin/R3
 ln -s /home/R-network/R-3/bin/Rscript /usr/bin/Rscript3
-ln -s /home/qiime/uchime /usr/bin/uchime
 
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
