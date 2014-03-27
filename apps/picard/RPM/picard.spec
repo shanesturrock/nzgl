@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.109
+Version:	1.110
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,84 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Mar 28 2014 Shane Sturrock <shane@biomatters.com> - 1.110-1
+- NB: Buffering has been added to most file I/O.  Buffer size is controlled
+  globally, by passing -Dsamjdk.buffer_size=<desired-size> to the java
+  command line.  Note that the desired size must be a number of bytes, e.g.
+  if 1 megabyte is desired, then the command-line option should be
+  -Dsamjdk.buffer_size=1048576.  The default buffer size is 128K.  For
+  software developers using SAM-JDK, buffering in general buffering is not
+  added to I/O where the caller provides an InputStream or OutputStream.  It
+  is assumed that the caller has decided whether or not buffering is
+  appropriate.  The one exception is SAMFileReader, which is always buffered.
+  Please let us know if there are places in the code that are still not
+  buffered that you think should be.
+
+- Make sure that SAM, BAM, VCF, BCF reading and writing are buffered where
+  appropriate, and also that things will not fall over when
+  -Dsamjdk.buffer_size=0
+
+- Add buffering when using Snappy for temporary file I/O.
+
+- Add support for reading, writing and on-the-fly creation of Tabix indices
+  in tribble library.  Now one can request on-the-fly indexing when using
+  VariantContextWriterFactory to create a block-compressed VCF.  In addition,
+  lots of clean-up of the Tribble APIs.
+
+- Fix recently-introduced bug in which SAMFileReader.query was not finding
+  unmapped reads that had the coordinate of the mapped mate.
+
+- SamPairUtil.java: Revert changes in `SamPairUtil#setMateInfo()` which
+  introduced setting of the mate cigar string.
+
+- TribbleIndexedFeatureReader.java: Lazy-load index file.
+
+- Small change to allow MakeSitesOnlyVcf retain genotypes for one or more
+  samples.  In this mode all annotations are retained from the full file as
+  if making a sites only file - not recomputed from the retained samples.
+
+- Address bugs with `ExtractIlluminaBarcodes`.  
+  - Resolve hang that occured when `ExtractIlluminaBarcodes` encounters an
+    exception in `main` before it finishes submitting all runnables to thread
+    pool.  
+  - Resolve state exception that occurs processing gzipped BCLs with buffered
+    inputs.
+
+- Add support for handling phasing metrics from the TileMetricsOut.bin file
+
+- Adding ATTRIBUTES_TO_REMOVE option to MergeBamAlignment, so we can remove
+  attributes from the incoming alignments.  This option will override
+  ATTRIBUTES_TO_RETAIN when the conflict.
+
+- Gracefully handle scenario in `MergeBamAlignment` in which a record is
+  mapped completely off the end of the reference by making it unmapped.
+
+- Added SamFileTester to facilitate creation and testing of "on the fly" SAM
+  files. (examples included in CleanSamTest and MarkDuplicatesTest)
+
+- Added the ability to pass an expected quality format to
+  QualityEncodingDetector
+
+- Bug fix: `AsynchronousLineReader` fails to propagate worker thread errors
+  that aren't `Exception`s.
+
+- moving SamPairUtil from net.sf.picard.sam to net.sf.samtools since
+  SAMRecordSetBuilder depends on it
+
+- SamFileValidator now has a method with no expected base quality format
+
+- default quality format now enabled in ValidateSamFile
+
+- Added flag to IlluminaBasecallsTo[Sam|Fastq] to include non-PF reads.  The
+  default is true.
+
+- Minor changes that improve the runtime of IlluminaBasecallsToSam.
+
+- Added file faking and per tile filtering to CheckIlluminaDirectory.
+
+- Changed to ValidateSamFile to not allow specification of quality format as
+  the spec only allows a single valid quality encoding.
+
 * Wed Mar 12 2014 Shane Sturrock <shane@biomatters.com> - 1.109-1
 - Add buffering for BAM file writing.  By default this will be 128K.  Buffer 
   size can be controlled via -Dsamjdk.buffer_size=<value>.  Buffer size can 
