@@ -12,6 +12,8 @@ if [ -e reads.left.fq.gz ] && [ ! -e reads.left.fq ]; then
     gunzip -c reads.left.fq.gz > reads.left.fq
 fi
 
+export PATH=/home/R-network/R-3/bin:$PATH
+
 #######################################################
 ##  Run Trinity to Generate Transcriptome Assemblies ##
 #######################################################
