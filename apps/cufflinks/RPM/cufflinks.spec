@@ -1,7 +1,7 @@
-%define samtools_version 0.1.18
+%define samtools_version 0.1.19
 
 Name:		cufflinks
-Version:	2.1.1
+Version:	2.2.0
 Release:	1%{?dist}
 Summary:	RNA-Seq transcript assembly, differential expression/regulation
 Group:		Applications/Engineering
@@ -46,7 +46,7 @@ mkdir -p %{_tmppath}/bamlib/lib
 /bin/cp *.h %{_tmppath}/bamlib/include/bam
 /bin/cp *.a %{_tmppath}/bamlib/lib
 cd ..
-LDFLAGS='-lboost_thread-mt' ./configure --prefix=/usr --with-bam=%{_tmppath}/bamlib --with-eigen=/usr/include/eigen3
+LDFLAGS='-lboost_thread-mt -lboost_serialization' ./configure --prefix=/usr --with-bam=%{_tmppath}/bamlib --with-eigen=/usr/include/eigen3
 # Fix src/Makefile
 sed 's=/usr/include/eigen3/include=/usr/include/eigen3=g' --in-place src/Makefile
 # Does not build if smp_mflags used
@@ -58,6 +58,8 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 install -m 0755 src/cufflinks %{buildroot}%{_bindir}
 install -m 0755 src/cuffcompare %{buildroot}%{_bindir}
+install -m 0755 src/cuffquant %{buildroot}%{_bindir}
+install -m 0755 src/cuffnorm %{buildroot}%{_bindir}
 install -m 0755 src/cuffdiff %{buildroot}%{_bindir}
 install -m 0755 src/cuffmerge %{buildroot}%{_bindir}
 install -m 0755 src/gtf_to_sam %{buildroot}%{_bindir}
@@ -73,6 +75,10 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed Mar 26 2014 Shane Sturrock <shane@biomatters.com> 2.2.0-1
+- Introduce two new programs - cuffquant and cuffnorm
+- Introduce sample sheets and contrast files
+
 * Fri Apr 12 2013 Simon Buxton <simon@biomatters.com> 2.1.1-1
 - New upstream release
 
