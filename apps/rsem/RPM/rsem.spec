@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.11
+Version:	1.2.12
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -81,6 +81,17 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Mar 31 2014 Shane Sturrock <shane@biomatters.com> - 1.2.12-1
+- Enabled allele-specific expression estimation. 
+- Added '--calc-pme' option for 'rsem-calculate-expression' to calculate 
+  posterior mean estimates only (no credibility intervals). 
+- Modified the shebang line of RSEM perl scripts to make them more portable. 
+- Added '--seed' option for 'rsem-simulate-reads' to enable users set the seed 
+  of random number generator used by the simulation. 
+- Modified the transcript extraction behavior of 'rsem-prepare-reference'. For 
+  transcripts that cannot be extracted, instead of failing the whole script, 
+  warning information is produced. Those transcripts are ignored.
+
 * Mon Feb 17 2014 Shane Sturrock <shane@biomatters.com> - 1.2.11-1
 - Enabled RSEM to use Bowtie 2 aligner (indel, local and discordant alignments 
   are not supported yet)

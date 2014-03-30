@@ -1,6 +1,6 @@
---- rsem-plot-transcript-wiggles.orig	2013-10-02 12:11:12.260336579 +1300
-+++ rsem-plot-transcript-wiggles	2013-10-02 12:11:37.356832816 +1300
-@@ -23,7 +23,7 @@
+--- rsem-plot-transcript-wiggles.orig	2014-03-31 10:33:41.811357933 +1300
++++ rsem-plot-transcript-wiggles	2014-03-31 10:33:58.629512385 +1300
+@@ -31,7 +31,7 @@
  my $command = "";
  
  unless (-e "$ARGV[0].transcript.sorted.bam") {
@@ -9,7 +9,7 @@
      &runCommand($command);
  }
  unless (-e "$ARGV[0].transcript.readdepth") {
-@@ -37,7 +37,7 @@
+@@ -45,7 +45,7 @@
  	&runCommand($command);
      }
      unless (-e "$ARGV[0].uniq.transcript.sorted.bam") {
