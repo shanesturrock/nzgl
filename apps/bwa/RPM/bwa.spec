@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.7
+Version:        0.7.8
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -50,6 +50,22 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 02 2014 Shane Sturrock <shane@biomatters.com> - 0.7.8-1
+- Changes in BWA-MEM:
+ - Bugfix: off-diagonal X-dropoff (option -d) not working as intended.
+   Short-read alignment is not affected.
+ - Bugfix: unnecessarily large bandwidth used during global alignment,
+   which reduces the mapping speed by ~5% for short reads. Results are not
+   affected.
+ - Bugfix: when the matching score is not one, paired-end mapping quality is
+   inaccurate.
+ - When the matching score (option -A) is changed, scale all score-related
+   options accordingly unless overridden by users.
+ - Allow to specify different gap open (or extension) penalties for deletions
+   and insertions separately.
+ - Allow to specify the insert size distribution.
+ - Better and more detailed debugging information.
+
 * Fri Feb 28 2014 Shane Sturrock <shane@biomatters.com> - 0.7.7-1
 - This release fixes incorrect MD tags in the BWA-MEM output.
 - A note about short-read mapping to GRCh38. The new human reference genome
