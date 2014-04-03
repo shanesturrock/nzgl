@@ -2,7 +2,9 @@ install
 text
 reboot
 
-url --url=http://ftp.wicks.co.nz/pub/linux/dist/centos/6/os/x86_64/
+# Need to set the IP address for the image to ftp.wicks.co.nz manually
+# because Cisco AnyConnect seems to disable DNS
+url --url=http://103.247.152.85/pub/linux/dist/centos/6/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://10.10.2.50/nzgl-stable
 
 lang en_US.UTF-8
