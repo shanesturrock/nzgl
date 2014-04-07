@@ -54,6 +54,7 @@ valgrind
 rstudio
 cpan
 cmake
+glibc-static
 python-argparse
 libcurl-devel
 libxml2-devel
