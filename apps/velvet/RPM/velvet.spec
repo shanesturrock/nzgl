@@ -1,7 +1,7 @@
 Summary:	Sequence assembler for very short reads
 Name:		velvet
 Version:	1.2.10
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.ebi.ac.uk/~zerbino/velvet/ 
@@ -28,8 +28,8 @@ This package builds the sequencespace and colorspace versions of Velvet.
 %patch0 -p0
 
 %build
-make 'OPENMP=1'
-make 'OPENMP=1' color
+make 'OPENMP=8'
+make 'OPENMP=8' color
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 
@@ -50,6 +50,8 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 %{_bindir}/*
 
 %changelog
+* Tue Apr 08 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-4
+- Increase CATEGORIES to 4 and OPENMP to 8
 * Tue Aug 06 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-3
 - Bump up MAXKMERLENGTH to 255 for MiSeq users
 * Fri Aug 02 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-2
