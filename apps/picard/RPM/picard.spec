@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.110
+Version:	1.111
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,46 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 1.111-1
+- Added more possible actions to IntervalListTools, these actions are also 
+  supported by a richer IntervalList class. 
+- CommandLineParser.java: Better helpdoc from enums.
+- First implementation of a rapid-gather tool for BAM files (GatherBamFiles).
+- Added flag to CheckIlluminaDirectory to have it create symlinks to the 
+  single X Ten locs file for each tile.
+- IntervalList.java: Concatenate only unique names when merging intervals.
+- LineReader.java: made LineReader @closeable
+- IndexFactory.java: Tabix indices are block-compressed files
+- SAMTag.java: Add BC tag
+- Speed up adapter-finding code, which is used in
+  IlluminaBasecallsToSam, IlluminaBasecallsToFastq, and
+  MarkIlluminaAdapters.  By default, adapter sequences will be truncated
+  at 30 characters, and any adapter pairs that become duplicates as a
+  result are folded together.  After 100 adapters have been identified
+  in reads, the list of adapter candidates is pruned down to the one
+  adapter pair that was most frequent among the 100 reads with adapter
+  sequence found.  In small tests, this has reduced
+  IlluminaBasecallsToSam execution time by about 40%.  Moreover, since
+  in most cases an Illumina lane uses only one adapter pair, pruning the
+  list down to one pair reduces the chance that a read will be
+  incorrectly marked with an adapter pair that was not used in the lane.
+  Note that for IlluminaBasecallsToSam and IlluminaBasecallsToFastq,
+  there is no control over the configuration of this functionality.
+  However, MarkIlluminaAdapters has new command-line options that
+  control all of the above behavior.  
+- release script no longer copies /picard/trunk to /picard/branches
+- VariantContextWriterFactory.java: Add .gzip to BLOCK_COMPRESSED_EXTENSIONS
+- CloseableIterator.java: Implement `Closeable` to facilitate 
+  try-with-resources in Java 7+ projects that depend on picard.
+- CheckIlluminaDirectory.java: Create lane directories for symlinks if they 
+  don't exist.
+- Merged nh_mate_cigar_refactoring r1775:r1889 into trunk
+- VCFCompoundHeaderLine.java: Added support for VCFv4.2 Version tags in 
+  header fields.
+- New VariantContextWriterBuilder class and tests
+- setting ADD_MATE_CIGAR to default to true in FixMateInformation and 
+  MergeBamAlignment.
+
 * Fri Mar 28 2014 Shane Sturrock <shane@biomatters.com> - 1.110-1
 - NB: Buffering has been added to most file I/O.  Buffer size is controlled
   globally, by passing -Dsamjdk.buffer_size=<desired-size> to the java

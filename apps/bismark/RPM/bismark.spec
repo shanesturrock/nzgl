@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.10.1
+Version:	0.11.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -11,10 +11,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 
-Bismark is a program to map bisulfite treated sequencing reads to a genome of interest 
-and perform methylation calls in a single step. The output can be easily imported into
-a genome viewer, such as SeqMonk, and enables a researcher to analyse the methylation
-levels of their samples straight away.
+Bismark is a program to map bisulfite treated sequencing reads to a genome of
+interest and perform methylation calls in a single step. The output can be
+easily imported into a genome viewer, such as SeqMonk, and enables a researcher
+to analyse the methylation levels of their samples straight away.
 
 %prep
 %setup -q -n %{name}_v%{version}
@@ -41,6 +41,25 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Wed Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 0.11.1-1
+- The option --pbat now also works for use with Bowtie 2, in both
+  single-end and paired-end mode. The only limitation to that is that it
+  only works with FastQ files and uncompressed temporary files.
+- Changed the order the @SQ lines are written out to the SAM/BAM header
+  from random to the same order they are being read in from the genomes
+  folder (or the order of the files in which they occur within a
+  multi-FastA file).
+- Included a new option -B/--basename <basename> for output files
+  instead of deriving these names from the input file. --basename takes
+  precedence over the option --prefix.
+- Unmapped or ambiguous files now end in .fq or.fa for FastA or FastQ
+  files, respectively (instead of .txt files).
+- Methylation extractor
+  - The methylation extractor willl no longer attempt to delete unused
+    files if --mbias_only was speficied.
+  - Added a test to see if a file that does not end in .bam is in fact a
+    BAM file, and if this succeeds open the file using Samtools view.
+
 * Thu Nov 28 2013 Shane Sturrock <shane@biomatters.com> - 0.10.1-1
 - Bismark methylation extractor: The methylation extractor does now detect 
   automatically whether Bismark alignment file(s) were run in single-end or 
