@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e 
-/opt/circos/bin/circos -conf /opt/circos/example/etc/circos.conf
+/opt/circos/bin/circos -conf ./etc/circos.conf -outputdir .
 rm -rf circos.png circos.svg
 exit 0
