@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.13.12.17
+Version:	1.14.04.10
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -62,6 +62,14 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri Apr 11 2014 Shane Sturrock <shane@biomatters.com> - 1.14.04.10-1
+- NEW: Added experimental support for annotation / features in the BED file 
+  format.
+= NEW: Added experimental support for annotation / features in the VCF file 
+  format.
+- CHG: Updated the Web Start files to conform to the new security requirements 
+  of the latest version of Web Start.
+
 * Wed Dec 18 2013 Shane Sturrock <shane@biomatters.com> - 1.13.12.17-1
 - BUG: Fixed a critical issue that prevented Tablet from parsing SAM files 
   correctly.
