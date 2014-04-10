@@ -9,7 +9,7 @@
 
 application_dir="/home/build/nzgl/apps"	# Default application directory
 uscan='/home/build/nzgl/bin/uscan'
-uscan_args='--timeout 60 --no-symlink'	# Default uscan args
+uscan_args='--timeout 120 --no-symlink'	# Default uscan args
 download_dir='/home/build/rpmbuild/SOURCES' # Where uscan will place downloads
 
 function log() {
@@ -92,7 +92,7 @@ for application in ${application_list}; do
 
 	#current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
 	# Check testing repo first because the check can get confused with sorting if you check all
-	current_version=$(yum -q list available ${application} --enablerepo=nzgl-testing --disablerepo=nzgl-stable 2>/dev/null | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
+	current_version=$(yum -q list available ${application} --enablerepo=nzgl-testing --disablerepo=nzgl-stable --disablerepo=base 2>/dev/null | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 	repo="nzgl-testing"
 
 	# Check standard repo too if the latest version isn't in testing
