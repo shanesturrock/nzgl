@@ -1,6 +1,6 @@
 Name:		bowtie2
-Version:	2.2.1
-Release:	0%{?dist}
+Version:	2.2.2
+Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
 License:	GPLv3
@@ -60,6 +60,9 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Apr 14 2014 Shane Sturrock <shane@biomatters.com> - 2.2.2-1
+- Improved performance for cases where the reference contains ambiguous or 
+  masked nucleobases represented by Ns.
 * Mon Mar 03 2014 Shane Sturrock <shane@biomatters.com> - 2.2.1-1
 - Improved way in which index files are loaded for alignment. Should fix 
   efficiency problems on some filesystems.
