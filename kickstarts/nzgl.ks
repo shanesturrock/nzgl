@@ -109,6 +109,9 @@ echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=8192,wsize=81
 # echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 # echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 
+# Set 500GB max file size limit
+echo "*	hard	fsize	512000000" >> /etc/security/limits.conf
+
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
 sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
