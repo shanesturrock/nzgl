@@ -1,8 +1,8 @@
-%define tarball r20131110
+%define tarball r20140413
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	20131110
+Version:	20140413
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
@@ -12,6 +12,7 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}_%{tarball}.tar.gz
 Patch0:		%{name}-rootdir.patch
 Patch1:		GG_write_trinity_cmds.pl.patch
 Patch2:		run_Trinity_edgeR_pipeline.pl.patch
+Patch3:		Makefile.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
@@ -20,16 +21,18 @@ Requires:	bowtie rsem
 AutoReqProv:	no
 
 %description
-Trinity, developed at the Broad Institute and the Hebrew University of Jerusalem, represents a 
-novel method for the efficient and robust de novo reconstruction of transcriptomes from RNA-seq 
-data. Trinity combines three independent software modules: Inchworm, Chrysalis, and Butterfly, 
-applied sequentially to process large volumes of RNA-seq reads.
+Trinity, developed at the Broad Institute and the Hebrew University of
+Jerusalem, represents a novel method for the efficient and robust de novo
+reconstruction of transcriptomes from RNA-seq data. Trinity combines three
+independent software modules: Inchworm, Chrysalis, and Butterfly, applied
+sequentially to process large volumes of RNA-seq reads.
 
 %prep
 %setup -q -n %{name}_%{tarball}
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 
@@ -47,7 +50,7 @@ mkdir -p %{buildroot}/%{_libexecdir}/%{name}
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}/Chrysalis
 
-install -m 0755 Trinity.pl %{buildroot}/%{_bindir}
+install -m 0755 Trinity %{buildroot}/%{_bindir}
 
 #install -m 0644 Butterfly/Butterfly.jar %{buildroot}/%{_javadir}/%{name}
 install -m 0644 Butterfly/Butterfly.jar %{buildroot}/%{_libexecdir}/%{name}/Butterfly
@@ -56,6 +59,7 @@ install -m 0755 Inchworm/bin/cigar_tweaker %{buildroot}/%{_libexecdir}/%{name}/I
 install -m 0755 Inchworm/bin/FastaToDeBruijn %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/FastaToDeBruijn
 install -m 0755 Inchworm/bin/inchworm %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/inchworm
 install -m 0755 Inchworm/bin/pull_reads_with_kmers %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/pull_reads_with_kmers
+install -m 0755 Inchworm/bin/fastaToKmerCoverageStats %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/fastaToKmerCoverageStats
 
 install -m 0755 Chrysalis/checkLock %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/checkLock
 install -m 0755 Chrysalis/MakeDepend %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/MakeDepend
@@ -70,7 +74,6 @@ install -m 0755 Chrysalis/GraphFromFasta %{buildroot}/%{_libexecdir}/%{name}/Chr
 install -m 0755 Chrysalis/ReadsToTranscripts %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/ReadsToTranscripts
 
 /bin/cp -r PerlLib/* %{buildroot}/%{perl_vendorarch}
-/bin/cp -r PerlLibAdaptors/* %{buildroot}/%{perl_vendorarch}
 
 /bin/cp -r util %{buildroot}/%{_libexecdir}/%{name}/
 /bin/cp -r trinity-plugins %{buildroot}/%{_libexecdir}/%{name}/
@@ -82,12 +85,49 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc docs/ README Release.Notes
-/usr/bin/Trinity.pl
+/usr/bin/Trinity
 #/usr/share/java/%{name}/Butterfly.jar
 /usr/libexec/%{name}/*
 %{perl_vendorarch}/*
 
 %changelog
+* Wed Apr 16 2014 Shane Sturrock <shane@biomatters.com> - 20140413-1
+Trinity (was Trinity.pl)
+    - incorporated auto-trimmomatic
+    - incorporated auto-normalization
+Fastool:
+    - exit with non-zero on error, write error msgs to stderr.
+Inchworm:
+    - parallel inchworm assembly introduced via openMP
+fastaToKmerCoverageStats:
+    - dont stop processing on empty read sequence, only on eof() /silly/
+      LSF,SGE,SLURM incorporation
+    - replaces the need for users to build custom adapters. Use an ultra-simple 
+      config file instead.
+    - updated HTC modules to cache successfully completed commands during the 
+      run, and to perform better file management.
+    - thanks to Jean-Marc Lassance for the SLURM support integration.
+Butterfly:
+    - better handling of PE info in defining extension support criteria 
+      (look-back, define path requirement [A...E], require A,E in supporting 
+      path + compatibility with growing path).
+    - at end of butterfly, use EM to rank isoforms, report only those that 
+      contain unique read content as output in order of ranking.
+    - ParaFly and CuffFly modes overhaul, removing contained aligments from 
+      DAG due to inherrent transitivity-breaking property, treat PE as SE to 
+      avoid uncertain compatibilities and transitivity-breaking situations.
+    - added ParaFlyUnique method for experimental use.
+    - new Fasta accession format:  c\d+_g\d+_i\d+  (c=component, g=gene, 
+      i=isoform)  (use combination of c+g to define 'gene')
+    - in the path description in the fasta header, identify nodes in X 
+      structures that are unresolved by read paths as '@node_id@!'
+Expression Estimates:
+    - support both RSEM and eXpress, and bowtie1&2
+    - use: util/align_and_estimate_abundance.pl to generate alignments 
+      (bowtie1 or bowtie2) and estimate abundance (RSEM or eXpress) 
+    - use: util/abundance_estimates_to_matrix.pl to construct count, and 
+      TMM-normalized fpkm matrices
+
 * Mon Jan 20 2014 Shane Sturrock <shane@biomatters.com> - 20131110-1
 Butterfly:
     - convert gapped-pairpaths into single pairpaths where internally
