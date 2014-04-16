@@ -1,11 +1,11 @@
---- util/GG_write_trinity_cmds.pl.orig	2014-01-20 14:21:59.237246152 +1300
-+++ util/GG_write_trinity_cmds.pl	2014-01-20 14:22:27.731449750 +1300
-@@ -69,7 +69,7 @@
+--- util/support_scripts/GG_write_trinity_cmds.pl.orig	2014-04-16 09:02:30.303494096 +1200
++++ util/support_scripts/GG_write_trinity_cmds.pl	2014-04-16 09:02:52.992637540 +1200
+@@ -71,7 +71,7 @@
      
      my $file = pop @x;
      
--    my $cmd = "$FindBin::Bin/../Trinity.pl --seqType fa --single \"$file\" --JM 2G --CPU 4 --output \"$file.out\" --genome_guided ";
-+    my $cmd = "/usr/bin/Trinity.pl --seqType fa --single \"$file\" --JM 2G --CPU 4 --output \"$file.out\" --genome_guided ";
+-    my $cmd = "$FindBin::Bin/../../Trinity --single \"$file\" --output \"$file.out\" $trin_args ";
++    my $cmd = "/usr/bin/Trinity --single \"$file\" --output \"$file.out\" $trin_args ";
      
-     if ($paired_flag) {
-         $cmd .= " --run_as_paired ";
+     print "$cmd\n";
+ }

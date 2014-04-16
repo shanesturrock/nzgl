@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Based on sample_data/test_Trinity_Assembly/runMe.sh script shipped with Trinity
+# Based on sample_data/test_Trinity_Assembly/runMe.sh script 
+# shipped with Trinity
 
 set -e
 
@@ -12,6 +13,14 @@ if [ -e reads.left.fq.gz ] && [ ! -e reads.left.fq ]; then
     gunzip -c reads.left.fq.gz > reads.left.fq
 fi
 
+if [ -e reads2.right.fq.gz ] && [ ! -e reads2.right.fq ]; then
+    gunzip -c reads2.right.fq.gz > reads2.right.fq
+fi
+
+if [ -e reads2.left.fq.gz ] && [ ! -e reads2.left.fq ]; then
+    gunzip -c reads2.left.fq.gz > reads2.left.fq
+fi
+
 export PATH=/home/R-network/R-3/bin:$PATH
 
 #######################################################
@@ -19,7 +28,7 @@ export PATH=/home/R-network/R-3/bin:$PATH
 #######################################################
 
 ## use jellyfish
-/usr/bin/Trinity.pl --seqType fq --JM 2G --left reads.left.fq --right reads.right.fq --SS_lib_type RF --CPU 4 # --bowtie_comp
+/usr/bin/Trinity --seqType fq --JM 2G --left reads.left.fq.gz,reads2.left.fq.gz --right reads.right.fq.gz,reads2.right.fq.gz --SS_lib_type RF --CPU 4 --trimmomatic --normalize_reads --no_cleanup 
 
 ##### Done Running Trinity #####
 
@@ -29,21 +38,25 @@ export PATH=/home/R-network/R-3/bin:$PATH
 #
 #sleep 2
 
-
 ###########################################
 # use RSEM to estimate read abundance  ####
 ###########################################
 
 sleep 2
 
-/usr/libexec/trinityrnaseq/util/RSEM_util/run_RSEM_align_n_estimate.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left reads.left.fq --right reads.right.fq --SS_lib_type RF
+# first try RSEM
+/usr/libexec/trinityrnaseq/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left reads.left.fq --right reads.right.fq --SS_lib_type RF --est_method RSEM --aln_method bowtie --trinity_mode --prep_reference
+
+# try eXpress
+# /usr/libexec/trinityrnaseq/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left reads.left.fq --right reads.right.fq --SS_lib_type RF --est_method eXpress --aln_method bowtie2 --trinity_mode --prep_reference
 
 ###### Done running RSEM ########
 
 # Cleanup
 /bin/rm -rf trinity_out_dir
-/bin/rm reads.right.fq reads.left.fq
-/bin/rm -rf TRANS* RSEM*
+/bin/rm reads.right.fq reads.left.fq reads2.right.fq reads2.left.fq
+/bin/rm -rf bowtie.*
+/bin/rm -rf RSEM.*
 
 ###### Cleaned up temporary files #######
 
@@ -59,20 +72,35 @@ fi
 ####### Clean up temp files #######
 
 /bin/rm Trinity.fasta
-#/bin/rm base_freqs.dat best_candidates.* hexamer.scores longest_orfs.* Trinity.fasta
+/bin/rm -rf Trinity.fasta.transdecoder.* transdecoder.tmp.*
 
 # Taken from test_full_edgeR_pipeline/runMe.sh
 
-/usr/libexec/trinityrnaseq/util/run_Trinity_edgeR_pipeline.pl --samples_file samples_n_reads_decribed.txt --genes_too
+# Run the pipeline
+/usr/libexec/trinityrnaseq/util/run_Trinity_edgeR_pipeline.pl --samples_file /home/build/nzgl/apps/trinityrnaseq/tests/samples_n_reads_decribed.txt
+
+# get assembly stats
+/usr/libexec/trinityrnaseq/util/TrinityStats.pl trinity_out_dir/Trinity.fasta
+
+# filter based on fpkm
+/usr/libexec/trinityrnaseq//util/filter_fasta_by_rsem_values.pl  --rsem_output=ds_rep1.isoforms.results,hs_rep1.isoforms.results,log_rep1.isoforms.results,plat_rep1.isoforms.results --fasta=trinity_out_dir/Trinity.fasta --fpkm_cutoff=0.1 --output=filtered.fasta
+
+# run bowtie alignment to examine read mapping stats:
+/usr/libexec/trinityrnaseq/util/bowtie_PE_separate_then_join.pl  --seqType fq --left reads.ALL.left.fq --right reads.ALL.right.fq --aligner bowtie --output read_content_analysis --target trinity_out_dir/Trinity.fasta -- -p 4 --all --best --strata -m 300
+
+# examine read mapping stats:
+/usr/libexec/trinityrnaseq/util/SAM_nameSorted_to_uniq_count_stats.pl read_content_analysis/read_content_analysis.nameSorted.bam
 
 # Cleanup
 /bin/rm -rf trinity_out_dir
-/bin/rm reads.ALL.right.fq reads.ALL.left.fq
+/bin/rm reads.ALL.right.* reads.ALL.left.*
 /bin/rm -rf TRANS* RSEM*
 /bin/rm -rf ds_rep1* hs_rep1* log_rep1* plat_rep1* Trinity_trans* Trinity.trans_lengths.txt __tmp_runTMM.R edgeR_trans
-/bin/rm Trinity_components.counts.matrix* Trinity.components_lengths.txt 
 /bin/rm -rf edgeR_components/
+/bin/rm -rf edgeR_genes/
 /bin/rm -rf collectl
 /bin/rm -rf Trinity.fasta.transdecoder.* transdecoder.tmp.*
+/bin/rm -rf Trinity_genes.*
+/bin/rm -rf filtered.*
 
 exit 0

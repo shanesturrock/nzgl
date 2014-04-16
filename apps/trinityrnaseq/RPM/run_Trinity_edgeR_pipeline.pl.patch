@@ -1,26 +1,26 @@
---- util/run_Trinity_edgeR_pipeline.pl.orig	2014-01-20 14:23:21.581834727 +1300
-+++ util/run_Trinity_edgeR_pipeline.pl	2014-01-20 14:26:28.643180929 +1300
+--- util/run_Trinity_edgeR_pipeline.pl.orig	2014-04-16 09:04:49.714384695 +1200
++++ util/run_Trinity_edgeR_pipeline.pl	2014-04-16 09:06:24.021981685 +1200
 @@ -8,7 +8,7 @@
  
  ######################################################
  ## Set to base directory of the Trinity installation:
 -my $BASEDIR = "$FindBin::Bin/../";
-+my $BASEDIR = "/usr/libexec/trinityrnaseq";
++my $BASEDIR = "/usr/libexec/trinityrnaseq/";
  ######################################################
  
  my $usage = <<__EOUSAGE__;
-@@ -145,12 +145,12 @@
+@@ -143,12 +143,12 @@
          ## got pairs
      
          ## Run Trinity:
--        $cmd = "$BASEDIR/Trinity.pl --left $reads_ALL_left_fq --right $reads_ALL_right_fq ";
-+        $cmd = "/usr/bin/Trinity.pl --left $reads_ALL_left_fq --right $reads_ALL_right_fq ";
+-        $cmd = "$BASEDIR/Trinity --left $reads_ALL_left_fq --right $reads_ALL_right_fq ";
++        $cmd = "/usr/bin/Trinity --left $reads_ALL_left_fq --right $reads_ALL_right_fq ";
          
      }
      else {
          # run left as single
--        $cmd = "$BASEDIR/Trinity.pl --single $reads_ALL_left_fq ";
-+        $cmd = "/usr/bin/Trinity.pl --single $reads_ALL_left_fq ";
+-        $cmd = "$BASEDIR/Trinity --single $reads_ALL_left_fq ";
++        $cmd = "/usr/bin/Trinity --single $reads_ALL_left_fq ";
          
      }
      
