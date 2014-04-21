@@ -1,5 +1,5 @@
 Name:		FLASH
-Version:	1.2.9
+Version:	1.2.10
 Release:	1%{?dist}
 Summary:	Fast Length Adjustment of SHort reads
 Group:		Applications/Engineering
@@ -41,6 +41,11 @@ rm -rf %{buildroot}
 %{_bindir}/flash
 
 %changelog
+* Tue Apr 22 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-1
+- FLASH now supports combining read pairs in outie orientation.  See help for
+  the new --allow-outies option.
+- Added warning messages in a few cases where it may be helpful to specify
+  different parameters.
 * Wed Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.2.9-1
 - The core algorithm of FLASH has been optimized using SSE and SSE2
   instructions.  On x86_64 CPUs it now can run over twice as fast.
