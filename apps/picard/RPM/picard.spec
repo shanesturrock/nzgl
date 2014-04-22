@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.111
+Version:	1.112
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,20 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Apr 23 2014 Shane Sturrock <shane@biomatters.com> - 1.112-1
+- AbstractVCFCodec.java: Add ability to remap sample names for single-sample 
+  vcfs to the vcf codec.
+  By calling setRemappedSampleName() on an instance of a vcf codec, you 
+  instruct it to replace the existing sample name in the vcf header with a 
+  new value. Attempting to use this feature with multi-sample or sites-only 
+  vcfs throws an error.
+- Make TextTagCodec.java and TagValueAndUnsignedArrayFlag.java public
+- Move BLOCK_COMPRESSED_EXTENSIONS to Tribble so all projects use the same 
+  set of extensions.
+- Create Tabix indices for block-compressed VCFs
+- Deprecate VariantContextWriterFactory. Convert uses of 
+  VariantContextWriterFactory to VariantContextWriterBuilder.
+
 * Wed Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 1.111-1
 - Added more possible actions to IntervalListTools, these actions are also 
   supported by a richer IntervalList class. 
