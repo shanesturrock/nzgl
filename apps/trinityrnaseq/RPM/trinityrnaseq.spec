@@ -1,8 +1,8 @@
-%define tarball r20140413
+%define tarball r20140413p1
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	20140413
+Version:	20140413p1
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
@@ -91,6 +91,10 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Mon Apr 28 2014 Shane Sturrock <shane@biomatters.com> - 20140413p1-1
+- bugfix to trimmomatic_SE processing
+- added checkpoint for trimming operation / resume-level support' Trinity 
+
 * Wed Apr 16 2014 Shane Sturrock <shane@biomatters.com> - 20140413-1
 Trinity (was Trinity.pl)
     - incorporated auto-trimmomatic
