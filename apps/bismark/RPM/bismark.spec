@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.11.1
+Version:	0.12.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,22 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Wed Apr 30 2014 Shane Sturrock <shane@biomatters.com> - 0.12.1-1
+- Bismark: Added calculation of MAPQ values for SAM/BAM output generated
+  with Bowtie 2 for both single-end and paired-end mode. The calculation
+  is implemented like in Bowtie 2 itself. Mapping quality values are
+  still unavailable for alignments performed with Bowtie and retain a
+  value of 255 throughout 
+- Bismark: Fixed an uninitialised value warning for PE alignments with
+  Bowtie 2 that occurred whenever Read 2 aligned to the very start of a
+  chromosome (this only affected the warning itself and had no impact on
+  any results) 
+- coverage2cytosine: all chromosomes or scaffolds are now processed
+  irrespective of whether they were covered in the sequencing experiment
+  or not. Previously, CpG/cytosine reports for genomes with lots of
+  small scaffolds that were not covered by any reads might have had a
+  variable number of lines between experiments
+
 * Wed Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 0.11.1-1
 - The option --pbat now also works for use with Bowtie 2, in both
   single-end and paired-end mode. The only limitation to that is that it
