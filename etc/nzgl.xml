@@ -10,19 +10,8 @@
    <name>NZGL</name>
    <description></description>
     <packagelist>
-      <packagereq type="mandatory">R-DESeq</packagereq>
-      <packagereq type="mandatory">R-GenomeGraphs</packagereq>
-      <packagereq type="mandatory">R-HilbertVis</packagereq>
-      <packagereq type="mandatory">R-affyQCReport</packagereq>
-      <packagereq type="mandatory">R-biomaRt</packagereq>
-      <packagereq type="mandatory">R-edgeR</packagereq>
-      <packagereq type="mandatory">R-ggplot2</packagereq>
-      <packagereq type="mandatory">R-gplots</packagereq>
-      <packagereq type="mandatory">R-limma</packagereq>
-      <packagereq type="mandatory">R-pcot2</packagereq>
-      <packagereq type="mandatory">R-xps</packagereq>
-      <packagereq type="mandatory">R-devel</packagereq>
       <packagereq type="mandatory">bamtools</packagereq>
+      <packagereq type="mandatory">bedtools2</packagereq>
       <packagereq type="mandatory">bfast</packagereq>
       <packagereq type="mandatory">bismark</packagereq>
       <packagereq type="mandatory">bowtie</packagereq>
@@ -32,12 +21,15 @@
       <packagereq type="mandatory">cd-hit</packagereq>
       <packagereq type="mandatory">circos</packagereq>
       <packagereq type="mandatory">clustalw</packagereq>
+      <packagereq type="mandatory">clustal-omega</packagereq>
       <packagereq type="mandatory">cufflinks</packagereq>
       <packagereq type="mandatory">cutadapt</packagereq>
       <packagereq type="mandatory">ea-utils</packagereq>
+      <packagereq type="mandatory">EdenaV3-utils</packagereq>
       <packagereq type="mandatory">fastq_screen</packagereq>
       <packagereq type="mandatory">fastqc</packagereq>
       <packagereq type="mandatory">fastx_toolkit</packagereq>
+      <packagereq type="mandatory">FigTree</packagereq>
       <packagereq type="mandatory">gatk</packagereq>
       <packagereq type="mandatory">glimmer</packagereq>
       <packagereq type="mandatory">glimmerhmm</packagereq>
@@ -56,10 +48,12 @@
       <packagereq type="mandatory">picard</packagereq>
       <packagereq type="mandatory">plink</packagereq>
       <packagereq type="mandatory">python-biopython</packagereq>
+      <packagereq type="mandatory">rstudio</packagereq>
       <packagereq type="mandatory">samtools</packagereq>
       <packagereq type="mandatory">seqmonk</packagereq>
       <packagereq type="mandatory">solexaqa</packagereq>
       <packagereq type="mandatory">srma</packagereq>
+      <packagereq type="mandatory">rsem</packagereq>
       <packagereq type="mandatory">tablet</packagereq>
       <packagereq type="mandatory">tophat</packagereq>
       <packagereq type="mandatory">trinityrnaseq</packagereq>
@@ -67,7 +61,9 @@
       <packagereq type="mandatory">velvet</packagereq>
       <packagereq type="mandatory">FLASH</packagereq>
       <packagereq type="mandatory">SOAPdenovo2</packagereq>
+      <packagereq type="mandatory">STAR</packagereq>
       <packagereq type="mandatory">mothur</packagereq>
+      <packagereq type="mandatory">uchime</packagereq>
     </packagelist>
   </group>
 </comps>
