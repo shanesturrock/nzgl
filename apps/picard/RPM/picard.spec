@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.112
+Version:	1.113
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,27 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed May 09 2014 Shane Sturrock <shane@biomatters.com> - 1.113-1
+- SecondaryAlignmentFilter.java: Addition of a simple SamRecordFilter that 
+  filters out secondary alignments but not supplementary records.
+- Changes to SamLocusIterator to a) check the mapping quality only once per 
+  sam record instead of at every base and b) add the ability to filter out 
+  non-PF reads during pileup construction.
+- First version of CollectWgsMetrics a program that calculates metrics for 
+  evaluating whole genome shotgun sequencing experiments.
+- RevertOriginalBaseQualitiesAndAddMateCigar.java: do not check for OQ when 
+  we are not reverting OQs.
+- VariantContextWriterBuilder.java: Require a reference dictionary for 
+  Tribble index-on-the-fly but not Tabix.
+- Defaults.java: adding a reference fasta to the Defaults to facilitate 
+  CRAM reading/writing.
+- VCFEncoder.java: Make two methods public so Hadoop-BAM can use them.
+- New program ReplaceSamHeader.
+- New program AddCommentsToBam.
+- Optimize Illumina BCL reading.
+- Fix for CheckIlluminaDirectory when the number of clusters is different 
+  per tile.
+
 * Wed Apr 23 2014 Shane Sturrock <shane@biomatters.com> - 1.112-1
 - AbstractVCFCodec.java: Add ability to remap sample names for single-sample 
   vcfs to the vcf codec.
