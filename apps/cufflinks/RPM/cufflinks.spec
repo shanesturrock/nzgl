@@ -1,7 +1,7 @@
 %define samtools_version 0.1.19
 
 Name:		cufflinks
-Version:	2.2.0
+Version:	2.2.1
 Release:	1%{?dist}
 Summary:	RNA-Seq transcript assembly, differential expression/regulation
 Group:		Applications/Engineering
@@ -75,6 +75,13 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed May 07 2014 Shane Sturrock <shane@biomatters.com> 2.2.1-1
+- This issue fixes several bugs:
+  - Cuffnorm was not sometimes permuting replicate numbering, leading to 
+    inconsistent expression calls between Cuffnorm and Cuffdiff.
+  - The contrast file parser had a problem that could crash Cuffdiff
+  - Several Cuffnorm output files had minor output formatting issues
+
 * Wed Mar 26 2014 Shane Sturrock <shane@biomatters.com> 2.2.0-1
 - Introduce two new programs - cuffquant and cuffnorm
 - Introduce sample sheets and contrast files
