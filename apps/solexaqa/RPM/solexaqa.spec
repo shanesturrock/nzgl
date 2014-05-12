@@ -1,6 +1,6 @@
 Name:		solexaqa
-Version:	2.2
-Release:	2%{?dist}
+Version:	2.3
+Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
 License:	GPLv3
@@ -37,6 +37,9 @@ rm -rf %{buildroot}
 /usr/bin/LengthSort.pl
 
 %changelog
+* Tue May 13 2014 Shane Sturrock <shane@biomatters.com> - 2.3-1
+- New upstream release
+
 * Thu Jun 27 2013 Shane Sturrock <shane@biomatters.com> - 2.2-2
 - Earlier release didn't include DynamicTrim and LengthSort
 
