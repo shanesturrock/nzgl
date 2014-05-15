@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.12.1
+Version:	0.12.2
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -35,12 +35,29 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Bismark_User_Guide_v%{version}.pdf license.txt RELEASE_NOTES.txt
+%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt
 %{_bindir}/bismark
 %{_bindir}/bismark_genome_preparation
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Thu May 15 2014 Shane Sturrock <shane@biomatters.com> - 0.12.2-1
+- Bismark: Added support for the new 64-bit index files for very large
+  genomes in Bowtie 2 mode. The large genome indexes (ending in .bt2l
+  instead of .bt2 for small genomes) are generated automatically by
+  bismark_genome_preparation and work just as well in the Bismark
+  alignment step
+- Bismark: Fixed a bug that would omit the name of the second last
+  chromomome from the SAM header if the genome had been supplied as
+  Multi-FastA file. Everything else, including the alignments, would
+  have been unaffected by this glitch
+- Bismark: When the option '--basename' is specified, SE amibiguous file
+  names now feature an underscore in their file name. Also, the pie
+  chart file names are now derived from the the basename
+- Methylation Extractor: Introduced a length check when the options
+  --ignore or --ignore_r2 were set to ensure that only reads that are
+  long enough are being processed
+
 * Wed Apr 30 2014 Shane Sturrock <shane@biomatters.com> - 0.12.1-1
 - Bismark: Added calculation of MAPQ values for SAM/BAM output generated
   with Bowtie 2 for both single-end and paired-end mode. The calculation
