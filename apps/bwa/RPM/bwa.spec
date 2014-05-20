@@ -1,5 +1,5 @@
 Name:           bwa
-Version:        0.7.8
+Version:        0.7.9a
 Release:        1%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
@@ -42,7 +42,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING NEWS 
+%doc COPYING 
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/bwa
 %{_bindir}/qualfa2fq.pl
@@ -50,6 +50,47 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed May 21 2014 Shane Sturrock <shane@biomatters.com> - 0.7.9a-1
+- This release brings several major changes to BWA-MEM. Notably, BWA-MEM now
+  formally supports PacBio read-to-reference alignment and experimentally supports
+  PacBio read-to-read alignment. BWA-MEM also runs faster at a minor cost of
+  accuracy. The speedup is more significant when GRCh38 is in use. More
+  specifically:
+  - Support PacBio subread-to-reference alignment. Although older BWA-MEM works
+    with PacBio data in principle, the resultant alignments are frequently
+    fragmented. In this release, we fine tuned existing methods and introduced
+    new heuristics to improve PacBio alignment. These changes are not used by
+    default. Users need to add option "-x pacbio" to enable the feature.
+  - Support PacBio subread-to-subread alignment (EXPERIMENTAL). This feature is
+    enabled with option "-x pbread". In this mode, the output only gives the
+    overlapping region between a pair of reads without detailed alignment.
+  - Output alternative hits in the XA tag if there are not so many of them. This
+    is a BWA-backtrack feature.
+  - Support mapping to ALT contigs in GRCh38 (EXPERIMENTAL). We provide a script
+    to postprocess hits in the XA tag to adjust the mapping quality and generate
+    new primary alignments to all overlapping ALT contigs. We would *NOT*
+    recommend this feature for production uses.
+  - Improved alignments to many short reference sequences. Older BWA-MEM may
+    generate an alignment bridging two or more adjacent reference sequences.
+    Such alignments are split at a later step as postprocessing. This approach
+    is complex and does not always work. This release forbids these alignments
+    from the very beginning. BWA-MEM should not produce an alignment bridging
+    two or more reference sequences any more.
+  - Reduced the maximum seed occurrence from 10000 to 500. Reduced the maximum
+    rounds of Smith-Waterman mate rescue from 100 to 50. Added a heuristic to
+    lower the mapping quality if a read contains seeds with excessive
+    occurrences. These changes make BWA-MEM faster at a minor cost of accuracy
+    in highly repetitive regions.
+  - Added an option "-Y" to use soft clipping for supplementary alignments.
+  - Bugfix: incomplete alignment extension in corner cases.
+  - Bugfix: integer overflow when aligning long query sequences.
+  - Bugfix: chain score is not computed correctly (almost no practical effect)
+  - General code cleanup
+  - Added FAQs to README
+- Changes in BWA-backtrack:
+  - Bugfix: a segmentation fault when an alignment stands out of the end of the
+    last chromosome.
+
 * Wed Apr 02 2014 Shane Sturrock <shane@biomatters.com> - 0.7.8-1
 - Changes in BWA-MEM:
  - Bugfix: off-diagonal X-dropoff (option -d) not working as intended.

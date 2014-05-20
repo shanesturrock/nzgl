@@ -1,5 +1,5 @@
 Name:		solexaqa
-Version:	2.4
+Version:	2.5
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -37,6 +37,9 @@ rm -rf %{buildroot}
 /usr/bin/LengthSort.pl
 
 %changelog
+* Wed May 21 2014 Shane Sturrock <shane@biomatters.com> - 2.5-1
+- fixes a bug that truncates results for HiSeq runs with 96 tiles.
+
 * Mon May 19 2014 Sidney Markowitz <sidney@biomatters.com> - 2.4-1
 - fixes a bug in the read sampling algorithm
 - order of magnitude faster on large files
