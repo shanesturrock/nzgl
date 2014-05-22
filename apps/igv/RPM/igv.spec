@@ -1,11 +1,11 @@
 Name:		igv
-Version:	2.3.14
-Release:	2%{?dist}
+Version:	2.3.32
+Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
 URL:		http://www.broadinstitute.org/igv/home
-Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVDistribution_%{version}.zip
+Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVSource_%{version}.zip
 Source1:	igv
 Source2:	igv.desktop
 Source3:	igv-icons.tar.gz
@@ -19,7 +19,7 @@ of large, integrated genomic datasets. It supports a wide variety of data types,
 next-generation sequence data, and genomic annotations.
 
 %prep
-%setup -q -n IGVDistribution_%{version}
+%setup -q -n IGVSource_%{version}
 
 %build
 /usr/bin/ant -Dinclude.libs=true
@@ -59,6 +59,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu May 22 2014 Shane Sturrock <shane@biomatters.com> - 2.3.32-1
+- Upstream update
+
 * Thu Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 2.3.14-2
 - Migrating into stable
 
