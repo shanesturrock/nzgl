@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.113
+Version:	1.114
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -51,6 +51,29 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon May 26 2014 Sidney Markowitz <sidney@biomatters.com> - 1.114-1
+- Complete reorganization of packages.  Map of old to new package names is
+  forthcoming, but the basic change is "net.sf.samtools" => "htsjdk.samtools"
+  and "net.sf.picard" => "picard."
+- Enable CollectTargetedPcrMetrics and CalculateHsMetrics to target multiple baitsets.
+  - Both command line programs TARGET_INTERVALS argument accept multiple values.
+  - CalculateHsMetrics's BAIT_INTERVALS accepts multiple values.
+- Add new modes to IntervalListTools.
+  - INTERVAL_SUBDIVISION, which is the default mode, and functions
+    like the previous version of IntervalListTools.
+  - BALANCING_WITHOUT_INTERVAL_SUBDIVISION, which emits interval lists
+    without splitting them up, and sizes the output interval list sizes
+    to be no smaller than the largest input interval.
+- Added an ASSUME_SORTED flag to FixMateInformation to allow grouped reads
+  to be analyzed directly without prior sorting.
+- IlluminaBasecallsConverter: Flush sorting collections when a barcode
+  within a tile has completed to avoid running out of memory
+- Add SamReaderFactory as a new facility for reading from SAM files.
+  - Produces SamReader objects, which are similar to SAMFileReader.
+  - Deprecate SAMFileReader, as SamReaderFactory is the preferred approach to
+    creating things that read SAMs.  SAMFileReader still functions as normal.
+  - See SamReaderFactory's javadoc for examples of how to use it.
+
 * Wed May 09 2014 Shane Sturrock <shane@biomatters.com> - 1.113-1
 - SecondaryAlignmentFilter.java: Addition of a simple SamRecordFilter that 
   filters out secondary alignments but not supplementary records.
