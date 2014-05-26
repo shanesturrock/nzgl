@@ -1,11 +1,11 @@
 Name:		bedtools2
-Version:	2.19.1
+Version:	2.20.1
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://github.com/arq5x/bedtools2
-SOURCE:		bedtools2-2.19.1.tar.gz
+SOURCE:		bedtools2-2.20.1.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 
@@ -70,6 +70,12 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon May 26 2014 Sidney Markowitz <sidney@biomatters.com> - 2.20.1-1
+- Fixed a float rounding bug causing occasional off-by-one issues in the slop
+  added by the slop tool.
+- Fixed a bug injected in 2.19 arising when files have a single line not ending
+  in a newline.
+
 * Mon Mar 10 2014 Shane Sturrock <shane@biomatters.com> - 2.19.1-1
 - Bug fix to intersect causing BAM footers to be erroneously written when 
   -b is BAM
