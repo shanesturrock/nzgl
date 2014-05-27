@@ -1,13 +1,11 @@
 Name:		rsem
-Version:	1.2.12
+Version:	1.2.13
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
 License:	GPL
 URL:		http://pages.cs.wisc.edu/~bli
 Source0:	rsem-%{version}.tar.gz
-Patch0:         rsem-calculate-expression.patch
-Patch1:         rsem-plot-transcript-wiggles.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 BuildRequires:	ncurses-devel
@@ -33,8 +31,6 @@ also be visualized. Last but not least, RSEM contains a simulator.
 
 %prep
 %setup -q
-%patch0 -p0
-%patch1 -p0
 
 %build
 make 
@@ -81,6 +77,13 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Wed May 28 2014 Shane Sturrock <shane@biomatters.com> - 1.2.13-1
+- Allowed users to use the SAMtools in the PATH first and enabled RSEM to find 
+  its executables via a symbolic link. 
+- Changed the behavior of parsing GTF file. Now if a GTF line's feature is 
+  not "exon" and it does not contain a "gene_id" or "transcript_id" attribute, 
+  only a warning message will be produced (instead of failing the RSEM).
+
 * Mon Mar 31 2014 Shane Sturrock <shane@biomatters.com> - 1.2.12-1
 - Enabled allele-specific expression estimation. 
 - Added '--calc-pme' option for 'rsem-calculate-expression' to calculate 
