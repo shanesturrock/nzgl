@@ -2,10 +2,12 @@
 
 function usage() {
 	cat << EOF
-Usage: ${0} -u -g [-a] [-p]
+Usage: ${0} -u -g [-b -l] [-a] [-p] 
 
 	-u Username
 	-g Project group
+	-b BioIT contract group (optional)
+        -l Team leader for BioIT contract (required if -b flag set)
 	-a Create user home directory (optional)
 	-p Create project directories (optional)
 
@@ -40,15 +42,22 @@ if [ $# -lt 3 ]; then
 	usage
 	exit 1
 fi
-
+USERNAME=
+GROUP=
+LEADER=
+BIOIT=
 ADDUSER=0
 ADDPROJECT=0
 
-while getopts u:g:ap flag; do
+while getopts u:g:b:l:ap flag; do
 	case $flag in
-		u) USER=$OPTARG
+		u) USERNAME=$OPTARG
 		   ;;
 		g) GROUP=$OPTARG
+		   ;;
+		b) BIOIT=$OPTARG
+		   ;;
+		l) LEADER=$OPTARG
 		   ;;
 		a) ADDUSER=1
 		   ;;
@@ -61,38 +70,118 @@ while getopts u:g:ap flag; do
 	esac
 done
 
+if [ -z "$USERNAME" ] || [ -z "$GROUP" ]; then
+    usage
+    exit 1
+fi
+
+if ! id -u "$USERNAME" &>/dev/null ; then
+   echo "'$USERNAME' is not an existing user name"
+   exit 1
+fi
+
+if ! id -Gn "$USERNAME" | grep "$GROUP" &>/dev/null ; then
+   echo "'$GROUP' is not a group containing '$USERNAME'"
+   exit 1
+fi
+
+if [ ! -z "$LEADER" ]; then
+  if [ -z "$BIOIT" ]; then
+    echo "No BioIT contract specified for '$LEADER'"
+    exit 1
+  fi
+  if ! id -u "$LEADER" &>/dev/null ; then
+    echo "'$LEADER' is not an existing user name"
+    exit 1
+  fi
+fi
+
+if [ ! -z "$BIOIT" ]; then
+  if [ -z "$LEADER" ]; then
+    echo "No team leader defined for '$BIOIT'"
+    exit 1
+  fi
+  if ! id -Gn "$USERNAME" | grep "$BIOIT" &>/dev/null ; then
+    echo "'$BIOIT' is not a group containing '$USERNAME'"
+    exit 1
+  fi
+fi
+
 # Create user home directory
 
 if [ $ADDUSER -eq 1 ]; then
-  mkdir /home/$USER
-  cp /home/shane/workspace_files/profile/bashrc /home/$USER/.bashrc
-  cp /home/shane/workspace_files/profile/bash_profile /home/$USER/.bash_profile
-  mkdir /home/$USER/project
-  chmod 700 /home/$USER
-  chown -R $USER:$GROUP /home/$USER
-  echo "Created /home/${USER}"
-  mkdir /home/galaxy/upload/${USER}@nzgenomics.co.nz
-  chown $USER:galaxygroup /home/galaxy/upload/${USER}@nzgenomics.co.nz
-  chmod 770 /home/galaxy/upload/${USER}@nzgenomics.co.nz
-  chmod g+s /home/galaxy/upload/${USER}@nzgenomics.co.nz
-  echo "Created /home/galaxy/upload/${USER}@nzgenomics.co.nz"
+  if [ -d "/home/$USERNAME" ]; then
+    echo "/home/$USERNAME already exists, aborting"
+    exit 1
+  fi
+  mkdir /home/$USERNAME
+  cp /home/shane/workspace_files/profile/bashrc /home/$USERNAME/.bashrc
+  cp /home/shane/workspace_files/profile/bash_profile /home/$USERNAME/.bash_profile
+  mkdir /home/$USERNAME/project
+  chmod 700 /home/$USERNAME
+  echo "Created /home/${USERNAME}"
+  if [ -z "$BIOIT" ]; then
+    chown -R $USERNAME:$GROUP /home/$USERNAME
+    echo "Set home ownership to ${USERNAME}:${GROUP}"
+  else
+    chown -R $USERNAME:$BIOIT /home/$USERNAME
+    echo "Set home ownership to ${USERNAME}:${BIOIT}"
+  fi
+  mkdir /home/galaxy/upload/${USERNAME}@nzgenomics.co.nz
+  chown $USERNAME:galaxygroup /home/galaxy/upload/${USERNAME}@nzgenomics.co.nz
+  chmod 770 /home/galaxy/upload/${USERNAME}@nzgenomics.co.nz
+  chmod g+s /home/galaxy/upload/${USERNAME}@nzgenomics.co.nz
+  echo "Created /home/galaxy/upload/${USERNAME}@nzgenomics.co.nz"
 fi
 
 # Create project directories
 
 if [ $ADDPROJECT -eq 1 ]; then
-  mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
-  chmod 770 /active/$GROUP /scratch/$GROUP
-  chmod 550 /archive/$GROUP
-  chown $USER:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
-  echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
+  if [ -z "$BIOIT" ]; then
+    if [ -d "/archive/$GROUP" ]; then
+      echo "/archive/${GROUP} already exists, aborting"
+      exit 1
+    fi
+    mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
+    chmod 770 /active/$GROUP /scratch/$GROUP
+    chmod 550 /archive/$GROUP
+    chown $USERNAME:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
+    echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
+  else
+    if [ ! -d "/archive/$BIOIT" ]; then
+      mkdir /archive/$BIOIT /active/$BIOIT /scratch/$BIOIT
+      chmod 550 /active/$BIOIT /scratch/$BIOIT
+      chmod 550 /archive/$BIOIT
+      chown $LEADER:$BIOIT /archive/$BIOIT /active/$BIOIT /scratch/$BIOIT
+      echo "Created /archive/${BIOIT}, /active/${BIOIT}, /scratch/${BIOIT} owned by ${LEADER}:${BIOIT}"
+    else
+      echo "/archive/${BIOIT} etc already exists"
+    fi
+    if [ -d "/archive/$BIOIT/$GROUP" ]; then
+      echo "/archive/${BIOIT}/${GROUP} already exists, aborting"
+      exit 1
+    fi
+    mkdir /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+    chmod 770 /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+    chmod 550 /archive/$BIOIT/$GROUP
+    chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+    echo "Created /archive/${BIOIT}/${GROUP}, /active/${BIOIT}/${GROUP}, /scratch/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
+  fi
 fi
 
 # Create project symlinks in user's home directory
 
-mkdir -p /home/$USER/project/$GROUP
-ln -s /archive/$GROUP /home/$USER/project/$GROUP/archive
-ln -s /active/$GROUP /home/$USER/project/$GROUP/active
-ln -s /scratch/$GROUP /home/$USER/project/$GROUP/scratch
-chown -R $USER:$GROUP /home/$USER/project/$GROUP
-echo "Created /home/${USER}/project/${GROUP} symlinks"
+mkdir -p /home/$USERNAME/project/$GROUP
+if [ -z "$BIOIT" ]; then
+  ln -s /archive/$GROUP /home/$USERNAME/project/$GROUP/archive
+  ln -s /active/$GROUP /home/$USERNAME/project/$GROUP/active
+  ln -s /scratch/$GROUP /home/$USERNAME/project/$GROUP/scratch
+  chown -R $USERNAME:$GROUP /home/$USERNAME/project/$GROUP
+  echo "Created /home/${USERNAME}/project/${GROUP} symlinks"
+else
+  ln -s /archive/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/archive
+  ln -s /active/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/active
+  ln -s /scratch/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/scratch
+  chown -R $USERNAME:$GROUP /home/$USERNAME/project/$GROUP
+  echo "Created /home/${USERNAME}/project/${GROUP} symlinks for ${BIOIT} contract"
+fi
