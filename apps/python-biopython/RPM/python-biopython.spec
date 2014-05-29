@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.63
+Version:          1.64
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,27 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Fri May 30 2014 Shane Sturrock <shane@biomatters.com> - 1.64-1
+- This release of Biopython supports Python 2.6 and 2.7, 3.3 and also
+  the new 3.4 version. It is also tested on PyPy 2.0 to 2.3, and Jython
+  2.7b2.
+- The new experimental module Bio.CodonAlign facilitates building
+  codon alignment and further analysis upon it. This work is from the
+  Google Summer of Code (GSoC) project by Zheng Ruan.
+- Bio.Phylo now has tree construction and consensus modules, from on
+  the GSoC work by Yanbo Ye.
+- Bio.Entrez will now automatically download and cache new NCBI DTD
+  files for XML parsing under the user’s home directory (using
+  ~/.biopython on Unix like systems, and $APPDATA/biopython on Windows).
+- Bio.Sequencing.Applications now includes a wrapper for the samtools
+  command line tool.
+- Bio.PopGen.SimCoal now also supports fastsimcoal.
+- SearchIO hmmer3-text, hmmer3-tab, and hmmer3-domtab now support
+  output from hmmer3.1b1.
+- BioSQL can now use the mysql-connector package (available for Python
+  2, 3 and PyPy) as an alternative to MySQLdb (Python 2 only) to connect
+  to a MySQL database.
+
 * Mon Dec 09 2013 Shane Sturrock <shane@biomatters.com> - 1.63-1
 - First release of biopython which officially supports Python 3.
 - Now uses the Python 3 style built-in next function in place of the Python 
