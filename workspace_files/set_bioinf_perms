@@ -81,6 +81,15 @@ else
     echo "/archive/${BIOIT}/${GROUP} etc don't exist, aboring"
     exit 1
   fi
+  cd /archive
+  setfacl -m u:$USERNAME:r -d -R $BIOIT
+  find $BIOIT -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
+  cd /active
+  setfacl -m u:$USERNAME:rw -d -R $BIOIT
+  find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  cd /scratch
+  setfacl -m u:$USERNAME:rw -d -R $BIOIT
+  find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
   cd /archive/$BIOIT
   setfacl -m u:$USERNAME:r -d -R $GROUP
   find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
