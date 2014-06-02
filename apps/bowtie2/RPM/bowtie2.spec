@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.2
+Version:	2.2.3
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,12 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
+- Fixed a bug that made loading an index into memory crash sometimes.
+- Fixed a silent failure to warn the user in case the -x option is missing.
+- Updated al, un, al-conc and un-conc options to avoid confusion in cases
+  where the user does not provide a base file name.
+- Fixed a spurious assert that made bowtie2-inspect debug fail.
 * Mon Apr 14 2014 Shane Sturrock <shane@biomatters.com> - 2.2.2-1
 - Improved performance for cases where the reference contains ambiguous or 
   masked nucleobases represented by Ns.
