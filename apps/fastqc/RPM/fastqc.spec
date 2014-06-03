@@ -1,6 +1,6 @@
 Name:		fastqc
-Version:	0.10.1
-Release:	3%{?dist}
+Version:	0.11.1
+Release:	1%{?dist}
 Summary:	A quality control application for high throughput sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -28,7 +28,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{_javadir}/%{name}
 mkdir -p %{buildroot}/%{_bindir}
 
-/bin/cp -r Contaminants/ Help/ Templates/ uk/ *.jar %{buildroot}/%{_javadir}/%{name}
+/bin/cp -r Configuration/ Help/ Templates/ net/ org/ uk/ *.jar %{buildroot}/%{_javadir}/%{name}
 install -m 0755 fastqc %{buildroot}/%{_bindir}
 
 %clean
@@ -41,6 +41,18 @@ rm -rf %{buildroot}
 /usr/share/java/fastqc/*
 
 %changelog
+* Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 0.11.1-1
+- Added configurable warn/fail thresholds for all modules
+- Allow modules to be selectively turned off
+- Added a per-tile quality plot for Illumina libraries
+- Added an adapter content plot
+- Improved the duplication plot
+- Improved the Kmer module
+- Used embedded graphics in the HTML output so you can distribute a single file
+- Added the ability to read data from stdin
+- Changed how base grouping works to better accommodate long reads
+- Dropped support for Solexa64 format (NB not Phred 64 which is still supported)
+
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 0.10.1-3
 - Set $RealBin correcting in /usr/bin/fastqc
 - Add bzip2 and SAM JAR files to RPM

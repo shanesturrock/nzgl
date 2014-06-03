@@ -9,10 +9,10 @@
  
 +my $RealBin = '/usr/share/java/fastqc';
 +
- # Check to see if they've mistakenly downloaded the source distribution
- # since several people have made this mistake
- 
-@@ -273,4 +274,4 @@
+ #####################################################################################
+ # Copyright Copyright 2010-14 Simon Andrews                                         #
+ #                                                                                   #
+@@ -351,4 +352,4 @@
      Any bugs in fastqc should be reported either to simon.andrews@babraham.ac.uk
      or in www.bioinformatics.babraham.ac.uk/bugzilla/
                     
