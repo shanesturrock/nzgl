@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.4.2
+Version:	0.4.3
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -34,7 +34,7 @@ mkdir -p %{buildroot}%{_bindir}
 install -m 0755 %{name} %{buildroot}%{_bindir}
 
 mkdir -p %{buildroot}%{_sysconfdir}
-install -m 0644 %{name}.conf %{buildroot}%{_sysconfdir}
+install -m 0644 %{name}.conf.example %{buildroot}%{_sysconfdir}/%{name}.conf
 
 mkdir -p %{buildroot}%{_docdir}/%{name}-%{version}
 install -m 0644 %{SOURCE1} %{buildroot}%{_docdir}/%{name}-%{version}
@@ -51,7 +51,15 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Oct 02 2013 Shane Sturrock <shane@biomatters.com> - 0.4.2-1
+* Wed Jun 04 2014 Sidney Markowitz <sidney@biomatters.com> - 0.4.3-1
+- Upstream release v0.4.3 fixed bug causing all reads to be written
+  to the 'no hits' output file when using Bowtie2 as the aligner.
+- Bowtie2 now runs with the parameters '--no-discordant' and
+  '--no-mixed' when mapping paired-end reads.
+- The 'nohits' output file has the file extension '.fastq' and
+  is compressed if the input files are compressed.
+- rpm spec change - upstream changed name of example conf file
+
 - v0.4.2 is a minor release. The script no longer defaults to 
   Bowtie if "--aligner" is not specified.  Instead, the script checks 
   the configuration file to determine if Bowtie/Bowtie2 paths and 
