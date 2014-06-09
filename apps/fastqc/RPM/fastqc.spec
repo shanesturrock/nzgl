@@ -1,5 +1,5 @@
 Name:		fastqc
-Version:	0.11.1
+Version:	0.11.2
 Release:	1%{?dist}
 Summary:	A quality control application for high throughput sequence data
 Group:		Applications/Engineering
@@ -41,6 +41,13 @@ rm -rf %{buildroot}
 /usr/share/java/fastqc/*
 
 %changelog
+* Mon Jun 09 2014 Shane Sturrock <shane@biomatters.com> - 0.11.2-1
+- Fixed incorrect warn/fail defaults for per-seq quality plot
+- Fixed memory leaks in Kmer and per-seq quality modules
+- Added an option to use a custom limits file
+- Fixed a bug in the naming of the folder inside the zip output file
+- Fixed a bug in the --extract option
+
 * Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 0.11.1-1
 - Added configurable warn/fail thresholds for all modules
 - Allow modules to be selectively turned off

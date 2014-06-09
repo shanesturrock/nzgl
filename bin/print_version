@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# Checks the currently installed versions of applications
+#
+# Requires 'rpm'.
+#
+# Carl Jones <carl@biomatters.com> and Shane Sturrock <shane@biomatters.com>
+
+application_dir="/home/build/nzgl/apps"	# Default application directory
+
+function log() {
+	[ -z "${verbose}" ] && return
+	echo "$@"
+}
+
+function usage() {
+	cat << EOF
+Usage: ${0} [-a -l -v] [-d <directory>] [-x <application>]
+	-a Check all applications
+	-d Application directory (default=${application_dir})
+	-x Single application to check
+
+EOF
+}
+
+if [ $# -eq 0 ]; then
+	usage
+	exit 1
+fi
+
+while getopts ad:frvux: flag; do
+	case $flag in
+		a)
+			application_list='all'
+			;;
+		d)
+			application_dir="${OPTARG}"
+			;;
+		x)
+			application_list="${OPTARG}"
+			;;
+		?)
+			usage
+			exit 1
+	esac
+done
+
+verbose='true'
+
+shift $((OPTIND - 1))
+
+if [ ! -d ${application_dir} ]; then
+	echo "Error: Application directory ${application_dir} does not exist."
+	exit 1
+fi
+cd ${application_dir}
+
+if [ -z "${application_list}" ] || [ "${application_list}" == "all" ]; then
+	application_list=*
+fi
+
+# Clean out local repo caches before starting
+yum -q clean expire-cache --enablerepo=nzgl-testing &>/dev/null
+
+for application in ${application_list}; do
+	[ ! -d ${application} ] && continue
+	[ ! -e ${application}/uscan/watch ] && continue # skip applications we don't check upstream
+
+	#current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
+	# Check testing repo first because the check can get confused with sorting if you check all
+	current_version=$(yum -q list available ${application} --enablerepo=nzgl-testing --disablerepo=nzgl-stable --disablerepo=base 2>/dev/null | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
+	# repo="nzgl-testing"
+
+	# Check standard repo too if the latest version isn't in testing
+	if [ -z "${current_version}" ]; then
+		current_version=$(yum -q list all ${application} | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
+		# repo="nzgl-stable"
+	fi
+
+	if [ -z "${current_version}" ]; then
+		echo "Unable to get current version for ${application}. Not installed?"
+		exit 1
+	fi
+
+	log "${application} ${current_version}"
+done 
+exit 0
