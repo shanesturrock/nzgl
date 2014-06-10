@@ -62,6 +62,9 @@ perl-Bio-SamTools
 perl-Module-Build
 nzgl-release
 nzgl-sysscripts
+postgresql-libs
+postgresql-devel
+mysql-devel
 @Development tools
 @NZGL
 @Internet Browser
