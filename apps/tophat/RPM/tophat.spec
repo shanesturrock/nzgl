@@ -2,13 +2,14 @@
 
 Name:		tophat
 Version:	2.0.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://tophat.cbcb.umd.edu/
 Source0:	http://tophat.cbcb.umd.edu/downloads/tophat-%{version}.tar.gz
 Source1:	http://downloads.sourceforge.net/samtools/samtools-%{samtools_version}.tar.bz2
+Patch0:		bowtie2_x_option.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	boost >= 1.47
 BuildRequires:	boost-devel >= 1.47
@@ -34,6 +35,7 @@ Cell Biology.
 
 %prep
 %setup -q -a 1
+%patch0 -p0
 
 %build
 cd samtools-%{samtools_version}
@@ -80,6 +82,9 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed Jun 11 2014 Sidney Markowitz <sidney@biomatters.com> - 2.0.11-2
+- Patch to accommodate changed option in new version of bowtie2
+
 * Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 2.0.11-1
 - Version 2.0.11 is a maintenance release with the following simple fix:
   This version is compatible with Bowtie2 v2.2.1, although it does not 
@@ -106,7 +111,7 @@ rm -rf %{buildroot}
 - Fixed a bug that caused TopHat to fail when bowtie1 and pre-filtering options
   were used together.
 
-* Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
+* Fri Aug 30 2013 Shane Sturrock <shane@biomatters.com> - 2.0.10-1
 - New upstream release - no changelog
 
 * Mon Jul 01 2013 Shane Sturrock <shane@biomatters.com> - 2.0.9-1
