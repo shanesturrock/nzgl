@@ -34,6 +34,7 @@ sequentially to process large volumes of RNA-seq reads.
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
+%patch4 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 
