@@ -3,7 +3,7 @@
 
 Name:		trinityrnaseq
 Version:	20140413p1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
@@ -13,6 +13,7 @@ Patch0:		%{name}-rootdir.patch
 Patch1:		GG_write_trinity_cmds.pl.patch
 Patch2:		run_Trinity_edgeR_pipeline.pl.patch
 Patch3:		Makefile.patch
+Patch4:		rsemupdate.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
@@ -91,6 +92,9 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Wed Jun 11 2014 Sidney Markowitz <sidney@biomatters.com> - 20140413p1-2
+- update options in call to rsem-prepare-reference for new version rsem 1.2.14
+
 * Mon Apr 28 2014 Shane Sturrock <shane@biomatters.com> - 20140413p1-1
 - bugfix to trimmomatic_SE processing
 - added checkpoint for trimming operation / resume-level support' Trinity 
