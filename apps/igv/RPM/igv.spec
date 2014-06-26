@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.32
+Version:	2.3.34
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -9,6 +9,7 @@ Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVSource_%{versio
 Source1:	igv
 Source2:	igv.desktop
 Source3:	igv-icons.tar.gz
+Patch0:		NZGL-26jun2014.patch
 Requires:	java-1.6.0 dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	ant
@@ -20,6 +21,7 @@ next-generation sequence data, and genomic annotations.
 
 %prep
 %setup -q -n IGVSource_%{version}
+%patch0 -p0
 
 %build
 /usr/bin/ant -Dinclude.libs=true
@@ -59,6 +61,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Jun 26 2014 Sidney Markowitz <sidney@biomatters.com> - 2.3.34-1
+- Upstream update - no release notes supplied
+- Added patch to fix build error that was in the upstream update
+
 * Thu May 22 2014 Shane Sturrock <shane@biomatters.com> - 2.3.32-1
 - Upstream update
 

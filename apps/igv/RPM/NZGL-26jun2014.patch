@@ -1,0 +1,11 @@
+--- src/org/broad/igv/sam/AlignmentInterval.java.orig	2014-06-26 16:50:21.948572760 +1200
++++ src/org/broad/igv/sam/AlignmentInterval.java	2014-06-26 16:51:09.949847466 +1200
+@@ -134,7 +134,7 @@
+     }
+ 
+     public Iterator<Alignment> getAlignmentIterator() {
+-        return alignments == null ? Collections.<Alignment>emptyIterator() : alignments.iterator();
++        return alignments == null ? Collections.<Alignment>emptyList().iterator() : alignments.iterator();
+     }
+ 
+     public List<DownsampledInterval> getDownsampledIntervals() {
