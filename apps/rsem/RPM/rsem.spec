@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.14
+Version:	1.2.15
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -77,6 +77,14 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Thu Jun 26 2014 Sidney Markowitz <sidney@biomatters.com> - 1.2.15-1
+- Allow subset of reference sequences to be declared in an input SAM/BAM file
+- For any transcript not declared in the SAM/BAM file, its PME estimates and
+  credibility intervals are set to zero
+- Add advanced options for customizing Gibbs sampler and credibility
+  interval calculation behaviors
+- Split options in 'rsem-calculate-expression' into basic and advanced options
+
 * Tue Jun 10 2014 Shane Sturrock <shane@biomatters.com> - 1.2.14-1
 - Changed RSEM's behaviors for building Bowtie/Bowtie 2 indices. In
   'rsem-prepare-reference', '--no-bowtie' and '--no-ntog' options are
