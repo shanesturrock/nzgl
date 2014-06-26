@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.12.2
+Version:	0.12.3
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,20 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Thu Jun 26 2014 Sidney Markowitz <sidney@biomatters.com> - 0.12.3-1
+- bismark: Replaced the XX-tag field (base-by-base mismatches to the
+  reference, excluding indels) by an MD:Z: field that now properly
+  reflects mismatches as well as indels.
+- bismark: Fixed the hemming distance value (NM:i: field) for reads
+  containing insertions (Bowtie 2 mode only), which was previously
+  offset by the number of insertions in the read.
+- bismark2bedGraph: Changed '--zero_based' option of the methylation
+  extractor and bismark2bedGraph to write out an additional coverage
+  file (ending in .zero.cov) which uses the UCSC zero-based,
+  half-open standard.
+- bismark2bedGarph: Changed the requirement of CpG context files to
+  start with CpG... (from CpG_...).
+
 * Thu May 15 2014 Shane Sturrock <shane@biomatters.com> - 0.12.2-1
 - Bismark: Added support for the new 64-bit index files for very large
   genomes in Bowtie 2 mode. The large genome indexes (ending in .bt2l
