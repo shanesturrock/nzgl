@@ -1,15 +1,14 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.11
-Release:	2%{?dist}
+Version:	2.0.12
+Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://tophat.cbcb.umd.edu/
 Source0:	http://tophat.cbcb.umd.edu/downloads/tophat-%{version}.tar.gz
 Source1:	http://downloads.sourceforge.net/samtools/samtools-%{samtools_version}.tar.bz2
-Patch0:		bowtie2_x_option.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	boost >= 1.47
 BuildRequires:	boost-devel >= 1.47
@@ -35,7 +34,6 @@ Cell Biology.
 
 %prep
 %setup -q -a 1
-%patch0 -p0
 
 %build
 cd samtools-%{samtools_version}
@@ -82,8 +80,11 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Fri Jul 04 2014 Sidney Markowitz <sidney@biomatters.com> - 2.0.12-1
+- Fix from upstream to accommodate changed option in new version of bowtie2
+
 * Wed Jun 11 2014 Sidney Markowitz <sidney@biomatters.com> - 2.0.11-2
-- Patch to accommodate changed option in new version of bowtie2
+- NZGL patch to accommodate changed option in new version of bowtie2
 
 * Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 2.0.11-1
 - Version 2.0.11 is a maintenance release with the following simple fix:
