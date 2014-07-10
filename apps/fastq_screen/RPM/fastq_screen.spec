@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.4.3
+Version:	0.4.4
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jul 10 2014 Sidney Markowitz <sidney@biomatters.com> - 0.4.4-1
+- Fix a bug in check for the presence of bowtie2 indices for large genomes.
+- Add a nicer font for the graph and improved some of the colours
+- Fixed output file naming for file names ending with .fq and .gz.
+
 * Wed Jun 04 2014 Sidney Markowitz <sidney@biomatters.com> - 0.4.3-1
 - Upstream release v0.4.3 fixed bug causing all reads to be written
   to the 'no hits' output file when using Bowtie2 as the aligner.
