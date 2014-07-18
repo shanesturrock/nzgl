@@ -122,6 +122,12 @@ sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/s
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
 echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
+# motd
+# suppress ssh display of motd because it will be displayed by all bash shells
+sed 's/#PrintMotd yes/PrintMotd no/g' --in-place /etc/ssh/sshd_config
+# bash shells will display motd as served by central.genomics.local web server
+echo "curl -f -s http://central.genomics.local/motd" > /etc/profile.d/motd.sh
+
 # AD authentication
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --update
 sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\nentry_cache_timeout = 300\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
