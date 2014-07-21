@@ -126,7 +126,7 @@ echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 # suppress ssh display of motd because it will be displayed by all bash shells
 sed 's/#PrintMotd yes/PrintMotd no/g' --in-place /etc/ssh/sshd_config
 # bash shells will display motd as served by central.genomics.local web server
-echo "curl -f -s http://central.genomics.local/motd" > /etc/profile.d/motd.sh
+echo "curl -m 3 -f -s http://central.genomics.local/motd" > /etc/profile.d/motd.sh
 
 # AD authentication
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --update
