@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.12.3
+Version:	0.12.5
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,33 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Tue Jul 22 2014 Shane Sturrock <shane@biomatters.com> - 0.12.5-1
+- Bismark: Added one more check to improve the ambiguous alignment
+  detection. In more detail this adds a check whether the current
+  ambiguous alignment is worse than the best alignment so far, in which
+  case the sequence does not get flagged as ambiguous. Thanks to Ashwath
+  Kumar for spotting these issues). 
+* Tue Jul 22 2014 Shane Sturrock <shane@biomatters.com> - 0.12.4-1
+- Bismark: Improved the way ambiguous alignments are handled in Bowtie 2
+  mode. Previously, sequences were classified as ambiguously aligning as
+  soon as a sequence produced several equally good alignments within the
+  same alignment thread. Under certain circumstances however there may
+  exist equally good alignments within the same alignment thread, but
+  the sequence might have a better (unique) alignment in another thread.
+  Such a unique alignment will now trump the ambiguous alignment as it
+  should
+- Bismark: Got rid of 2 warning messages of MD-tag information for reads
+  containing deletions (Bowtie 2 mode only) which accidentally made it
+  through to the release
+- Bismark: Added '-x' to the invocation of Bowtie 2 for FastA sequences
+  so that it works again (It used to work previously only because Bowtie
+  2 did not check it properly and automatically used bowtie2-align-s,
+  but now it does check...) 
+- Methylation Extractor: Line endings are now chomped at an earlier
+  stage so that interfering with the optional fields in the Bismark BAM
+  file doesn't break the methylation extractor (e.g. reordering of
+  optional tags by Picard)
+
 * Thu Jun 26 2014 Sidney Markowitz <sidney@biomatters.com> - 0.12.3-1
 - bismark: Replaced the XX-tag field (base-by-base mismatches to the
   reference, excluding indels) by an MD:Z: field that now properly

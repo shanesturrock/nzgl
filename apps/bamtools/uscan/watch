@@ -1,3 +1,4 @@
 version=3
 #https://github.com/pezmaster31/bamtools/tags .*/tarball/(\d[\d\.]+)
-https://github.com/pezmaster31/bamtools/downloads /downloads/pezmaster31/bamtools/bamtools-(.+)\.tar.gz
+#https://github.com/pezmaster31/bamtools/downloads /downloads/pezmaster31/bamtools/bamtools-(.+)\.tar.gz
+https://github.com/pezmaster31/bamtools/releases .*/v(.+)\.tar.gz

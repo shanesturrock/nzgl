@@ -92,11 +92,13 @@ for application in ${application_list}; do
 
 	#current_version=$(rpm -q --queryformat '%{VERSION}\n' ${application})
 	# Check testing repo first because the check can get confused with sorting if you check all
+ 	# current_version=$(yum -q list available ${application} --enablerepo=nzgl-testing --disablerepo=nzgl-stable --disablerepo=base 2>/dev/null | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 	current_version=$(yum -q list available ${application} --disablerepo="*" --enablerepo="nzgl-testing" 2>/dev/null | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 	repo="nzgl-testing"
 
 	# Check standard repo too if the latest version isn't in testing
 	if [ -z "${current_version}" ]; then
+ 		# current_version=$(yum -q list all ${application} | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 		current_version=$(yum -q list all ${application} --disablerepo="*" --enablerepo="nzgl-stable" | grep -v 'Packages' | awk '{print $2}' | sort -n | tail -n1 | cut -f1 -d-)
 		repo="nzgl-stable"
 	fi
