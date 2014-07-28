@@ -142,6 +142,7 @@ echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
 sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
+sed 's/#DISPLAY_BASE=1000/DISPLAY_BASE=1001/g' --in-place /etc/nxserver/node.conf
 #nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
 echo 'Match Address 127.0.0.1,::1
