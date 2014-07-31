@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.114
+Version:	1.118
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -26,8 +26,6 @@ are supported.
 %prep
 %setup -q -n %{name}-tools-%{version}
 
-mv ../snappy-java-1.0.3-rc3.jar .
-
 %build
 
 %install
@@ -36,8 +34,6 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_javadir}/%{name}
 
 cp *.jar %{buildroot}%{_javadir}/%{name}
-
-cp snappy-java-1.0.3-rc3.jar %{buildroot}%{_javadir}/%{name}
 
 mkdir -p %{buildroot}/%{_docdir}/%{name}-%{version}
 
@@ -51,6 +47,39 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.118-1
+- Support for the 0x800 supplementary alignment flag within Picard. Tools 
+  which previously only processed primary and ignored secondary alignments 
+  will now ignore secondary and supplementary. MergeBamAlignment will pass 
+  supplementary alignments along in the output BAM.
+- Various changes have been made so that Picard programs and libraries will 
+  work properly with Java 7.  However, Picard will continue to be compiled 
+  with Java 6.
+- Added funcitonality to .bcl-reading command line programs 
+  (IlluminaBasecallsToSam, IlluminaBasecallsToFastq, and 
+  ExtractIlluminaBarcodes) to better handle qualities less than 2 via 
+  BclQualityEvaluationStrategy.  When an application encounters such a 
+  quality score, it used to throw an exception immediately; now, it will 
+  convert write a quality 1 to the underlying file (bam, fastq, etc.), and 
+  at the end of reading the BCLs, it may or may not throw an exception 
+  depending on the strictness of the BclQualityEvaluationStrategy.  It will 
+  always log a warning message if a quality is encountered, regardless of 
+  whether or not an exception is thrown.  By default the minimum acceptable 
+  quality score is still 2, but it may be controlled via the command-line 
+  option MINIMUM_QUALITY.
+- Performance improvements for VCF I/O.
+  - Deprecated AsciiLineReader; instead, use 
+    LineReaderUtil.fromBufferedStream().  
+  - Added new BufferedReader-like class, LongLineBufferedReader, with 
+    performance improvements for longer-lined files.
+  - Added an asynchronous line reader, AsynchronousLineReader, which 
+    offloads the work of parsing lines into another thread.
+- Configure Picard-public so that (1) IntelliJ and ant compile to different 
+  places and (2) IntelliJ ignores all of the ant compile locations (so that, 
+  for example, it does see all the ant .class files and think they are part 
+  of the source).  This should prevent ant builds from having an effect on 
+  how IntelliJ operates.
+
 * Mon May 26 2014 Sidney Markowitz <sidney@biomatters.com> - 1.114-1
 - Complete reorganization of packages.  Map of old to new package names is
   forthcoming, but the basic change is "net.sf.samtools" => "htsjdk.samtools"
