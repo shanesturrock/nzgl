@@ -1,5 +1,5 @@
 Name:		phast
-Version:	1.2.1
+Version:	1.3
 Release:	1%{?dist}
 Summary:	PHAST is a freely available software package for comparative and evolutionary genomics.
 Group:		Applications/Engineering
@@ -79,5 +79,7 @@ rm -rf %{buildroot}
 /opt/phast/*
 
 %changelog
+* Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.3-1
+- Updated release
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> - 1.2.1-1
 - Initial release.

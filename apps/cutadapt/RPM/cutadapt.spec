@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.3
+Version:	1.4.2
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,25 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+
+* Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.4.2-1
+- Reading and writing of FASTQ files is faster (thanks to Cython).
+- Reading and writing of gzipped files is faster (up to 2x) on systems
+  where the gzip program is available.
+- The quality trimming function is four times faster (also due to
+  Cython).
+- Fix the statistics output for 3' colorspace adapters: The reported
+  lengths were one too short. Thanks to Frank Wessely for reporting
+  this.
+- Support the --no-indels option. This disallows insertions and
+  deletions while aligning the adapter. Currently, the option is only
+  available for anchored 5' adapters. This fixes  issue 69 .
+- As a sideeffect of implementing the --no-indels option: For
+  colorspace, the length of a read (for --minimum- and --maximum-length)
+  is now computed after primer base removal (when --trim-primer is
+  specified).
+- Added one column to the info file that contains the name of the found
+  adapter.
 
 * Mon Nov 11 2013 Shane Sturrock <shane@biomatters.com> - 1.3-1
 - Preliminary paired-end support with the --paired-output option (contributed by

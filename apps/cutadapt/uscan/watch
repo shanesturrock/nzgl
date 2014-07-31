@@ -1,2 +1,2 @@
 version=3
-http://code.google.com/p/cutadapt/downloads/list?can=1 .*/cutadapt-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
+https://code.google.com/p/cutadapt/wiki/Downloads?tm=2 .*/cutadapt-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
