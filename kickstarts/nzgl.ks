@@ -65,6 +65,7 @@ nzgl-sysscripts
 postgresql-libs
 postgresql-devel
 mysql-devel
+environment-modules
 @Development tools
 @NZGL
 @Internet Browser
