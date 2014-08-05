@@ -51,6 +51,7 @@ glibc-static
 python-argparse
 libcurl-devel
 libxml2-devel
+environment-modules
 perl-Bio-SamTools
 perl-Module-Build
 nzgl-release

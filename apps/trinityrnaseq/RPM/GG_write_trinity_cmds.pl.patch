@@ -1,5 +1,5 @@
---- util/support_scripts/GG_write_trinity_cmds.pl.orig	2014-04-16 09:02:30.303494096 +1200
-+++ util/support_scripts/GG_write_trinity_cmds.pl	2014-04-16 09:02:52.992637540 +1200
+--- util/support_scripts/GG_write_trinity_cmds.pl.orig	2014-08-05 11:16:13.272465438 +1200
++++ util/support_scripts/GG_write_trinity_cmds.pl	2014-08-05 11:18:04.353079914 +1200
 @@ -71,7 +71,7 @@
      
      my $file = pop @x;

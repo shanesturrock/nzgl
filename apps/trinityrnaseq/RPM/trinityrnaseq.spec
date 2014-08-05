@@ -1,19 +1,15 @@
-%define tarball r20140413p1
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	20140413p1
-Release:	2%{?dist}
+Version:	20140717
+Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://trinityrnaseq.sourceforge.net
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}_%{tarball}.tar.gz
-Patch0:		%{name}-rootdir.patch
-Patch1:		GG_write_trinity_cmds.pl.patch
-Patch2:		run_Trinity_edgeR_pipeline.pl.patch
-Patch3:		Makefile.patch
-Patch4:		rsemupdate.patch
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}_r%{version}.tar.gz
+Patch0:		GG_write_trinity_cmds.pl.patch
+Patch1:		run_Trinity_edgeR_pipeline.pl.patch
 Requires:	java-1.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
@@ -29,15 +25,13 @@ independent software modules: Inchworm, Chrysalis, and Butterfly, applied
 sequentially to process large volumes of RNA-seq reads.
 
 %prep
-%setup -q -n %{name}_%{tarball}
+%setup -q -n %{name}_r%{version}
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
-
+# Fix Trinity script
+find . -type f -name 'Trinity' | xargs sed 's/\"$FindBin::RealBin\";/\"\/usr\/libexec\/trinityrnaseq\";/g' --in-place
 %build
 make %{?_smp_mflags}
 
@@ -46,7 +40,6 @@ rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{perl_vendorarch}
 mkdir -p %{buildroot}/%{_bindir}
-#mkdir -p %{buildroot}/%{_javadir}/%{name}
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}/Butterfly
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin
@@ -54,7 +47,6 @@ mkdir -p %{buildroot}/%{_libexecdir}/%{name}/Chrysalis
 
 install -m 0755 Trinity %{buildroot}/%{_bindir}
 
-#install -m 0644 Butterfly/Butterfly.jar %{buildroot}/%{_javadir}/%{name}
 install -m 0644 Butterfly/Butterfly.jar %{buildroot}/%{_libexecdir}/%{name}/Butterfly
 
 install -m 0755 Inchworm/bin/cigar_tweaker %{buildroot}/%{_libexecdir}/%{name}/Inchworm/bin/cigar_tweaker
@@ -88,11 +80,41 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc docs/ README Release.Notes
 /usr/bin/Trinity
-#/usr/share/java/%{name}/Butterfly.jar
 /usr/libexec/%{name}/*
 %{perl_vendorarch}/*
 
 %changelog
+* Tue Aug 05 2014 Shane Sturrock <shane@biomatters.com> - r20140717-1
+run_DE_analysis.pl
+    - added '--contrasts' to specify the DE comparisons to perform.
+    - added support for DESeq2
+abundance_estimates_to_matrix.pl
+    - use check.names=F so as to allow for dashes and other characters that 
+      R doesn't typically like in column headers.
+IRKE.cpp
+    - set hard limit on max recursion for tie breaking.
+Butterfly:
+    - transcript length normalization in EM algorithm.
+    - EM should now be correct, in addition to useful.
+    - added  --READ_END_PATH_TRIM_LENGTH <int> min length of read terminus 
+      to extend into a graph node for it to be added to the pair path node 
+      sequence. (default: 0)
+Trinity
+    - genome guided process errors out on failed gmap alignment via 
+      'set -o pipefail'
+Plugins
+    - reorgnized, include tarballs for various plugins and untar-gz them 
+      and build as part of Trinity make
+    - updated to Jellyfish2
+    - re-incorporating RSEM in plugins, updated to R-2.15, maintaining 
+      compatibility with plugin-version.
+    - updated TransDecoder to 20140704 version
+    - fastool updated, includes bugfix regarding pair /1 or /2 identification 
+      w/ certain linux distros
+    - removed coreutils, using the 'sort' utility installed on users machine, 
+      leverages parallel version if available.
+    - updated to Trimmomatic-v0.32
+
 * Wed Jun 11 2014 Sidney Markowitz <sidney@biomatters.com> - 20140413p1-2
 - update options in call to rsem-prepare-reference for new version rsem 1.2.14
 
