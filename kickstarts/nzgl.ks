@@ -51,7 +51,6 @@ libreoffice
 yum-plugin-post-transaction-actions
 munin-node
 valgrind
-rstudio
 cpan
 cmake
 glibc-static
@@ -97,10 +96,6 @@ mkdir /home/sidney
 mkdir /home/qiime
 mkdir /home/R-network
 mkdir -p /home/galaxy/upload
-ln -s /home/R-network/R-2/bin/R /usr/bin/R2
-ln -s /home/R-network/R-2/bin/Rscript /usr/bin/Rscript2
-ln -s /home/R-network/R-3/bin/R /usr/bin/R3
-ln -s /home/R-network/R-3/bin/Rscript /usr/bin/Rscript3
 
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
@@ -220,5 +215,8 @@ yum -y install java-1.7.0-openjdk-devel ant
 # Process Accounting
 yum -y install psacct
 chkconfig psacct on
+
+# Install R-core dummy package and rstudio
+yum -y install R-core rstudio
 
 %end

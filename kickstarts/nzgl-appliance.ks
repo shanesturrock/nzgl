@@ -44,7 +44,6 @@ nfs-utils
 gedit
 libreoffice
 valgrind
-rstudio
 cpan
 cmake
 glibc-static
