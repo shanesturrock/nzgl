@@ -1,5 +1,5 @@
 Name:		FLASH
-Version:	1.2.10
+Version:	1.2.11
 Release:	1%{?dist}
 Summary:	Fast Length Adjustment of SHort reads
 Group:		Applications/Engineering
@@ -41,6 +41,17 @@ rm -rf %{buildroot}
 %{_bindir}/flash
 
 %changelog
+* Wed Aug 06 2014 Shane Sturrock <shane@biomatters.com> - 1.2.11-1
+- Fixed a bug that caused FLASH to crash under the following set of
+  circumstances: the --allow-outies option (added in v1.2.10) was specified; and
+  in a read pair, read 1 was longer than read 2; and the chosen merge aligned
+  the end of read 2 to the very beginning of read 1, e.g.
+
+	  Read 1:  ----------------------------------->
+	  Read 2:  <-------------------------
+
+  This bug was extremely likely to crash the program.  Therefore, the output of
+  successful runs of FLASH should not have been affected.
 * Tue Apr 22 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-1
 - FLASH now supports combining read pairs in outie orientation.  See help for
   the new --allow-outies option.

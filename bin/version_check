@@ -109,15 +109,23 @@ for application in ${application_list}; do
 	fi
 
 	check=$(${uscan} --package ${application} --watchfile ${application}/uscan/watch --upstream-version ${current_version} ${uscan_args})
-	if [ -n "${check}" ]; then
-		if [ -n "${report_upstream_version}" ]; then
-			echo ${check} | cut -f1 -d, | awk '{print $13}'
-			exit 0
+
+	# In some cases the version on our repos may be newer
+        if grep -q "remote site does not even have current version" <<<$check;
+        then
+                log "${application} ${current_version} (${repo}): Newer than most recent on site"
+		# log "${application} ${current_version} (${repo}): Up to date"
+        else
+		if [ -n "${check}" ]; then
+			if [ -n "${report_upstream_version}" ]; then
+				echo ${check} | cut -f1 -d, | awk '{print $13}'
+				exit 0
+			fi
+			[ "${output_updates}" == "true" ] && echo -n "${application} "
+			log ${check}
+		else
+			log "${application} ${current_version} (${repo}): Up to date"
 		fi
-		[ "${output_updates}" == "true" ] && echo -n "${application} "
-		log ${check}
-	else
-		log "${application} ${current_version} (${repo}): Up to date"
-	fi
+        fi
 done 
 exit 0
