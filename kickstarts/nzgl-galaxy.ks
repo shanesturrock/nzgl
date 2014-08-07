@@ -45,6 +45,7 @@ munin-node
 cpan
 perl-Bio-SamTools
 perl-Module-Build
+tmpwatch
 nzgl-release
 nzgl-sysscripts
 @Development tools

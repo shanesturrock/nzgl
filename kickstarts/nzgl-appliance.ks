@@ -58,6 +58,7 @@ nzgl-sysscripts-appliance
 postgresql-libs
 postgresql-devel
 mysql-devel
+tmpwatch
 @Development tools
 @NZGL
 @Internet Browser

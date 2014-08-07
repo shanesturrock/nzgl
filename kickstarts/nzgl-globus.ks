@@ -44,6 +44,7 @@ sssd
 yum-plugin-post-transaction-actions
 munin-node
 nc
+tmpwatch
 @Development tools
 %end
 

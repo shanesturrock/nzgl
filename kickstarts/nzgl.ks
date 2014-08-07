@@ -65,6 +65,7 @@ postgresql-libs
 postgresql-devel
 mysql-devel
 environment-modules
+tmpwatch
 @Development tools
 @NZGL
 @Internet Browser
