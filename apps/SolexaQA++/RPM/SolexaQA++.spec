@@ -1,6 +1,6 @@
 Name:		SolexaQA++
 Version:	3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
 License:	GPLv3
@@ -32,6 +32,8 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Tue Aug 12 2014 Shane Sturrock <shane@biomatters.com> - 3.0-2
+- Minor bug fix release
 * Thu Aug 7 2014 Shane Sturrock <shane@biomatters.com> - 3.0-1
 - Initial release of C++ based version
 - Analysis (previously available as SolexaQA.pl): general performance
