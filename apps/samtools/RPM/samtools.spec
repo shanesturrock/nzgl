@@ -1,17 +1,18 @@
+%define priority 1001
 Name:		samtools
-Version:	0.1.19
+Version:	1.0
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:		samtools-0.1.14-soname.patch
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-
-BuildRequires:	zlib-devel >= 1.2.3
-BuildRequires:	ncurses-devel
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires:	samtools100
+# Post requires alternatives to install tool alternatives.
+Requires(post):   %{_sbindir}/alternatives
+# Postun requires alternatives to uninstall tool alternatives.
+Requires(postun): %{_sbindir}/alternatives
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
@@ -20,171 +21,46 @@ SAM Tools provide various utilities for manipulating alignments in the
 SAM format, including sorting, merging, indexing and generating
 alignments in a per-position format.
 
+%post
+alternatives \
+   --install %{_bindir}/samtools samtools /usr/lib64/samtools100/bin/samtools %{priority} \
+   --slave %{_bindir}/ace2sam ace2sam /usr/lib64/samtools100/bin/ace2sam \
+   --slave %{_bindir}/blast2sam.pl blast2sam.pl /usr/lib64/samtools100/bin/blast2sam.pl \
+   --slave %{_bindir}/bowtie2sam.pl bowtie2sam.pl /usr/lib64/samtools100/bin/bowtie2sam.pl \
+   --slave %{_bindir}/export2sam.pl export2sam.pl /usr/lib64/samtools100/bin/export2sam.pl \
+   --slave %{_bindir}/interpolate_sam.pl interpolate_sam.pl /usr/lib64/samtools100/bin/interpolate_sam.pl \
+   --slave %{_bindir}/maq2sam-long maq2sam-long /usr/lib64/samtools100/bin/maq2sam-long \
+   --slave %{_bindir}/maq2sam-short maq2sam-short /usr/lib64/samtools100/bin/maq2sam-short \
+   --slave %{_bindir}/md5fa md5fa /usr/lib64/samtools100/bin/md5fa \
+   --slave %{_bindir}/md5sum-lite md5sum-lite /usr/lib64/samtools100/bin/md5sum-lite \
+   --slave %{_bindir}/novo2sam.pl novo2sam.pl /usr/lib64/samtools100/bin/novo2sam.pl \
+   --slave %{_bindir}/plot-bamstats plot-bamstats /usr/lib64/samtools100/bin/plot-bamstats \
+   --slave %{_bindir}/psl2sam.pl psl2sam.pl /usr/lib64/samtools100/bin/psl2sam.pl \
+   --slave %{_bindir}/sam2vcf.pl sam2vcf.pl /usr/lib64/samtools100/bin/sam2vcf.pl \
+   --slave %{_bindir}/samtools.pl samtools.pl /usr/lib64/samtools100/bin/samtools.pl \
+   --slave %{_bindir}/seq_cache_populate.pl seq_cache_populate.pl /usr/lib64/samtools100/bin/seq_cache_populate.pl \
+   --slave %{_bindir}/soap2sam.pl soap2sam.pl /usr/lib64/samtools100/bin/soap2sam.pl \
+   --slave %{_bindir}/varfilter.py varfilter.py /usr/lib64/samtools100/bin/varfilter.py \
+   --slave %{_bindir}/wgsim wgsim /usr/lib64/samtools100/bin/wgsim \
+   --slave %{_bindir}/wgsim_eval.pl wgsim_eval.pl /usr/lib64/samtools100/bin/wgsim_eval.pl \
+   --slave %{_bindir}/zoom2sam.pl zoom2sam.pl /usr/lib64/samtools100/bin/zoom2sam.pl \
+   --slave %{_mandir}/man1/samtools.1 samtools.1 /usr/lib64/samtools100/man/man1/samtools.1
 
-%package devel
-Summary:	Header files and libraries for compiling against %{name}
-Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-
-%description devel
-Header files and libraries for compiling against %{name}
-
-
-%package libs
-Summary:	Libraries for applications using %{name}
-Group:		System Environment/Libraries
-
-%description libs
-Libraries for applications using %name
-
-
-%prep
-%setup -q
-%patch0 -p1 -b .soname
-
-# fix wrong interpreter
-perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
-
-# fix eol encoding
-sed -i 's/\r//' misc/export2sam.pl
-
-
-%build
-make CFLAGS="%{optflags}" dylib %{?_smp_mflags}
-make CFLAGS="%{optflags} -fPIC" samtools razip %{?_smp_mflags}
-
-cd misc/
-make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
-
-cd ../bcftools
-make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
-
-
-%install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}%{_bindir}
-install -p samtools razip %{buildroot}%{_bindir}
-
-# header and library files
-mkdir -p %{buildroot}%{_includedir}/%{name}
-install -p -m 644 *.h %{buildroot}%{_includedir}/%{name}
-mkdir -p %{buildroot}%{_libdir}
-strip libbam.so.1
-install -p -m 755 libbam.so.1 %{buildroot}%{_libdir}
-ln -sf libbam.so.1 %{buildroot}%{_libdir}/libbam.so
-install -p -m 755 libbam.a %{buildroot}%{_libdir}
-
-mkdir -p %{buildroot}%{_mandir}/man1/
-cp -p samtools.1 %{buildroot}%{_mandir}/man1/
-#cp -p bcftools/bcftools.1 %{buildroot}%{_mandir}/man1/
-
-cd misc/
-install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
-    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
-    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
-    zoom2sam.pl bamcheck plot-bamcheck 					\
-    %{buildroot}%{_bindir}
-
-cd ../bcftools/
-install -p bcftools vcfutils.pl %{buildroot}%{_bindir}
-mv README README.bcftools
-
-
-%clean
-rm -rf %{buildroot}
-
-
-%post libs -p /sbin/ldconfig
-
-
-%postun libs -p /sbin/ldconfig
-
+%postun
+if [ $1 -eq 0 ]
+then
+  alternatives --remove samtools /usr/lib64/samtools100/bin/samtools
+fi
 
 %files
-%defattr(-,root,root,-)
-%doc AUTHORS COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
-%{_bindir}/*
-%{_mandir}/man1/*
-
-
-%files	devel
-%defattr(-,root,root,-)
-%{_includedir}/%{name}
-%{_libdir}/libbam.so
-%{_libdir}/libbam.a
-
-
-%files libs
-%defattr(-,root,root,-)
-%{_libdir}/libbam.so.*
-
 
 %changelog
-* Mon Mar 18 2013 Shane Sturrock <shane@biomatters.com> - 0.1.19-1
-- Upstream update - removed seqtk
+* Mon Aug 18 2014 Shane Sturrock <shane@biomatters.com> - 1.0-1
+- First release of HTSlib-based samtools
+- Numerous changes, notably support for CRAM sequencing file format.
+- Removes bcftools from package as that is now separate
+- Doesn't produce samtools-devel and samtools-lib RPMs anymore
 
-* Tue Nov 06 2012 Carl Jones <carl@biomatters.com> - 0.1.18-3
-- Include libbam.a
-
-* Wed Oct 26 2011 Adam Huffman <verdurin@fedoraproject.org> - 0.1.18-2
-- make sure new seqtk tool included
-
-* Tue Sep  6 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.18-1
-- Updated to 0.1.18
-
-* Tue May 10 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.16-1
-- Updated to 0.1.16
-
-* Mon Apr 11 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.15-1
-- Updated to 0.1.15
-
-* Wed Mar 23 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.14-1
-- Updated to 0.1.14
-- Build shared library instead of static
-
-* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.12a-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
-
-* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-2
-- Fixed header files directory ownership
-- Added missing header files
-
-* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-1
-- Updated to 0.1.12a
-
-* Tue Nov 23 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
-- cleanup man page handling
-
-* Sun Oct 10 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
-- fix attributes for devel subpackage
-- fix library location
-
-* Sun Sep 26 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-3
-- put headers and library in standard locations
-
-* Mon Sep 6 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-2
-- merge Rasmus' latest changes (0.1.8 update)
-- include bam.h and libbam.a for Bio-SamTools compilation
-- move bam.h and libbam.a to single directory
-- put bgzf.h, khash.h and faidx.h in the same place
-- add -fPIC to CFLAGS to make Bio-SamTools happy
-- add virtual Provide as per guidelines
-
-* Tue Aug 17 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.8-1
-- Updated to 0.1.8.
-
-* Mon Nov 30 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.7a-1
-- Updated to 0.1.7a.
-
-* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.5c-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
-
-* Sun Jul 12 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-3
-- Specfile cleanup.
-
-* Sat Jul 11 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-2
-- Fixed manpage location.
-- Make sure optflags is passed to the makefiles.
-
-* Sat Jul 11 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-1
-- Initial build.
+* Mon Aug 18 2014 Shane Sturrock <shane@biomatters.com> - 0.1.19-3
+- Create versioned package for modulefile compatibility
+- Removes devel and libs packages as they're not used
