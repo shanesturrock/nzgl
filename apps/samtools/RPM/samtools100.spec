@@ -1,6 +1,5 @@
 %global pkgbase samtools
 %global versuffix 100
-%define priority 1000
 Name:		%{pkgbase}%{versuffix}
 Version:	1.0
 Release:	1%{?dist}
@@ -15,10 +14,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	ncurses-devel
-# Post requires alternatives to install tool alternatives.
-Requires(post):   %{_sbindir}/alternatives
-# Postun requires alternatives to uninstall tool alternatives.
-Requires(postun): %{_sbindir}/alternatives
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing

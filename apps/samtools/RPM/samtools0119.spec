@@ -1,6 +1,5 @@
 %global pkgbase samtools
 %global versuffix 0119
-%define priority 119
 Name:		%{pkgbase}%{versuffix}
 Version:	0.1.19
 Release:	3%{?dist}
@@ -16,10 +15,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	ncurses-devel
-# Post requires alternatives to install tool alternatives.
-Requires(post):   %{_sbindir}/alternatives
-# Postun requires alternatives to uninstall tool alternatives.
-Requires(postun): %{_sbindir}/alternatives
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
@@ -59,10 +54,10 @@ install -p samtools razip %{buildroot}%{_libdir}/%{name}/bin
 cp -p samtools.1 %{buildroot}%{_libdir}/%{name}/man/man1/
 
 cd misc/
-install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
-    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
-    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
-    zoom2sam.pl  	       		    				\
+install -p ace2sam bamcheck blast2sam.pl bowtie2sam.pl export2sam.pl \
+    interpolate_sam.pl maq2sam-long maq2sam-short md5fa md5sum-lite \
+    novo2sam.pl psl2sam.pl sam2vcf.pl samtools.pl soap2sam.pl varfilter.py \
+    wgsim wgsim_eval.pl zoom2sam.pl \
     %{buildroot}%{_libdir}/%{name}/bin
 
 cd ../bcftools/
