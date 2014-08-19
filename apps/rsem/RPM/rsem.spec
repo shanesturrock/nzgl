@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.15
+Version:	1.2.16
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -77,6 +77,10 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Wed Aug 20 2014 Shane Sturrock <shane@biomatters.com> - 1.2.16-1
+- Corrected a typo in 'rsem-generate-data-matrix', this script extracts 
+  'expected_count' column instead of 'TPM' column.
+
 * Thu Jun 26 2014 Sidney Markowitz <sidney@biomatters.com> - 1.2.15-1
 - Allow subset of reference sequences to be declared in an input SAM/BAM file
 - For any transcript not declared in the SAM/BAM file, its PME estimates and

@@ -1,6 +1,24 @@
 #!/bin/bash
 
+# create links tests need to complete
+
 PWD=`pwd`
+/bin/rm read_content_analysis/target.1.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.1.ebwt read_content_analysis/target.1.ebwt 
+/bin/rm read_content_analysis/target.2.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.2.ebwt read_content_analysis/target.2.ebwt 
+/bin/rm read_content_analysis/target.3.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.3.ebwt read_content_analysis/target.3.ebwt 
+/bin/rm read_content_analysis/target.4.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.4.ebwt read_content_analysis/target.4.ebwt 
+/bin/rm read_content_analysis/target.fa 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta read_content_analysis/target.fa 
+/bin/rm read_content_analysis/target.fa.fai 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.fai read_content_analysis/target.fa.fai 
+/bin/rm read_content_analysis/target.rev.1.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.rev.1.ebwt read_content_analysis/target.rev.1.ebwt 
+/bin/rm read_content_analysis/target.rev.2.ebwt 
+/bin/ln -s ${PWD}/trinity_out_dir/Trinity.fasta.bowtie.rev.2.ebwt read_content_analysis/target.rev.2.ebwt 
 
 # Based on sample_data/test_Trinity_Assembly/runMe.sh script 
 # shipped with Trinity
@@ -105,5 +123,13 @@ fi
 /bin/rm -rf Trinity.fasta.transdecoder.* transdecoder.tmp.*
 /bin/rm -rf Trinity_genes.*
 /bin/rm -rf filtered.*
+/bin/rm read_content_analysis/target.1.ebwt 
+/bin/rm read_content_analysis/target.2.ebwt 
+/bin/rm read_content_analysis/target.3.ebwt 
+/bin/rm read_content_analysis/target.4.ebwt 
+/bin/rm read_content_analysis/target.fa 
+/bin/rm read_content_analysis/target.fa.fai 
+/bin/rm read_content_analysis/target.rev.1.ebwt 
+/bin/rm read_content_analysis/target.rev.2.ebwt 
 
 exit 0
