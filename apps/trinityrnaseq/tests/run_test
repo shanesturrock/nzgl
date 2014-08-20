@@ -98,7 +98,6 @@ fi
 
 # Run the pipeline
 /usr/libexec/trinityrnaseq/util/run_Trinity_edgeR_pipeline.pl --samples_file ${PWD}/samples_n_reads_decribed.txt
-# /usr/libexec/trinityrnaseq/util/run_Trinity_edgeR_pipeline.pl --samples_file /home/build/nzgl/apps/trinityrnaseq/tests/samples_n_reads_decribed.txt
 
 # get assembly stats
 /usr/libexec/trinityrnaseq/util/TrinityStats.pl trinity_out_dir/Trinity.fasta
