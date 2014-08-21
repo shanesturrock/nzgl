@@ -32,6 +32,7 @@ cd bin
 install -m 0755 abyss-bowtie abyss-bowtie2 abyss-bwa abyss-bwasw abyss-bwamem abyss-fatoagp abyss-kaligner abyss-pe abyss-samtoafg abyss-tabtomd abyss-bloom-dist.mk %{buildroot}/%{_bindir}
 cd ..
 install -m 0755 ABYSS/ABYSS %{buildroot}/%{_bindir}
+/bin/ln -sf ABYSS %{buildroot}/%{_bindir}/ABYSS-P
 install -m 0755 AdjList/AdjList %{buildroot}/%{_bindir}
 install -m 0755 DataLayer/abyss-fac %{buildroot}/%{_bindir}
 install -m 0755 DataLayer/abyss-tofastq %{buildroot}/%{_bindir}
