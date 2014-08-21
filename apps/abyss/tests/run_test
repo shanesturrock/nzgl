@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+abyss-pe k=25 name=test in='reads1.fastq reads2.fastq'
+
+rm coverage.hist test*
+
+exit 0
