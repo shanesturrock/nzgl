@@ -1,7 +1,7 @@
 Summary:	Sequence assembler for very short reads
 Name:		velvet
 Version:	1.2.10
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.ebi.ac.uk/~zerbino/velvet/ 
@@ -50,6 +50,8 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 %{_bindir}/*
 
 %changelog
+* Fri Aug 22 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-5
+- Increase CATEGORIES to 99
 * Tue Apr 08 2014 Shane Sturrock <shane@biomatters.com> - 1.2.10-4
 - Increase CATEGORIES to 4 and OPENMP to 8
 * Tue Aug 06 2013 Shane Sturrock <shane@biomatters.com> - 1.2.10-3
