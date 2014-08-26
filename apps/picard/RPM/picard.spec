@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.118
+Version:	1.119
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,30 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Aug 27 2014 Shane Sturrock <shane@biomatters.com> - 1.119-1
+- Updated AbstractOpticalDuplicateFinder to handle post-CASAVA 1.8 read
+  names. Pass READ_NAME_REGEX=null to skip optical duplicate detection
+  in MarkDuplicates.
+- Fixed RevertSam to harmonize different quality score encoding schemes
+  when the sanitize option is set.
+- Modified Casava18ReadNameEncoder to correctly display filter status.
+- SamPairUtil: Added the ability to set the mate cigar tag on
+  supplementary alignments. Updated AbstractAlignmentMerger to set mate
+  cigars when merging supplementary alignments.
+- CollectWgsMetrics: Added 2 new metrics- the fraction of bases
+  attaining 15X and 25X coverage respectively.
+- Added a new tool, CollectBaseDistributionByCycle, that computes the
+  nucleotide distribution per cycle.
+- FileAppendStreamLRUCache: Added wrapping of FileOutputStreams with
+  BufferedOutputStreams.
+- Fixed a bug in BCF2Writer where it was double-closing the output
+  stream.
+- Fixed VariantContext to ignore symbolic alleles when running strict
+  validation for a VCF.
+- MetricsBase: Fixed a NullPointerException
+- IndexStreamBuffer: Fixed a bug in which a data-exhaustion error was
+  being thrown prematurely.
+
 * Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.118-1
 - Support for the 0x800 supplementary alignment flag within Picard. Tools 
   which previously only processed primary and ignored secondary alignments 
