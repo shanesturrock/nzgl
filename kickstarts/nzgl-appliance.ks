@@ -53,6 +53,7 @@ libxml2-devel
 environment-modules
 perl-Bio-SamTools
 perl-Module-Build
+python-matplotlib
 nzgl-release
 nzgl-sysscripts-appliance
 postgresql-libs

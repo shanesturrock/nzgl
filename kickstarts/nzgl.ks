@@ -63,6 +63,7 @@ nzgl-release
 nzgl-sysscripts
 postgresql-libs
 postgresql-devel
+python-matplotlib
 mysql-devel
 environment-modules
 tmpwatch
