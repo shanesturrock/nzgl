@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.16
+Version:	1.2.17
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -77,6 +77,10 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Sep 08 2014 Shane Sturrock <shane@biomatters.com> - 1.2.17-1
+- Added error detection for cases such as a read's two mates having 
+  different names or a read is both alignable and unalignable
+
 * Wed Aug 20 2014 Shane Sturrock <shane@biomatters.com> - 1.2.16-1
 - Corrected a typo in 'rsem-generate-data-matrix', this script extracts 
   'expected_count' column instead of 'TPM' column.
