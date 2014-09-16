@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.4.2
+Version:	1.5
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,25 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Wed Sep 17 2014 Shane Sturrock <shane@biomatters.com> - 1.5-1
+- Adapter sequences can now be read from a FASTA file. For example, write
+  `-a file:adapters.fasta` to read 3' adapters from `adapters.fasta`. This 
+  works also for `-b` and `-g`.
+- Add the option `--mask-adapter`, which can be used to not remove adapters,
+  but to instead mask them with `N` characters. Thanks to Vittorio Zamboni
+  for contributing this feature!
+- U characters in the adapter sequence are automatically converted to T.
+- Do not run Cython at installation time unless the --cython option is 
+  provided.
+- Add the option -u/--cut, which can be used to unconditionally remove a 
+  number of bases from the beginning or end of each read.
+- Make `--zero-cap` the default for colorspace reads.
+- When the new option `--quiet` is used, no report is printed after all reads
+  have been processed.
+- When processing paired-end reads, cutadapt now checks whether the reads are
+  properly paired.
+- To properly handle paired-end reads, an option --untrimmed-paired-output was
+  added.
 
 * Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.4.2-1
 - Reading and writing of FASTQ files is faster (thanks to Cython).

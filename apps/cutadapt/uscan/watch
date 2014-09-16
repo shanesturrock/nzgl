@@ -1,2 +1,2 @@
 version=3
-https://code.google.com/p/cutadapt/wiki/Downloads?tm=2 .*/cutadapt-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
+https://pypi.python.org/packages/source/c/cutadapt/cutadapt-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
