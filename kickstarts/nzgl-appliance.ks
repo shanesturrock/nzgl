@@ -53,6 +53,7 @@ libxml2-devel
 ncurses-devel
 environment-modules
 perl-Bio-SamTools
+perl-DBD-MySQL
 perl-Module-Build
 python-matplotlib
 nzgl-release

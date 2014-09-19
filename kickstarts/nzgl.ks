@@ -59,6 +59,7 @@ libcurl-devel
 libxml2-devel
 ncurses-devel
 perl-Bio-SamTools
+perl-DBD-MySQL
 perl-Module-Build
 nzgl-release
 nzgl-sysscripts
