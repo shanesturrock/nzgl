@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 
 Name:      phylip
-Version:   3.695
+Version:   3.696
 Release:   1%{?dist}
 Summary:   Phylogeny Inference Package
 Group:     Applications/BioInformatics
@@ -59,6 +59,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Sep 22 2014 Shane Sturrock <shane@biomatters.com> - 3.696-1
+- New upstream release 
+
 * Tue Jun 04 2013 Simon Buxton <simon@biomatters.com> - 3.695-1
 - New upstream release 
 

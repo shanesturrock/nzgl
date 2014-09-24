@@ -1,11 +1,11 @@
 Name:		bedtools2
-Version:	2.20.1
+Version:	2.21.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://github.com/arq5x/bedtools2
-SOURCE:		bedtools2-2.20.1.tar.gz
+SOURCE:		bedtools2-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 
@@ -70,6 +70,17 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Sep 22 2014 Shane Sturrock <shane@biomatters.com> - 2.21.0-1
+- Added ability to intersect against multiple -b files in the intersect tool.
+- Fixed a bug causing slowdowns in the -sorted option when using -split with 
+  very large split alignments.
+- Added a new fisher tool to report a P-value associated with the significance 
+  of the overlaps between two interval sets. Thanks to @brentp!
+- Added a “genome” file for GRCh38. Thanks @martijnvermaat!
+- Fixed a bug in the -pct option of the slop tool. Thanks to @brentp!
+- Tweak to the Makefile to accomodate Intel compilers. Thanks to @jmarshall.
+- Many updates to the docs from the community. Thank you!
+
 * Mon May 26 2014 Sidney Markowitz <sidney@biomatters.com> - 2.20.1-1
 - Fixed a float rounding bug causing occasional off-by-one issues in the slop
   added by the slop tool.
