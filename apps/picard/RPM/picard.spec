@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.119
+Version:	1.121
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,52 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Sep 25 2014 Shane Sturrock <shane@biomatters.com> - 1.121-1
+- Picard:
+  - Added a static function to PedFile that allows the creation of a pedFile 
+    object from a Map<String,Sex>.
+  - Fixed BAMRecordCodec to  recognize when qual array has been changed.
+  - Added a SortVcfs CLP that will sort VCF files by contig and genomic 
+    position.
+  - Supplemental alignments are now considered when fixing mate information in 
+    FixMateInformation and RevertOriginalBaseQualitiesAndAddMateCigar.
+  - RevertSam: Added ability to use  original qualities to detect encoding 
+    scheme if they are being restored. Modified SANITIZE method to convert 
+    all non-Standard quality score encoding schemes to Standard. Fixed issue 
+    with validation stringency not being propagated.
+  - SamAlignmentMerger: Moved the test for duplicate @PG.IDs into 
+    AbstractAlignmentMerger to avoid opening the unmapped SAM file twice.
+  - SamToFastq: Removed redundant IOUtil.openFileForWriting() calls for the 
+    fastq writers.
+  - CommandLineProgram: Bugfix - the validation stringency command line 
+    option is now passed to the sam reader factory
+- HTSJDK:
+  - Significant work was done towards making HTSJDK compatible with 
+    maven-based repositories such as Maven Central and Sonatype.
+  - VCFContigHeaderLine: Fixed bug in setSequenceDictionary where where 
+    the assembly value of the updated contigs was not being set properly 
+    in the VCF header.
+  - Fixed a bug in VCFUtils.smartMergeHeaders related to contig ordering.
+  - Made some useful additions to SAMTestUtil
+  - In build.xml, changed htsjdk.version.property.xml to 
+    htsjdk.version.properties. See https://github.com/samtools/htsjdk/issues/99
+  - Replaced use of TestNG in SAMTestUtil.
+  - Only return the first error when validating a SAMRecord using STRICT, 
+    for increased performance.
+  - Added CustomReaderFactory for plugging in external implementations of 
+    SamReader capable of getting data from APIs such as Google Genomics.
+  - QualityEncodingDetector: Add the option of using original quality scores 
+    for determining the encoding scheme.
+  - Introduced several fixes related to JDK8 in SamFileHeaderMergerTest
+  - SamPairUtil: Added methods to help set mate cigars and mate information 
+    given a queryname sorted iterator.  This is useful when we want to fix 
+    or update the mate information, including the mate cigar.
+  - IOUtil: Added methods to check for readability/writability of list of files
+  - Added copyrights to some recently added classes
+  - IntervalList: No longer enforce by default that intervals that will be 
+    merged have the same strand
+  - SamReaderFactory: Exposed a way to set the default validation stringency
+
 * Thu Aug 27 2014 Shane Sturrock <shane@biomatters.com> - 1.119-1
 - Updated AbstractOpticalDuplicateFinder to handle post-CASAVA 1.8 read
   names. Pass READ_NAME_REGEX=null to skip optical duplicate detection
