@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.17
+Version:	1.2.18
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -77,6 +77,11 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Wed Oct 01 2014 Shane Sturrock <shane@biomatters.com> - 1.2.18-1
+- Only generate warning message if two mates of a read pair have different 
+  names. Only parse attributes of a GTF record if its feature is "exon" to 
+  avoid unnecessary warning messages.
+
 * Mon Sep 08 2014 Shane Sturrock <shane@biomatters.com> - 1.2.17-1
 - Added error detection for cases such as a read's two mates having 
   different names or a read is both alignable and unalignable
