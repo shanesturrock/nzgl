@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.12.5
+Version:	0.13.0
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,41 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Thu Oct 02 2014 Shane Sturrock <shane@biomatters.com> - 0.13.0-1
+- Bismark
+  - Fixed renaming issue for SAM to BAM files (which would have replaced any 
+    occurrence of sam in the file name, e.g. sample1_... instead of the file 
+    extension .sam).
+- Methylation Extractor
+  - Added new option '--multicore <int>' to set the number of cores to
+    be used for the methylation extraction process. If system resources
+    are plentiful this is a viable option to speed up the extraction
+    process (we observed a near linear speed increase for up to 10 cores
+    used). Please note that a typical process of extracting a BAM file and
+    writing out '.gz' output streams will in fact use ~3 cores per value
+    of --multicore <int> specified (1 for the methylation extractor
+    itself, 1 for a Samtools stream, 1 for GZIP stream), so --multicore 10
+    is likely to use around 30 cores of system resources. This option has
+    no bearing on the bismark2bedGraph or genome-wide cytosine report
+    processes. 
+  - Added two new options '--ignore_3prime <INT>' (for single-end
+    alignments and Read 1 of paired-end alignments) and
+    '--ignore_3prime_r2 <INT>' (for Read 2 of paired-end alignments) to
+    remove positions that display a methylation call bias from the 3' end
+    of reads.	     
+  - The option --no_overlap is now the default for paired-end data. One
+    may explicitly choose to include overlapping data with the option
+    '--include_overlap'.
+  - The splitting report will now be written out by default (option --report).
+  - In paired-end mode, read-pairs which had been skipped because either
+    read was shorter than a specified (very high) value of '--ignore' or
+    '--ignore_r2' will now have the information of the other read
+    extracted if it meets the length criteria (if applicable). Thanks to
+    Andrew Dei Rossi for contributing a patch.
+- bismark2bedGraph
+  - Fixed the location of the sorting directory which could have failed if
+    an output directory had been specified.
+
 * Tue Jul 22 2014 Shane Sturrock <shane@biomatters.com> - 0.12.5-1
 - Bismark: Added one more check to improve the ambiguous alignment
   detection. In more detail this adds a check whether the current

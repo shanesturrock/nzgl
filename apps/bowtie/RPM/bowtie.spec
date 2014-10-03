@@ -1,14 +1,13 @@
 Name:		bowtie
-Version:	1.0.1
+Version:	1.1.1
 Release:	1%{?dist}
 Summary:	An ultrafast, memory-efficient short read aligner
 
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://bowtie-bio.sourceforge.net/index.shtml
-Source0:	http://downloads.sourceforge.net/%{name}-bio/%{name}-%{version}-src.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
+Requires:       bowtie111
 
 %description
 
@@ -17,47 +16,24 @@ DNA sequences (reads) from next-gen sequencers. Please cite: Langmead
 B, et al. Ultrafast and memory-efficient alignment of short DNA
 sequences to the human genome. Genome Biol 10:R25.
 
-%prep
-%setup -q
-
-%build
-make %{?_smp_mflags} -p EXTRA_FLAGS="%{optflags}"
-
-
-%install
-rm -rf %{buildroot}
-
-mkdir -p %{buildroot}/%{_bindir}
-mkdir -p %{buildroot}/%{_datadir}/bowtie
-
-
-install -m 0755 bowtie %{buildroot}/%{_bindir}
-install -m 0755 bowtie-build %{buildroot}/%{_bindir}
-install -m 0755 bowtie-inspect %{buildroot}/%{_bindir}
-
-cp -a reads %{buildroot}/%{_datadir}/bowtie/
-cp -a indexes %{buildroot}/%{_datadir}/bowtie/
-cp -a genomes %{buildroot}/%{_datadir}/bowtie/
-cp -a scripts %{buildroot}/%{_datadir}/bowtie/
-
-
-%clean
-rm -rf %{buildroot}
-
-
 %files
-%defattr(-,root,root,-)
-%doc LICENSE MANUAL NEWS VERSION AUTHORS TUTORIAL doc/
-%dir %{_datadir}/bowtie
-%{_bindir}/bowtie
-%{_bindir}/bowtie-build
-%{_bindir}/bowtie-inspect
-%{_datadir}/bowtie/genomes
-%{_datadir}/bowtie/indexes
-%{_datadir}/bowtie/reads
-%{_datadir}/bowtie/scripts
 
 %changelog
+* Thu Oct 02 2014 Shane Sturrock <shane@biomatters.com> - 1.1.1-1
+- Fixed a compiling linkage problem related with Mavericks OSX.
+- Improved performance for cases where the reference contains ambiguous or 
+  masked nucleobases represented by Ns.
+- Some minor automatic tests updates.
+
+* Mon Aug 04 2014 Shane Sturrock <shane@biomatters.com> - 1.1.0-1
+- Added support for large and small indexes, removing 4-billion-nucleotide
+  barrier.  Bowtie can now be used with reference genomes of any size.
+- No longer releasing 32-bit binaries.  Simplified manual and Makefile
+  accordingly.
+- Phased out CygWin support.
+- Improved efficiency of index files loading.
+- Fixed a bug that made the inspector fail in some situations.
+
 * Mon Mar 24 2014 Shane Sturrock <shane@biomatters.com> - 1.0.1-1
 - improved index querying efficiency using "population count" instructions 
   available since SSE4.2.

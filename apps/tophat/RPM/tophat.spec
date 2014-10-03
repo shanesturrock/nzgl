@@ -1,14 +1,13 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.12
+Version:	2.0.13
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://tophat.cbcb.umd.edu/
 Source0:	http://tophat.cbcb.umd.edu/downloads/tophat-%{version}.tar.gz
-Source1:	http://downloads.sourceforge.net/samtools/samtools-%{samtools_version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	boost >= 1.47
 BuildRequires:	boost-devel >= 1.47
@@ -33,17 +32,10 @@ of California, Berkeley Departments of Mathematics and Molecular and
 Cell Biology.
 
 %prep
-%setup -q -a 1
+%setup -q
 
 %build
-cd samtools-%{samtools_version}
-make %{_smp_mflags}
-mkdir -p %{_tmppath}/bamlib/include/bam
-mkdir -p %{_tmppath}/bamlib/lib
-/bin/cp *.h %{_tmppath}/bamlib/include/bam
-/bin/cp *.a %{_tmppath}/bamlib/lib
-cd ..
-LDFLAGS='-lboost_thread-mt' ./configure --prefix=/usr --with-bam=%{_tmppath}/bamlib
+LDFLAGS='-lboost_thread-mt' ./configure --prefix=/usr
 # Do not build if smp_mflags used
 make
 
@@ -64,6 +56,7 @@ install -m 0755 src/long_spanning_reads %{buildroot}%{_bindir}
 install -m 0755 src/map2gtf %{buildroot}%{_bindir}
 install -m 0755 src/prep_reads %{buildroot}%{_bindir}
 install -m 0755 src/sam_juncs %{buildroot}%{_bindir}
+install -m 0755 src/samtools_0.1.18 %{buildroot}%{_bindir}
 install -m 0755 src/segment_juncs %{buildroot}%{_bindir}
 install -m 0755 src/sra_to_solid %{buildroot}%{_bindir}
 install -m 0755 src/tophat %{buildroot}%{_bindir}
@@ -80,6 +73,12 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Fri Oct 03 2014 Shane Sturrock <shane@biomatters.com> - 2.0.13-1
+- removed SAMtools as an external dependency in order to avoid incompatibility 
+  issues with recent and future changes of SAMtools and its code library (an 
+  older, stable SAMtools version is now packaged with TopHat)
+- fixed a few code compatibility issues when compiling on OSX 10.9
+
 * Fri Jul 04 2014 Sidney Markowitz <sidney@biomatters.com> - 2.0.12-1
 - Fix from upstream to accommodate changed option in new version of bowtie2
 
