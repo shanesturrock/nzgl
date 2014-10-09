@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.121
+Version:	1.122
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,46 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Oct 09 2014 Sidney Markowitz <sidney@biomatters.com> - 1.122-1
+- GenotypeConcordance (new command line program):
+  - Calculates the concordance between genotype data for two samples in two
+    different VCFs - one being considered the truth (or reference) the
+    other being considered the call.  The concordance is broken into
+    separate results sections for SNPs and indels.
+    Summary and detailed statistics are reported.
+    Note that for any pair of variants to compare, only the alleles for the
+    samples under interrogation are considered and MNP, Symbolic, and
+    Mixed classes of variants are not included.
+- UpdateVcfDictionary (new command line program):
+  - Updates the sequence dictionary of a VCF from another file
+    (SAM, BAM, VCF, dictionary, interval_list, fasta, etc).
+- VcfToIntervalList (new command line program):
+  - Create an interval list from a VCF
+- MarkDuplicatesWithMateCigar (new command line program):
+  - A new tool with which to mark duplicates:
+   This tool can replace MarkDuplicates if the input SAM/BAM has Mate CIGAR (MC)
+   optional tags pre-computed (see the tools
+   RevertOriginalBaseQualitiesAndAddMateCigar and FixMateInformation).
+   This allows the new tool to perform a streaming duplicate
+   marking routine (i.e. a single-pass).  This tool cannot be used with
+   alignments that have large gaps or reference skips, which happens
+   frequently in RNA-seq data.
+- IntervalList:
+  - Added capacity to create a simple interval list from a string
+    (the name of the contig)
+  - Added the capacity to subtract one interval list from another (currently
+    it would only work if they were both wrapped inside a container)
+- SamLocusIterator:
+  - Performance optimizations gaining about 35% speed up.
+- MarkDuplicates:
+  - Removed unnecessary storage of a string in the Read Ends in Mark
+  - Clarifed the size of ReadEndsForMarkDuplicates
+- Updated the minimum number of times that the BAIT_INTERVALS
+  (in CalculateHsMetrics) and TARGET_INTERVALS (in CollectTargetedMetrics)
+  must be set to one.
+- Moved CollectHiSeqPfFailMetrics into picard public
+- Moved SAMSequenceDictionaryExtractor and tests from picard to htsjdk
+
 * Thu Sep 25 2014 Shane Sturrock <shane@biomatters.com> - 1.121-1
 - Picard:
   - Added a static function to PedFile that allows the creation of a pedFile 
