@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.5
+Version:	1.6
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -31,12 +31,26 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README.md
+%doc README.rst
 %{_bindir}/cutadapt
 %{_libdir}/python2.6/site-packages/cutadapt/*
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Thu Oct 09 2014 Sidney Markowitz <sidney@biomatters.com> - 1.6-1
+- Bug fix, ensure --format=... can be used even with paired-end input
+- Bug fix, some output files would be missing last part of output
+- Alignment algorithm is slightly faster
+- For 3' adapters, statistics about the bases preceding the trimmed adapter
+  are collected and printed. If one of the bases is overrepresented,
+  a warning is shown since this points to an incomplete adapter sequence.
+  This happens, for example, when a TruSeq adapter is used but the A
+  overhang is not taken into account when running cutadapt.
+- A change in behavior: If you use --discard-trimmed or --discard-untrimmed
+  in combination with --too-short-output or --too-long-output, then cutadapt
+  now writes also the discarded reads to the output files given by the
+  --too-short or --too-long options.
+
 * Wed Sep 17 2014 Shane Sturrock <shane@biomatters.com> - 1.5-1
 - Adapter sequences can now be read from a FASTA file. For example, write
   `-a file:adapters.fasta` to read 3' adapters from `adapters.fasta`. This 
