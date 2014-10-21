@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.122
+Version:	1.123
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,18 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Oct 22 2014 Shane Sturrock <shane@biomatters.com> - 1.123-1
+- Updates to "GenotypeConcordance" Command Line Program
+  - Update the genotype concordance scheme to have called variants that
+    are filtered be counted as though they are missing
+  - Improvement to handle 'mismatching' ref alleles for indel
+- comparison conditions.
+  - Changed default extension of metrics files
+- Improvements to htsjdk testing
+  - Cleanups regarding temporary files in tests
+  - Delete index files for temp files at the end of testing, and
+    do not write temp files within source directory.
+
 * Thu Oct 09 2014 Sidney Markowitz <sidney@biomatters.com> - 1.122-1
 - GenotypeConcordance (new command line program):
   - Calculates the concordance between genotype data for two samples in two

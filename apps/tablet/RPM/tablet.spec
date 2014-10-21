@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.14.04.10
+Version:	1.14.10.21
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -62,6 +62,24 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed Oct 22 2014 Shane Sturrock <shane@biomatters.com> - 1.14.10.21-1
+- NEW: Fixed an installer bug that prevented Tablet from installing on Linux.
+- NEW: Added a new colour scheme that handles read number concordance.
+- NEW: Added experimental support for annotation in the GTF format.
+- NEW: Packing (paired-pack) of data on large coverage is now significantly 
+  faster.
+- NEW: More information is provided during the various stages of loading a 
+  contig’s data.
+- NEW: Updated Picard to the latest version.
+- BUG: Tablet no longer reloads a contig if simply changing the packing mode.
+- BUG: CIGAR X was not being dealt with correctly in cases where read sequence 
+  was provided.
+- BUG: Parsing of BAI files was failing when relative input paths were used.
+- BUG: History snapshot now respects packing mode changes.
+- BUG: The application’s title bar didn’t reset its text after an open 
+  assembly was closed.
+- BUG: The assembly summary dialog was (sometimes) working with incorrect data.
+
 * Fri Apr 11 2014 Shane Sturrock <shane@biomatters.com> - 1.14.04.10-1
 - NEW: Added experimental support for annotation / features in the BED file 
   format.
