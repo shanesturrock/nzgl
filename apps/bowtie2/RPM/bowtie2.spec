@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.3
+Version:	2.2.4
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,16 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Fri Oct 24 2014 Shane Sturrock <shane@biomatters.com> - 2.2.4-1
+- Fixed a Mavericks OSX specific bug caused by some linkage ambiguities.
+- Added lz4 compression option for the wrapper.
+- Fixed the vanishing --no-unal help line.
+- Added the static linkage for MinGW builds.
+- Added extra seed-hit output.
+- Fixed missing 0-length read in fastq --passthrough output.
+- Fixed an issue that would cause different output in -a mode depending on 
+  random seed.
+
 * Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
 - Fixed a bug that made loading an index into memory crash sometimes.
 - Fixed a silent failure to warn the user in case the -x option is missing.
