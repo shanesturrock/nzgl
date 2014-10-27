@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.27.0
+Version:	0.28.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -59,6 +59,39 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Tue Oct 28 2014 Shane Sturrock <shane@biomatters.com> - 0.28.0-1
+- Added more options to the Distance to Feature quantitation
+- Improved the efficiency with which large HiC heatmaps are drawn
+- Added a tabular view to show the levels of overlaps between a set
+  of probe lists
+- Added the Star Wars plot for plotting means and confidence intervals
+  in a manner similar to a boxplot.
+- Added a genetrap quantitation pipeline
+- Added a proportion of library statistics filter
+- Added a euclidian distance mode for heirarcical clustering
+- Added an RNA-Seq QC plot
+- Added the ability to normalise in groups when doing Match Distributions
+- Added an option to go to a centred window of a specified size
+- Changed the quantitation model to allow probes in individual samples to
+  not store a value.  Applied this to Bisulphite Quantitation rather than
+  using flag values to indicate probes which didn't have enough data to 
+  calculate a value. Changed the default filtering options to be much more
+  lax.
+- Added a BAM import option to choose to import only primary alignments from
+  a BAM file, and made this the default.
+- Added a popup menu item to make it easy to convert probe lists into annotation
+  tracks
+- Added a small RNA QC plot
+- Added an import option for text files which contain a position and a count
+- Added an option to do bulk find/replace renaming of DataSets
+- Added a new Percentile Feature Probe Generator which makes sets of probes
+  spaced evenly over features.
+- Fixed a bug in the MACS caller when there were very low numbers of reads.
+- Added a display option to show data as coloured blocks rather than bars.
+- Added the option to reverse any selected gradient in the chromosome view.
+- Added an option to design running window probes only within the currently
+  visible region.
+
 * Mon Jan 13 2014 Shane Sturrock <shane@biomatters.com> - 0.27.0-1
 - Made improvements to the RNA-Seq and HiC Analysis tools
 - Added a tool to automatically group DataSets based on their names
