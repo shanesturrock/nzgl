@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:        mira
-Version:     4.0.2
+Version:     4.9.1
 Release:     1
 Summary:     MIRA whole genome shotgun and EST sequence assembler
 Exclusiveos: linux
@@ -52,5 +52,33 @@ rm -rf %{buildroot}
 %{_bindir}/fixACE4consed.tcl
 
 %changelog
+* Wed Oct 29 2014 Shane Sturrock <shane@biomatters.com> - 4.9.1-1
+- MIRA
+  - improvement: better overall assemblies.
+  - improvement: mira can now use kmer sizes up to 256 bases
+  - improvement: new functionality to automatically determine optimal number of
+    passes and different kmer sizes in a denovo assembly (see -AS:nop=0 below)
+  - improvement: new parameter -AS:kms as one-stop-shop to configure number of
+    passes and used kmer sizes. E.g.: -AS:kms=17,31,63,127,127
+  - improvement: better assembly of data with self-hybridising read chimeras
+    (seen in Illumina 300bp data). Not perfect yet, but an improvement
+  - improvement: in manifest, new segment_naming scheme "SRA" for reads comming
+    from the short read archive. New attribute 'rollcomment'.
+  - improvement: new MIRA parameter -CO:cmrs for better control on reads
+    incorporated in contigs
+  - improvement: faster mapping of long Illumina reads with lots of differences
+  - improvement: MIRA now uses the SIOc tag also in mapping. Allows finding
+    ploidy differences in multiploid genomes.
+  - improvement: new info file "*_readgroups.txt” for statistics on paired reads
+  - improvement: some temporary files compressed to minimise impact on disk
+    space.
+
+- MIRABAIT
+  - all new mirabait functionality: work on read pairs; multiple bait files;
+    simultaneous filtering of matches and non matches; safety checks on -L data
+  - change: mirabait lowercases all sequences, uppercasing just kmers hitting
+    bait sequences. Use -c if not wanted.
+  - improvement: mirabait can now use kmer sizes up to 256 bases
+
 * Thu Aug 21 2014 Shane Sturrock <shane@biomatters.com> - 4.0.2-1
 - Initial import of MIRA
