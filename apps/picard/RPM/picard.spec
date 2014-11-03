@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.123
+Version:	1.124
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,73 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue Nov 04 2014 Shane Sturrock <shane@biomatters.com> - 1.124-1
+- Change Picard Command Line Programs to ALL execute from single JAR
+  This makes a fundamental change to how we run Picard.  We now have a
+  single JAR (command line program), rather than multiple JAR (one per
+  tool). In this brave new world, the single command line program is given
+  the the command line program name (ex. SamView) to specify which tool to
+  run.  We also provide a convenient summary of all of the tools
+  available.
+
+  For the developers, we add a facility to add new command line programs
+  to the single JAR, by extending the PicardCommandLine and adding the
+  package name(s) for us to search for classes that extend
+  CommandLineProgram.  The usage is now put in
+  CommandLineProgramProperties, where we can also specify short usages
+  (for the summary help message), program versions, and program groups.
+  The latter is useful for grouping tools that operate on common filetypes
+  or have similar function (ex. SAM/BAM).
+
+  We made a number of new tools public, coming from our internal toolset.
+  These include: BaitDesigner, CalculateReadGroupChecksum, CheckTerminatorBlock,
+  CollectIlluminaBasecallingMetrics, CollectIlluminaLaneMetrics,
+  CollectJumpingLibraryMetrics, CollectOxoGMetrics,
+  CollectQualityYieldMetrics, CollectRrbsMetrics, GatherVcfs,
+  LiftOverIntervalList, ScatterIntervalsByNs, and SplitSamByLibrary.
+  These may prove useful, or not.
+
+- Changed Output of GenotypeConcordance tool
+  Additional metrics file output which contains the raw counts of contingency
+  values (i.e. TP for true positives, FN for false negatives...)
+
+- New CLP 'CollectIlluminaSummaryMetrics' to collect coverage information
+  according to Illumina-defined filters.
+
+- New CLP 'RenameSampleInVcf' to rename a sample in a VCF
+
+- New CLP 'FilterVcf' that provides simple hard filtering functionality for
+  VCFs.
+
+- Added ability to open SamReader from string, specifying either a URL or a
+  file path. This will make it easier treat INPUT parameters in Picard tools
+  uniformly regardless of whether they designate a file or URL resoures.
+  Url detection and decision of whether the resource is file based on url 
+  based is done in SamInputResource.
+
+- Some support for VCF v4.2 files added.
+  Handles "Number=R" for INFO fileds in the header.
+  Other VCF v4.2 specific additions (Eg: Source and Version fields in
+  INFO header lines) are not handled, but appear to be silently ignored.
+  Tested on output of samtools mpileup | bcftools call (1.0-17-gfaf4dd6,
+  1.0-55-gc661821, using htslib 1.0-11-g830ea73)
+
+- Bug fix: 'fixed the behavior of BCF2Utils.toList() when it's given an array' 
+  Old version return a List with a single element, which was the provided
+  array. This broke BCF writing, in particular when a FORMAT annotation used
+  arrays instead of Lists
+  Made toList generic, rather than returning a List<Object>
+  Removed the redundant BCF2FieldEncoder.toList()
+  Added unit tests
+
+- Bug fix in Abstract AlignmentMerger
+  Consider soft clipping at the ends of reads when clipping reads that
+  overhang the reference
+
+- Added a button to the explain-flags.html page.
+  This button switches the flag from the value of a read, to that of its mate
+  (as much as can be inferred).
+
 * Wed Oct 22 2014 Shane Sturrock <shane@biomatters.com> - 1.123-1
 - Updates to "GenotypeConcordance" Command Line Program
   - Update the genotype concordance scheme to have called variants that

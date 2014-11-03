@@ -12,6 +12,6 @@ function cleanup() {
 }
 
 cleanup
-java -jar ${picard_dir}/CreateSequenceDictionary.jar OUTPUT=Asperg.sam R=Asperg.fasta
-java -jar ${picard_dir}/SortSam.jar INPUT=Asperg.sam OUTPUT=new.sam SORT_ORDER=unsorted
+java -jar ${picard_dir}/picard.jar CreateSequenceDictionary OUTPUT=Asperg.sam R=Asperg.fasta
+java -jar ${picard_dir}/picard.jar SortSam INPUT=Asperg.sam OUTPUT=new.sam SORT_ORDER=unsorted
 cleanup
