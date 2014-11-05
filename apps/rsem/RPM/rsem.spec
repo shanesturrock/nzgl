@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.18
+Version:	1.2.19
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -77,6 +77,12 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Thu Nov 06 2014 Shane Sturrock <shane@biomatters.com> - 1.2.19-1
+- Modified 'rsem-prepare-reference' such that by default it does not add any 
+  poly(A) tails. To add poly(A) tails, use '--polyA' option. 
+- Added an annotation of the 'sample_name.stat/sample_name.cnt' file, see 
+  'cnt_file_description.txt'.
+
 * Wed Oct 01 2014 Shane Sturrock <shane@biomatters.com> - 1.2.18-1
 - Only generate warning message if two mates of a read pair have different 
   names. Only parse attributes of a GTF record if its feature is "exon" to 
