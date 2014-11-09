@@ -80,7 +80,7 @@ echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
 
 # AD authentication
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --update
-sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\nentry_cache_timeout = 300\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
+sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\nldap_user_principal = nosuchattribute\nentry_cache_timeout = 300\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
 echo 'binddn CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local
 bindpw Laptip23' >> /etc/pam_ldap.conf
 sed 's/dns_lookup_realm = false/dns_lookup_realm = true/g' --in-place /etc/krb5.conf 
