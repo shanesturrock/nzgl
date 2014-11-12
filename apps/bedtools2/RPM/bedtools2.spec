@@ -1,5 +1,5 @@
 Name:		bedtools2
-Version:	2.21.0
+Version:	2.22.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
@@ -70,6 +70,17 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Thu Nov 13 2014 Shane Sturrock <shane@biomatters.com> - 2.22.0-1
+- Multiple database support for the closest tool. The closest tool now 
+  requires sorted input, but it is between 10 and 60 times faster depending 
+  on the use case.
+- Support for IMPRECISE SVs in VCF format.
+- Added the -prec option to grouby to allow control over the reported decimal 
+  precision.
+- Fixed a bug with zero length records.
+- Fixed a precision bug in the fisher tool. Thanks to @brentp
+- Fixed a bug in the bamtofastq tool. Thanks to @ryan-williams
+
 * Mon Sep 22 2014 Shane Sturrock <shane@biomatters.com> - 2.21.0-1
 - Added ability to intersect against multiple -b files in the intersect tool.
 - Fixed a bug causing slowdowns in the -sorted option when using -split with 
