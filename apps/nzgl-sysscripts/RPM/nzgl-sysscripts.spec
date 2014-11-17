@@ -1,7 +1,7 @@
 Summary: Configuration files and scripts for NZGL VMs.
 Name: nzgl-sysscripts
 Version: 1.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Source0: nzgl.action
 Source1: nzgl.cron
@@ -66,6 +66,9 @@ rm -rf %{buildroot}
 /etc/xdg/menus/applications-merged/bioinformatics.menu
 
 %changelog
+* Mon Nov 17 2014 Shane Sturrock <shane@biomatters.com> - 1.7-2
+- Exclude kernel-headers and kernel-firmware from updates
+
 * Sun Nov 09 2014 Shane Sturrock <shane@biomatters.com> - 1.7-1
 - Disable updates of libXfixes (breaks NX) and kernel
 
