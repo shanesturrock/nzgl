@@ -1,10 +1,10 @@
 Name:		mothur
-Version:	1.33.3
+Version:	1.34.0
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
 License:	GPLv3
-URL:		http://www.mothur.org/w/images/b/bc/Mothur.1.33.3.zip
+URL:		http://www.mothur.org/w/images/b/bc/Mothur.%{version}.zip
 Source0:	Mothur.%{version}.zip
 patch0:		makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,6 +44,81 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Nov 19 2014 Shane Sturrock <shane@biomatters.com> - 1.34.0-1
+- New commands
+  - Classify.svm - Rank OTUs using the support vector machine learning 
+    algorithm
+- Feature updates
+  - added shannonrange calculator to collect.single, summary.single, 
+    rarefaction.single.
+  - added shared parameter to count.seqs aka make.table command. Can be used 
+    to transpose the shared file for use with other software packages.
+  - consensus.seqs cutoff parameter can now be a float. cutoff=97.5.w
+  - dist.shared - when subsample used *.ave distance matrix saved as current 
+    phylip file
+  - tree.shared - added Jensen-Shannon Divergence calculator, jsd and Square 
+    Root Jensen-Shannon Divergence calculator, rjsd. 
+    http://www.mothur.org/forum/viewtopic.php?f=5&t=2961
+  - cluster.split - added the file option which allows you to enter
+    your file containing your list of column and names/count files as well
+    as the singleton file. This file is mothur generated, when you run
+    cluster.split() with the cluster=f parameter. This can be helpful when
+    you have a large dataset that you may be able to use all your
+    processors for the splitting step, but have to reduce them for the
+    cluster step due to RAM constraints. For example:
+    cluster.split(fasta=yourFasta, taxonomy=yourTax, count=yourCount,
+    taxlevel=3, cluster=f, processors=8) then cluster.split(file=yourFile,
+    processors=4). This allows your to maximize your processors during the
+    splitting step. Also, if you are unsure if the cluster step will have
+    RAM issue with multiple processors, you can avoid running the first
+    part of the command multiple times.
+  - make.contigs - added checkorient parameter. 
+    http://www.mothur.org/forum/viewtopic.php?f=3&t=2993.
+  - fastq.info, sffinfo, trim.flows- added checkorient parameter.
+  - trim.flows can now process paired barcodes and primers.
+  - fastq.info - file option can parse 3 different file formats.
+  - make.shared - can now handle taxon table biom files. 
+    http://www.mothur.org/forum/viewtopic.php?f=3&t=3352
+  - standard handling of mothur's oligos file across commands.
+  - pcr.seqs reverse primers use pdiffs. 
+    http://xn--ww-dcc.mothur.org/forum/viewtopic.php?f=4&t=3392
+  - fastq.info, sffinfo, trim.flows, trim.seqs - pdiffs can be used with 
+    removal of reverse primers.
+  - update version of catchall to 4.0.
+  - trim.seqs and make.contigs - added more output to fasta files about diffs.
+  - classify.otu - added probs to unclassifieds to avoid error in make.biom 
+    http://www.mothur.org/forum/viewtopic.php?f=3&t=2835&start=10
+- Bug fixes
+  - fastq.info stopped processing after 100001 seqs. 
+    http://www.mothur.org/forum/viewtopic.php?f=4&t=2829 fixed 1.33.1
+  - make.biom picrust couldn't handle unclassifieds 
+    http://www.mothur.org/forum/viewtopic.php?f=4&t=2816 fixed 1.33.1
+  - create.database OutLabel bug - "cannot convert Otu0001 to an integer" 
+    fixed 1.33.3
+  - merge.sfffiles -Windows version caused substring error on parse. 
+    fixed 1.33.2 3/11 version.
+  - chimera.slayer - "[megablast] FATAL ERROR: blast: Unable to open input file
+    on linux version with multiple processors. fixed 1.33.3
+  - rarefaction.single - *.groups.rarefaction file labels in wrong order 
+    http://www.mothur.org/forum/viewtopic.php?f=4&t=2963 fixed 1.33.3
+  - align.seqs - Windows align.seqs flip=t caused segfault 
+    fixed 1.33.2 3/19 version
+  - summary.shared subsample issue 
+    http://www.mothur.org/forum/viewtopic.php?f=4&t=2861 fixed 1.33.3
+  - seq.error was changing the current fasta file to the seq file. it 
+    shouldn't change the current fasta file.
+  - trim.seqs - qaverage bug scrapping seqs - fixed 1.33.3 4/4.
+  - make.biom - "biom error: cannot convert null to a float"
+  - get.seqs, remove.seqs, remove.lineage, get.lineage, screen.seqs, pcr.seqs 
+    changed read of count file causing file mismatches with count files that 
+    didn't include group data.
+  - clearcut - distances out of range bug
+  - dist.shared - http://www.mothur.org/forum/viewtopic.php?f=3&t=3186
+  - make.contigs - rindex files 
+    http://www.mothur.org/forum/viewtopic.php?f=3&t=3159&start=10#p9096
+  - lefse - segfault if a sample only included 1 group.
+  - cluster - nearest method caused crash.
+
 * Mon Mar 24 2014 Shane Sturrock <shane@biomatters.com> - 1.33.3-1
 - Upstream update, no details of what
 * Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 1.33.2-1
