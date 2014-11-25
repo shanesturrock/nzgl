@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.34.0
+Version:	1.34.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Nov 26 2014 Shane Sturrock <shane@biomatters.com> - 1.34.1-1
+- Upstream update
+
 * Wed Nov 19 2014 Shane Sturrock <shane@biomatters.com> - 1.34.0-1
 - New commands
   - Classify.svm - Rank OTUs using the support vector machine learning 

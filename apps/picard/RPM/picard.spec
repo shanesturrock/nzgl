@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.124
+Version:	1.125
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,10 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Nov 21 2014 Shane Sturrock <shane@biomatters.com> - 1.125-1
+- Add new statistic 'Specificity' to GenotypeConcordance tool
+- Removed some sun.reflect imports from codebase
+
 * Tue Nov 04 2014 Shane Sturrock <shane@biomatters.com> - 1.124-1
 - Change Picard Command Line Programs to ALL execute from single JAR
   This makes a fundamental change to how we run Picard.  We now have a

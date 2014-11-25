@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.6
+Version:	1.7.1
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,26 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Wed Nov 26 2014 Shane Sturrock <shane@biomatters.com> - 1.7.1-1
+- IUPAC characters are now supported. For example, use ``-a YACGT`` for an
+  adapter that matches both ``CACGT`` and ``TACGT`` with zero errors. Disable
+  with ``-N``. By default, IUPAC characters in the read are not interpreted in
+  order to avoid matches in reads that consist of many (low-quality) ``N``
+  bases. Use ``--match-read-wildcards`` to enable them also in the read.
+- Support for demultiplexing was added. This means that reads can be written to
+  different files depending on which adapter was found. See `the section in the
+  documentation for how to use it. This is currently only supported for 
+  single-end reads.
+- Add support for anchored 3' adapters. Append ``$`` to the adapter sequence to
+  force the adapter to appear in the end of the read (as a suffix). Closes
+  issue #81.
+- Option ``--cut`` (``-u``) can now be specified twice, once for each end of the
+  read. Thanks to Rasmus Borup Hansen for the patch!
+- Options ``--minimum-length``/``--maximum-length`` (``-m``/``-M``) can be used
+  standalone. That is, cutadapt can be used to filter reads by length without
+  trimming adapters.
+- Fix bug: Adapters read from a FASTA file can now be anchored.
+
 * Thu Oct 09 2014 Sidney Markowitz <sidney@biomatters.com> - 1.6-1
 - Bug fix, ensure --format=... can be used even with paired-end input
 - Bug fix, some output files would be missing last part of output
