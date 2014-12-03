@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.34.1
+Version:	1.34.2
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -23,7 +23,7 @@ features including calculators and visualization tools.
 
 %prep
 #Deal with mistakenly included OS X files
-%setup -q   -n Mothur.source
+%setup -q   -n Mothur.%{version}
 rm -rf __MACOSX* .DS_Store
 %patch0 -p0
 
@@ -44,6 +44,10 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Dec 04 2014 Shane Sturrock <shane@biomatters.com> - 1.34.2-1
+- cluster.split - MPI version compile issue
+- summary.seqs - multiple processors Windows
+
 * Wed Nov 26 2014 Shane Sturrock <shane@biomatters.com> - 1.34.1-1
 - Upstream update
 

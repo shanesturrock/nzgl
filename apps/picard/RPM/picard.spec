@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.125
+Version:	1.126
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,14 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Dec 04 2014 Shane Sturrock <shane@biomatters.com> - 1.126-1
+- Fixed error in FilterFileFaker.  Changed cluster count in faked filter
+  file to be 0.  Added unit test to test for readability of faked files.
+- Modified FastqToSam to strip the "/2" when using
+  STRIP_UNPAIRED_MATE_NUMBER
+- Modified ViewSam.  Added option to show only the header or only the
+  records.
+
 * Fri Nov 21 2014 Shane Sturrock <shane@biomatters.com> - 1.125-1
 - Add new statistic 'Specificity' to GenotypeConcordance tool
 - Removed some sun.reflect imports from codebase
