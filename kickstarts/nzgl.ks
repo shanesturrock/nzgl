@@ -223,4 +223,8 @@ chkconfig psacct on
 # Install R-core dummy package and rstudio
 yum -y install R-core rstudio
 
-%end
+# Fix yum
+sed '/gpgkey/{/gpgkey/s/$/\'$'\n''exclude = kernel*,libXfixes*/;}' --in-place /etc/yum.repos.d/CentOS-Base.repo
+
+#Fix NX libXfixes issue
+yum --releasever=6.5 downgrade libXfixes
