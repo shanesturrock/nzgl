@@ -1,5 +1,5 @@
 Name:		vcftools
-Version:	0.1.12
+Version:	0.1.12b
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
@@ -74,6 +74,23 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Mon Dec 08 2014 Shane Sturrock <shane@biomatters.com> - 0.1.12b-1
+- Diff functions no longer write to temporary files, but instead scan through 
+  both files simultaneously. Files must be sorted in the same chromosomal 
+  order.
+- All linkage disequilibrium functions now write fewer and smaller temporary 
+  files.
+- Added an option to allow user to specify the location of temporary files.
+- Regular diff function now reports if a site from one file overlaps with a 
+  site from the other file.
+- Switch error diff function now reports a range of bases where the switch 
+  may have occurred.
+- Bug fix for long run of homozygosity function.
+- Added filters --positions-overlap and --exclude-positions-overlap to filter 
+  out any sites that overlap any positions in a given file.
+- Added the --contigs parameter for declaring contigs not found in the header 
+  for vcf to bcf conversion.
+
 * Mon Mar 10 2014 Shane Sturrock <shane@biomatters.com> - 1.12-1
 - Added options:
   --stdout, -c : These options force the program to write to standard out
