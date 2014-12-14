@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.34.2
+Version:	1.34.3
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,10 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Dec 15 2014 Shane Sturrock <shane@biomatters.com> - 1.34.3-1
+- pcr.seqs - use of mothur's paired primer tag instead of forward and 
+  reverse tags causing improper trimming.
+
 * Thu Dec 04 2014 Shane Sturrock <shane@biomatters.com> - 1.34.2-1
 - cluster.split - MPI version compile issue
 - summary.seqs - multiple processors Windows
