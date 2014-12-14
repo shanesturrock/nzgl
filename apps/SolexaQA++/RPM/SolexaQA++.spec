@@ -1,5 +1,5 @@
 Name:		SolexaQA++
-Version:	3.1
+Version:	3.1.2
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -23,7 +23,8 @@ by Illumina second-generation sequencing technology (“Solexa”).
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{_bindir}
-install -m 0755 %{name}_v%{version}/Linux_x64/%{name} %{buildroot}/%{_bindir}
+install -m 0755 Linux_x64/%{name} %{buildroot}/%{_bindir}
+# install -m 0755 %{name}_v%{version}/Linux_x64/%{name} %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
@@ -33,6 +34,12 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Tue Dec 09 2014 Shane Sturrock <shane@biomatters.com> - 3.1.2-1
+- Bugfix in the analysis matrix graph: it now contemplates ".fastq" files 
+  in which entire tiles are skipped, and names the tiles that are left 
+  correctly on the heat map.
+- Bugfix in LengthSort (single-end mode)
+
 * Thu Oct 02 2014 Shane Sturrock <shane@biomatters.com> - 3.1-1
 - Corrected a file naming bug when operating on .gz files (Linux and Mac only)
 - improved command line output
