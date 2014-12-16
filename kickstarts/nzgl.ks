@@ -227,4 +227,4 @@ yum -y install R-core rstudio
 sed '/gpgkey/{/gpgkey/s/$/\'$'\n''exclude = kernel*,libXfixes*/;}' --in-place /etc/yum.repos.d/CentOS-Base.repo
 
 #Fix NX libXfixes issue
-yum --releasever=6.5 downgrade libXfixes
+# yum --releasever=6.5 downgrade libXfixes

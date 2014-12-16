@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.28.0
+Version:	0.29.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -59,6 +59,17 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed Dec 17 2014 Shane Sturrock <shane@biomatters.com> - 0.29.0-1
+- Added and Even Coverage probe generator
+- Added an exportable scale bar for the chromosome view
+- Added a number of ways to show varaibility in replicate sets
+- Added auto-dection of the most likely BAM import options
+- Expanded and grouped the data track display options
+- Added an active transcription quantitation pipeline
+- Added the ability to re-order visible tracks based on the Data Store tree
+- Added new options to the read position probe generator
+- Improved the display of data tracks when large numbers of tracks are shown
+
 * Tue Oct 28 2014 Shane Sturrock <shane@biomatters.com> - 0.28.0-1
 - Added more options to the Distance to Feature quantitation
 - Improved the efficiency with which large HiC heatmaps are drawn

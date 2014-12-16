@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.126
+Version:	1.127
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,19 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Dec 17 2014 Shane Sturrock <shane@biomatters.com> - 1.127-1
+- CRAM file support
+- Make parseOptionsFile public, with a little more control over behavior.
+- SamReader conversion of Picard public.
+- Added common argument for reference fasta to support CRAM input/output.
+- Reference fasta should be optional.
+- Use SamReaderFactory makeDefault with reference sequence whenever possible 
+  to allow for CRAM support.
+- Added read group tag option, resolves #108 #114
+- Various aesthetic tweaks for HTML doc generation.
+- Fixed Faked Filter files.  Need them to be of size one element for the
+  faked filter file to have the same number of elements as other faked types.
+
 * Thu Dec 04 2014 Shane Sturrock <shane@biomatters.com> - 1.126-1
 - Fixed error in FilterFileFaker.  Changed cluster count in faked filter
   file to be 0.  Added unit test to test for readability of faked files.
