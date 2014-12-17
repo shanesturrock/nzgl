@@ -21,6 +21,7 @@ clearpart --all
 part / --fstype=ext4 --grow --asprimary --size=200
 
 %packages --nobase
+authconfig
 coreutils
 yum
 rpm
