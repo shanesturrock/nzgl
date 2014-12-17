@@ -22,6 +22,7 @@ part / --fstype=ext4 --grow --asprimary --size=200
 
 %packages --nobase
 authconfig
+system-config-firewall-base
 coreutils
 yum
 rpm

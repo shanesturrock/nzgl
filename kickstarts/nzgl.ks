@@ -21,6 +21,7 @@ part / --fstype=ext4 --grow --asprimary --size=200
 
 %packages --nobase
 authconfig
+system-config-firewall-base
 coreutils
 yum
 rpm
@@ -226,7 +227,7 @@ chkconfig psacct on
 yum -y install R-core rstudio
 
 # Fix yum
-sed '/gpgkey/{/gpgkey/s/$/\'$'\n''exclude = kernel*,libXfixes*/;}' --in-place /etc/yum.repos.d/CentOS-Base.repo
+sed '/gpgkey/{/gpgkey/s/$/\'$'\n''#exclude = kernel*,libXfixes*/;}' --in-place /etc/yum.repos.d/CentOS-Base.repo
 
 #Fix NX libXfixes issue
 # yum --releasever=6.5 downgrade libXfixes
