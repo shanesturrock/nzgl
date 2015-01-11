@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.13.0
+Version:	0.13.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,54 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 0.13.1-1
+- Bismark Genome Preparation
+  - Added a check for unique chromosome names to the Bismark indexer to avoid 
+    disappointments later.
+- Bismark Methylation Extractor
+  - Added a new option --mbias_off, which processes the files as normal but 
+    does not write out any M-bias files. This option is meant for users who 
+    run the methylation extractor two times, the first time to figure out 
+    whether there is a bias that needs to be removed, and the second time 
+    using the --ignore options, but without overwriting the already existent 
+    M-bias reports.
+  - Fixed a bug for the M-bias reports when the option --multicore was used, 
+    in which case only the numbers of one core were used to constuct the 
+    report. Now every different thread writes out an individual M-bias table, 
+    and once the methylation extraction has completed all these individual 
+    files are merged into a single, cumulative table as it should be.
+  - Added closing statements for the BAM in disguise filehandle.
+- bismark2bedGraph
+  - Deferred removal of the input file path information a little so that 
+    specifying file paths doesn't prevent bismark2bedGraph from finding the 
+    input files anymore.
+  - If the specified output directory doesn't exist it will be created for you.
+  - Changed the way scaffolds are sorted (with --gazillion specified) to 
+    -k3,3V (this was done following a suggestion by Volker Brendel, Indiana 
+    University: "The -k3,3V sort option is critical when the sequence names 
+    are numbered scaffolds (without left-buffering of zeros). Omit the V, and 
+    things go very wrong in the tallying of reads.")
+- coverage2cytosine
+  - Added a new option --merge_CpG that will post-process the genome-wide 
+    report to write out an additional coverage file which has the top and 
+    bottom strand methylation evidence pooled into a single CpG dinucleotide 
+    entity. This may be the desirable input format for some downstream 
+    processing tools such as the R-package bsseq (by K.D. Hansen). An example 
+    would be: 
+
+    genome-wide CpG report (old)
+           gi|9626372|ref|NC_001422.1|     157     +       313     156     CG
+           gi|9626372|ref|NC_001422.1|     158     -       335     156     CG
+
+    merged CpG evidence coverage file (new)
+           gi|9626372|ref|NC_001422.1|     157     158     67.500000       648     312
+
+    This option is currently experimental, and only works if CpG context only 
+    and a single genome-wide report were specified (i.e. it doesn't work with 
+    the options --CX or --split_by_chromosome).
+  - Changed the processing of not-covered chromosomes so that they are sorted 
+    and not processed randomly. This should make runs more reproducible.
+
 * Thu Oct 02 2014 Shane Sturrock <shane@biomatters.com> - 0.13.0-1
 - Bismark
   - Fixed renaming issue for SAM to BAM files (which would have replaced any 

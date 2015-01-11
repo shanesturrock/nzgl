@@ -1,5 +1,5 @@
 Name:		bedtools2
-Version:	2.22.0
+Version:	2.22.1
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
@@ -70,6 +70,31 @@ rm -rf %{buildroot}
 %{_bindir}
 
 %changelog
+* Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-1
+- When using -sorted with intersect, map, and closest, bedtools can now detect 
+  and warn you when your input datasets employ different chromosome sorting 
+  orders.
+- Fixed multiple bugs in the new, faster closest tool. Specifically, the -iu, 
+  -id, and -D options were not behaving properly with the new "sweeping" 
+  algorithm that was implemented for the 2.22.0 release. Many thanks to Sol 
+  Katzman for reporting these issues and for providing a detailed analysis 
+  and example files.
+- We FINALLY wrote proper documentation for the closest tool.
+  http://bedtools.readthedocs.org/en/latest/content/tools/closest.html
+- Fixed bug in the tag tool when using -intervals, -names, or -scores. Thanks 
+  to Yarden Katz for reporting this.
+- Fixed issues with chromosome boundaries in the slop tool when using negative 
+  distances. Thanks to @acdaugherty!
+- Multiple improvements to the fisher tool. Added a -m option to the fisher 
+  tool to merge overlapping intervals prior to comparing overlaps between two 
+  input files. Thanks to @brentp
+- Fixed a bug in makewindows tool requiring the use of -b with -s.
+- Fixed a bug in intersect that prevented -split from detecting complete 
+  overlaps with -f 1. Thanks to @tleonardi .
+- Restored the default decimal precision to the groupby tool.
+- Added the -prec option to the merge and map tools to specific the decimal 
+  precision of the output.
+
 * Thu Nov 13 2014 Shane Sturrock <shane@biomatters.com> - 2.22.0-1
 - Multiple database support for the closest tool. The closest tool now 
   requires sorted input, but it is between 10 and 60 times faster depending 

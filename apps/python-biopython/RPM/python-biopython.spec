@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.64
+Version:          1.65
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,40 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Fri Dec 19 2014 Shane Sturrock <shane@biomatters.com> - 1.65-1
+- This release of Biopython supports Python 2.6, 2.7, 3.3 and 3.4. It is
+  also tested on PyPy 2.0 to 2.4, PyPy3 version 2,4, and Jython 2.7b2.
+- The most visible change is that the Biopython sequence objects now
+  use string comparison, rather than Python’s object comparison. This
+  has been planned for a long time with warning messages in place
+  (under Python 2, the warnings were sadly missing under Python 3).
+- The Bio.KEGG and Bio.Graphics modules have been expanded with
+  support for the online KEGG REST API, and parsing, representing
+  and drawing KGML pathways.
+- The Pterobranchia Mitochondrial genetic code has been added to
+  Bio.Data (and the translation functionality), which is the new NCBI
+  genetic code table 24.
+- The Bio.SeqIO parser for the ABI capillary file format now exposes
+  all the raw data in the SeqRecord’s annotation as a dictionary. This
+  allows further in-depth analysis by advanced users.
+- Bio.SearchIO QueryResult objects now allow Hit retrieval using its
+  alternative IDs (any IDs listed after the first one, for example as
+  used with the NCBI BLAST NR database).
+- Bio.SeqUtils.MeltingTemp has been rewritten with new functionality.
+- The new experimental module Bio.CodonAlign has been renamed
+  Bio.codonalign (and similar lower case PEP8 style module names
+  have been used for the sub-modules within this).
+- Bio.SeqIO.index_db(…) and Bio.SearchIO.index_db(…) now store
+  any relative filenames relative to the index file, rather than (as
+  before) relative to the current directory at the time the index was
+  built. This makes the indexes less fragile, so that they can be used
+  from other working directories. NOTE: This change is backward
+  compatible (old index files work as before), however relative paths
+  in new indexes will not work on older versions of Biopython!
+- Behind the scenes, we have done a lot of work applying PEP8
+  coding styles to Biopython, and improving the formatting of the
+  source code documentation (PEP257 docstrings).
+
 * Fri May 30 2014 Shane Sturrock <shane@biomatters.com> - 1.64-1
 - This release of Biopython supports Python 2.6 and 2.7, 3.3 and also
   the new 3.4 version. It is also tested on PyPy 2.0 to 2.3, and Jython

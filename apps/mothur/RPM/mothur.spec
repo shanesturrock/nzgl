@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.34.3
+Version:	1.34.4
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,11 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 1.34.4-1
+- sffinfo - parsed sff files giving corrupt error.
+- pcr.seqs - Windows multiple processors with start and end parameters giving 
+  errors.
+
 * Mon Dec 15 2014 Shane Sturrock <shane@biomatters.com> - 1.34.3-1
 - pcr.seqs - use of mothur's paired primer tag instead of forward and 
   reverse tags causing improper trimming.
