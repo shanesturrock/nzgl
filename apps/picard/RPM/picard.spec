@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.127
+Version:	1.128
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,41 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jan 14 2015 Shane Sturrock <shane@biomatters.com> - 1.128-1
+- Refactoring CollectWgsMetrics in order to be able to easily create
+  CollectRawWGSMetrics.
+- Create RawWGSMetrics by overriding some default option values and
+  repackaging the metrics class.
+- Moved CollectIlluminaSummaryMetrics (will be deleted eventually)
+- Fixed some test files.
+- Removed the buggy CLP CollectIlluminaSummaryMetrics.java and its test
+- Modified CommandLineParser class (and test) to fix overridable option
+  fields
+- Modified PicardCommandLine class
+  - allow --list-commands to print all available commands to STDOUT
+  - allow colors to be disabled with -Dpicard.cmdline.color_status=false
+- Modified Interval List Tool to add functionality so that it can use VCF
+  as a source for intervals
+- Modified VCFConstants - removing GATK-specific constants
+- Added test (SamSpecInTest) to check min/max values for i tag in SAM/BAM
+- Added input validation functions that can deal with both file and URL
+inputs, in preparation for allowing GA4GH resources as inputs into Picard
+tools.
+- Made static methods in TextCigarCodec and BinaryCigarCodec
+- isCRAMFile moved to SamStreams. Use readBytes instead of dis readFully
+- Fixed race condition in SAMFileWriterImpl  where synchronouslyClose()
+  would be called multiple times if AbstractAsyncWriter.close() called twice
+  simultaneously
+- Enhancements to VCFFileReader:
+  - Added functionality so that fromVCF can create an intervalList with or
+    without filtered variants (defaulting to without, as currently)
+  - Added functionality to fromVCF so that the intervals will end at the
+    END value from the info field (if available).
+- Make SortingVariantContextWriter public.
+  - Currently, the only way to access this functionality is through
+    VariantContextWriterFactory.sortOnTheFly,
+    but VariantContextWriterFactory is deprecated.
+
 * Wed Dec 17 2014 Shane Sturrock <shane@biomatters.com> - 1.127-1
 - CRAM file support
 - Make parseOptionsFile public, with a little more control over behavior.
