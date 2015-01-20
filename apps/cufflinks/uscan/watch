@@ -1,2 +1,3 @@
 version=3
-http://cufflinks.cbcb.umd.edu/downloads/cufflinks-(2.[0-9].[0-9]{1,2})\.tar\.gz
+# http://cufflinks.cbcb.umd.edu/downloads/cufflinks-(2.[0-9].[0-9]{1,2})\.tar\.gz
+https://github.com/cole-trapnell-lab/cufflinks/releases .*/cufflinks-(2.[0-9].[0-9]{1,2})\.tar\.gz
