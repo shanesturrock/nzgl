@@ -1,5 +1,5 @@
 %define ver 0.67
-%define issue 4
+%define issue 5
 
 Name:		circos
 Version:	%{ver}.%{issue}
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Wed Jan 21 2015 Shane Sturrock <shane@biomatters.com> - 0.67.5-1
+- New stable release
+
 * Mon Dec 01 2014 Shane Sturrock <shane@biomatters.com> - 0.67.4-1
 - New stable release
 
