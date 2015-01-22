@@ -1,5 +1,5 @@
 Name:		SolexaQA++
-Version:	3.1.2
+Version:	3.1.3
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -34,6 +34,13 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Fri Jan 23 2015 Shane Sturrock <shane@biomatters.com> - 3.1.3-1
+- Bugfix in the analysis histogram for variable length reads
+- fix for a malloc error on some systems when the -d option with a trailing 
+  forward slash is specified in dynamictrim
+- the summary graph for lengthsort shows the sample(s) name(s) as the 
+  graph title
+
 * Tue Dec 09 2014 Shane Sturrock <shane@biomatters.com> - 3.1.2-1
 - Bugfix in the analysis matrix graph: it now contemplates ".fastq" files 
   in which entire tiles are skipped, and names the tiles that are left 
