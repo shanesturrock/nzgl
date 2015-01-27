@@ -60,6 +60,7 @@ python-argparse
 libcurl-devel
 libxml2-devel
 ncurses-devel
+nautilus-open-terminal
 perl-Bio-SamTools
 perl-DBD-MySQL
 perl-Module-Build
