@@ -62,11 +62,15 @@ nzgl-sysscripts-appliance
 postgresql-libs
 postgresql-devel
 mysql-devel
+xorg-x11-fonts-100dpi
+xorg-x11-fonts-75dpi
 tmpwatch
 @Development tools
 @NZGL
 @Internet Browser
 @Desktop
+@Desktop Platform
+@X Window System
 %end
 
 %post --logfile /root/post.log

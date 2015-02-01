@@ -72,6 +72,8 @@ python-matplotlib
 mysql-devel
 environment-modules
 tmpwatch
+xorg-x11-fonts-100dpi
+xorg-x11-fonts-75dpi
 @Development tools
 @NZGL
 @Internet Browser
