@@ -1,2 +1,3 @@
 version=3
-https://pypi.python.org/packages/source/H/HTSeq/HTSeq-(.+).tar.gz
+https://pypi.python.org/pypi/HTSeq/ \
+  https://pypi.python.org/packages/source/H/HTSeq/HTSeq-(.+)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz).*

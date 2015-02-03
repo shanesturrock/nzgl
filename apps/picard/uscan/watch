@@ -1,3 +1,2 @@
 version=3
-# http://sf.net/picard/picard-tools-(.+)\.zip
 https://github.com/broadinstitute/picard/releases/ .*/picard-tools-(.+)\.zip
