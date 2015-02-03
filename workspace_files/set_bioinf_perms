@@ -46,6 +46,10 @@ if ! id -u "$USERNAME" &>/dev/null ; then
    exit 1
 fi
 
+# Purge sssd cache to ensure new usergroup membership is updated
+
+/usr/sbin/sss_cache -u $USERNAME
+
 if ! id -Gn "$USERNAME" | grep "$GROUP" &>/dev/null ; then
    echo "'$GROUP' is not a group containing '$USERNAME'"
    exit 1
@@ -66,12 +70,16 @@ if [ -z "$BIOIT" ]; then
   cd /archive
   setfacl -m u:$USERNAME:r -d -R $GROUP
   find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
-  cd /active
-  setfacl -m u:$USERNAME:rw -d -R $GROUP
-  find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  cd /scratch
-  setfacl -m u:$USERNAME:rw -d -R $GROUP
-  find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  if [ -d "/active/$GROUP" ]; then
+    cd /active
+    setfacl -m u:$USERNAME:rw -d -R $GROUP
+    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
+  if [ -d "/scratch/$GROUP" ]; then
+    cd /scratch
+    setfacl -m u:$USERNAME:rw -d -R $GROUP
+    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
 else
   if [ ! -d "/archive/$BIOIT" ]; then
     echo "/archive/${BIOIT} etc don't exist, aborting"
@@ -82,21 +90,33 @@ else
     exit 1
   fi
   cd /archive
-  setfacl -m u:$USERNAME:r -d -R $BIOIT
+  # Note these aren't recursive to prevent setting access to all
+  # subprojects
+  setfacl -m u:$USERNAME:r -d $BIOIT
   find $BIOIT -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
-  cd /active
-  setfacl -m u:$USERNAME:rw -d -R $BIOIT
-  find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  cd /scratch
-  setfacl -m u:$USERNAME:rw -d -R $BIOIT
-  find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  cd /archive/$BIOIT
-  setfacl -m u:$USERNAME:r -d -R $GROUP
-  find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
-  cd /active/$BIOIT
-  setfacl -m u:$USERNAME:rw -d -R $GROUP
-  find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  cd /scratch/$BIOIT
-  setfacl -m u:$USERNAME:rw -d -R $GROUP
-  find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  if [ -d "/active/$BIOIT/$GROUP" ]; then
+    cd /active
+    setfacl -m u:$USERNAME:rw -d $BIOIT
+    find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
+  if [ -d "/scratch/$BIOIT/$GROUP" ]; then
+    cd /scratch
+    setfacl -m u:$USERNAME:rw -d $BIOIT
+    find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
+  if [ -d "/archive/$BIOIT/$GROUP" ]; then
+    cd /archive/$BIOIT
+    setfacl -m u:$USERNAME:r -d -R $GROUP
+    find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
+  fi
+  if [ -d "/active/$BIOIT/$GROUP" ]; then
+    cd /active/$BIOIT
+    setfacl -m u:$USERNAME:rw -d -R $GROUP
+    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
+  if [ -d "/scratch/$BIOIT/$GROUP" ]; then
+    cd /scratch/$BIOIT
+    setfacl -m u:$USERNAME:rw -d -R $GROUP
+    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  fi
 fi

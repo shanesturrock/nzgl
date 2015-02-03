@@ -1,0 +1,95 @@
+#!/bin/bash
+
+function usage() {
+        cat << EOF
+Usage: ${0} -g
+        -g Project group
+
+Examples: ${0} -g nzgl01234
+EOF
+}
+
+if [ $# -lt 1 ]; then
+        usage
+        exit 1
+fi
+
+while getopts g: flag; do
+	case $flag in
+		g) GROUPNAME=$OPTARG
+		   ;;
+		?)
+		   usage
+		   exit 1
+		   ;;
+	esac
+done
+
+# List all groups and find highest used GUID
+GROUPLIST=( $( ldapsearch -H ldap://genomics.local -b "ou=Groups,ou=Projects,dc=genomics,dc=local" -D "CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local" -w Laptip23 -L gidNumber | grep gidNumber ) )
+
+HIGHESTGROUP=0
+
+for GROUP in "${GROUPLIST[@]}"; do
+  if [[ $GROUP = *[[:digit:]]* ]]; then
+    #echo $GROUP
+    if [[ $HIGHESTGROUP -lt $GROUP ]]; then
+      HIGHESTGROUP=$GROUP
+      #echo $HIGHESTGROUP
+    fi
+  fi
+done
+
+echo "Highest current group = "$HIGHESTGROUP
+
+NEWGROUP=$(($HIGHESTGROUP+1))
+
+echo "New group = "$NEWGROUP
+
+# Check the group name is unique
+
+GROUPNAMELIST=( $( ldapsearch -H ldap://genomics.local -b "ou=Groups,ou=Projects,dc=genomics,dc=local" -D "CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local" -w Laptip23 -L name | grep name ) )
+
+for NAME in "${GROUPNAMELIST[@]}"; do
+  if [[ $NAME = $GROUPNAME ]]; then
+    echo $GROUPNAME" already exists, aborting"
+    exit 1
+  fi
+done
+
+echo "Creating "$GROUPNAME" with GUID "$NEWGROUP
+
+# Loop around until the group actually exists
+while :
+do
+  RESULT="$(adtool groupcreate $GROUPNAME ou=Groups,ou=Projects,dc=genomics,dc=local 2>&1 )"
+  if grep -q "error" <<< $RESULT; then
+    sleep 1s
+  else
+    echo $GROUPNAME" created"
+    break
+  fi
+done
+while :
+do
+  RESULT="$(adtool attributeadd ${GROUPNAME} msSFU30NisDomain genomics cn=${GROUPNAME},ou=Groups,ou=Projects,dc=genomics,dc=local 2>&1 )"
+  # echo $RESULT
+  if grep -q "error" <<< $RESULT; then
+    sleep 1s
+  else
+    echo $GROUPNAME" added to NIS"
+    break
+  fi
+done
+while :
+do
+  RESULT="$(adtool attributeadd ${GROUPNAME} gidNumber $NEWGROUP cn=${GROUPNAME},ou=Groups,ou=Projects,dc=genomics,dc=local 2>&1 )"
+  # echo $RESULT
+  if grep -q "error" <<< $RESULT; then
+    sleep 1s
+  else
+    echo "GUID "$NEWGROUP" set"
+    break
+  fi
+done
+echo "Group creation complete"

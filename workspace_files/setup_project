@@ -2,9 +2,10 @@
 
 function usage() {
 	cat << EOF
-Usage: ${0} -u -g [-b -l] [-a] [-p] 
+Usage: ${0} -u -g [-b -l] [-a] [-p] [-d]
 
 	-u Username
+	-d Delivery only (no active or scratch created)
 	-g Project group
 	-b BioIT contract group (optional)
         -l Team leader for BioIT contract (required if -b flag set)
@@ -48,8 +49,9 @@ LEADER=
 BIOIT=
 ADDUSER=0
 ADDPROJECT=0
+DELIVERY=0
 
-while getopts u:g:b:l:ap flag; do
+while getopts u:g:b:l:apd flag; do
 	case $flag in
 		u) USERNAME=$OPTARG
 		   ;;
@@ -62,6 +64,8 @@ while getopts u:g:b:l:ap flag; do
 		a) ADDUSER=1
 		   ;;
 		p) ADDPROJECT=1
+		   ;;
+		d) DELIVERY=1
 		   ;;
 		?)
 		   usage
@@ -79,6 +83,10 @@ if ! id -u "$USERNAME" &>/dev/null ; then
    echo "'$USERNAME' is not an existing user name"
    exit 1
 fi
+
+# Purge sssd cache to ensure new usergroup membership is updated
+
+/usr/sbin/sss_cache -u $USERNAME
 
 if ! id -Gn "$USERNAME" | grep "$GROUP" &>/dev/null ; then
    echo "'$GROUP' is not a group containing '$USERNAME'"
@@ -142,11 +150,18 @@ if [ $ADDPROJECT -eq 1 ]; then
       echo "/archive/${GROUP} already exists, aborting"
       exit 1
     fi
-    mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
-    chmod 770 /active/$GROUP /scratch/$GROUP
-    chmod 550 /archive/$GROUP
-    chown $USERNAME:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
-    echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
+    if [ $DELIVERY -eq 0 ]; then
+      mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
+      chmod 770 /active/$GROUP /scratch/$GROUP
+      chmod 550 /archive/$GROUP
+      chown $USERNAME:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
+      echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
+    else
+      mkdir /archive/$GROUP
+      chmod 550 /archive/$GROUP
+      chown $USERNAME:$GROUP /archive/$GROUP
+      echo "Created /archive/${GROUP}"
+    fi
   else
     if [ ! -d "/archive/$BIOIT" ]; then
       mkdir /archive/$BIOIT /active/$BIOIT /scratch/$BIOIT
@@ -161,11 +176,18 @@ if [ $ADDPROJECT -eq 1 ]; then
       echo "/archive/${BIOIT}/${GROUP} already exists, aborting"
       exit 1
     fi
-    mkdir /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
-    chmod 770 /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
-    chmod 550 /archive/$BIOIT/$GROUP
-    chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
-    echo "Created /archive/${BIOIT}/${GROUP}, /active/${BIOIT}/${GROUP}, /scratch/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
+    if [ $DELIVERY -eq 0 ]; then
+      mkdir /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      chmod 770 /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      chmod 550 /archive/$BIOIT/$GROUP
+      chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      echo "Created /archive/${BIOIT}/${GROUP}, /active/${BIOIT}/${GROUP}, /scratch/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
+    else
+      mkdir /archive/$BIOIT/$GROUP
+      chmod 550 /archive/$BIOIT/$GROUP
+      chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP
+      echo "Created /archive/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
+    fi
   fi
 fi
 
@@ -174,8 +196,10 @@ fi
 mkdir -p /home/$USERNAME/project/$GROUP
 if [ -z "$BIOIT" ]; then
   ln -s /archive/$GROUP /home/$USERNAME/project/$GROUP/archive
-  ln -s /active/$GROUP /home/$USERNAME/project/$GROUP/active
-  ln -s /scratch/$GROUP /home/$USERNAME/project/$GROUP/scratch
+  if [ $DELIVERY -eq 0 ]; then
+    ln -s /active/$GROUP /home/$USERNAME/project/$GROUP/active
+    ln -s /scratch/$GROUP /home/$USERNAME/project/$GROUP/scratch
+  fi
   chown -R $USERNAME:$GROUP /home/$USERNAME/project/$GROUP
   echo "Created /home/${USERNAME}/project/${GROUP} symlinks"
 else
