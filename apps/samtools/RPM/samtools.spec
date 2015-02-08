@@ -1,6 +1,6 @@
-%define priority 1101
+%define priority 1201
 Name:		samtools
-Version:	1.1
+Version:	1.2
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
@@ -8,7 +8,7 @@ Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	samtools110
+Requires:	samtools120
 # Post requires alternatives to install tool alternatives.
 Requires(post):   %{_sbindir}/alternatives
 # Postun requires alternatives to uninstall tool alternatives.
@@ -55,6 +55,16 @@ fi
 %files
 
 %changelog
+* Mon Feb 09 2015 Shane Sturrock <shane@biomatters.com> - 1.2-1
+- Flagstat now works on SAM, BAM, or CRAM files (rather than BAM only)
+- Stats calculates mismatches per cycle for unclipped length
+- Merge can now merge SAM input files
+- CRAM reference files are now cached by default (see HTSlib below and samtools(
+1) man page)
+- Tested against Intel-optimised zlib (https://github.com/jtkukunas/zlib; see RE
+ADME for details)
+- Fixed bugs #302, #309, #318, and #327
+
 * Thu Sep 25 2014 Shane Sturrock <shane@biomatters.com> - 1.1-1
 - Samtools fixmate and flagstat now consider supplementary reads
 - Sorting BAM files with thousands of reference contigs now completes in a
