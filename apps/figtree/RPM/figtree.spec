@@ -1,12 +1,12 @@
 Name:           FigTree
-Version:        1.4.0
+Version:        1.4.2
 Release:        1%{?dist}
 Summary: 	Graphical viewer of phylogenetic trees
 URL:		http://tree.bio.ed.ac.uk/software/figtree/
 Group:		Sciences/Biology
 License:	Freeware
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-Source0:	%{name}_v%{version}.tar.xz
+Source0:	%{name}_v%{version}.tgz
 Requires:	java >= 1.5
 BuildArch:	noarch
 
@@ -75,6 +75,27 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/figtree*.png
 
 %changelog
+* Wed Feb 11 2015 Shane Sturrock <shane@biomatters.com> 1.4.2-1
+- New Features
+  - New -url command line option allows reading of trees from URLs in pipelines.
+  - Copy selected subtrees to clipboard as NEXUS format.
+  - New graphics export options (PDF, SVG, PNG & JPEG).
+  - Control panel now scrolls and can be resized.
+- Bugs fixed
+  - Issue 76: Scale axis should only show as many decimal places as necessary.
+  - Issue 75: Export PNG & JPEG produce blank images.
+  - Issue 64: Putting node bars on translates the tree to the right (now 
+    really fixed, I think).
+  - Issue 23: Find bar opens slowly with big trees.
+  - Issue 28: Filtering should work on currently display labels.
+  - Issue 53: Option Tip Labels: "Colour By" does not render Names in colour.
+  - Issue 57: Midpoint rooting not working correctly.
+  - Issue 59: Clear Highlighting/Cartoon etc doesn't seem to work on 
+    individual branches.
+  - Issue 62: When all clades are 'collapsed', the top triangle is clipped.
+  - Issue 64: Putting node bars on translates the tree to the right.
+  - Issue 69: Import annotation causes crash.
+
 * Fri Dec 20 2013 Shane Sturrock <shane@biomatters.com> 1.4.0-1
 - Initial import into NZGL
 
