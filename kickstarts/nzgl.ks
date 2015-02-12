@@ -41,6 +41,7 @@ man
 screen
 evince
 emacs
+blas
 nfs-utils
 pam_ldap
 pam_krb5

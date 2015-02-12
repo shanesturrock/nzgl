@@ -39,6 +39,7 @@ wget
 man
 screen
 evince
+blas
 emacs
 nfs-utils
 gedit
