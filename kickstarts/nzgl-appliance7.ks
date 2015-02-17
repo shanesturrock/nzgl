@@ -4,7 +4,7 @@ reboot
 
 # Need to set the IP address for the image to ftp.wicks.co.nz manually
 # because Cisco AnyConnect seems to disable DNS
-url --url=http://103.247.152.85/pub/linux/dist/centos/6/os/x86_64/
+url --url=http://103.247.152.85/pub/linux/dist/centos/7/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://10.10.2.50/nzgl-stable
 
 lang en_US.UTF-8
@@ -17,8 +17,11 @@ timezone --utc Pacific/Auckland
 zerombr
 bootloader --location=mbr --append="rd_NO_PLYMOUTH"
 clearpart --all
+eula --agreed
+services --enabled=NetworkManager,sshd
 
-part / --fstype=ext4 --grow --asprimary --size=200
+#part / --fstype=ext4 --grow --asprimary --size=200
+part / --fstype=xfs --grow --asprimary --size=200
 
 %packages --nobase
 coreutils
@@ -26,7 +29,6 @@ yum
 rpm
 e2fsprogs
 ftp
-grub
 openssh-server
 openssh-clients
 dhclient
@@ -48,15 +50,15 @@ valgrind
 cpan
 cmake
 glibc-static
-python-argparse
+# python-argparse
 libcurl-devel
 libxml2-devel
 ncurses-devel
 nautilus-open-terminal
 environment-modules
-perl-Bio-SamTools
-perl-DBD-MySQL
-perl-Module-Build
+# perl-Bio-SamTools
+# perl-DBD-MySQL
+# perl-Module-Build
 python-matplotlib
 nzgl-release
 nzgl-sysscripts-appliance
@@ -67,10 +69,9 @@ xorg-x11-fonts-100dpi
 xorg-x11-fonts-75dpi
 tmpwatch
 @Development tools
-@NZGL
+# @NZGL
 @Internet Browser
-@Desktop
-@Desktop Platform
+@^gnome-desktop-environment
 @X Window System
 %end
 
@@ -91,7 +92,7 @@ mkdir /home/R-network
 # ln -s /home/R-network/R-3/bin/Rscript /usr/bin/Rscript3
 
 # Upgrade packages
-/usr/sbin/nzgl-yum-upgrade
+# /usr/sbin/nzgl-yum-upgrade
 
 # 32 bit binary support
 yum -y install glibc.i686 libstdc++.i686 libgomp.i686
@@ -104,12 +105,14 @@ yum -y install psacct
 chkconfig psacct on
 
 # Set runlevel 5
-sed 's/id:3:initdefault:/id:5:initdefault:/g' --in-place /etc/inittab
+# sed 's/id:3:initdefault:/id:5:initdefault:/g' --in-place /etc/inittab
+systemctl set-default graphical.target
 
 # Add packages to /etc/hosts
 echo '10.10.2.50 packages packages.genomics.local' >> /etc/hosts
 
 # Set hostname to nzglapp
-sed 's/localhost.localdomain/nzglapp/g' --in-place /etc/sysconfig/network
+# sed 's/localhost.localdomain/nzglapp/g' --in-place /etc/sysconfig/network
+hostnamectl set-hostname nzglapp
 
 %end

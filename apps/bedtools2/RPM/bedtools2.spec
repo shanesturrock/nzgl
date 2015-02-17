@@ -1,6 +1,6 @@
 Name:		bedtools2
 Version:	2.22.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
@@ -67,9 +67,48 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc LICENSE
-%{_bindir}
+%{_bindir}/annotateBed
+%{_bindir}/bamToBed
+%{_bindir}/bamToFastq
+%{_bindir}/bed12ToBed6
+%{_bindir}/bedpeToBam
+%{_bindir}/bedToBam
+%{_bindir}/bedToIgv
+%{_bindir}/bedtools
+%{_bindir}/closestBed
+%{_bindir}/clusterBed
+%{_bindir}/complementBed
+%{_bindir}/coverageBed
+%{_bindir}/expandCols
+%{_bindir}/fastaFromBed
+%{_bindir}/flankBed
+%{_bindir}/genomeCoverageBed
+%{_bindir}/getOverlap
+%{_bindir}/groupBy
+%{_bindir}/intersectBed
+%{_bindir}/linksBed
+%{_bindir}/mapBed
+%{_bindir}/maskFastaFromBed
+%{_bindir}/mergeBed
+%{_bindir}/multiBamCov
+%{_bindir}/multiIntersectBed
+%{_bindir}/nucBed
+%{_bindir}/pairToBed
+%{_bindir}/pairToPair
+%{_bindir}/randomBed
+%{_bindir}/shuffleBed
+%{_bindir}/slopBed
+%{_bindir}/sortBed
+%{_bindir}/subtractBed
+%{_bindir}/tagBam
+%{_bindir}/unionBedGraphs
+%{_bindir}/windowBed
+%{_bindir}/windowMaker
 
 %changelog
+* Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-2
+- Compatability with CentOS 7
+
 * Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-1
 - When using -sorted with intersect, map, and closest, bedtools can now detect 
   and warn you when your input datasets employ different chromosome sorting 

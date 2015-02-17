@@ -1,6 +1,6 @@
 Name:		STAR
 Version:	2.3.0e
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tool for handing RNA-seq alignment
 Group:		Applications/Engineering
 License:	GPL
@@ -29,9 +29,12 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc LICENSE.txt
-%{_bindir}
+%{_bindir}/STAR
 
 %changelog
+* Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 2.3.0e-2
+- CentOS 7 compatibility
+
 * Thu Apr 10 2014 Shane Sturrock <shane@biomatters.com> - 2.3.0e-1
 - STAR can use annotations in the form of GTF and GFF3 files with 
   --sjdbGTFfile /path/to/annotation/file

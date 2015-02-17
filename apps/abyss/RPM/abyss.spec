@@ -1,7 +1,7 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
 Version:	1.5.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.bcgsc.ca/platform/bioinfo/software/abyss
@@ -73,8 +73,58 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root, 0755)
-%{_bindir}
+%{_bindir}/abyss-bowtie
+%{_bindir}/abyss-bowtie2
+%{_bindir}/abyss-bwa
+%{_bindir}/abyss-bwasw
+%{_bindir}/abyss-bwamem
+%{_bindir}/abyss-fatoagp
+%{_bindir}/abyss-kaligner
+%{_bindir}/abyss-pe
+%{_bindir}/abyss-samtoafg
+%{_bindir}/abyss-tabtomd
+%{_bindir}/abyss-bloom-dist.mk
+%{_bindir}/ABYSS
+%{_bindir}/ABYSS-P
+%{_bindir}/AdjList
+%{_bindir}/abyss-fac
+%{_bindir}/abyss-tofastq
+%{_bindir}/abyss-gc
+%{_bindir}/abyss-todot
+%{_bindir}/abyss-align
+%{_bindir}/abyss-mergepairs
+%{_bindir}/abyss-bloom
+%{_bindir}/konnector
+%{_bindir}/Consensus
+%{_bindir}/DAssembler
+%{_bindir}/DistanceEst
+%{_bindir}/DistanceEst-ssq
+%{_bindir}/KAligner
+%{_bindir}/abyss-layout
+%{_bindir}/logcounter
+%{_bindir}/abyss-index
+%{_bindir}/abyss-map
+%{_bindir}/abyss-map-ssq
+%{_bindir}/abyss-overlap
+%{_bindir}/MergePaths
+%{_bindir}/MergeContigs
+%{_bindir}/PathConsensus
+%{_bindir}/Overlap
+%{_bindir}/abyss-fixmate
+%{_bindir}/abyss-fixmate-ssq
+%{_bindir}/ParseAligns
+%{_bindir}/PathOverlap
+%{_bindir}/PopBubbles
+%{_bindir}/abyss-scaffold
+%{_bindir}/abyss-junction
+%{_bindir}/abyss-longseqdist
+%{_bindir}/SimpleGraph
+%{_bindir}/abyss-filtergraph
+%{_bindir}/abyss-gapfill
 
 %changelog
+* Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 1.5.2-2
+- Compatibility with CentOS 7
+
 * Thu Aug 21 2014 Shane Sturrock <shane@biomatters.com> - 1.5.2-1
 - Initial release
