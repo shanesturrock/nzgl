@@ -70,7 +70,7 @@ rm -rf %{buildroot}
 - Fixed an issue that would cause different output in -a mode depending on 
   random seed.
 
-* Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
+* Tue Jun 03 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
 - Fixed a bug that made loading an index into memory crash sometimes.
 - Fixed a silent failure to warn the user in case the -x option is missing.
 - Updated al, un, al-conc and un-conc options to avoid confusion in cases
