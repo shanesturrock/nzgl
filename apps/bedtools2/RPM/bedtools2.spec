@@ -1,13 +1,13 @@
 Name:		bedtools2
 Version:	2.22.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://github.com/arq5x/bedtools2
-SOURCE:		bedtools2-%{version}.tar.gz
+SOURCE:		%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	zlib-devel
+BuildRequires:	zlib-devel python
 
 %description
 BEDTools is a suite of utilities for comparing genomic features in BED format. 
@@ -106,6 +106,9 @@ rm -rf %{buildroot}
 %{_bindir}/windowMaker
 
 %changelog
+* Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-3
+- Building on CentOS 7 requires python
+
 * Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-2
 - Compatability with CentOS 7
 
