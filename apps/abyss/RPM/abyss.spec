@@ -1,7 +1,7 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
 Version:	1.5.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.bcgsc.ca/platform/bioinfo/software/abyss
@@ -22,7 +22,7 @@ is capable of assembling larger genomes.
 
 %build
 /bin/tar jxf %{SOURCE1} -C .
-./configure
+./configure CFLAGS=-w CXXFLAGS=-w
 make
 
 %install
@@ -123,6 +123,9 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-gapfill
 
 %changelog
+* Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 1.5.2-3
+- Add -w compiler flag which ignores warnings to allow build on CentOS 7
+
 * Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 1.5.2-2
 - Compatibility with CentOS 7
 
