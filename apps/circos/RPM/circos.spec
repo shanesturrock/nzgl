@@ -3,13 +3,14 @@
 
 Name:		circos
 Version:	%{ver}.%{issue}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Circos is a software package for visualizing data and information.
 Group:		Applications/Engineering
 License:	GPL
 URL:		http://circos.ca/
 Source0:	http://circos.ca/distribution/circos-%{ver}-%{issue}.tgz
 Source1:	circos.sh
+Requires:	perl-Statistics-Basic,perl-Math-Bezier
 
 %description
 Circos is a software package for visualizing data and information. It 
@@ -38,6 +39,9 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 0.67.5-2
+- Fixes to get it working on CentOS 6
+
 * Wed Jan 21 2015 Shane Sturrock <shane@biomatters.com> - 0.67.5-1
 - New stable release
 
