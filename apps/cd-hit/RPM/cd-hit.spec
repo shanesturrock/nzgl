@@ -78,5 +78,5 @@ rm -rf %{buildroot}
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 4.5.7-1
 - New upstream release.
 
-* Thu Jul 25 2012 Carl Jones <carl@biomatters.com> - 4.5.4-1
+* Thu Jul 26 2012 Carl Jones <carl@biomatters.com> - 4.5.4-1
 - Initial build.
