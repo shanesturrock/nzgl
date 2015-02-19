@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e 
 /opt/circos/bin/circos -conf ./etc/circos.conf -outputdir .
+# If circos fails the following file won't be created so fail
+if [ ! -f circos.png ]; then
+  exit 1
+fi
 rm -rf circos.png circos.svg
 exit 0
