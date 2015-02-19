@@ -52,9 +52,9 @@ rm -rf %{buildroot}
 * Thu Aug 30 2012 Carl Jones <carl@biomatters.com> - 2.7.2-1
 - New upstream release
 
-* Thu Jul 25 2012 Carl Jones <carl@biomatters.com> - 2.7-2
+* Thu Jul 26 2012 Carl Jones <carl@biomatters.com> - 2.7-2
 - Add patches to fix methratio.py and sam2bam.sh paths/shebang.
 - Add samtools dependency 
 
-* Thu Jul 25 2012 Carl Jones <carl@biomatters.com> - 2.7-1
+* Thu Jul 26 2012 Carl Jones <carl@biomatters.com> - 2.7-1
 - Initial build.
