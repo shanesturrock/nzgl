@@ -19,3 +19,4 @@ function mrpm() {
 # User specific aliases and functions
 alias rb="/usr/bin/mock -r nzgl --resultdir=/home/build/mock/ --rebuild"
 alias buildrepo="cd /var/www/nzgl/nzgl-stable ; createrepo . -g nzgl.xml --database"
+alias cleanbuild="rm -rf /home/build/mock/* ; rm -rf /home/build/rpmbuild/SPECS/* /home/build/rpmbuild/SRPMS/* /home/build/rpmbuild/SOURCES/*"
