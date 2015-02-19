@@ -200,7 +200,7 @@ fi
   this setting helps the performance at a very minor cost on accuracy. May 
   consider to change the default in future releases.
 
-* Mon Jan 03 2014 Shane Sturrock <shane@biomatters.com> - 0.7.6a-1
+* Mon Jan 06 2014 Shane Sturrock <shane@biomatters.com> - 0.7.6a-1
 - Changes in BWA-MEM:
  - Changed the way mapping quality is estimated. The new method tends to give
    the same alignment a higher mapping quality. On paired-end reads, the change
