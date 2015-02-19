@@ -1,6 +1,6 @@
 Name:		bsmap
 Version:	2.74
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Bisulfite Sequence Mapping Program
 Group:		Applications/Engineering
 License:	GNU GPL v3
@@ -10,6 +10,7 @@ BuildRequires:	zlib-devel
 Source0:	bsmap-%{version}.tgz
 Patch0:		sam2bam.sh-pathfix.patch
 Patch1:		methratio.py-add-shebang.patch
+Patch2:		param.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -19,6 +20,7 @@ BSMAP is a short reads mapping software for bisulfite sequencing reads.
 %setup -q
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 
 %build
 make %{?_smp_mflags}
@@ -43,6 +45,9 @@ rm -rf %{buildroot}
 %{_bindir}/methratio.py
 
 %changelog
+* Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 2.7.4-2
+- Patch to build on CentOS 7
+
 * Tue Jan 29 2013 Carl Jones <carl@biomatters.com> - 2.7.4-1
 - New upstream release
 
