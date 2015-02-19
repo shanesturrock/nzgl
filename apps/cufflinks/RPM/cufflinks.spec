@@ -19,6 +19,7 @@ BuildRequires:	boost-random >= 1.47
 BuildRequires:	zlib-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	eigen3-devel
+BuildRequires:  python >= 2.4
 
 %description
 
