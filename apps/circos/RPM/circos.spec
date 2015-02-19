@@ -10,7 +10,7 @@ License:	GPL
 URL:		http://circos.ca/
 Source0:	http://circos.ca/distribution/circos-%{ver}-%{issue}.tgz
 Source1:	circos.sh
-Requires:	perl-Statistics-Basic,perl-Math-Bezier
+Requires:	perl-Statistics-Basic,perl-Math-Bezier,perl-Config-General>=2.54
 
 %description
 Circos is a software package for visualizing data and information. It 
