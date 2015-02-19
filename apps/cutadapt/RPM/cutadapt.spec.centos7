@@ -9,7 +9,7 @@ URL:		http://code.google.com/p/cutadapt/
 Source0:	http://cutadapt.googlecode.com/files/cutadapt-%{version}.tar.gz
 BuildRequires:	python-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	python >= %{pyver}
+Requires:	python >= %{pyver} python-nose
 
 %description
 cutadapt removes adapter sequences from high-throughput sequencing data. This is usually 
