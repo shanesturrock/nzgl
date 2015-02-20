@@ -38,7 +38,7 @@ rm -rf %{buildroot}
 %{_bindir}/lastz_D
 
 %changelog
-* Thu Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.02.00-2
+* Thu Feb 26 2015 Shane Sturrock <shane@biomatters.com> - 1.02.00-2
 - Patch to build on CentOS 7
 
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> - 1.02.00-1
