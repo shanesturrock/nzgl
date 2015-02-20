@@ -1,0 +1,11 @@
+--- src/Makefile.orig	2015-02-20 10:54:46.618765734 +1300
++++ src/Makefile	2015-02-20 10:55:03.259765936 +1300
+@@ -39,7 +39,7 @@
+ 	-DSUBVERSION_REV="\"${SUBVERSION_REV}"\"
+ 
+ 
+-CFLAGS = -O3 ${definedForAll} ${VERSION_FLAGS}
++CFLAGS = -w -O3 ${definedForAll} ${VERSION_FLAGS}
+ 
+ 
+ srcFiles = lastz infer_scores \
