@@ -1,6 +1,6 @@
 Name:		lastz
 Version:	1.02.00
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	LASTZ is a program for aligning DNA sequences, a pairwise aligner
 Group:		Applications/Engineering
 License:	Public Domain
@@ -38,5 +38,8 @@ rm -rf %{buildroot}
 %{_bindir}/lastz_D
 
 %changelog
+* Thu Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.02.00-2
+- Patch to build on CentOS 7
+
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> - 1.02.00-1
 - Initial release.
