@@ -6,6 +6,7 @@ Group:		Applications/Engineering
 License:	Public Domain
 URL:		http://www.bx.psu.edu/~rsharris/lastz/
 Source0:	http://www.bx.psu.edu/miller_lab/dist/lastz-1.02.00.tar.gz
+Patch0:		Makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -16,9 +17,10 @@ such as Roche 454.
 
 %prep
 %setup -q -n %{name}-distrib-%{version}
+%patch0 -p0
 
 %build
-make 
+make
 
 %install
 rm -rf %{buildroot}

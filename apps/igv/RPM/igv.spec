@@ -1,6 +1,6 @@
 Name:		igv
 Version:	2.3.40
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
@@ -9,7 +9,7 @@ Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVSource_%{versio
 Source1:	igv
 Source2:	igv.desktop
 Source3:	igv-icons.tar.gz
-Requires:	java-1.6.0 dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts
+Requires:	java-1.7.0 dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	ant
 
@@ -59,6 +59,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Feb 25 2015 Shane Sturrock <shane@biomatters.com> - 2.3.40-2
+- Switch to Java 7
+
 * Tue Nov 04 2014 Shane Sturrock <shane@biomatters.com> - 2.3.40-1
 - Upstream update
 
@@ -84,7 +87,7 @@ fi
 * Thu May 22 2014 Shane Sturrock <shane@biomatters.com> - 2.3.32-1
 - Upstream update
 
-* Thu Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 2.3.14-2
+* Wed Apr 09 2014 Shane Sturrock <shane@biomatters.com> - 2.3.14-2
 - Migrating into stable
 
 * Thu Aug 08 2013 Shane Sturrock <shane@biomatters.com> - 2.3.14-1
@@ -123,7 +126,7 @@ fi
 * Tue Apr 16 2013 Shane Sturrock <shane@biomatters.com> - 2.3.0-1
 - New upstream release
 
-* Wed Mar 25 2013 Shane Sturrock <shane@biomatters.com> - 2.2.13-1
+* Wed Mar 27 2013 Shane Sturrock <shane@biomatters.com> - 2.2.13-1
 - New upstream release
 
 * Wed Mar 20 2013 Shane Sturrock <shane@biomatters.com> - 2.2.12-1
@@ -154,10 +157,10 @@ fi
 * Wed Jan 23 2013 Carl Jones <carl@biomatters.com> - 2.2.4-2
 - Add icons, .desktop file
 
-* Wed Jan 15 2013 Carl Jones <carl@biomatters.com> - 2.2.4-1
+* Wed Jan 16 2013 Carl Jones <carl@biomatters.com> - 2.2.4-1
 - New upstream release
 
-* Mon Jan 13 2013 Carl Jones <carl@biomatters.com> - 2.2.3-1
+* Tue Jan 15 2013 Carl Jones <carl@biomatters.com> - 2.2.3-1
 - New upstream release
 
 * Tue Jan 08 2013 Carl Jones <carl@biomatters.com> - 2.2.2-1
@@ -177,7 +180,7 @@ fi
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> - 2.1.24-1
 - New upstream release
 
-* Fri Aug 8 2012 Carl Jones <carl@biomatters.com> - 2.1.21-4
+* Fri Aug 10 2012 Carl Jones <carl@biomatters.com> - 2.1.21-4
 - Fix Java paths
 
 * Wed Aug 1 2012 Carl Jones <carl@biomatters.com> - 2.1.21-3
