@@ -10,9 +10,10 @@ Source0:	%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Matrix2png is a simple but powerful program for making visualizations of microarray data and many other 
-data types. It generates PNG formatted images from text files of data. It is fast, easy to use, and 
-reasonably flexible. It can be used to generate publication-quality images, or to act as a image 
+Matrix2png is a simple but powerful program for making visualizations of 
+microarray data and many other data types. It generates PNG formatted images 
+from text files of data. It is fast, easy to use, and reasonably flexible. 
+It can be used to generate publication-quality images, or to act as a image 
 generator for web applications.
 
 %prep
@@ -39,5 +40,5 @@ rm -rf %{buildroot}
 
 %changelog
 
-* Thu Aug 1 2012 Carl Jones <carl@biomatters.com> - 1.2.2-1
+* Thu Aug 2 2012 Carl Jones <carl@biomatters.com> - 1.2.2-1
 - Initial build.
