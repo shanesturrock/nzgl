@@ -70,5 +70,6 @@ library(devtools)
 install_github('alyssafrazee/derfinder')
 
 #### This section doesn't work for R2
-source("http://aroma-project.org/hbLite.R")
-hbInstall("aroma.affymetrix")
+# source("http://aroma-project.org/hbLite.R")
+# hbInstall("aroma.affymetrix")
+source('http://callr.org/install#aroma.affymetrix')
