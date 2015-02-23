@@ -225,6 +225,7 @@ yum -y install java-1.7.0-openjdk-devel ant
 
 # Process Accounting
 yum -y install psacct
+chkconfig --add psacct
 chkconfig psacct on
 
 # Install R-core dummy package and rstudio

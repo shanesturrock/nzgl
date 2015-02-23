@@ -1,6 +1,6 @@
 Name:		bedtools2
-Version:	2.22.1
-Release:	3%{?dist}
+Version:	2.23.0
+Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
 License:	GPL
@@ -106,6 +106,31 @@ rm -rf %{buildroot}
 %{_bindir}/windowMaker
 
 %changelog
+* Tue Feb 24 2015 Shane Sturrock <shane@biomatters.com> - 2.23.0-1
+- New features.
+  - Added -k option to the closest tool to report the k-closest features in 
+    one or more -b files.
+  - Added -fd option to the closest tool to for the reporting of downstream 
+    features in one or more -b files. Requires -D to dictate how "downstream" 
+    should be defined.
+  - Added -fu option to the closest tool to for the reporting of downstream 
+    features in one or more -b files. Requires -D to dictate how "downstream" 
+    should be defined.
+  - @lindenb added a new split tool that will split an input file into 
+    multiple sub files. Unlike UNIX split, it can balance the chunking of the 
+    sub files not just by number of lines, but also by total number of base 
+    pairs in each sub file.
+  - Added a new spacing tool that reports the distances between features in a 
+    file.
+  - @jayhesselberth added a -reverse option to the makewindows tool that 
+    reverses the order of the assigned window numbers.
+- Bug fixes.
+  - Fixed a bug that caused incorrect reporting of overlap for zero-length 
+    BED records. Thanks to @roryk.
+  - Fixed a bug that caused the map tool to not allow -b to be specified 
+    before -a. Thanks to @semenko.
+  - Fixed a bug in makewindows that mistakenly required -s with -n.
+
 * Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 2.22.1-3
 - Building on CentOS 7 requires python
 

@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.128
+Version:	1.129
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,24 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue Feb 24 2015 Shane Sturrock <shane@biomatters.com> - 1.129-1
+- Enable file source for Bam Index creation.
+- Separate out the actual work for FastqToSam so an outside caller can
+  directly pass in FastqReaders
+- A recent change to the command line parsing causes problems with scala
+  based CLPs. In cases where the new system fails, fall back to the original
+  system
+- Allow tools to work with GA4GH resources specified via urls. This first
+  batch includes AddOrReplaceReadGroups, MarkDuplicates and ViewSam.
+- HTSJDK changes
+  - removing SAMRecord.setAlignmentEnd it throws unsupported operation
+    exception
+  - adding getResourceDescription() to SamReader
+  - fixed issue 155: CRAMFileWriter injects slice refMD5 now; added slice
+    refMD5 check into CRAMIterator, for now only error message is show.
+  - Made ReadTag.buf ThreadLocal. Fixes
+    https://github.com/samtools/htsjdk/issues/153
+
 * Wed Jan 14 2015 Shane Sturrock <shane@biomatters.com> - 1.128-1
 - Refactoring CollectWgsMetrics in order to be able to easily create
   CollectRawWGSMetrics.
