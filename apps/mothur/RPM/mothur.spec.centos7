@@ -1,6 +1,6 @@
 Name:		mothur
 Version:	1.34.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
 License:	GPLv3
@@ -8,7 +8,7 @@ URL:		http://www.mothur.org/w/images/b/bc/Mothur.%{version}.zip
 Source0:	Mothur.%{version}.zip
 patch0:		makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	readline-devel ncurses-devel gcc-gfortran glibc-static
+BuildRequires:	readline-devel ncurses-devel gcc-gfortran glibc-static libstdc++-static
 
 %description
 The mothur project was initiated by Dr. Patrick Schloss and his
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Feb 26 2015 Shane Sturrock <shane@biomatters.com> - 1.34.4-2
+- CentOS 7 requires libstdc++-static to build
+
 * Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 1.34.4-1
 - sffinfo - parsed sff files giving corrupt error.
 - pcr.seqs - Windows multiple processors with start and end parameters giving 
@@ -137,10 +140,13 @@ rm -rf %{buildroot}
 
 * Mon Mar 24 2014 Shane Sturrock <shane@biomatters.com> - 1.33.3-1
 - Upstream update, no details of what
+
 * Wed Mar 05 2014 Shane Sturrock <shane@biomatters.com> - 1.33.2-1
 - Remove unnecessary error messages.
-* Thu Feb 26 2014 Shane Sturrock <shane@biomatters.com> - 1.33.1-1
+
+* Thu Feb 27 2014 Shane Sturrock <shane@biomatters.com> - 1.33.1-1
 - Fix bug in fastq.info misreporting the number of reads
+
 * Thu Feb 20 2014 Shane Sturrock <shane@biomatters.com> - 1.33.0-1
 - Feature updates
   - heatmap.bin - added otuLabels
