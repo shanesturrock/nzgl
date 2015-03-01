@@ -1,9 +1,9 @@
 %define ver 0.67
-%define issue 5
+%define issue 6
 
 Name:		circos
 Version:	%{ver}.%{issue}
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	Circos is a software package for visualizing data and information.
 Group:		Applications/Engineering
 License:	GPL
@@ -39,14 +39,28 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Mon Mar 02 2015 Shane Sturrock <shane@biomatters.com> - 0.67.6-1
+- Experimental support for superscripts and subscripts in SVG output.
+    a_i
+    a_{ijk}
+    a^2
+    a^{234}
+- Baseline and font size shifts are defined in etc/housekeeping.conf using 
+  sub_baseline_shift and sub_fontsize and analogous for sup_*.
+
 * Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 0.67.5-2
 - Fixes to get it working on CentOS 6
 
 * Wed Jan 21 2015 Shane Sturrock <shane@biomatters.com> - 0.67.5-1
-- New stable release
+- Added arrows to symbols font.
+- Fixed bug that was making Circos look for a file named after the 
+  'background' parameter in <image>.
+- Fixed bug with ideogram rules and labels. Now ideogram_label can be altered 
+  by arule.
 
 * Mon Dec 01 2014 Shane Sturrock <shane@biomatters.com> - 0.67.4-1
-- New stable release
+- Ideograms can now be filled with a pattern. In <ideogram> use
+    fill_pattern = checker
 
 * Thu Nov 27 2014 Shane Sturrock <shane@biomatters.com> - 0.67.3-1
 - New stable release
