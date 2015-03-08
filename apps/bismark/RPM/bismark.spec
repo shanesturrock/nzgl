@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.13.1
+Version:	0.14.0
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,47 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Mon Mar 09 2015 Shane Sturrock <shane@biomatters.com> - 0.14.0-1
+- Bismark: 
+  - Finally added parallelization to the Bismark alignment step using the 
+    option '--muticore int' which sets the number of parallel instances of 
+    Bismark to be run concurrently. At least in this first distribution this 
+    is achieved by forking the Bismark alignment step very early on so that 
+    each individual Spawn of Bismark (SoB?) processes only every n-th 
+    sequence (n being set by --multicore). Once all processes have completed, 
+    the individual BAM files, mapping reports, unmapped or ambiguous FastQ 
+    files are merged into single files in very much the same way as they would 
+    have been generated running Bismark conventionally with only a single 
+    instance. If system resources are plentiful this is a viable option to 
+    speed up the alignment process (we observed a near linear speed increase 
+    for up to --multicore 8 tested so far). However, please note that a 
+    typical Bismark run will use several cores already (Bismark itself, 2 or 
+    4 threads of Bowtie/Bowtie2, Samtools, gzip etc...) and ~10-16GB of memory 
+    depending on the choice of aligner and genome. WARNING: Bismark Parallel 
+    (BP?) is resource hungry! Each value of --multicore specified will 
+    effectively lead to a linear increase in compute and memory requirements, 
+    so --multicore 4 for e.g. the GRCm38 mouse genome will probably use ~20 
+    cores and eat ~40GB or RAM, but at the same time reduce the alignment 
+    time to ~25-30%. You have been warned...
+  - Changed the default output to BAM. SAM output may be requested using the 
+    option --sam
+  - No longer generates a piechart (.png) with the alignment stats. 
+    bismark2report generates a much nicer report anyway
+- Methylation Extractor
+  - To detect paired-end alignment mode from the @PG header line, white 
+    spaces before and after -1 and -2 are now required. In some instances 
+    files containing e.g. -1-2 in their filename might previously have been 
+    identified as paired-end incorrectly
+- deduplicate_bismark
+  - To detect paired-end alignment mode from the @PG header line, white spaces 
+    before and after -1 and -2 are now required
+  - Added option --version so that Clusterflow can report a version number
+- bismark2bedGraph
+  - Fixed path handling for cases where the input files were given with path 
+    information and an output directory had been specified as well
+- coverage2cytosine
+  - Fixed a typo in the shebang which prevented coverage2cytosine from running
+
 * Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 0.13.1-1
 - Bismark Genome Preparation
   - Added a check for unique chromosome names to the Bismark indexer to avoid 
@@ -340,5 +381,5 @@ rm -rf %{buildroot}
 * Thu Aug 09 2012 Carl Jones <carl@biomatters.com> - 0.7.6-1
 - New upstream release
 
-* Wed Jul 25 2012 Carl Jones <carl@biomatters.com> - 0.7.5-1
+* Wed Jul 24 2012 Carl Jones <carl@biomatters.com> - 0.7.5-1
 - Initial build.

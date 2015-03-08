@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.4
+Version:	2.2.5
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,18 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Mar 09 2015 Shane Sturrock <shane@biomatters.com> - 2.2.5-1
+- Fixed some situations where incorrectly we could detect a Mavericks platform.
+- Fixed some manual issues including some HTML bad formatting.
+- Make sure the wrapper correctly identifies the platform under OSX.
+- Fixed --rg/--rg-id options where included spaces were incorrectly treated.
+- Various documentation fixes added by contributors.
+- Fixed the incorrect behavior where parameter file names may contain spaces.
+- Fixed bugs related with the presence of spaces in the path where bowtie 
+  binaries are stored.
+- Improved exception handling for misformatted quality values.
+- Improved redundancy checks by correctly account for soft clipping.
+
 * Fri Oct 24 2014 Shane Sturrock <shane@biomatters.com> - 2.2.4-1
 - Fixed a Mavericks OSX specific bug caused by some linkage ambiguities.
 - Added lz4 compression option for the wrapper.
@@ -70,7 +82,7 @@ rm -rf %{buildroot}
 - Fixed an issue that would cause different output in -a mode depending on 
   random seed.
 
-* Tue Jun 03 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
+* Tue Jun 01 2014 Sidney Markowitz <sidney@biomatters.com> - 2.2.3-1
 - Fixed a bug that made loading an index into memory crash sometimes.
 - Fixed a silent failure to warn the user in case the -x option is missing.
 - Updated al, un, al-conc and un-conc options to avoid confusion in cases

@@ -1,6 +1,6 @@
 Name:		igv
-Version:	2.3.40
-Release:	2%{?dist}
+Version:	2.3.41
+Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
@@ -14,9 +14,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	ant
 
 %description
-The Integrative Genomics Viewer (IGV) is a high-performance visualization tool for interactive exploration 
-of large, integrated genomic datasets. It supports a wide variety of data types, including array-based and 
-next-generation sequence data, and genomic annotations.
+The Integrative Genomics Viewer (IGV) is a high-performance visualization tool 
+for interactive exploration of large, integrated genomic datasets. It supports 
+a wide variety of data types, including array-based and next-generation 
+sequence data, and genomic annotations.
 
 %prep
 %setup -q -n IGVSource_%{version}
@@ -59,6 +60,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Mar 09 2015 Shane Sturrock <shane@biomatters.com> - 2.3.41-1
+- Upstream update
+
 * Wed Feb 25 2015 Shane Sturrock <shane@biomatters.com> - 2.3.40-2
 - Switch to Java 7
 
