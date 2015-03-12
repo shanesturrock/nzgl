@@ -1,6 +1,6 @@
 Name:		seqmonk
 Version:	0.29.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -9,7 +9,7 @@ Source0:	http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/seqmonk_v%{ve
 Source1:	seqmonk-icons.tar.gz
 Source2:	seqmonk.desktop
 Patch0:		seqmonk-classpath.patch
-Requires:	java-1.6.0
+Requires:	java-1.7.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
@@ -59,6 +59,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 0.29.0-2
+- switch to Java 7 for CentOS 7
+
 * Wed Dec 17 2014 Shane Sturrock <shane@biomatters.com> - 0.29.0-1
 - Added and Even Coverage probe generator
 - Added an exportable scale bar for the chromosome view

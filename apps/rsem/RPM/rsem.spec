@@ -1,6 +1,6 @@
 Name:		rsem
 Version:	1.2.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
 License:	GPL
@@ -74,9 +74,41 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}
+%{_bindir}/convert-sam-for-rsem 
+%{_bindir}/extract-transcript-to-gene-map-from-trinity 
+%{_bindir}/rsem-calculate-expression 
+%{_bindir}/rsem-control-fdr 
+%{_bindir}/rsem-extract-reference-transcripts 
+%{_bindir}/rsem-generate-data-matrix 
+%{_bindir}/rsem-generate-ngvector 
+%{_bindir}/rsem-gen-transcript-plots 
+%{_bindir}/rsem-plot-model 
+%{_bindir}/rsem-plot-transcript-wiggles 
+%{_bindir}/rsem-prepare-reference 
+%{_bindir}/rsem-preref 
+%{_bindir}/rsem-run-ebseq 
+%{_bindir}/rsem-synthesis-reference-transcripts 
+%{_bindir}/rsem-extract-reference-transcripts 
+%{_bindir}/rsem-synthesis-reference-transcripts 
+%{_bindir}/rsem-preref 
+%{_bindir}/rsem-parse-alignments 
+%{_bindir}/rsem-build-read-index 
+%{_bindir}/rsem-run-em 
+%{_bindir}/rsem-tbam2gbam 
+%{_bindir}/rsem-run-gibbs 
+%{_bindir}/rsem-calculate-credibility-intervals 
+%{_bindir}/rsem-simulate-reads 
+%{_bindir}/rsem-bam2wig 
+%{_bindir}/rsem-get-unique 
+%{_bindir}/rsem-bam2readdepth 
+%{_bindir}/rsem-sam-validator 
+%{_bindir}/rsem-scan-for-paired-end-reads 
+%{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 1.2.19-2
+- Fix install on CentOS 7
+
 * Thu Nov 06 2014 Shane Sturrock <shane@biomatters.com> - 1.2.19-1
 - Modified 'rsem-prepare-reference' such that by default it does not add any 
   poly(A) tails. To add poly(A) tails, use '--polyA' option. 
