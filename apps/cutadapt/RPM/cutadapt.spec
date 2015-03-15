@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.7.1
+Version:	1.8
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,36 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 1.8-1
+- Support single-pass paired-end trimming with the new -A/-G/-B/-U
+  parameters. These work just like their -a/-g/-b/-u counterparts, but
+  they specify sequences that are removed from the second read in a
+  pair.
+  Also, if you start using one of those options, the read modification
+  options such as -q (quality trimming) are applied to both reads. For
+  backwards compatibility, read modifications are applied to the first
+  read only if neither of -A/-G/-B/-U is used. See the documentation for
+  details.
+  This feature has not been extensively tested, so please give feedback
+  if something does not work.
+- The report output has been re-worked in order to accomodate the new
+  paired-end trimming mode. This also changes the way the report looks
+  like in single-end mode. It is hopefully now more accessible.
+- Chris Mitchell contributed a patch adding two new options: --trim-n
+  removes any N bases from the read ends, and the --max-n option can be
+  used to filter out reads with too many ``N``s.  
+- Support notation for repeated bases in the adapter sequence: Write
+  A{10} instead of AAAAAAAAAA. Useful for poly-A trimming: Use -a A{100}
+  to get the longest possible tail.
+- Quality trimming at the 5’ end of reads is now supported. Use -q 15,10
+  to trim the 5’ end with a cutoff of 15 and the 3’ end with a cutoff of
+  10.
+- Fix incorrectly reported statistics (> 100% trimmed bases) when
+  --times set to a value greater than one.
+- Support .xz-compressed files (if running in Python 3.3 or later).
+- Started to use the GitHub issue tracker instead of Google Code. All
+  old issues have been moved.
+
 * Wed Nov 26 2014 Shane Sturrock <shane@biomatters.com> - 1.7.1-1
 - IUPAC characters are now supported. For example, use ``-a YACGT`` for an
   adapter that matches both ``CACGT`` and ``TACGT`` with zero errors. Disable
