@@ -1,5 +1,5 @@
 %define ver 0.67
-%define issue 6
+%define issue 7
 
 Name:		circos
 Version:	%{ver}.%{issue}
@@ -39,6 +39,10 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Wed Mar 18 2015 Shane Sturrock <shane@biomatters.com> - 0.67.7-1
+- Fixed a color bug that was ignoring transparency values in color definitions 
+  in data files.
+
 * Mon Mar 02 2015 Shane Sturrock <shane@biomatters.com> - 0.67.6-1
 - Experimental support for superscripts and subscripts in SVG output.
     a_i
