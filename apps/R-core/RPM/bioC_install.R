@@ -63,6 +63,12 @@ biocLite("sva")
 biocLite("BSgenome.Hsapiens.UCSC.hg19")
 biocLite("BSgenome.Mmusculus.UCSC.mm10")
 biocLite("bumphunter")
+biocLite("impute") 
+biocLite("KEGG.db")
+biocLite("safe")
+biocLite("org.Hs.eg.db")
+
+install.packages("WGCNA")
 
 library(devtools)
 #### locfdr removed from CRAN so may have to grab source manually to build
@@ -70,6 +76,7 @@ library(devtools)
 install_github('alyssafrazee/derfinder')
 
 #### This section doesn't work for R2
-# source("http://aroma-project.org/hbLite.R")
-# hbInstall("aroma.affymetrix")
+#source("http://aroma-project.org/hbLite.R")
+#hbInstall("aroma.affymetrix")
 source('http://callr.org/install#aroma.affymetrix')
+
