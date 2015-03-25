@@ -1,5 +1,5 @@
 Name:		fastqc
-Version:	0.11.2
+Version:	0.11.3
 Release:	1%{?dist}
 Summary:	A quality control application for high throughput sequence data
 Group:		Applications/Engineering
@@ -41,6 +41,17 @@ rm -rf %{buildroot}
 /usr/share/java/fastqc/*
 
 %changelog
+* Thu Mar 26 2015 Shane Sturrock <shane@biomatters.com> - 0.11.3-1
+- Fixed a bug when disabling the per-tile plot from limits.txt
+- Fixed a bug which caused the program to continue when processing of 
+  multiple files was actually complete
+- Fixed a bug which meant format selection in the interactive application 
+  didn't work
+- Added checks for mis-itentifying tile numbers in confusing sample ids
+- Added the SOLID smallRNA adapter to the standard search set
+- Fixed a bug when extracting casava names from uncompressed fastq files
+- Added support for processing files of Oxford Nanopore reads
+
 * Mon Jun 09 2014 Shane Sturrock <shane@biomatters.com> - 0.11.2-1
 - Fixed incorrect warn/fail defaults for per-seq quality plot
 - Fixed memory leaks in Kmer and per-seq quality modules

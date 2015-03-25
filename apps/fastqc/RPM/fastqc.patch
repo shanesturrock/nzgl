@@ -1,18 +1,15 @@
---- fastqc.orig	2012-03-21 10:02:52.000000000 +0000
-+++ fastqc	2012-08-31 02:16:47.471586703 +0000
-@@ -1,9 +1,10 @@
+--- fastqc.orig	2015-03-26 09:48:43.159147618 +1300
++++ fastqc	2015-03-26 09:49:39.439504630 +1300
+@@ -1,7 +1,7 @@
  #!/usr/bin/perl
  use warnings;
  use strict;
 -use FindBin qw($RealBin);
++my $RealBin = '/usr/share/java/fastqc';
  use Getopt::Long;
  
-+my $RealBin = '/usr/share/java/fastqc';
-+
  #####################################################################################
- # Copyright Copyright 2010-14 Simon Andrews                                         #
- #                                                                                   #
-@@ -351,4 +352,4 @@
+@@ -381,4 +381,4 @@
      Any bugs in fastqc should be reported either to simon.andrews@babraham.ac.uk
      or in www.bioinformatics.babraham.ac.uk/bugzilla/
                     

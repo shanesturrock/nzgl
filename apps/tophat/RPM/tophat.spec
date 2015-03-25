@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.13
+Version:	2.0.14
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -73,6 +73,16 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Thu Mar 26 2015 Shane Sturrock <shane@biomatters.com> - 2.0.14-1
+- pipeline speed improvements thanks to contributions from Véronique Legrand 
+  and Michaël Pressigout of Institut Pasteur
+- added support for xz compressed read files (thanks to a patch submitted by 
+  Ashton Trey Belew)
+- applied a couple of Python fixes to prevent potential issues with package 
+  handling and some file operations
+- fixed a potential linking issue where the wrong libbam.a library could have 
+  been linked when building from source
+
 * Fri Oct 03 2014 Shane Sturrock <shane@biomatters.com> - 2.0.13-1
 - removed SAMtools as an external dependency in order to avoid incompatibility 
   issues with recent and future changes of SAMtools and its code library (an 
