@@ -1,6 +1,6 @@
 Name:		rsem
-Version:	1.2.19
-Release:	2%{?dist}
+Version:	1.2.20
+Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
 License:	GPL
@@ -106,6 +106,11 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Tue Mar 24 2015 Shane Sturrock <shane@biomatters.com> - 1.2.20-1
+- Fixed a problem that can lead to assertion error if any paired-end read's 
+  insert size > 32767 (by changing the type of insertL in PairedEndHit.h 
+  from short to int).
+
 * Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 1.2.19-2
 - Fix install on CentOS 7
 
