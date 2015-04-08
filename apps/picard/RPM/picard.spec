@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.129
+Version:	1.130
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,24 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Apr 08 2015 Sidney Markowitz <sidney@biomatters.com> - 1.130-1
+- Add command line support for setting @RG-PG and @RG-PM in FastqToSam and
+  AddOrReplaceReadGroups
+- Fixed typo in output filename
+- Fix build file to expand lib jars before packaging the picard CLP jar.
+  Fixes snappy integration.
+- Tool to liftover, sort and index a VCF in a single pass.
+- Added ability to taken an interval list and split into finer intervals
+  based on band multiples to allow for finer granularity of scattering
+- Modified IntervalListTools so that if scattering we do the sorting and
+  unification up front (and not in the scatter method).
+  This was important for BREAK_BANDS_AT_MULTIPLES_OF where the unique
+  in scatter was re-merging broken adjacent intervals.
+- Interval list file in scattered directories NOT broken up into multiples.
+- Adding needed build modifications for sonatype publishing
+- Changed CollectGcBiasMetrics to work as a SinglePassSam
+- New tool for quantifying artifacts
+
 * Tue Feb 24 2015 Shane Sturrock <shane@biomatters.com> - 1.129-1
 - Enable file source for Bam Index creation.
 - Separate out the actual work for FastqToSam so an outside caller can
