@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.14.0
+Version:	0.14.2
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,19 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+* Wed Apr 08 2015 Sidney Markowitz <sidney@biomatters.com> - 0.14.2-1
+- Bismark: 
+  - Fix cleaning up stage in a --multicore run when --gzip had been
+    specified as well
+  - Fix handling of files in a --multicore run when the input files had
+    been specified including file path information
+  - Disabled option -B/--basename used with --multicore, to be fixed later
+- Methylation Extractor
+  - Fix bug with position adjustment of paired-end reads when the reads
+    should have been trimmed from their 3' ends (option --ignore_3prime)
+- deduplicate_bismark
+  - Remove newlines from read conversion tag
+
 * Mon Mar 09 2015 Shane Sturrock <shane@biomatters.com> - 0.14.0-1
 - Bismark: 
   - Finally added parallelization to the Bismark alignment step using the 
