@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.47
+Version:	2.3.49
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -60,6 +60,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 2.3.49-1
+- Preference window problems -- too large for 800 pixel screens,
+  no default button
+
 * Wed Apr 08 2015 Sidney Markowitz <sidney@biomatters.com> - 2.3.47-1
 - Add option to filter junctions on Sashimi plot by strand
 - Fix SSL certification errors when running under Java 1.8
