@@ -1,12 +1,14 @@
+# coding: utf-8
 # TODO
 # test with the --output option
 # test reading from standard input
 from __future__ import print_function, division, absolute_import
 
-import sys, os
+import os
+import sys
 from nose.tools import raises
 from cutadapt.scripts import cutadapt
-from utils import run, files_equal, datapath, cutpath, redirect_stderr, temporary_path
+from .utils import run, files_equal, datapath, cutpath, redirect_stderr, temporary_path
 
 
 def test_example():
@@ -115,10 +117,6 @@ def test_qualtrim():
 	'''-q with low qualities'''
 	run("-q 10 -a XXXXXX", "lowqual.fastq", "lowqual.fastq")
 
-def test_qualtrim_csfastaqual():
-	'''-q with csfasta/qual files'''
-	run("-c -q 10", "solidqual.fastq", "solid.csfasta", 'solid.qual')
-
 def test_qualbase():
 	'''-q with low qualities, using ascii(quality+64) encoding'''
 	run("-q 10 --quality-base 64 -a XXXXXX", "illumina64.fastq", "illumina64.fastq")
@@ -131,21 +129,13 @@ def test_twoadapters():
 	'''two adapters'''
 	run("-a AATTTCAGGAATT -a GTTCTCTAGTTCT", "twoadapters.fasta", "twoadapters.fasta")
 
-def test_bwa():
-	'''MAQ-/BWA-compatible output'''
-	run("-c -e 0.12 -a 330201030313112312 -x 552: --maq", "solidmaq.fastq", "solid.csfasta", 'solid.qual')
-
-def test_bfast():
-	'''BFAST-compatible output'''
-	run("-c -e 0.12 -a 330201030313112312 -x abc: --strip-f3", "solidbfast.fastq", "solid.csfasta", 'solid.qual')
-
 def test_polya():
 	'''poly-A tails'''
 	run("-m 24 -O 10 -a AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "polya.fasta", "polya.fasta")
 
-def test_trim_095():
-	'''some reads properly trimmed since cutadapt 0.9.5'''
-	run("-c -e 0.122 -a 330201030313112312", "solid.fasta", "solid.fasta")
+def test_polya_brace_notation():
+	'''poly-A tails'''
+	run("-m 24 -O 10 -a A{35}", "polya.fasta", "polya.fasta")
 
 def test_mask_adapter():
 	'''mask adapter with N (reads maintain the same length)'''
@@ -194,6 +184,13 @@ def test_literal_N():
 def test_literal_N2():
 	run("-N -O 1 -g NNNNNNNNNNNNNN", "trimN5.fasta", "trimN5.fasta")
 
+def test_literal_N_brace_notation():
+	'''test matching literal 'N's'''
+	run("-N -e 0.2 -a N{14}", "trimN3.fasta", "trimN3.fasta")
+
+def test_literal_N2_brace_notation():
+	run("-N -O 1 -g N{14}", "trimN5.fasta", "trimN5.fasta")
+
 def test_anchored_front():
 	run("-g ^FRONTADAPT -N", "anchored.fasta", "anchored.fasta")
 
@@ -203,44 +200,6 @@ def test_anchored_back():
 def test_anchored_back_no_indels():
 	run("-a BACKADAPTER$ -N --no-indels", "anchored-back.fasta", "anchored-back.fasta")
 
-def test_solid():
-	run("-c -e 0.122 -a 330201030313112312", "solid.fastq", "solid.fastq")
-
-def test_solid_basespace_adapter():
-	'''colorspace adapter given in basespace'''
-	run("-c -e 0.122 -a CGCCTTGGCCGTACAGCAG", "solid.fastq", "solid.fastq")
-
-def test_solid5p():
-	'''test 5' colorspace adapter'''
-	# this is not a real adapter, just a random string
-	# in colorspace: C0302201212322332333
-	run("-c -e 0.1 --trim-primer -g CCGGAGGTCAGCTCGCTATA", "solid5p.fasta", "solid5p.fasta")
-
-def test_solid5p_prefix_notrim():
-	'''test anchored 5' colorspace adapter, no primer trimming'''
-	run("-c -e 0.1 -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.notrim.fasta", "solid5p.fasta")
-
-def test_solid5p_prefix():
-	'''test anchored 5' colorspace adapter'''
-	run("-c -e 0.1 --trim-primer -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.fasta", "solid5p.fasta")
-
-def test_solid5p_fastq():
-	'''test 5' colorspace adapter'''
-	# this is not a real adapter, just a random string
-	# in colorspace: C0302201212322332333
-	run("-c -e 0.1 --trim-primer -g CCGGAGGTCAGCTCGCTATA", "solid5p.fastq", "solid5p.fastq")
-
-def test_solid5p_prefix_notrim_fastq():
-	'''test anchored 5' colorspace adapter, no primer trimming'''
-	run("-c -e 0.1 -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.notrim.fastq", "solid5p.fastq")
-
-def test_solid5p_prefix_fastq():
-	'''test anchored 5' colorspace adapter'''
-	run("-c -e 0.1 --trim-primer -g ^CCGGAGGTCAGCTCGCTATA", "solid5p-anchored.fastq", "solid5p.fastq")
-
-def test_sra_fastq():
-	'''test SRA-formatted colorspace FASTQ'''
-	run("-c -e 0.1 --format sra-fastq -a CGCCTTGGCCGTACAGCAG", "sra.fastq", "sra.fastq")
 
 def test_issue_46():
 	'''issue 46 - IndexError with --wildcard-file'''
@@ -271,15 +230,20 @@ def test_no_trim():
 	''' --no-trim '''
 	run("--no-trim --discard-untrimmed -a CCCTAGTTAAAC", 'no-trim.fastq', 'small.fastq')
 
+
 def test_bzip2():
 	'''test bzip2 support'''
 	run('-b TTAGACATATCTCCGTCG', 'small.fastq', 'small.fastq.bz2')
 
 
-def test_paired_separate():
-	'''test separate trimming of paired-end reads'''
-	run('-a TTAGACATAT', 'paired-separate.1.fastq', 'paired.1.fastq')
-	run('-a CAGTGGAGTA', 'paired-separate.2.fastq', 'paired.2.fastq')
+try:
+	import lzma
+
+	def test_xz():
+		'''test xz support'''
+		run('-b TTAGACATATCTCCGTCG', 'small.fastq', 'small.fastq.xz')
+except ImportError:
+	pass
 
 
 @raises(SystemExit)
@@ -295,38 +259,9 @@ def test_no_args():
 
 
 @raises(SystemExit)
-def test_paired_end_missing_file():
+def test_two_fastqs():
 	with redirect_stderr():
-		cutadapt.main(['-a', 'XX', '--paired-output', 'out.fastq', datapath('paired.1.fastq')])
-
-
-@raises(SystemExit)
-def test_first_too_short():
-	# paired-truncated.1.fastq is paired.1.fastq without the last read
-	with redirect_stderr():
-		cutadapt.main('-a XX --paired-output out.fastq'.split() + [datapath('paired-truncated.1.fastq'), datapath('paired.2.fastq')])
-
-
-@raises(SystemExit)
-def test_second_too_short():
-	# paired-truncated.2.fastq is paired.2.fastq without the last read
-	with redirect_stderr():
-		cutadapt.main('-a XX --paired-output out.fastq'.split() + [datapath('paired.1.fastq'), datapath('paired-truncated.2.fastq')])
-
-
-@raises(SystemExit)
-def test_unmatched_read_names():
-	# paired-swapped.1.fastq: paired.1.fastq with reads 2 and 3 swapped
-	with redirect_stderr():
-		cutadapt.main('-a XX --paired-output out.fastq'.split() + [datapath('paired-swapped.1.fastq'), datapath('paired.2.fastq')])
-
-
-def test_paired_end_legacy():
-	'''--paired-output, no -A/-B/-G'''
-	with temporary_path("paired-tmp.fastq") as pairedtmp:
-		# the -m 14 filters out one read, which should then also be filtered out in the second output file
-		run(['-a', 'TTAGACATAT', '-m', '14', '--paired-output', pairedtmp], 'paired.m14.1.fastq', 'paired.1.fastq', 'paired.2.fastq')
-		assert files_equal(cutpath('paired.m14.2.fastq'), pairedtmp)
+		cutadapt.main([datapath('paired.1.fastq'), datapath('paired.2.fastq')])
 
 
 def test_anchored_no_indels():
@@ -356,33 +291,10 @@ def test_unconditional_cut_both():
 	run('-u -5 -u 5', 'unconditional-both.fastq', 'small.fastq')
 
 
-def test_no_zero_cap():
-	run("--no-zero-cap -c -e 0.122 -a CGCCTTGGCCGTACAGCAG", "solid-no-zerocap.fastq", "solid.fastq")
-
-
 def test_untrimmed_output():
 	with temporary_path('untrimmed.tmp.fastq') as tmp:
 		run(['-a', 'TTAGACATATCTCCGTCG', '--untrimmed-output', tmp], 'small.trimmed.fastq', 'small.fastq')
 		assert files_equal(cutpath('small.untrimmed.fastq'), tmp)
-
-
-def test_untrimmed_paired_output():
-	with temporary_path("tmp-paired.1.fastq") as tmp1:
-		with temporary_path("tmp-paired.2.fastq") as tmp2:
-			with temporary_path("tmp-untrimmed.1.fastq") as untrimmed1:
-				with temporary_path("tmp-untrimmed.2.fastq") as untrimmed2:
-					params = [
-						'-a', 'TTAGACATAT',
-						'-o', tmp1, '-p', tmp2,
-						'--untrimmed-output', untrimmed1,
-						'--untrimmed-paired-output', untrimmed2, 
-						datapath('paired.1.fastq'), datapath('paired.2.fastq')
-					]
-					assert cutadapt.main(params) is None
-					assert files_equal(cutpath('paired-untrimmed.1.fastq'), untrimmed1)
-					assert files_equal(cutpath('paired-untrimmed.2.fastq'), untrimmed2)
-					assert files_equal(cutpath('paired-trimmed.1.fastq'), tmp1)
-					assert files_equal(cutpath('paired-trimmed.2.fastq'), tmp2)
 
 
 def test_adapter_file():
@@ -403,17 +315,6 @@ def test_adapter_file_3p_anchored_no_indels():
 	run('-N --no-indels -a file:' + datapath('suffix-adapter.fasta'), 'anchored-back.fasta', 'anchored-back.fasta')
 
 
-def test_explicit_format_with_paired():
-	with temporary_path("paired-tmp.fastq") as pairedtmp:
-		run(['--format=fastq', '-a', 'TTAGACATAT', '-m', '14', '-p', pairedtmp], 'paired.m14.1.fastq', 'paired.1.txt', 'paired.2.txt')
-		assert files_equal(cutpath('paired.m14.2.fastq'), pairedtmp)
-
-
-def test_no_trimming():
-	# make sure that this doesn't divide by zero
-	cutadapt.main(['-a', 'XXXXX', '-o', '/dev/null', '-p', '/dev/null', datapath('paired.1.fastq'), datapath('paired.2.fastq')])
-
-
 def test_demultiplex():
 	multiout = os.path.join(os.path.dirname(__file__), 'data', 'tmp-demulti.{name}.fasta')
 	params = ['-a', 'first=AATTTCAGGAATT', '-a', 'second=GTTCTCTAGTTCT', '-o', multiout, datapath('twoadapters.fasta')]
@@ -424,3 +325,11 @@ def test_demultiplex():
 	os.remove(multiout.format(name='first'))
 	os.remove(multiout.format(name='second'))
 	os.remove(multiout.format(name='unknown'))
+
+
+def test_max_n():
+	run('--max-n 0', 'maxn0.fasta', 'maxn.fasta')
+	run('--max-n 1', 'maxn1.fasta', 'maxn.fasta')
+	run('--max-n 2', 'maxn2.fasta', 'maxn.fasta')
+	run('--max-n 0.2', 'maxn0.2.fasta', 'maxn.fasta')
+	run('--max-n 0.4', 'maxn0.4.fasta', 'maxn.fasta')

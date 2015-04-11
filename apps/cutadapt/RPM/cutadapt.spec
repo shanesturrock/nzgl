@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.8
+Version:	1.8.1
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,10 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 1.8-1
+- Fix counts for ‘too short’ and ‘too long’ reads were swapped in statistics.
+- Fix --trim-n to work also on second read for paired-end data.
+
 * Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 1.8-1
 - Support single-pass paired-end trimming with the new -A/-G/-B/-U
   parameters. These work just like their -a/-g/-b/-u counterparts, but
