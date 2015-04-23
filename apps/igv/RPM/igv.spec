@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.49
+Version:	2.3.51
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -60,6 +60,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Fri Apr 24 2015 Sidney Markowitz <sidney@biomatters.com> - 2.3.51-1
+- Option to add gene lists in "bed" format
+- Add  "count as pairs", "extension factor" options to igvtools input form
+- Add option to scale fonts for very high resolution displays.
+  If the screen resolution is > 1.5 times the design resolution of
+  96 dpi all fonts are scaled proportionally.
+  Option set on the "Genera" tab of preferences window, default off.
+
 * Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 2.3.49-1
 - Preference window problems -- too large for 800 pixel screens,
   no default button
