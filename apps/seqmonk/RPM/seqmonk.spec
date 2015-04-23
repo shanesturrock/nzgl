@@ -1,6 +1,6 @@
 Name:		seqmonk
-Version:	0.29.0
-Release:	2%{?dist}
+Version:	0.30.0
+Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
 License:	GPLv3
@@ -59,6 +59,15 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri Apr 24 2015 Sidney Markowitz <sidney@biomatters.com> - 0.30.0-1
+- Added ability for SeqMonk to link to R for some analyses
+- Added a DESeq2 statistical filter
+- Added a EdgeR statistical filter
+- Added a logistic regression statistical filter
+- Added a gene set intensity difference filter
+- Added an import filter for Bismark cov files
+- Added an import filter for QuasR files
+
 * Mon Mar 16 2015 Shane Sturrock <shane@biomatters.com> - 0.29.0-2
 - switch to Java 7 for CentOS 7
 

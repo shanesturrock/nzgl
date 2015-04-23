@@ -1,7 +1,6 @@
---- seqmonk.orig	2012-05-10 11:03:04.000000000 +0000
-+++ seqmonk	2012-10-03 20:18:32.945510742 +0000
-@@ -15,10 +15,10 @@
- 
+--- seqmonk.orig	2015-04-24 08:15:02.931051494 +1200
++++ seqmonk	2015-04-24 08:13:44.340624235 +1200
+@@ -16,8 +16,8 @@
  
  if ($ENV{CLASSPATH}) {
 -	$ENV{CLASSPATH} .= ":$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
@@ -12,11 +11,3 @@
 +	$ENV{CLASSPATH} = "/usr/share/java/seqmonk:$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
  }
  
- my @java_args;
-@@ -264,4 +264,4 @@
-     Any bugs in SeqMonk should be reported either to simon.andrews@babraham.ac.uk
-     or in www.bioinformatics.babraham.ac.uk/bugzilla/
-                    
--    
-\ No newline at end of file
-+    
