@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 313
+%define priority 320
 
 Name:           R-core
-Version:        3.1.3
+Version:        3.2.0
 Release:        1%{?dist}
 Summary:        R-core
 
@@ -12,6 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0:        R-2.15.3.modulefile
 Source1:        R-3.0.3.modulefile
 Source2:        R-3.1.3.modulefile
+Source3:        R-3.2.0.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
 
 # Post requires alternatives to install tool alternatives.
@@ -29,6 +30,7 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.0
 
 %clean
 rm -rf %{buildroot}
@@ -49,8 +51,12 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
+%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.0
 
 %changelog
+* Wed Apr 29 2015 Shane Sturrock <shane@biomatters.com> - 3.2.0-1
+- Upstream update
+
 * Tue Mar 10 2015 Shane Sturrock <shane@biomatters.com> - 3.1.3-1
 - Upstream update
 

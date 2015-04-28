@@ -67,16 +67,17 @@ biocLite("impute")
 biocLite("KEGG.db")
 biocLite("safe")
 biocLite("org.Hs.eg.db")
+biocLite(c("GO.db", "preprocessCore"))
 
 install.packages("WGCNA")
 
 library(devtools)
 #### locfdr removed from CRAN so may have to grab source manually to build
 #### this until they update their package
-install_github('alyssafrazee/derfinder')
+#install_github('alyssafrazee/derfinder')
+biocLite("derfinder")
 
 #### This section doesn't work for R2
 #source("http://aroma-project.org/hbLite.R")
 #hbInstall("aroma.affymetrix")
 source('http://callr.org/install#aroma.affymetrix')
-
