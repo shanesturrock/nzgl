@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:        mira
-Version:     4.9.3
+Version:     4.9.4
 Release:     1
 Summary:     MIRA whole genome shotgun and EST sequence assembler
 Exclusiveos: linux
@@ -52,6 +52,9 @@ rm -rf %{buildroot}
 %{_bindir}/fixACE4consed.tcl
 
 %changelog
+* Mon May 04 2015 Shane Sturrock <shane@biomatters.com> - 4.9.4-1
+- Upstream update
+
 * Mon Nov 10 2014 Shane Sturrock <shane@biomatters.com> - 4.9.3-1
 - Upstream update
 

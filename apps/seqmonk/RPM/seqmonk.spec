@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.30.0
+Version:	0.30.1
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -14,9 +14,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description
-SeqMonk is a program to enable the visualisation and analysis of mapped sequence data. It was written 
-for use with mapped next generation sequence data but can in theory be used for any dataset which can 
-be expressed as a series of genomic positions.
+SeqMonk is a program to enable the visualisation and analysis of mapped 
+sequence data. It was written for use with mapped next generation sequence 
+data but can in theory be used for any dataset which can be expressed as a 
+series of genomic positions.
 
 %prep
 %setup -q -n SeqMonk
@@ -59,6 +60,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Mon May 04 2015 Shane Sturrock <shane@biomatters.com> - 0.30.1-1
+- Fixed a bug in the installation of the DESeq2 R dependency
+
 * Fri Apr 24 2015 Sidney Markowitz <sidney@biomatters.com> - 0.30.0-1
 - Added ability for SeqMonk to link to R for some analyses
 - Added a DESeq2 statistical filter
