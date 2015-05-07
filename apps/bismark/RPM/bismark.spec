@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.14.2
+Version:	0.14.3
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,23 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+*Thu May 07 2015 Shane Sturrock <shane@biomatters.com> - 0.14.3-1
+- Bismark:
+  - Changed the renaming settings for paired-end files so that 'sam' within 
+    the filename no longer gets renamed to 'bam' (e.g. smallsample.sam -> 
+    smallbample.sam).
+  - Input files specified with filepath information are now handled properly 
+    in --multicore runs. 
+  - The --multicore option currently requires the files to be in BAM format, 
+    so specifying --sam at the same time is disallowed.
+- Methylation Extractor:
+  - Another bug fix for the same issue as in 0.14.1 that had crept in the 
+    0.14.2 release.
+- coverage2cytosine:
+  - Changed the option --merge_CpG so that CGs starting at position 1 are not 
+    considered (since the 3-base sequence context of the bottom strand C at 
+    position 2 can not be determined)
+
 * Wed Apr 08 2015 Sidney Markowitz <sidney@biomatters.com> - 0.14.2-1
 - Bismark: 
   - Fix cleaning up stage in a --multicore run when --gzip had been
