@@ -50,23 +50,23 @@ rm -rf %{buildroot}
 * Mon May 11 2015 Shane Sturrock <shane@biomatters.com> - 1.131-1
 - Change to IntervalListTools to use the new padded() methods in IntervalList.
 - New CLP Position-based Downsampling. this method is supposed to permit 
-  downsampling that mimicks closely what would happen were you to sequence 
+  downsampling that mimics closely what would happen were you to sequence 
   less after downsampling one needs to re-run MarkDuplicates. Mate-pairs are 
-  preserved (ofcourse!)
+  preserved (of course!)
 - Also included is a simpler PhysicalLocation class which works like the one 
-  in MarkDuplicates but is devorsed from the read-ends concept and also uses 
+  in MarkDuplicates but is divorced from the read-ends concept and also uses 
   int rather than shorts for the x and y coordinates (within the tile) thus 
   doesn't overflow on HiSeqX like the MarkDuplicates one does.
 - Make method public so that a sequence dictionary can be created 
   programmatically without having to write, then read a file.
-- Changes to enable MergeBamAlignment to output in queryname order without 
+- Changes to enable MergeBamAlignment to output in query name order without 
   sorting first into coordinate and then back again into coordinate. The only 
-  caveat is that if outputting querynaem order then neither NM or UQ are 
+  caveat is that if outputting query name order then neither NM or UQ are 
   calculated (similar to the behaviour if no reference sequence is provided).
 - Adding a tool that collects per-sample and aggregate (spanning all samples) 
   metrics from the provided VCF file.
 - Add a new method for scattering intervals whereby we try to estimate the
-  sizes of interval lists that have not been created.  This should produce
+  sizes of interval lists that have not been created. This should produce
   a more balanced set of interval lists, while fixing the maximum number
   of scatters.
 - Fix NPE when nonstandard bases are found
