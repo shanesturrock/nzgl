@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.30.1
+Version:	0.30.2
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,13 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed May 13 2015 Shane Sturrock <shane@biomatters.com> - 0.30.2-1
+- Worked around an Adobe Illustrator bug which was causing SeqMonk SVG 
+  files to not load cleanly
+- Added a work round for installing R dependencies for unprivileged users 
+  without a local R library
+- Added better up-front data validation for the DESeq2 and EdgeR filters
+
 * Mon May 04 2015 Shane Sturrock <shane@biomatters.com> - 0.30.1-1
 - Fixed a bug in the installation of the DESeq2 R dependency
 
