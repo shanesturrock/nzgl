@@ -1,14 +1,14 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
-Version:	1.5.2
-Release:	3%{?dist}
+Version:	1.9.0
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
 URL:		http://www.bcgsc.ca/platform/bioinfo/software/abyss
 Source0:	http://www.bcgsc.ca/platform/bioinfo/software/abyss/releases/%{version}/abyss-%{version}.tar.gz
-Source1:	boost_1_55_0.tar.bz2
+Source1:	boost_1_56_0.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires:	openmpi-devel sparsehash-devel
+BuildRequires:	openmpi-devel sparsehash-devel sqlite-devel
 Requires:	openmpi
 
 %description
@@ -123,6 +123,36 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-gapfill
 
 %changelog
+* Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 1.9.0-1
+- New paired de Bruijn graph mode for assembly. 
+- First official release of Sealer, a tool for closing scaffold gaps by 
+  navigating a Bloom filter de Bruijn graph. 
+- New outward extension feature for Konnector to generate long pseudo-reads. 
+- Support for the DIDA (Distributed Indexing Dispatched Alignment) framework, 
+  for computing sequence alignments in parallel across multiple machines. 
+- Unit tests can now be run easily with 'make check', without external 
+  dependencies. 
+- abyss-bloom: 
+  - abyss-bloom 'build' command now supports -j option for multi-threaded 
+    Bloom filter construction. 
+- abyss-map: 
+  - New --protein option for mapping protein sequences. 
+_ abyss-pe: 
+  - New paired de Bruijn graph mode for assembly. Enable by setting `k` to the 
+    k-mer pair span and `K` to size of an individual k-mer in a k-mer pair. 
+    See README.md for further details. 
+  - New `aligner=dida` option for using the DIDA parallel alignment framework. 
+    See the DIDA section of the abyss-pe man page for usage details. 
+  - New `graph=gfa` option to use the GFA (Graphical Fragment Assembly) format 
+    for intermediate graph files. 
+- abyss-sealer: 
+  - New tool for closing scaffold gaps by navigating a Bloom filter de Bruijn 
+    graph 
+  - See Sealer/README.md or abyss-sealer man page for details and examples. 
+- konnector: 
+  - New --extend option for extending merged and unmerged reads outwards in 
+    the de Bruijn graph.
+
 * Thu Feb 19 2015 Shane Sturrock <shane@biomatters.com> - 1.5.2-3
 - Add -w compiler flag which ignores warnings to allow build on CentOS 7
 
