@@ -1,5 +1,5 @@
 Name:		bedtools2
-Version:	2.23.0
+Version:	2.24.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
@@ -106,6 +106,31 @@ rm -rf %{buildroot}
 %{_bindir}/windowMaker
 
 %changelog
+* Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 2.24.0-1
+- The coverage tool now takes advantage of pre-sorted intervals via the 
+  -sorted option. This allows the coverage tool to be much faster, use far 
+  less memory, and report coverage for intervals in their original order 
+  in the input file.
+- We have changed the behavior of the coverage tool such that it is 
+  consistent with the other tools. Specifically, coverage is now computed 
+  for the intervals in the A file based on the overlaps with the B file, 
+  rather than vice versa.
+- The subtract tool now supports pre-sorted data via the -sorted option and 
+  is therefore much faster and scalable.
+- The -nonamecheck option provides greater tolerance for chromosome labeling 
+  when using the -sorted option.
+- Support for multiple SVLEN tags in VCF format, and fixed a bug that failed 
+  to process SVLEN tags coming at the end of a VCF INFO field.
+- Support for reverse complementing IUPAC codes in the getfasta tool.
+- Provided greater flexibility for “BED+” files, where the first 3 columns 
+  are chrom, start, and end, and the remaining columns are free-form.
+- We now detect stale FAI files and recreate an index thanks to a fix from 
+  @gtamazian.
+- New feature from Pierre Lindenbaum allowing the sort tool to sort files 
+  based on the chromosome order in a faidx file.
+- Eliminated multiple compilation warnings thanks to John Marshall.
+- Fixed bug in handling INS variants in VCF files.
+
 * Tue Feb 24 2015 Shane Sturrock <shane@biomatters.com> - 2.23.0-1
 - New features.
   - Added -k option to the closest tool to report the k-closest features in 
