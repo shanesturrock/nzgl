@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.131
+Version:	1.133
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,84 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 1.133-1
+ - Modify GenotypeConcordance to explicitly require that the VCF files be 
+   indexed if an interval file is specified
+ - Add spanning deletions Allele to Alle.create() doc
+ - Add wouldBeStarAllele(), Ns can be REF or ALT
+ - adding unit tests for unmapped reads with and without SEQ/QUAL fields.
+ - code format and imports organized according to intellij style
+ - merged htsjdk.samtools.cram.structure with v3
+ - merged htsjdk.samtools.cram.io with v3
+ - merged htsjdk.samtools.cram.lossy with v3
+ - merged htsjdk.samtools.cram.ref with v3
+ - merged htsjdk.samtools.cram.encoding with v3
+ - merged htsjdk.samtools.cram.build with v3
+ - merged htsjdk.samtools.cram.index with v3
+ - added deps and CRC32 files to git; minor fixes in cram/build and slice 
+   classes
+ - added  cram/digest package and code format/import to cram package
+ - fixed CramFileWriter test to pass; added swing inspector for CRAM files;
+ - minor updates and moved index and inspector stuff to another project
+ - removed cram.mask package as unused; moved CRC32 streams to io package
+ - javadoc and cleanup in cram.io.Bit*putStream API
+ - cram.io package and CRAM Block class reworked: clean up, re-format, 
+   ITF8 and LTF8 tests;
+ - Cram container IO separated from CramIO; CramHeader and versioning re-worked
+ - relaxed assert tests for original vs restored roundtrip of SAM records 
+   while writing CRAM.
+ - added support for SAM supplementary 0x800 bit flag
+ - rebased and added SubsMatrix tests
+ - Allow comment lines in liftover chain files.
+ - Issue #196 - fixes a bug which causes an overflow in the CIGAR when a BAM 
+   file is parsed that contains a read that spans a very large intron. The bug 
+   is caused by the use of an arithmetic (>>) rather than a logical (>>>) 
+   right shift operator in BinaryCigarCodec.binaryCigarToCigarElement(). This 
+   fix substitutes the logical for the arithmetic operator, and implements a 
+   test which reads the sample BAM file (containing a single record) that 
+   exposed the bug and compares the indexing bin field with the computed 
+   indexing bin field. If the two fields are different, an error is thrown.
+ - Issue #181 - deletes the deprecated OldDbSNPFeature and OldDbSNPCodec 
+   classes, along with the test class OldDbSNPCodecTest.
+ - Javadoc formatting improvements for htsjdk.variant.* packages
+ - Fixed some formatting issues in Javadoc comments
+ - Fixed Javadoc formatting in htsjdk.variant package and subpackages.
+ - Adding an ability to iterate through duplicate sets using a 
+   DuplicateSetIterator.
+ - Added tests for supplemental, secondary and unmapped reads.
+ - Buffering writes to tribble index files
+ - Reduced size of getSubsequenceAt() internal buffer if the default buffer 
+   size is larger than length of the subsequence requested. This significantly 
+   improves performance when requesting many small subsequences.
+ - Removed 2s idle thread delay when closing asynchronous SAM writer
+ - Fix catastrophic bug in VCFHeader that caused newly-added header lines to 
+   be silently dropped
+ - Split by char to remove some hard limits in AbstractVCFCodec
+ - Fix bug in VCFHeader that caused newly-added header lines to be silently 
+   dropped
+ - There was a nasty bug in VCFHeader that caused newly-added header lines
+   to only be added to type-specific lookup tables and not to the master list
+   of header lines. This meant that new lines got silently dropped when writing
+   a modified VCFHeader back out via VCFWriter.
+ - Fixed the issue and added comprehensive unit tests for 
+   VCFHeader.addMetaDataLine(), as well as a VCFWriter test to ensure new 
+   header lines get persisted.
+ - Also attempted to improve documentation and method naming a bit in an
+   effort to avoid future bugs like this. Eg., there was a method 
+   "loadVCFVersion()" that actually REMOVED the vcf version lines!
+ - Remove pre-allocation of fixed-size arrays in AbstractVCFCodec
+   - use a String.split-like function that just works for char delimiters
+   - explain why String.split is not used (performance issues because
+     regexes are used unnecessarily in some version of Java)
+   - tests to show equvalent function to String.splt and roundtripping
+     with ParsingUtils.join
+   - fixes Issue #229
+ - Added checks to adding an interval to an IntervalList: contig must be in 
+   header. Note that one could still forcefully modify the underlying 
+   dictionary, so the protection is only partial.
+ - Removed protection code from the "padding" function since now contig 
+   should be in header
+
 * Mon May 11 2015 Shane Sturrock <shane@biomatters.com> - 1.131-1
 - Change to IntervalListTools to use the new padded() methods in IntervalList.
 - New CLP Position-based Downsampling. this method is supposed to permit 
