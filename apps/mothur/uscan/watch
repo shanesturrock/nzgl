@@ -1,3 +1,3 @@
 version=3
-http://www.mothur.org/wiki/Download_mothur \
-    /w/images/.*/.*/Mothur\.([\d\.]+)\.zip
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/mothur-$1\.tar\.gz/ \
+  https://github.com/mothur/mothur/tags .*/v?(\d\S*)\.tar\.gz

@@ -1,3 +1,2 @@
 version=3
-#http://sf.net/soapdenovo2/SOAPdenovo2-src-(.+)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
 http://sf.net/soapdenovo2/SOAPdenovo2-src-(r\d{3,4})\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)

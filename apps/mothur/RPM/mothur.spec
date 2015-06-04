@@ -1,11 +1,11 @@
 Name:		mothur
-Version:	1.34.4
+Version:	1.35.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://www.mothur.org/w/images/b/bc/Mothur.%{version}.zip
-Source0:	Mothur.%{version}.zip
+Source0:	mothur-%{version}.tar.gz
 patch0:		makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	readline-devel ncurses-devel gcc-gfortran glibc-static
@@ -23,7 +23,7 @@ features including calculators and visualization tools.
 
 %prep
 #Deal with mistakenly included OS X files
-%setup -q   -n Mothur.%{version}
+%setup -q   -n mothur-%{version}/source
 rm -rf __MACOSX* .DS_Store
 %patch0 -p0
 
@@ -44,6 +44,55 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Jun 04 2015 Shane Sturrock <shane@biomatters.com> - 1.35.1-1
+- New commands
+  - get.mimarkspackage - create blank mimarks package form for sra command 
+    (see Creating a new submission)
+  - make.sra - create submission ready files (see Creating a new submission)
+  - Added common command line options. Can now use -q or --quiet, -h or --help,
+    -v or --version.
+- Feature updates
+  - set.dir - added seed parameter to allow the user to set the seed for the 
+    random number generator
+  - make.contigs - improved speed, added pandaseq-based quality score data, 
+    added kmer aligning method
+  - cluster.split - allows one to use the cluster.classic option if they set 
+    the classic option to T. This is likely the most ideal option for people 
+    using tax level 5 or 6.
+  - make.biom - added relabund file as input.
+  - pcr.seqs - added fdiffs and rdiffs comments
+  - cluster, cluster.split, cluster.classic, phylotype, mgcluster - Clustering 
+    commands did not include the count file info. when printing list file OTU 
+    order. Only effects clustering commands. *.pick commands must preserve 
+    otuLabels order.
+  - classify.tree - added output parameter. Output=node or taxon. Default=node. 
+    Output=taxon will label tree with consensus taxonomies.
+  - get.coremicrobiome - the abundance option can now accept float values. 
+    abundance=1 or abundance=0.01 produce same results. Abundance=0.005 or 
+    other values between 0 and 1, instead of the 1% as the lowest value.
+  - chop.seqs - added keepn parameter. Default=f.
+  - Restructured source files on github for easier downloads and builds.
+- Bug fixes
+  - cluster.split - MPI version compile issue fixed in 1.34.1.
+  - summary.seqs - multiple processors Windows. fixed 1.34.2
+  - summary.seqs -MPI bug fixed 1.34.2
+  - pcr.seqs - use of mothur's paired primer tag instead of forward and 
+    reverse tags causing improper trimming fixed in 1.34.3.
+  - sffinfo - parsed sff files giving corrupt error fixed 1.34.4
+  - pcr.seqs - Windows multiple processors with start and end parameters 
+    giving errors fixed 1.34.4
+  - make.contigs - Bug in Windows paralell processing.
+  - dist.seqs - bug introduced in 1.34.4
+  - rarefaction.single - returning median instead of mean.
+  - make.contigs - skipping groups if invalid fastq files provided.
+  - make.contigs - bug that required barcodes to process.
+  - metastats - infinite loop.
+  - pcr.seqs - When sequence length < primer Length + pdiffs, basic_string 
+    error occurred. Rare case.
+  - mothur will now read over null strings to avoid pesky sequence not found 
+    errors.
+  - Fixes mismatch name issue with make.contigs in v1.35.0
+
 * Mon Jan 12 2015 Shane Sturrock <shane@biomatters.com> - 1.34.4-1
 - sffinfo - parsed sff files giving corrupt error.
 - pcr.seqs - Windows multiple processors with start and end parameters giving 
