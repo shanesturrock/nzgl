@@ -3,7 +3,7 @@
 
 Name:           R-core
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        R-core
 
 Group:          Applications/Engineering
@@ -54,6 +54,9 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.2.0
 
 %changelog
+* Mon Jun 08 2015 Shane Sturrock <shane@biomatters.com> - 3.2.0-5
+- Override Centos provided update
+
 * Wed Apr 29 2015 Shane Sturrock <shane@biomatters.com> - 3.2.0-1
 - Upstream update
 
