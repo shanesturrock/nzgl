@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.133
+Version:	1.134
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,22 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Jun 15 2015 Shane Sturrock <shane@biomatters.com> - 1.134-1
+- Picard changes:
+  - Don't ignore strand when comparing Genes.
+  - CollectGcBiasMetrics as a MultiLevelCollector; Added to Collect Multiple 
+    Metrics. Tests included. Updated R Script to output multiple levels. 
+    Default level of collection is All Reads and Library.
+  - Fix test for zero-length exon.
+  - The exons are closed intervals, so the test was rejecting an exon of 
+    length 1.
+- HTSJDK Changes 
+  - Modified SAMLineParser to only invoke SAMRecord.isValid() if 
+    ValidationStringency is set to something other than SILENT. Speeds up the 
+    parsing of SAM (not BAM) text files when validaiton stringency is silent.
+  - Pass isRef to Allele.acceptableAlleleBases() in 
+    AbstractVCFCodec.checkAllele()
+
 * Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 1.133-1
  - Modify GenotypeConcordance to explicitly require that the VCF files be 
    indexed if an interval file is specified
