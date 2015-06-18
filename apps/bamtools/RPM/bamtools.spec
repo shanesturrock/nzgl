@@ -1,11 +1,11 @@
 Name:		bamtools
-Version:	2.3.0
-Release:	2%{?dist}
+Version:	2.4.0
+Release:	1%{?dist}
 Summary:	Tools for handing BAM files
 Group:		Applications/Engineering
 License:	MIT
 URL:		https://github.com/pezmaster31/bamtools
-Source0:	https://github.com/downloads/pezmaster31/bamtools/bamtools-2.3.0.tar.gz
+Source0:	https://github.com/downloads/pezmaster31/bamtools/bamtools-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	cmake
 BuildRequires:	zlib-devel
@@ -34,7 +34,7 @@ install -m 0755 bin/bamtools-%{version} %{buildroot}%{_bindir}/bamtools
 /bin/cp -a lib/* %{buildroot}%{_libdir}
 /bin/cp -a include/* %{buildroot}%{_includedir}
 cd %{buildroot}%{_libdir}
-ln -sf libbamtools.so.2.3.0 libbamtools.so
+ln -sf libbamtools.so.%{version} libbamtools.so
 
 %clean
 rm -rf %{buildroot}
@@ -47,10 +47,15 @@ rm -rf %{buildroot}
 %{_includedir}/*
 
 %changelog
+* Thu Jun 18 2015 Shane Sturrock <shane@biomatters.com> 2.4.0-1
+- Minor version bump, no details from developer
+
 * Tue Jul 22 2014 Shane Sturrock <shane@biomatters.com> 2.3.0-1
 - Long overdue update due to watch script not working
 - No changelog published by author
+
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> 1.0.2-2
 - Fix libbamtools.so symlink
+
 * Thu Sep 20 2012 Carl Jones <carl@biomatters.com> 1.0.2-1
 - Initial build.
