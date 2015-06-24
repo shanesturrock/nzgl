@@ -1,4 +1,8 @@
-Name:		bowtie
+%global pkgbase bowtie
+%global versuffix 112
+# Alternatives priority needs to be an integer
+%define priority 112
+Name:		%{pkgbase}%{versuffix}
 Version:	1.1.2
 Release:	1%{?dist}
 Summary:	An ultrafast, memory-efficient short read aligner
@@ -6,9 +10,13 @@ Summary:	An ultrafast, memory-efficient short read aligner
 Group:		Applications/Engineering
 License:	Artistic 2.0
 URL:		http://bowtie-bio.sourceforge.net/index.shtml
+Source0:	http://downloads.sourceforge.net/%{pkgbase}-bio/%{pkgbase}-%{version}-src.zip
+Source1:        %{name}.modulefile
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:       bowtie112
-Obsoletes:	bowtie111
+# Post requires alternatives to install tool alternatives.
+Requires(post):   %{_sbindir}/alternatives
+# Postun requires alternatives to uninstall tool alternatives.
+Requires(postun): %{_sbindir}/alternatives
 
 %description
 
@@ -17,12 +25,71 @@ DNA sequences (reads) from next-gen sequencers. Please cite: Langmead
 B, et al. Ultrafast and memory-efficient alignment of short DNA
 sequences to the human genome. Genome Biol 10:R25.
 
+%prep
+%setup -q -n %{pkgbase}-%{version}
+
+%build
+make %{?_smp_mflags} -p EXTRA_FLAGS="%{optflags}"
+
+
+%install
+rm -rf %{buildroot}
+
+mkdir -p %{buildroot}/%{_libdir}/%{name}/bin
+mkdir -p %{buildroot}/%{_datadir}/%{name}/bowtie
+
+
+install -m 0755 bowtie %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-build %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-build-l %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-align-l %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-build-s %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-align-s %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-inspect %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-inspect-l %{buildroot}/%{_libdir}/%{name}/bin
+install -m 0755 bowtie-inspect-s %{buildroot}/%{_libdir}/%{name}/bin
+
+cp -a reads %{buildroot}/%{_datadir}/%{name}/bowtie/
+cp -a indexes %{buildroot}/%{_datadir}/%{name}/bowtie/
+cp -a genomes %{buildroot}/%{_datadir}/%{name}/bowtie/
+cp -a scripts %{buildroot}/%{_datadir}/%{name}/bowtie/
+
+# install modulefile
+install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
+
+%clean
+rm -rf %{buildroot}
+
+%post
+alternatives \
+   --install %{_bindir}/bowtie bowtie %{_libdir}/%{name}/bin/bowtie %{priority} \
+   --slave %{_bindir}/bowtie-build bowtie-build %{_libdir}/%{name}/bin/bowtie-build \
+   --slave %{_bindir}/bowtie-build-l bowtie-build-l %{_libdir}/%{name}/bin/bowtie-build-l \
+   --slave %{_bindir}/bowtie-build-s bowtie-build-s %{_libdir}/%{name}/bin/bowtie-build-s \
+   --slave %{_bindir}/bowtie-align-l bowtie-align-l %{_libdir}/%{name}/bin/bowtie-align-l \
+   --slave %{_bindir}/bowtie-align-s bowtie-align-s %{_libdir}/%{name}/bin/bowtie-align-s \
+   --slave %{_bindir}/bowtie-inspect-l bowtie-inspect-l %{_libdir}/%{name}/bin/bowtie-inspect-l \
+   --slave %{_bindir}/bowtie-inspect-s bowtie-inspect-s %{_libdir}/%{name}/bin/bowtie-inspect-s \
+   --slave %{_bindir}/bowtie-inspect bowtie-inspect %{_libdir}/%{name}/bin/bowtie-inspect
+
+%postun
+if [ $1 -eq 0 ]
+then
+  alternatives --remove bowtie %{_libdir}/%{name}/bin/bowtie 
+fi
+
 %files
+%defattr(-,root,root,-)
+%doc LICENSE MANUAL NEWS VERSION AUTHORS TUTORIAL doc/
+%dir %{_datadir}/%{name}/bowtie
+%{_libdir}/%{name}
+%{_datadir}/%{name}/bowtie
+%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
 * Thu Jun 25 2015 Shane Sturrock <shane@biomatters.com> - 1.1.2-1
 - Fixed the building process for OSX Yosemite.
-- Added the install target for linux to better aid package building process
+- Added the install target for linux to better aid package building process 
   and the overall installation process.
 - Added the Intel TBB option which provides in most situations a better performance
   output. TBB is not present by default in the current build but can be added
