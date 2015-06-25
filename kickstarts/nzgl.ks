@@ -75,6 +75,7 @@ environment-modules
 tmpwatch
 xorg-x11-fonts-100dpi
 xorg-x11-fonts-75dpi
+vim-enhanced
 @Development tools
 @NZGL
 @Internet Browser
