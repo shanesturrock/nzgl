@@ -67,6 +67,7 @@ xorg-x11-fonts-100dpi
 xorg-x11-fonts-75dpi
 tmpwatch
 vim-enhanced
+tk
 @Development tools
 @NZGL
 @Internet Browser
