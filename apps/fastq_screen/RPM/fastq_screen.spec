@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.4.4
+Version:	0.5.0
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,22 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jul 01 2015 Shane Sturrock <shane@biomatters.com> - 0.5.0-1
+- Please note that users no longer need to specify whether a genome 
+  index is compatible with bowtie or bowtie2, since this is now 
+  determined automatically.
+- Option --subset 100000 is now the default.  Use --subset 0 to 
+  process an entire file (not recommended for most QC applications, 
+  since this generally takes much more time). 
+- Option --paired removed.
+- Bowtie2 is now the default aligner, replacing the orignal bowtie.
+- New option --force instructs fastq_screen to overwrite extant output 
+  files.
+- The script now uses a more memory efficient internal data structure
+  for recording which reads map to what library. However, this means
+  that a maximum of 15 libraries may be specified with 32-bit Perl
+  or 31 libraries with 64-bit Perl.
+
 * Thu Jul 10 2014 Sidney Markowitz <sidney@biomatters.com> - 0.4.4-1
 - Fix a bug in check for the presence of bowtie2 indices for large genomes.
 - Add a nicer font for the graph and improved some of the colours

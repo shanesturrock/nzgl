@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.0.14
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -73,6 +73,27 @@ rm -rf %{buildroot}
 %{_bindir}/*
 
 %changelog
+* Wed Jul 01 2015 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
+- TopHat-Fusion algorithm improvements for more sensitive and accurate 
+  discovery of fusions, thanks to contributions from Gordon Bean and Ryan 
+  Kelley at Illumina.
+- This release implements a new algorithm for counting fusion-supporting read 
+  pairs that reduces the number of false-positive potential fusions. This 
+  algorithm computes the inner distance between read pairs by first converting 
+  the pair positions to transcript coordinates using the transcript information
+  in refGene.txt and ensGene.txt. Pairs with small inner distance (suggesting 
+  the pair could come from a plausible pair-end insert) are counted as 
+  supporting evidence for the fusion. The default threshold for the inner 
+  distance is 250 base pairs; this parameter can be set using the 
+  --fusion-pair-dist <int> flag.
+- fixed a few issues with GFF parsing of some annotation files
+- fixed a runtime-error when using --no-discordant option.
+- Several fixes/improvements thanks to contributors on GitHub:
+  - new --max-num-fusions option allowing the user to specify the maximum 
+    number of reported fusions in tophat-fusion-post
+  - adjusting lower limit for --fusion-multipairs
+  - fixed a few typos, cleaning up python code etc.
+
 * Thu Mar 26 2015 Shane Sturrock <shane@biomatters.com> - 2.0.14-1
 - pipeline speed improvements thanks to contributions from Véronique Legrand 
   and Michaël Pressigout of Institut Pasteur
