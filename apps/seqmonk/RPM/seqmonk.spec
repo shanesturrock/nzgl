@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.30.2
+Version:	0.31.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,16 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Thu Jul 02 2015 Shane Sturrock <shane@biomatters.com> - 0.31.0-1
+- Added DNA contamination estimation and paired end support to the RNA-Seq 
+  pipeline
+- Added an import filter for methylkit data
+- Added an option to save the underlying data in QC plots
+- Added an option to extract the centres of reads to the visible stores parser
+- Added a for/rev binomial statistics test
+- Improved the UI when long names are used for data stores or probe lists
+- Various bug fixes
+
 * Wed May 13 2015 Shane Sturrock <shane@biomatters.com> - 0.30.2-1
 - Worked around an Adobe Illustrator bug which was causing SeqMonk SVG 
   files to not load cleanly
