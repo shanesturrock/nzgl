@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.31.0
+Version:	0.31.1
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,13 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Tue Jul 07 2015 Shane Sturrock <shane@biomatters.com> - 0.31.1-1
+- Changed paired end SAM/BAM import to not rely on the TLEN SAM field
+- Fixed a bug in logistic regression when only analysing probes on a single 
+  chromosome
+- Updated the MA plot to the same feature set as the scatterplot
+- Added version checking to R installation validation
+
 * Thu Jul 02 2015 Shane Sturrock <shane@biomatters.com> - 0.31.0-1
 - Added DNA contamination estimation and paired end support to the RNA-Seq 
   pipeline
