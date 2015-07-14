@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.135
+Version:	1.136
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,10 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jul 15 2015 Shane Sturrock <shane@biomatters.com> - 1.136-1
+- Added the normalized minimum coverage over a target to the per-target 
+  output
+
 * Wed Jul 01 2015 Shane Sturrock <shane@biomatters.com> - 1.135-1
 - Change to allow callers to request the non-indexed reader(s) from the 
   reference sequence file factory, and for the reference sequence file 

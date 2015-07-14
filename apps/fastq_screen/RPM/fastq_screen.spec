@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.5.0
+Version:	0.5.1
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jul 15 2015 Shane Sturrock <shane@biomatters.com> - 0.5.1-1
+- Ensures a FASTQ file is not mapped against the same library more than 
+  once
+
 * Wed Jul 01 2015 Shane Sturrock <shane@biomatters.com> - 0.5.0-1
 - Please note that users no longer need to specify whether a genome 
   index is compatible with bowtie or bowtie2, since this is now 
