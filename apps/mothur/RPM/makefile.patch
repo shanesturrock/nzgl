@@ -1,15 +1,24 @@
---- makefile.orig	2015-06-04 12:07:11.224360733 +1200
-+++ makefile	2015-06-04 12:08:08.516665205 +1200
-@@ -26,7 +26,7 @@
-     #CXX = g++44
+--- makefile.orig	2015-07-27 09:29:28.309736681 +1200
++++ makefile	2015-07-27 09:29:51.548885608 +1200
+@@ -12,7 +12,7 @@
+ 64BIT_VERSION ?= yes
+ USEREADLINE ?= yes
+ USECOMPRESSION ?= no
+-USEBOOST ?= yes
++USEBOOST ?= no
+ MOTHUR_FILES="\"Enter_your_default_path_here\""
+ RELEASE_DATE = "\"7/23/2015\""
+ VERSION = "\"1.36.0\""
+@@ -23,7 +23,7 @@
  
+ ifeq  ($(strip $(64BIT_VERSION)),yes)
      #if you are a mac user use the following line
 -    TARGET_ARCH += -arch x86_64
-+    # TARGET_ARCH += -arch x86_64
++    #TARGET_ARCH += -arch x86_64
  
      #if you using cygwin to build Windows the following line
      #CXX = x86_64-w64-mingw32-g++
-@@ -35,7 +35,7 @@
+@@ -31,7 +31,7 @@
      #TARGET_ARCH += -m64 -static
  
      #if you are a linux user use the following line
@@ -17,4 +26,4 @@
 +    CXXFLAGS += -mtune=native -march=native
  
      CXXFLAGS += -DBIT_VERSION
-     FORTRAN_FLAGS = -m64
+ endif

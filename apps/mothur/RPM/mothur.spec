@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.35.1
+Version:	1.36.0
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -23,7 +23,7 @@ features including calculators and visualization tools.
 
 %prep
 #Deal with mistakenly included OS X files
-%setup -q   -n mothur-%{version}/source
+%setup -q   -n mothur-%{version}
 rm -rf __MACOSX* .DS_Store
 %patch0 -p0
 
@@ -44,6 +44,56 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2015 Shane Sturrock <shane@biomatters.com> - 1.36.0-1
+- New commands
+  - set.seed - allows you to seed random.
+  - make.file - creates a file containing list of fastq or gz files for 
+    input to make.contigs.
+- Feature updates
+  - pre.cluster - added cluster method for unaligned sequences. Added align, 
+    mismatch, match, gapopen, gapextend parameters.
+  - set.dir - if output directory does not exist mothur will create it for you.
+  - chimera.uchime - adds method tag to output files.
+  - chop.seqs - adds qfile option to allows for chopping quality files.
+  - classify.otu - adds threshold parameter. The threshold parameter allows 
+    you to specify a cutoff for the taxonomy file that is being inputted.
+  - rename.seqs - adds count, delim, and placement parameters.
+  - seed parameter added to all commands to allow you to easily seed random 
+    while running commands.
+  - make.shared - mothur no longer checks for biom matrix type to allow for 
+    more flexibility.
+  - make.shared - rabund files are no longer outputted. Mothur will create a 
+    rabund file with the get.rabund command.
+  - set.dir - if output directory does not exist it will be created.
+  - no longer create a log file simple command line option runs of mothur
+  - make.sra - allow for assigning multiple sets of files to the same group 
+    in 3 column format.
+  - make.contigs - allow for missing reads in files.
+  - metastats - remove qvalues. Also removes fortran source from mothur.
+  - automatically adjust number of processors when fork() fails
+  - Removes extra white spaces from mothur's print to make output files more 
+    compatible with other software packages.
+  - degap.seqs - adds the processors option.
+  - Adds column headers to Design_File
+  - phylo.diversity - adds sampledepth parameter.
+  - set.dir - Sets tempdefault location to mothur's executable location to 
+    help reduce "unable to find file" errors.
+  - make.contigs - allow for gzipped version for fastq files as inputs.
+  - Added file parameter to saved files by mothur. file=current can now be used.
+- Bug fixes
+  - metastats - infinite loop with certain datasets
+  - cluster.split - did not allow you to use the classic option with the 
+    file option.
+  - make.biom - repeat labels when combining mothur OTU labels with non 
+    mothur OTU labels, this can results in a duplicate "simple" label. This 
+    causes an incorrect taxonomy to be assigned to the OTU.
+  - remove.groups - not creating a list file for each label.
+  - make.biom - remove paths from filenames to make compliant with qiime 
+    parser. 
+  - sffinfo - off by one in right side trimming.
+  - make.contigs - Bug Fix - when using index files in version 1.35 quality 
+    data was over trimmed by the length of the barcode.
+
 * Thu Jun 04 2015 Shane Sturrock <shane@biomatters.com> - 1.35.1-1
 - New commands
   - get.mimarkspackage - create blank mimarks package form for sra command 
