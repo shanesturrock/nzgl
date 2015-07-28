@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.36.0
+Version:	1.36.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,11 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 27 2015 Shane Sturrock <shane@biomatters.com> - 1.36.1-1
+- make.file - Linux version only bug. Caused error messages about find 
+  command -maxdepth parameter.
+- classify.rf - Design file change caused results to be all zeros.
+
 * Mon Jul 27 2015 Shane Sturrock <shane@biomatters.com> - 1.36.0-1
 - New commands
   - set.seed - allows you to seed random.

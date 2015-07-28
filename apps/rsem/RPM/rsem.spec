@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.21
+Version:	1.2.22
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -106,6 +106,9 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Wed Jul 29 2015 Shane Sturrock <shane@biomatters.com> - 1.2.22-1
+- Added options to run the STAR aligner.
+
 * Fri May 08 2015 Shane Sturrock <shane@biomatters.com> - 1.2.21-1
 - Strip read names of extra words to avoid mismatches of paired-end read names.
 

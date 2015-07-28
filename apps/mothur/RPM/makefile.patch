@@ -1,5 +1,5 @@
---- makefile.orig	2015-07-27 09:29:28.309736681 +1200
-+++ makefile	2015-07-27 09:29:51.548885608 +1200
+--- makefile.orig	2015-07-28 02:18:26.000000000 +1200
++++ makefile	2015-07-29 08:02:44.817301463 +1200
 @@ -12,7 +12,7 @@
  64BIT_VERSION ?= yes
  USEREADLINE ?= yes
@@ -7,8 +7,8 @@
 -USEBOOST ?= yes
 +USEBOOST ?= no
  MOTHUR_FILES="\"Enter_your_default_path_here\""
- RELEASE_DATE = "\"7/23/2015\""
- VERSION = "\"1.36.0\""
+ RELEASE_DATE = "\"7/27/2015\""
+ VERSION = "\"1.36.1\""
 @@ -23,7 +23,7 @@
  
  ifeq  ($(strip $(64BIT_VERSION)),yes)

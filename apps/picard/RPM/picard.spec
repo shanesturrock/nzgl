@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.136
+Version:	1.137
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,50 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jul 29 2015 Shane Sturrock <shane@biomatters.com> - 1.137-1
+- Fixed up more BED tests for moving SAM version to 1.5
+- Modified BedToIntervalList to accept other dictionary files
+- Added ability to pass argument to ViewSam for an interval file that
+  the output will be restricted to.  This does not support both the
+  in-line intervals as well as interval file that the GATK -L command
+  supports.  Unit test added to verify records from a given SAM are
+  matched with overlapping intervals file, and no others are output.
+  Updated existing TODOs to make use of PicardCommandLine rather than
+  direct calls into ViewSam class within unit tests.
+- Added better error messaging for corrupt bcl.gz files
+- Fixed the output of scattering intervals to be .interval_list
+- Fixed a small bug in IntervalListTool where in some cases bases were
+  not accounted for in the total count (this can lead to non-uniform
+  intervalLists in the scatter)
+- Removed an erroneous Exception that was thrown when the intervals were
+  not uniformly enough sized. We cannot guarantee that they will be
+  uniformly sized...
+- Fixed -1 error that was causing the last IntervalList to be double the
+  size of all the others
+- Added a dockerfile to picard
+- Adding a tool SimpleMarkDuplicatesWithMateCigar that uses the new
+  HTSJDK DuplicateSetIterator
+- Disabled reference download
+- Added support for creating tabix indexes.
+- Removed default implementation of FeatureCodec.canDecode to enforce
+  implementation in concrete classes
+- Re-factored tests to test all SAM format versions based on acceptable
+  versions in SAMFileHeader
+- Added enum describing SAM FLAG (for gui/ menu / etc... )
+- Added new SAM tags as of v1.5
+- Changes to accommodate v1.5 of the SAM file specification.
+  Updated version references in SamFileHeader.java,
+  ValidateSamFileTest.java, and test files. Added test to
+  ValidateSamFileTest which runs validation on the new test file
+  test_samfile_version_1pt5.bam which contains reads with the new
+  options of v1.5: the 0800 SUPPLEMENTARY flag and the SA:Z optional
+  field.
+- Fixed for incorrect return value in Genotype.getAnyAttribute()
+- Added unit tests for validation methods in VariantContext
+- Added 'checkError' in VariantContextWriter interface. Motivation: when
+  Output stream is an interrupted PrintStream.
+- Added getAttributeAsList in CommonInfo and VariantContext / fix indent
+
 * Wed Jul 15 2015 Shane Sturrock <shane@biomatters.com> - 1.136-1
 - Added the normalized minimum coverage over a target to the per-target 
   output
