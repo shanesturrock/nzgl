@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.8.1
+Version:	1.8.3
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -10,9 +10,9 @@ BuildRequires:	python-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-cutadapt removes adapter sequences from high-throughput sequencing data. This is usually 
-necessary when the read length of the sequencing machine is longer than the molecule 
-that is sequenced, for example when sequencing microRNAs.
+cutadapt removes adapter sequences from high-throughput sequencing data. This
+is usually necessary when the read length of the sequencing machine is longer
+than the molecule that is sequenced, for example when sequencing microRNAs.
 
 %prep
 %setup -q
@@ -37,7 +37,10 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
-* Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 1.8-1
+* Thu Jul 30 2015 Shane Sturrock <shane@biomatters.com> - 1.8.3-1
+- No details of update
+
+* Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 1.8.1-1
 - Fix counts for ‘too short’ and ‘too long’ reads were swapped in statistics.
 - Fix --trim-n to work also on second read for paired-end data.
 
