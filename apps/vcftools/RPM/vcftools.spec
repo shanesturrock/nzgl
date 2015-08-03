@@ -1,5 +1,5 @@
 Name:		vcftools
-Version:	0.1.12b
+Version:	0.1.13
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
@@ -30,10 +30,12 @@ make %{?_smp_mflags} CPPFLAGS="%{optflags}"
 
 %install
 rm -rf %{buildroot}
-make install PREFIX=%{buildroot}/usr MODDIR="%{buildroot}/%{perl_vendorarch}" \
-BINDIR="%{buildroot}/%{_bindir}"
+make install PREFIX=%{buildroot}usr MODDIR="%{buildroot}%{perl_vendorarch}" \
+BINDIR="%{buildroot}%{_bindir}" MANDIR="%{buildroot}%{_mandir}/man1"
+mkdir -p %{buildroot}%{_mandir}/man1
 
-install -m 0775 %{_builddir}/%{name}_%{version}/cpp/vcftools %{buildroot}/%{_bindir}
+install -m 0775 %{_builddir}/%{name}_%{version}/cpp/vcftools %{buildroot}%{_bindir}
+install -m 0644 %{_builddir}/%{name}_%{version}/cpp/vcftools.1 %{buildroot}%{_mandir}/man1
 
 
 %clean
@@ -42,11 +44,11 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README.txt
+%doc README.txt 
+%{_mandir}/man1/vcftools.1*
 %{_bindir}/vcf-compare
 %{_bindir}/fill-aa
 %{_bindir}/fill-an-ac
-#%%{_bindir}/fill-rsIDs
 %{_bindir}/vcf-merge
 %{_bindir}/vcf-query
 %{_bindir}/vcf-annotate
@@ -74,6 +76,24 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Tue Aug 04 2015 Shane Sturrock <shane@biomatters.com> - 0.1.13-1
+- Migration of the vcftools project (and website) from sourceforge to github
+- Optimizations for reading and writing BCF files
+- Edits to code for C++ 11 compatibility
+- Added --mendel option for finding Mendelian errors in trios
+- Allow --diff options to output to stream by splitting up function into
+  --diff-site and --diff-indv options
+- Added experimental --hapcount function to determine the amount of unique
+  haplotypes in user defined bins
+- Addition of "any" options to filter by frequency or count of any
+  alternate allele (instead of requiring all of them to pass)
+- Improvements to temporary file handling for all LD functions
+- Added --chrom-map option to allow user specified chromosomes for writing
+  out plink files
+- Allow site filtering with multiple keep and exclude files
+- Tajima's D now reports NaN in the absence of data
+- Various bug fixes
+
 * Mon Dec 08 2014 Shane Sturrock <shane@biomatters.com> - 0.1.12b-1
 - Diff functions no longer write to temporary files, but instead scan through 
   both files simultaneously. Files must be sorted in the same chromosomal 
