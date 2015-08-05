@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.57
+Version:	2.3.58
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -60,8 +60,12 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Aug 06 2015 Shane Sturrock <shane@biomatters.com> - 2.3.58-1
+- Support for Encode gapped peak files (extension .gappedPeak).
+- Update htsjdk to version 1.138
+
 * Mon Jun 22 2015 Shane Sturrock <shane@biomatters.com> - 2.3.57-1
-- Upstream update, no details
+- Check for "null" gap types when computing splice junctions.
 
 * Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 2.3.55-1
 - Upstream update, no details
