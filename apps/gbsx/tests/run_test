@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+GBSX_digest -d G^CWGC -l 100 -f ./chromosomeLinks.txt 
+gbsx --BarcodeGenerator -b 5 -e ApeKI > /dev/null
+rm barcode* genome* chr21.fa.index chr22.fa.index
