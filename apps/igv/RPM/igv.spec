@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.58
+Version:	2.3.59
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -60,6 +60,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Aug 10 2015 Shane Sturrock <shane@biomatters.com> - 2.3.59-1
+- Bug Fixes
+  - Splice gaps in alignments sometimes drawn as deletion when show soft clips
+    is on
+- New Features and Improvements
+  - User preference for customizing VCF colors
+  - User preference for turning on "show all bases"
+
 * Thu Aug 06 2015 Shane Sturrock <shane@biomatters.com> - 2.3.58-1
 - Support for Encode gapped peak files (extension .gappedPeak).
 - Update htsjdk to version 1.138
