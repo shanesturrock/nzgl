@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.137
+Version:	1.138
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,22 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Aug 13 2015 Shane Sturrock <shane@biomatters.com> - 1.138-1
+- fix HistogramWidth in InsertSizeMetricCollector
+- added a utility function to get the log of a list of doubles.
+- Updated docs on gatk-tools-java usage
+- Fixing previous mistake with scheme logic
+- Add support for sequential FASTQ files in SamToFastq using the
+  USE_SEQUENTIAL_FASTQS option.  Sometimes we have the Fastq records for a one
+  end of a read in multiple files with the suffix <prefix>_001.fastq,
+  <prefix>_002.fastq, ..., <prefix>_XYZ.fastq, and we want to treat them all 
+  as one file.
+- Fixed bug that caused BedToIntervalList to flip strand of all features with 
+  a strand field. Also fixed the test case so that it correctly tests that the
+  strand doesn't flip!
+- Updated GenotypeConcordance so that it doesn't fail when trying to use
+  indexes on tabix indexed VCFs.
+
 * Wed Jul 29 2015 Shane Sturrock <shane@biomatters.com> - 1.137-1
 - Fixed up more BED tests for moving SAM version to 1.5
 - Modified BedToIntervalList to accept other dictionary files
