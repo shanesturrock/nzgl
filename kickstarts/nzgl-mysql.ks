@@ -34,6 +34,7 @@ dhclient
 mysql-server
 ntp
 yum-presto
+yum-utils
 xauth
 bind-utils
 wget

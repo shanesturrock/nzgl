@@ -44,6 +44,7 @@ pam_ldap
 pam_krb5
 sssd
 yum-plugin-post-transaction-actions
+yum-utils
 munin-node
 nc
 tmpwatch

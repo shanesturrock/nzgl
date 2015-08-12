@@ -33,6 +33,7 @@ dhclient
 ntp
 yum-presto
 yum-changelog
+yum-utils
 xauth
 bind-utils
 wget

@@ -52,6 +52,7 @@ freenx
 gedit
 libreoffice
 yum-plugin-post-transaction-actions
+yum-utils
 munin-node
 valgrind
 cpan

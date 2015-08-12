@@ -34,6 +34,7 @@ openssh-clients
 dhclient
 ntp
 yum-presto
+yum-utils
 xauth
 bind-utils
 wget
