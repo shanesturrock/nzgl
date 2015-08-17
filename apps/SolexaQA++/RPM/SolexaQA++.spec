@@ -1,5 +1,5 @@
 Name:		SolexaQA++
-Version:	3.1.3
+Version:	3.1.4
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -34,6 +34,12 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Tue Aug 18 2015 Shane Sturrock <shane@biomatters.com> - 3.1.4-1
+- Bugfix in the analysis heatmap for variable length reads. In case a tile is
+  entirely composed of reads shorter than all the other tiles, the squares for
+  missing cycles are now painted gray. 
+- Other minor bugfixes.
+
 * Fri Jan 23 2015 Shane Sturrock <shane@biomatters.com> - 3.1.3-1
 - Bugfix in the analysis histogram for variable length reads
 - fix for a malloc error on some systems when the -d option with a trailing 
