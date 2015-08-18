@@ -52,6 +52,7 @@ glibc-static
 python-argparse
 libcurl-devel
 libxml2-devel
+libXp-devel
 ncurses-devel
 nautilus-open-terminal
 environment-modules
