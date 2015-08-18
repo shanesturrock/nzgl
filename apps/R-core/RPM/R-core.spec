@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 321
+%define priority 322
 
 Name:           R-core
-Version:        3.2.1
+Version:        3.2.2
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0:        R-2.15.3.modulefile
 Source1:        R-3.0.3.modulefile
 Source2:        R-3.1.3.modulefile
-Source3:        R-3.2.1.modulefile
+Source3:        R-3.2.2.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
 
 # Post requires alternatives to install tool alternatives.
@@ -30,7 +30,7 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.1
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.2
 
 %clean
 rm -rf %{buildroot}
@@ -51,9 +51,70 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.1
+%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.2
 
 %changelog
+* Tue Aug 18 2015 Shane Sturrock <shane@biomatters.com> - 3.2.2-10
+- NEW FEATURES
+  - cmdscale() gets new option list. for increased flexibility when a list
+    should be returned.
+  - configure now supports texinfo version 6.0, which (unlike the change from
+    4.x to 5.0) is a minor update. (Wish of PR#16456.)
+  - download.file() with default method = "auto" now chooses "libcurl" if that
+    is available and a https:// or ftps:// URL is used.
+  - chooseCRANmirror() and chooseBioCmirror() now offer HTTPS mirrors in
+    preference to HTTP mirrors. This changes the interpretation of their ind
+    arguments: see their help pages.
+  - capture.output() gets optional arguments type and split to pass to sink(),
+    and hence can be used to capture messages.
+- BUG FIXES
+  - The HTML help page links to demo code failed due to a change in R 3.2.0.
+    (PR#16432)
+  - If the na.action argument was used in model.frame(), the original data
+    could be modified. (PR#16436)
+  - getGraphicsEvent() could cause a crash if a graphics window was closed
+    while it was in use. (PR#16438)
+  - matrix(x, nr, nc, byrow = TRUE) failed if x was an object of type
+    "expression".
+  - strptime() could overflow the allocated storage on the C stack when the
+    timezone had a non-standard format much longer than the standard formats.
+    (Part of PR#16328.)
+  - options(OutDec = s) now signals a warning (which will become an error in
+    the future) when s is not a string with exactly one character, as that has
+    been a documented requirement.
+  - prettyNum() gains a new option input.d.mark which together with other
+    changes, e.g., the default for decimal.mark, fixes some format()ting
+    variants with non-default getOption("OutDec") such as in PR#16411.
+  - download.packages() failed for type equal to either "both" or "binary".
+    (Reported by Dan Tenenbaum.)
+  - The dendrogram method of labels() is much more efficient for large
+    dendrograms, now using rapply(). (Comment #15 of PR#15215)
+  - The "port" algorithm of nls() could give spurious errors. (Reported by
+    Radford Neal.)
+  - Reference classes that inherited from reference classes in another package
+    could invalidate methods of the inherited class. Fixing this requires
+    adding the ability for methods to be “external”, with the object supplied
+    explicitly as the first argument, named .self. See "Inter-Package 
+    Superclasses" in the documentation.
+  - readBin() could fail on the SPARC architecture due to alignment issues.
+    (Reported by Radford Neal.)
+  - qt(*, df=Inf, ncp=.) now uses the natural qnorm() limit instead of
+    returning NaN. (PR#16475)
+  - Auto-printing of S3 and S4 values now searches for print() in the base
+    namespace and show() in the methods namespace instead of searching the
+    global environment.
+  - polym() gains a coefs = NULL argument and returns class "poly" just like
+    poly() which gets a new simple=FALSE option. They now lead to correct
+    predict()ions, e.g., on subsets of the original data.
+  - rhyper(nn, <large>) now works correctly. (PR#16489)
+  - ttkimage() did not (and could not) work so was removed. Ditto for
+    tkimage.cget() and tkimage.configure(). Added two Ttk widgets and missing
+    subcommands for Tk's image command: ttkscale(), ttkspinbox(), 
+    tkimage.delete(), tkimage.height(), tkimage.inuse(), tkimage.type(), 
+    tkimage.types(), tkimage.width(). (PR#15372, PR#16450)
+  - getClass("foo") now also returns a class definition when it is found in the
+    cache more than once.
+
 * Fri Jun 18 2015 Shane Sturrock <shane@biomatters.com> - 3.2.1-10
 - NEW FEATURES:
   - utf8ToInt() now checks that its input is valid UTF-8 and returns
