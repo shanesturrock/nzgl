@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.14.3
+Version:	0.14.5
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,50 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+*Fri Aug 21 2015 Shane Sturrock <shane@biomatters.com> - 0.14.5-1
+- deduplicate_bismark
+  - Changed all instances of literal calls of 'samtools' calls to 
+    '$samtools_path'.
+
+*Thu Aug 20 2015 Shane Sturrock <shane@biomatters.com> - 0.14.4-1
+- Bismark
+  - Input files specified with filepath information for FastA files
+    are now handled properly in --multicore runs (this was fixed only
+    for FastQ files in the previous patch).
+  - Changed the FLAG values of paired-end alignments to the CTOT or
+    CTOB strands so that reads can be properly displayed in SeqMonk
+    when imported as BAM files. This change affects only paired-end
+    alignments in --pbat or --non_directional mode. In detail we simply
+    swapped the Read 1 and Read 2 FLAG values round so reads now resemble
+    xactly concordant read pairs to the OT and OB strands.  Note that
+    results produced by the methylation extractor or further downstream of
+    that are not affected by this change.
+  - Changed the default mode of operation to --bowtie2. Bowtie (1) alignments 
+    may still be chosen using the option --bowtie1.
+  - Unmapped (option --unmapped) and ambiguous (option --ambiguous) files
+    are now written out as gzip compressed files so they don't have to be
+    gzipped manually every single time.
+- Bismark Genome Preparation
+  - Changed the execution of the genome indexing of the parent process to
+    system() rather than an exec() call since this seemed to lead to
+    interesting faults when run in a pipeline setting.
+  - Changed the default indexing mode to --bowtie2. Bowtie (1) indexing is
+    still available via the option --bowtie1.
+- bismark2bedGraph
+  - The coverage (.cov) and bedGraph (.bedGraph) files are now written out
+    as gzip compressed files so you don't have to gzip them manually every
+    single time.
+- coverage2cytosine
+  - Added a new option --gc_context to reprocess the genome and find
+    methylation in GpC context. This might be useful for certain
+    applications where GpC methylases had been deployed. The output format
+    is exactly the same as for the normal CpG report, and only positions
+    covered by at least one read are reported. A coverage file will also
+    be written out.
+- deduplicate_bismark
+  - Removed redundant close() statements so there shouldn't be any warning
+    messages popping up again.
+
 *Thu May 07 2015 Shane Sturrock <shane@biomatters.com> - 0.14.3-1
 - Bismark:
   - Changed the renaming settings for paired-end files so that 'sam' within 

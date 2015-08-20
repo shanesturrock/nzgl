@@ -1,13 +1,22 @@
---- seqmonk.orig	2015-04-24 08:15:02.931051494 +1200
-+++ seqmonk	2015-04-24 08:13:44.340624235 +1200
-@@ -16,8 +16,8 @@
+--- seqmonk.orig	2015-08-20 07:47:03.023022025 +1200
++++ seqmonk	2015-08-20 07:50:48.047863394 +1200
+@@ -15,10 +15,10 @@
+ 
  
  if ($ENV{CLASSPATH}) {
--	$ENV{CLASSPATH} .= ":$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
-+	$ENV{CLASSPATH} .= ":/usr/share/java/seqmonk:$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
+-	$ENV{CLASSPATH} .= ":$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar:$RealBin/commons-math3-3.5.jar";
++	$ENV{CLASSPATH} .= ":/usr/share/java/seqmonk:$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar:$RealBin/commons-math3-3.5.jar";
  }
  else {
--	$ENV{CLASSPATH} = "$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
-+	$ENV{CLASSPATH} = "/usr/share/java/seqmonk:$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar";
+-	$ENV{CLASSPATH} = "$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar:$RealBin/commons-math3-3.5.jar";
++	$ENV{CLASSPATH} = "/usr/share/java/seqmonk:$RealBin:$RealBin/sam-1.32.jar:$RealBin/Jama-1.0.2.jar:$RealBin/commons-math3-3.5.jar";
  }
  
+ # We need to make sure the language is English so we can parse the output of some
+@@ -319,4 +319,4 @@
+     Any bugs in SeqMonk should be reported either to simon.andrews@babraham.ac.uk
+     or in www.bioinformatics.babraham.ac.uk/bugzilla/
+                    
+-    
+\ No newline at end of file
++    

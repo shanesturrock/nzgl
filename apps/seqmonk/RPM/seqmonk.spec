@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.31.1
+Version:	0.32.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,14 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Thu Aug 20 2015 Shane Sturrock <shane@biomatters.com> - 0.32.0-1
+- Added a duplication plot based around DupRadar
+- Added a binomial stats filter for bisulphite analysis where there is a 
+  global methylation change
+- Fixed a bug in preferences editing for systems with R in the path
+- Added a data export option to the quantitation trend plot
+- Various bug and stability fixes
+
 * Tue Jul 07 2015 Shane Sturrock <shane@biomatters.com> - 0.31.1-1
 - Changed paired end SAM/BAM import to not rely on the TLEN SAM field
 - Fixed a bug in logistic regression when only analysing probes on a single 
