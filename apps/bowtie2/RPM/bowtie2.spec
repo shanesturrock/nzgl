@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.5
+Version:	2.2.6
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,20 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Wed Aug 26 2015 Shane Sturrock <shane@biomatters.com> - 2.2.6-1
+- Switched to a stable sort to avoid some potential reproducibility confusions.
+- Added 'install' target for *nix platforms.
+- Added the Intel TBB option which provides in most situations a better
+  performance output. TBB is not present by default in the current build but
+  can be added by compiling the source code with WITH_TBB=1 option.
+- Fixed a bug that caused seed length to be dependent of the -L and -N
+  parameters order.
+- Fixed a bug that caused --local followed by -N to reset seed length to 22
+  which is actually the default value for global.
+- Enable compilation on FreeBSD and clang, although gmake port is still
+  required.
+- Fixed an issue that made bowtie2 compilation process to fail on Snow Leopard.
+
 * Mon Mar 09 2015 Shane Sturrock <shane@biomatters.com> - 2.2.5-1
 - Fixed some situations where incorrectly we could detect a Mavericks platform.
 - Fixed some manual issues including some HTML bad formatting.
