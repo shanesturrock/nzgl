@@ -1,5 +1,5 @@
 Name:		bedtools2
-Version:	2.24.0
+Version:	2.25.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
@@ -106,6 +106,30 @@ rm -rf %{buildroot}
 %{_bindir}/windowMaker
 
 %changelog
+* Fri Sep 04 2015 Shane Sturrock <shane@biomatters.com> - 2.25.0-1
+- Added new -F option that allows one to set the minimum fraction of
+  overlap required for the B interval. This complements the
+  functionality of the -f option.Available for intersect, coverage, map,
+  subtract, and jaccard.
+- Added new -e option that allows one to require that the minimum
+  fraction overlap is achieved in either A _OR_ B, not A _AND_ B which
+  is the behavior of the -r option. Available for intersect, coverage,
+  map, subtract, and jaccard.
+- Fixed a longstanding bug that prevented genomecov from reporting
+  chromosomes that lack a single interval.
+- Modified a src directory called "aux" to "driver" to prevent
+  compilation errors on Windows machines. Thanks very much to John
+  Marshall.
+- Fixed a regression that caused the coverage tool to complain if BED
+  files had less than 5 columns.
+- Fixed a variable overload bug that prevented compilation on Debian
+  machines.
+- Speedups to the groupby tool.
+- New -delim option for the groupby tool.
+- Fixed a bug in map that prevented strand-specifc overlaps from being
+  reported when using certain BEDPLUS formats.
+- Prevented excessive memory usage when not using pre-sorted input.
+
 * Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 2.24.0-1
 - The coverage tool now takes advantage of pre-sorted intervals via the 
   -sorted option. This allows the coverage tool to be much faster, use far 

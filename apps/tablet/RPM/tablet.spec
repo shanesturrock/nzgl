@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.14.10.21
+Version:	1.15.09.01
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -12,7 +12,7 @@ Patch0:		%{name}-apphomefix.patch
 #Patch1:		maqtoace-apphomefix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	java-1.7.0-openjdk
+Requires:	java-1.8.0-openjdk
 
 %description
 Tablet is a lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
@@ -62,6 +62,18 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Wed Sep 02 2015 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-1
+- BUG: Reverted the included version of Java (because of JDK-8134827 that was
+  breaking the scrollbars on large data sets).
+- NEW: The read-shadower now highlights all read pairs in addition to reads
+  under the mouse.
+- NEW: Added SHIFT+mouse wheel support, that scrolls the canvas horizontally.
+- NEW: Updated the installers for better Windows 10 and OS X compatibility.
+- NEW: Updated the Java runtime included in the installers to the latest
+  versions.
+- CHG: Removed the write-file test when running installers as it’s not
+  compatible with UAC situations.
+
 * Wed Oct 22 2014 Shane Sturrock <shane@biomatters.com> - 1.14.10.21-1
 - NEW: Fixed an installer bug that prevented Tablet from installing on Linux.
 - NEW: Added a new colour scheme that handles read number concordance.
