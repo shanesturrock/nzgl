@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.5.1
+Version:	0.5.2
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep 08 2015 Shane Sturrock <shane@biomatters.com> - 0.5.2-1
+- Fixed bug observed when --nohits option selected causing initialization
+  warnings, in some instances
+
 * Wed Jul 15 2015 Shane Sturrock <shane@biomatters.com> - 0.5.1-1
 - Ensures a FASTQ file is not mapped against the same library more than 
   once
