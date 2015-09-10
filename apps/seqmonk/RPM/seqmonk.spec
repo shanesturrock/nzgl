@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.32.0
+Version:	0.32.1
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,14 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri Sep 11 2015 Shane Sturrock <shane@biomatters.com> - 0.32.1-1
+- Fixed a bug which caused some systems to hang when running a monitored R
+  script
+- Improved the reporting of R crashes
+- Fixed some layout issues where parts of the UI were not visible when using
+  long Data Store names
+- Made lines in the line graph plot selectable
+
 * Thu Aug 20 2015 Shane Sturrock <shane@biomatters.com> - 0.32.0-1
 - Added a duplication plot based around DupRadar
 - Added a binomial stats filter for bisulphite analysis where there is a 
