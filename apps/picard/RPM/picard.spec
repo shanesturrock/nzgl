@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.138
+Version:	1.139
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,25 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue Sep 15 2015 Shane Sturrock <shane@biomatters.com> - 1.139-1
+- Fix a bug in path handling
+- Fix the number of parameters in a test method
+- Have FilterVcf use the input VCF's SequenceDictionary if output is to an
+  uncompressed VCF or BCF.
+- Clear the AS (alignment score) tag as a default.
+- refactoring out common code from CollectWgsMetricsFromQuerySorted for testing
+  and reuse
+- Fix the liftover tool to NOT try to lift over indels when the target region
+  in the chain has been reverse complemented.
+- Removed temporary method in CollectWgsMetricsFromQuerySorted
+- Add option to count unpaired reads in CollectWgsMetrics.
+- Added new metrics to the query-sorted collector.
+- Separated CollectWgsMetrics into 2 separate tools:
+- Tool to collect summary metrics from a stream of query-name sorted reads.
+- Added capability to CollectWgsMetrics to restrict to certain intervals.
+- Fixed LiftoverVcf to properly handle Genotypes when the Alleles have been
+  reverse complemented.
+
 * Thu Aug 13 2015 Shane Sturrock <shane@biomatters.com> - 1.138-1
 - fix HistogramWidth in InsertSizeMetricCollector
 - added a utility function to get the log of a list of doubles.
