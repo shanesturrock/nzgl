@@ -1,16 +1,17 @@
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	20140717
+Version:	2.0.6
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://trinityrnaseq.sourceforge.net
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}_r%{version}.tar.gz
+Source0:	trinityrnaseq_%{version}.tar.gz
 Patch0:		GG_write_trinity_cmds.pl.patch
 Patch1:		run_Trinity_edgeR_pipeline.pl.patch
 Requires:	java-1.6.0
+Obsoletes:	trinityrnaseq_r20140717
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
 BuildRequires:	ncurses-devel
@@ -25,7 +26,8 @@ independent software modules: Inchworm, Chrysalis, and Butterfly, applied
 sequentially to process large volumes of RNA-seq reads.
 
 %prep
-%setup -q -n %{name}_r%{version}
+%setup -q
+# %setup -q -n %{name}_r%{version}
 %patch0 -p0
 %patch1 -p0
 # Fix perl shebangs
@@ -34,6 +36,7 @@ find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' 
 find . -type f -name 'Trinity' | xargs sed 's/\"$FindBin::RealBin\";/\"\/usr\/libexec\/trinityrnaseq\";/g' --in-place
 %build
 make %{?_smp_mflags}
+make plugins %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -66,6 +69,7 @@ install -m 0755 Chrysalis/QuantifyGraph %{buildroot}/%{_libexecdir}/%{name}/Chry
 install -m 0755 Chrysalis/BreakTransByPairs %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/BreakTransByPairs
 install -m 0755 Chrysalis/GraphFromFasta %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/GraphFromFasta
 install -m 0755 Chrysalis/ReadsToTranscripts %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/ReadsToTranscripts
+install -m 0755 Chrysalis/CreateIwormFastaBundle %{buildroot}/%{_libexecdir}/%{name}/Chrysalis/CreateIwormFastaBundle
 
 /bin/cp -r PerlLib/* %{buildroot}/%{perl_vendorarch}
 
@@ -78,12 +82,73 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc docs/ README Release.Notes
+%doc README Release.Notes
 /usr/bin/Trinity
 /usr/libexec/%{name}/*
 %{perl_vendorarch}/*
 
 %changelog
+* Wed Sep 23 2015 Shane Sturrock <shane@biomatters.com> - 2.0.6-1
+- Trinity v2.0 includes a number of significant changes as outlined
+  below:
+ - Logistics:
+   - Trinity moves to github, with the new website location at:
+     http://trinityrnaseq.github.io
+   - User support now occurs through the google group:
+     https://groups.google.com/forum/#!forum/trinityrnaseq-users
+ - Software:
+   - Trinity assembly now operates in two distinct phases (1):
+     clustering reads and (2) assembly of reads. The phase (1) read
+     clustering phase can be done by de novo read clustering (default) or
+     in a genome-guided way (given a coordinate-sorted bam file). Phase (2)
+     involves executing the complete Trinity process on each cluster of
+     reads. For the de novo read clustering phase, existing Trinity
+     components are used (Inchworm and Chrysalis), but that process will
+     likely be replaced by an alternative mechanism in some future release.
+     However, Inchworm and Chrysalis will continue to be core components of
+     the Trinity assembly process (phase 2).
+   - the Butterfly algorithm has been extensively revised to better
+     integrate long read support and to improve on the assembly of
+     complex isoforms, particularly those containing internally repetitive
+     sequences.
+- Numerous minor changes and differences in usage - see web
+  documentation. Most notable changes are:
+  - Trinity --max_memory instead of --JM, and simpler usage for the
+    genome-guided method, which requires that the user provide a
+    coordinate-sorted bam file with parameter: --genome_guided_bam.
+  - f you have error-corrected pacbio reads, you can incorporate them
+    with the Trinity --long_reads parameter. Note, however, if you
+    have strand-specific RNA-Seq, you'll need to be sure to first reorient
+    your pacbio reads so that they are sense strand oriented (we do not
+    have an automated process to do that yet). Also, note that this new
+    feature continues to be experimental and additional work is underway
+    to fully demonstrate the added value from incorporating the long read
+    data.
+- v2.0.6
+  - patch - had to 'autoconf --install' for the Inchworm build
+- v2.0.5
+  - Performance-related patch.
+  - Files containing reads to assemble are now properly being fanned
+    out across a number of directories and files, instead of
+    inadvertently co-localizing them all in a single directory.
+    Performance improvements should be observed in the context of large
+    data sets.
+- v2.0.4
+  - Trimmomatic symlink set w/ capital T
+  - additional testing built in
+  - use parallel samtools always (not just w/ v1.1, silly!)
+  - runtime latest-version checking added
+- v2.0.3
+  - Bugfix to Butterfly that accounts for rare edge-cases resulting in
+    fatal error: DAG contains a cycle
+  - Jellyfish is now only used in the initial stage-1 of Trinity (read
+    clustering phase), and Inchworm does the kmer counting in stage-2
+    (the assembly phase). This results in much faster runtimes,
+    particularly on small data sets.
+  - Trinity is much less verbose, especially in stage-2
+  - Matt MacManes updated the Trimmomatic settings to those defined as
+    optimal for trinity assembly.
+
 * Tue Aug 05 2014 Shane Sturrock <shane@biomatters.com> - r20140717-1
 run_DE_analysis.pl
     - added '--contrasts' to specify the DE comparisons to perform.

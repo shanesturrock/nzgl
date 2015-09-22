@@ -1,11 +1,11 @@
 Name:		igv
-Version:	2.3.59
+Version:	2.3.60
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
 License:	LGPL
 URL:		http://www.broadinstitute.org/igv/home
-Source0:	http://www.broadinstitute.org/igv/projects/downloads/IGVSource_%{version}.zip
+Source0:	igv-%{version}.zip
 Source1:	igv
 Source2:	igv.desktop
 Source3:	igv-icons.tar.gz
@@ -20,7 +20,8 @@ a wide variety of data types, including array-based and next-generation
 sequence data, and genomic annotations.
 
 %prep
-%setup -q -n IGVSource_%{version}
+%setup -q
+# %setup -q -n IGV_%{version}
 
 %build
 /usr/bin/ant -Dinclude.libs=true
@@ -60,6 +61,19 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Sep 23 2015 Shane Sturrock <shane@biomatters.com> - 2.3.60-1
+- Bug Fixes
+  - Center position off-by-one when using "goto"
+- New Features and Improvements
+  - New option to render bed files as arcs connecting the start and end
+    position.  To use specify "graphType=arc" on the track line. An initial
+    height of at least 250 pixels is recommended (track line option height=250)
+  - New bisulfite option to show all "C"s irrespective of context (context =
+    None)
+  - Session files now uses absolute resource paths by default. There is a new
+    option to force use of relative paths in the "General" category of user
+    preferences.
+
 * Mon Aug 10 2015 Shane Sturrock <shane@biomatters.com> - 2.3.59-1
 - Bug Fixes
   - Splice gaps in alignments sometimes drawn as deletion when show soft clips
