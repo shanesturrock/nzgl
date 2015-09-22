@@ -116,7 +116,7 @@ rm -rf %{buildroot}
   - Trinity --max_memory instead of --JM, and simpler usage for the
     genome-guided method, which requires that the user provide a
     coordinate-sorted bam file with parameter: --genome_guided_bam.
-  - f you have error-corrected pacbio reads, you can incorporate them
+  - if you have error-corrected pacbio reads, you can incorporate them
     with the Trinity --long_reads parameter. Note, however, if you
     have strand-specific RNA-Seq, you'll need to be sure to first reorient
     your pacbio reads so that they are sense strand oriented (we do not
