@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+# Run test_Trinity_Assembly
+#cd sample_data/test_Trinity_Assembly
+#./runMe.sh
+#./cleanme.pl
+#cd ..
+
+# Run test_Trinity_Coding_Extraction
+#cd sample_data/test_Trinity_Coding_Extraction
+#./runMe.sh
+#./cleanme.pl
+#cd ..
+
+# Run test_full_edgeR_pipeline
+cd sample_data/test_full_edgeR_pipeline
+./runMe.sh
+./cleanme.pl
+cd ..
+
+exit 0
