@@ -9,6 +9,7 @@ Source0:	igv-%{version}.zip
 Source1:	igv
 Source2:	igv.desktop
 Source3:	igv-icons.tar.gz
+Patch0:		about.properties.patch
 Requires:	java-1.7.0 dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	ant
@@ -21,6 +22,7 @@ sequence data, and genomic annotations.
 
 %prep
 %setup -q
+%patch0 -p0
 # %setup -q -n IGV_%{version}
 
 %build
