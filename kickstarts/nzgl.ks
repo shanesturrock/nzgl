@@ -43,6 +43,7 @@ evince
 emacs
 blas-devel
 lapack-devel
+gd-devel
 nfs-utils
 pam_ldap
 pam_krb5
