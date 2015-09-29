@@ -1,14 +1,14 @@
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	2.0.6
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://trinityrnaseq.sourceforge.net
 Source0:	trinityrnaseq_%{version}.tar.gz
-Patch0:		GG_write_trinity_cmds.pl.patch
+Patch0:		write_partitioned_trinity_cmds.pl.patch
 Patch1:		run_Trinity_edgeR_pipeline.pl.patch
 Requires:	java-1.6.0
 Obsoletes:	trinityrnaseq_r20140717
@@ -88,6 +88,16 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Wed Sep 30 2015 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
+- Abundance estimation: added support for kallisto and using TPMs now instead
+  of FPKMs for downstream analyses.
+- DE analysis: added support for Limma/Voom and ROTS, dropped support for
+  DESeq(1) while keeping DESeq2. For edgeR w/o bio reps, user must define
+  dispersion parameter.
+- Minimal changes to the assembler, minor bug fixes, tackled most github
+  'issues' from last release.
+- Trinity documentation was reorganized, revised, and moved to the wiki format.
+
 * Wed Sep 23 2015 Shane Sturrock <shane@biomatters.com> - 2.0.6-1
 - Trinity v2.0 includes a number of significant changes as outlined
   below:
