@@ -64,6 +64,7 @@
       <packagereq type="mandatory">STAR</packagereq>
       <packagereq type="mandatory">mothur</packagereq>
       <packagereq type="mandatory">uchime</packagereq>
+      <packagereq type="mandatory">vsearch</packagereq>
     </packagelist>
   </group>
 </comps>
