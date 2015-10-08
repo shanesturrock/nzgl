@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.139
+Version:	1.140
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -47,6 +47,19 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Oct 09 2015 Shane Sturrock <shane@biomatters.com> - 1.140-1
+- Improvements to Collect GcBias Metrics to prevent storing gc for every
+  position in the reference. New tests to ensure that all contigs of the
+  reference are accounted for even in small SAM files.
+- GenotypeConcordance could overflow if there were too many sites for an
+  integer, which could happen for true negative sites for whole genomes when
+  using MISSING_SITES_HOM_REF=true.
+- Changed shorts to ints and needed to add a min function that returns ints to
+  Math Util.
+- use the correct codec when spilling read ends to disk within MarkDuplicates
+- adding support for duplicate marking for individual barcodes (ex. 10X
+  Genomics).
+
 * Tue Sep 15 2015 Shane Sturrock <shane@biomatters.com> - 1.139-1
 - Fix a bug in path handling
 - Fix the number of parameters in a test method
