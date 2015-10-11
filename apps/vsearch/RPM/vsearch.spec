@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.5.0
+Version:	1.6.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 1.6.0
+- Added relabelling options for shuffle and added xsize option for several
+  commands.
+
 * Thu Oct 08 2015 Shane Sturrock <shane@biomatters.com> - 1.5.0
 - Initial NZGL release
 

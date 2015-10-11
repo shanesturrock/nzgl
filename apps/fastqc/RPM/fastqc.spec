@@ -1,5 +1,5 @@
 Name:		fastqc
-Version:	0.11.3
+Version:	0.11.4
 Release:	1%{?dist}
 Summary:	A quality control application for high throughput sequence data
 Group:		Applications/Engineering
@@ -41,6 +41,18 @@ rm -rf %{buildroot}
 /usr/share/java/fastqc/*
 
 %changelog
+* Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 0.11.4-1
+- Changed the OSX launcher to not rely on the internal JVM framework, but use
+  any command line java which is found
+- Fixed a typo in one of the adapter sequences
+- Fixed a bug which meant that some file extensions weren't removed from report
+  names in non-interactive mode
+- Made the per-tile module not collect any stats if it's disabled in limits.txt
+- Fixed a bug in the calculation of duplication for highly duplicated, ordered
+  files with very small numbers of sequences
+- Fixed an incorrect error flag in the per-base quality module where there were
+  less than 100 observations in a read group
+
 * Thu Mar 26 2015 Shane Sturrock <shane@biomatters.com> - 0.11.3-1
 - Fixed a bug when disabling the per-tile plot from limits.txt
 - Fixed a bug which caused the program to continue when processing of 
