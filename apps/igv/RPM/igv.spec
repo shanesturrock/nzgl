@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.60
+Version:	2.3.61
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 2.3.61-1
+- VCF and bed files not loadable from Google cloud storage (gs:// urls)
+
 * Wed Sep 23 2015 Shane Sturrock <shane@biomatters.com> - 2.3.60-1
 - Bug Fixes
   - Center position off-by-one when using "goto"

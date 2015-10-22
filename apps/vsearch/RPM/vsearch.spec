@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.6.0
+Version:	1.8.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,14 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 1.8.0
+- Added --search_exact, --fastx_mask and --fastq_convert commands. 
+- Changed most commands to read FASTQ input files as well as FASTA files. 
+- Modified --fastx_revcomp and --fastx_subsample to also write FASTQ files.
+
+* Mon Oct 19 2015 Shane Sturrock <shane@biomatters.com> - 1.7.0
+- Added relabel_keep option
+
 * Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 1.6.0
 - Added relabelling options for shuffle and added xsize option for several
   commands.

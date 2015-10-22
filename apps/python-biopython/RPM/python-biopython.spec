@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.65
+Version:          1.66
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,29 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Fri Oct 23 2015 Shane Sturrock <shane@biomatters.com> - 1.66-1
+- Further work on the Bio.KEGG and Bio.Graphics modules now allows drawing KGML
+  pathways with transparency.
+- The Bio.SeqIO "abi" parser now decodes almost all the documented fields used
+  by the ABIF instruments - including the individual color channels.
+- Bio.PDB now has a QCPSuperimposer module using the Quaternion Characteristic
+  Polynomial algorithm for superimposing structures. This is a fast alternative
+  to the existing SVDSuperimposer code using singular value decomposition.
+- Bio.Entrez now implements the NCBI Entrez Citation Matching function
+  (ECitMatch), which retrieves PubMed IDs (PMIDs) that correspond to a set of
+  input citation strings.
+- Bio.Entrez.parse(...) now supports NCBI XML files using XSD schemas, which
+  will be downloaded and cached like NCBI DTD files.
+- A subtle bug in how multi-part GenBank/EMBL locations on the reverse strand
+  were parsed into CompoundLocations was fixed: complement(join(...)) as used
+  by NCBI worked, but join(complement(...),complement(...),...) as used by
+  EMBL/ENSEMBL gave the CompoundLocation parts in the wrong order. A related
+  bug when taking the reverse complement of a SeqRecord containing features
+  with CompoundLocations was also fixed.
+- Additionally, a number of small bugs have been fixed with further additions
+  to the test suite, and there has been further work on conforming to the
+  Python PEP8 standard coding style.
+
 * Fri Dec 19 2014 Shane Sturrock <shane@biomatters.com> - 1.65-1
 - This release of Biopython supports Python 2.6, 2.7, 3.3 and 3.4. It is
   also tested on PyPy 2.0 to 2.4, PyPy3 version 2,4, and Jython 2.7b2.

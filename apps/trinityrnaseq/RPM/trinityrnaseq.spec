@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
@@ -88,6 +88,13 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/*
 
 %changelog
+* Wed Oct 19 2015 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
+- Memory is divided among the samtools threads.
+- The Trinity contig identifiers for genome-guided assemblies are now formatted
+  correctly (as compared to v2.1.0).
+- We now run a check to ensure that the number of fastq records being converted
+  to fasta by fastools matches (sanity check).
+
 * Wed Sep 30 2015 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
 - Abundance estimation: added support for kallisto and using TPMs now instead
   of FPKMs for downstream analyses.
