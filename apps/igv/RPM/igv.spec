@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.61
+Version:	2.3.63
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Nov 02 2015 Shane Sturrock <shane@biomatters.com> - 2.3.63-1
+- No details of changes
+
 * Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 2.3.61-1
 - VCF and bed files not loadable from Google cloud storage (gs:// urls)
 
