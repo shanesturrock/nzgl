@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.8.0
+Version:	1.8.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,14 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Nov 04 2015 Shane Sturrock <shane@biomatters.com> - 1.8.1
+- This release fixes some compatibility issues with older OS X versions as well
+  as with QIIME and usearch61.
+  - OS X version 10.7 and newer should now be properly supported. 
+  - The --threads option will now accept floating point arguments for
+    compatibility with usearch61 and QIIME (specifically
+    identify_chimeric_seqs.py).
+
 * Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 1.8.0
 - Added --search_exact, --fastx_mask and --fastq_convert commands. 
 - Changed most commands to read FASTQ input files as well as FASTA files. 

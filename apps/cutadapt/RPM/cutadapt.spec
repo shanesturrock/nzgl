@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.8.3
+Version:	1.9
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,8 +37,31 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Wed Nov 04 2015 Shane Sturrock <shane@biomatters.com> - 1.9-1
+- Indels in the alignment can now be disabled for all adapter types (use
+  --no-indels).
+- Quality values are now printed in the info file (--info-file) when trimming
+  FASTQ files. Fixes issue #144.
+- Options --prefix and --suffix, which modify read names, now accept the
+  placeholder {name} and will replace it with the name of the found adapter.
+  Fixes issue #104.
+- Interleaved FASTQ files: With the --interleaved switch, paired-end reads will
+  be read from and written to interleaved FASTQ files. Fixes issue #113.
+- Anchored 5’ adapters can now be specified by writing -a SEQUENCE... (note the
+  three dots).
+- Fix --discard-untrimmed and --discard-trimmed not working as expected in
+  paired-end mode (issue #146).
+- The minimum overlap is now automatically reduced to the adapter length if it
+  is too large. Fixes part of issue #153.
+- Thanks to Wolfgang Gerlach, there is now a Dockerfile.
+- The new --debug switch makes cutadapt print out the alignment matrix.
+
 * Thu Jul 30 2015 Shane Sturrock <shane@biomatters.com> - 1.8.3-1
-- No details of update
+- Fix issue #95: Untrimmed reads were not listed in the info file.
+- Fix issue #138: pip install cutadapt did not work with new setuptools
+  versions.
+- Fix issue #137: Avoid a hang when writing to two or more gzip-compressed
+  output files in Python 2.6.
 
 * Fri Apr 10 2015 Sidney Markowitz <sidney@biomatters.com> - 1.8.1-1
 - Fix counts for ‘too short’ and ‘too long’ reads were swapped in statistics.
