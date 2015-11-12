@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.8.1
+Version:	1.9.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,7 +42,16 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
-* Wed Nov 04 2015 Shane Sturrock <shane@biomatters.com> - 1.8.1
+* Fri Nov 13 2015 Shane Sturrock <shane@biomatters.com> - 1.9.0-1
+- Added the --fastq_mergepairs command and associated options. This command has
+  not been tested well yet.
+- Included additional files to avoid dependency of autoconf for compilation. 
+- Fixed an error where identifiers in fasta headers where not truncated at
+  tabs, just spaces. 
+- Fixed a bug in detection of the file format (FASTA/FASTQ) of a gzip
+  compressed input file.
+
+* Wed Nov 04 2015 Shane Sturrock <shane@biomatters.com> - 1.8.1-1
 - This release fixes some compatibility issues with older OS X versions as well
   as with QIIME and usearch61.
   - OS X version 10.7 and newer should now be properly supported. 
@@ -50,18 +59,18 @@ rm -rf %{buildroot}
     compatibility with usearch61 and QIIME (specifically
     identify_chimeric_seqs.py).
 
-* Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 1.8.0
+* Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 1.8.0-1
 - Added --search_exact, --fastx_mask and --fastq_convert commands. 
 - Changed most commands to read FASTQ input files as well as FASTA files. 
 - Modified --fastx_revcomp and --fastx_subsample to also write FASTQ files.
 
-* Mon Oct 19 2015 Shane Sturrock <shane@biomatters.com> - 1.7.0
+* Mon Oct 19 2015 Shane Sturrock <shane@biomatters.com> - 1.7.0-1
 - Added relabel_keep option
 
-* Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 1.6.0
+* Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 1.6.0-1
 - Added relabelling options for shuffle and added xsize option for several
   commands.
 
-* Thu Oct 08 2015 Shane Sturrock <shane@biomatters.com> - 1.5.0
+* Thu Oct 08 2015 Shane Sturrock <shane@biomatters.com> - 1.5.0-1
 - Initial NZGL release
 
