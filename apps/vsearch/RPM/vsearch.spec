@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.0
+Version:	1.9.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Nov 16 2015 Shane Sturrock <shane@biomatters.com> - 1.9.1-1
+- Fixed memory leak and a bug in score computation in fastq_mergepairs, and
+  improved speed.
+
 * Fri Nov 13 2015 Shane Sturrock <shane@biomatters.com> - 1.9.0-1
 - Added the --fastq_mergepairs command and associated options. This command has
   not been tested well yet.
