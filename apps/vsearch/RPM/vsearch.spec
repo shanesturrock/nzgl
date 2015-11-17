@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.1
+Version:	1.9.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Nov 18 2015 Shane Sturrock <shane@biomatters.com> - 1.9.2-1
+- Fixed a bug in computation of some values with --fastq_stats.
+
 * Mon Nov 16 2015 Shane Sturrock <shane@biomatters.com> - 1.9.1-1
 - Fixed memory leak and a bug in score computation in fastq_mergepairs, and
   improved speed.

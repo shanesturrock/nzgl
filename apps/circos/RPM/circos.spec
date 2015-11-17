@@ -1,13 +1,14 @@
 %define ver 0.68
+%define issue 1
 
 Name:		circos
-Version:	%{ver}
+Version:	%{ver}.%{issue}
 Release:	1%{?dist}
 Summary:	Circos is a software package for visualizing data and information.
 Group:		Applications/Engineering
 License:	GPL
 URL:		http://circos.ca/
-Source0:	http://circos.ca/distribution/circos-%{ver}.tgz
+Source0:	http://circos.ca/distribution/circos-%{ver}-%{issue}.tgz
 Source1:	circos.sh
 Requires:	perl-Statistics-Basic,perl-Math-Bezier
 
@@ -18,7 +19,7 @@ exploring relationships between objects or positions. Circos is ideal
 for creating publication-quality infographics and illustrations with a 
 high data-to-ink ratio, richly layered data and pleasant symmetries. 
 %prep
-%setup -q -n %{name}-%{ver}
+%setup -q -n %{name}-%{ver}-%{issue}
 
 %install
 rm -rf %{buildroot}
@@ -38,6 +39,12 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Wed Nov 18 2015 Shane Sturrock <shane@biomatters.com> - 0.68.1-1
+- Fixed axis spacing bug that was causing an infinite loop when min=max and
+  spacing was relative.
+- Fixed a bug in tick filtering which was unnecessarily looping over ticks that
+  were filtered out entirely from an ideogram.
+
 * Wed Oct 21 2015 Shane Sturrock <shane@biomatters.com> - 0.68-1
 - Fixed a bug that was preventing background to be drawn in SVG files.
 - Fixed a bug that was introduced in the previous release that broke
