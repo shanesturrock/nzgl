@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.9
+Version:	1.9.1
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,12 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Thu Dec 03 2015 Shane Sturrock <shane@biomatters.com> - 1.9.1-1
+- Added --pair-filter option, which modifies how filtering criteria apply to
+  paired-end reads
+- Add --too-short-paired-output and --too-long-paired-output options.
+- Fix incorrect number of trimmed bases reported if --times option was used.
+
 * Wed Nov 04 2015 Shane Sturrock <shane@biomatters.com> - 1.9-1
 - Indels in the alignment can now be disabled for all adapter types (use
   --no-indels).
