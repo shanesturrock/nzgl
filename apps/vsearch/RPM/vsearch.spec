@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.3
+Version:	1.9.4
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Fri Dec 04 2015 Shane Sturrock <shane@biomatters.com> - 1.9.4-1
+- Fixed incrementation of counter when relabeling dereplicated sequences.
+
 * Fri Nov 20 2015 Shane Sturrock <shane@biomatters.com> - 1.9.3-1
 - Workaround for missing x86intrin.h with old compilers
 
