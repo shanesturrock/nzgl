@@ -10,7 +10,7 @@ Source0:	http://downloads.sourceforge.net/%{name}-tools-%{version}.zip
 Source1:	picard
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildArch:	noarch
+BuildArch:	x86_64
 
 Requires:	java >= 1:1.8.0
 Requires:	jpackage-utils
@@ -36,6 +36,7 @@ mkdir -p %{buildroot}/%{_bindir}
 install -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}%{_javadir}/%{name}
 cp *.jar %{buildroot}%{_javadir}/%{name}
+cp *.so %{buildroot}%{_javadir}/%{name}
 mkdir -p %{buildroot}/%{_docdir}/%{name}-%{version}
 
 %clean
