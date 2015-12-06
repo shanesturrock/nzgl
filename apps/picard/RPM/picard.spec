@@ -1,5 +1,5 @@
 Name:		picard
-Version:	1.141
+Version:	2.0.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -7,11 +7,12 @@ Group:		Applications/Engineering
 License:	MIT
 URL:		http://picard.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}-tools-%{version}.zip
+Source1:	picard
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 
-Requires:	java >= 1:1.6.0
+Requires:	java >= 1:1.8.0
 Requires:	jpackage-utils
 
 %define __jar_repack 0
@@ -31,10 +32,10 @@ are supported.
 %install
 rm -rf %{buildroot}
 
+mkdir -p %{buildroot}/%{_bindir}
+install -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}%{_javadir}/%{name}
-
 cp *.jar %{buildroot}%{_javadir}/%{name}
-
 mkdir -p %{buildroot}/%{_docdir}/%{name}-%{version}
 
 %clean
@@ -43,10 +44,15 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-
+/usr/bin/picard
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Dec 07 2015 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
+- Switched to Java 8 (handled by /usr/bin/picard script)
+- HTSJDK changes
+  - Restore CRAMIterator constructor for backward compatibility.
+
 * Wed Nov 18 2015 Shane Sturrock <shane@biomatters.com> - 1.141-1
 - updating the colors of the cumulative lines in the insert size plots; they
   are also now dashed.

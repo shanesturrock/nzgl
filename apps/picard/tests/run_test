@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-picard_dir='/usr/share/java/picard'
-JRE_HOME=/usr/lib/jvm/jre-1.8.0/bin
-JAVA_HOME=/usr/lib/jvm/jre-1.8.0
-JAVA_PATH=$JAVA_HOME
-
 function cleanup() {
 	for file in Asperg.sam new.sam; do
 		[ -e ${file} ] && rm -f ${file}
@@ -14,6 +9,6 @@ function cleanup() {
 }
 
 cleanup
-$JRE_HOME/java -jar ${picard_dir}/picard.jar CreateSequenceDictionary OUTPUT=Asperg.sam R=Asperg.fasta
-$JRE_HOME/java -jar ${picard_dir}/picard.jar SortSam INPUT=Asperg.sam OUTPUT=new.sam SORT_ORDER=unsorted
+picard CreateSequenceDictionary OUTPUT=Asperg.sam R=Asperg.fasta
+picard SortSam INPUT=Asperg.sam OUTPUT=new.sam SORT_ORDER=unsorted
 cleanup
