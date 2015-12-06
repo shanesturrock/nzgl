@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.4
+Version:	1.9.5
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Dec 07 2015 Shane Sturrock <shane@biomatters.com> - 1.9.5-1
+- Fixed bug resulting in inferior chimera detection performance.
+
 * Fri Dec 04 2015 Shane Sturrock <shane@biomatters.com> - 1.9.4-1
 - Fixed incrementation of counter when relabeling dereplicated sequences.
 
