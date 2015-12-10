@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 322
+%define priority 323
 
 Name:           R-core
-Version:        3.2.2
+Version:        3.2.3
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0:        R-2.15.3.modulefile
 Source1:        R-3.0.3.modulefile
 Source2:        R-3.1.3.modulefile
-Source3:        R-3.2.2.modulefile
+Source3:        R-3.2.3.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
 
 # Post requires alternatives to install tool alternatives.
@@ -30,7 +30,7 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.2
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.3
 
 %clean
 rm -rf %{buildroot}
@@ -51,69 +51,164 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.2
+%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.3
 
 %changelog
-* Tue Aug 18 2015 Shane Sturrock <shane@biomatters.com> - 3.2.2-10
-- NEW FEATURES
-  - cmdscale() gets new option list. for increased flexibility when a list
-    should be returned.
-  - configure now supports texinfo version 6.0, which (unlike the change from
-    4.x to 5.0) is a minor update. (Wish of PR#16456.)
-  - download.file() with default method = "auto" now chooses "libcurl" if that
-    is available and a https:// or ftps:// URL is used.
-  - chooseCRANmirror() and chooseBioCmirror() now offer HTTPS mirrors in
-    preference to HTTP mirrors. This changes the interpretation of their ind
-    arguments: see their help pages.
-  - capture.output() gets optional arguments type and split to pass to sink(),
-    and hence can be used to capture messages.
-- BUG FIXES
-  - The HTML help page links to demo code failed due to a change in R 3.2.0.
-    (PR#16432)
-  - If the na.action argument was used in model.frame(), the original data
-    could be modified. (PR#16436)
-  - getGraphicsEvent() could cause a crash if a graphics window was closed
-    while it was in use. (PR#16438)
-  - matrix(x, nr, nc, byrow = TRUE) failed if x was an object of type
-    "expression".
-  - strptime() could overflow the allocated storage on the C stack when the
-    timezone had a non-standard format much longer than the standard formats.
-    (Part of PR#16328.)
-  - options(OutDec = s) now signals a warning (which will become an error in
-    the future) when s is not a string with exactly one character, as that has
-    been a documented requirement.
-  - prettyNum() gains a new option input.d.mark which together with other
-    changes, e.g., the default for decimal.mark, fixes some format()ting
-    variants with non-default getOption("OutDec") such as in PR#16411.
-  - download.packages() failed for type equal to either "both" or "binary".
-    (Reported by Dan Tenenbaum.)
-  - The dendrogram method of labels() is much more efficient for large
-    dendrograms, now using rapply(). (Comment #15 of PR#15215)
-  - The "port" algorithm of nls() could give spurious errors. (Reported by
-    Radford Neal.)
-  - Reference classes that inherited from reference classes in another package
-    could invalidate methods of the inherited class. Fixing this requires
-    adding the ability for methods to be “external”, with the object supplied
-    explicitly as the first argument, named .self. See "Inter-Package 
-    Superclasses" in the documentation.
-  - readBin() could fail on the SPARC architecture due to alignment issues.
-    (Reported by Radford Neal.)
-  - qt(*, df=Inf, ncp=.) now uses the natural qnorm() limit instead of
-    returning NaN. (PR#16475)
-  - Auto-printing of S3 and S4 values now searches for print() in the base
-    namespace and show() in the methods namespace instead of searching the
-    global environment.
-  - polym() gains a coefs = NULL argument and returns class "poly" just like
-    poly() which gets a new simple=FALSE option. They now lead to correct
-    predict()ions, e.g., on subsets of the original data.
-  - rhyper(nn, <large>) now works correctly. (PR#16489)
-  - ttkimage() did not (and could not) work so was removed. Ditto for
-    tkimage.cget() and tkimage.configure(). Added two Ttk widgets and missing
-    subcommands for Tk's image command: ttkscale(), ttkspinbox(), 
-    tkimage.delete(), tkimage.height(), tkimage.inuse(), tkimage.type(), 
-    tkimage.types(), tkimage.width(). (PR#15372, PR#16450)
-  - getClass("foo") now also returns a class definition when it is found in the
-    cache more than once.
+* Fri Dec 11 2015 Shane Sturrock <shane@biomatters.com> - 3.2.3-10
+NEW FEATURES:
+- which.min(x) and which.max(x) may be much faster for logical and
+  integer x and now also work for long vectors.
+- The 'emulation' part of tools::texi2dvi() has been somewhat
+  enhanced, including supporting quiet = TRUE.  It can be selected
+  by texi2dvi = "emulation".
+- loess(..., iterTrace=TRUE) now provides diagnostics for
+  robustness iterations, and the print() method for
+  summary(<loess>) shows slightly more.
+- The included version of PCRE has been updated to 8.38, a bug-fix
+  release.
+- View() now displays nested data frames in a more friendly way.
+  (Request with patch in PR#15915.)
+INSTALLATION and INCLUDED SOFTWARE:
+- The included configuration code for libintl has been updated to
+  that from gettext version 0.19.5.1 - this should only affect how
+  an external library is detected (and the only known instance is
+  under OpenBSD).  (Wish of PR#16464.)
+- configure has a new argument --disable-java to disable the checks
+  for Java.
+- The configure default for MAIN_LDFLAGS has been changed for the
+  FreeBSD, NetBSD and Hurd OSes to one more likely to work with
+  compilers other than gcc (FreeBSD 10 defaults to clang).
+- configure now supports the OpenMP flags -fopenmp=libomp (clang)
+  and -qopenmp (Intel C).
+- Various macros can be set to override the default behaviour of
+  configure when detecting OpenMP: see file config.site.
+BUG FIXES:
+- regexpr(pat, x, perl = TRUE) with Python-style named capture did
+  not work correctly when x contained NA strings.  (PR#16484)
+- The description of dataset ToothGrowth has been
+  improved/corrected.  (PR#15953)
+- model.tables(type = "means") and hence TukeyHSD() now support
+  "aov" fits without an intercept term.  (PR#16437)
+- close() now reports the status of a pipe() connection opened with
+  an explicit open argument.  (PR#16481)
+- Coercing a list without names to a data frame is faster if the
+  elements are very long. (PR#16467)
+- (Unix-only) Under some rare circumstances piping the output from
+  Rscript or R -f could result in attempting to close the input
+  file twice, possibly crashing the process.  (PR#16500)
+- topenv(baseenv()) returns baseenv() again as in R 3.1.0 and
+  earlier.  This also fixes compilerJIT(3) when used in .Rprofile.
+- detach()ing the methods package keeps .isMethodsDispatchOn()
+  true, as long as the methods namespace is not unloaded.
+- Removed some spurious warnings from configure about the
+  preprocessor not finding header files.  (PR#15989)
+- rchisq(*, df=0, ncp=0) now returns 0 instead of NaN, and
+  dchisq(*, df=0, ncp=*) also no longer returns NaN in limit cases
+  (where the limit is unique).  (PR#16521)
+- pchisq(*, df=0, ncp > 0, log.p=TRUE) no longer underflows (for
+  ncp > ~60).
+- nchar(x, "w") returned -1 for characters it did not know about
+  (e.g. zero-width spaces): it now assumes 1.  It now knows about
+  most zero-width characters and a few more double-width
+  characters.
+- Help for which.min() is now more precise about behavior with
+  logical arguments.  (PR#16532)
+- The print width of character strings marked as "latin1" or
+  "bytes" was in some cases computed incorrectly.
+- abbreviate() did not give names to the return value if minlength
+  was zero, unlike when it was positive.
+- When operating in a non-UTF-8 multibyte locale (e.g. an East
+  Asian locale on Windows), grep() and related functions did not
+  handle UTF-8 strings properly.  (PR#16264)
+- read.dcf() sometimes misread lines longer than 8191 characters.
+  (Reported by Herv'e Pag`es with a patch.)
+- within(df, ..) no longer drops columns whose name start with a
+  ".".
+- The built-in HTTP server converted entire Content-Type to
+  lowercase including parameters which can cause issues for
+  multi-part form boundaries (PR#16541).
+- Modifying slots of S4 objects could fail when the methods package
+  was not attached. (PR#16545)
+- splineDesign(*, outer.ok=TRUE) (splines) is better now
+  (PR#16549), and interpSpline() now allows sparse=TRUE for speedup
+  with non-small sizes.
+- If the expression in the traceback was too long, traceback() did
+  not report the source line number.  (Patch by Kirill M"uller.)
+- The browser did not truncate the display of the function when
+  exiting with options("deparse.max.lines") set.  (PR#16581)
+- When bs(*, Boundary.knots=) had boundary knots inside the data
+  range, extrapolation was somewhat off.  (Patch by Trevor Hastie.)
+- var() and hence sd() warn about factor arguments which are
+  deprecated now. (PR#16564)
+- loess(*, weights = *) stored wrong weights and hence gave
+  slightly wrong predictions for newdata.  (PR#16587)
+- aperm(a, *) now preserves names(dim(a)).
+- poly(x, ..) now works when either raw=TRUE or coef is specified.
+  (PR#16597)
+- data(package=*) is more careful in determining the path.
+- prettyNum(*, decimal.mark, big.mark): fixed bug introduced when
+  fixing PR#16411.
+
+Tue Aug 18 2015 Shane Sturrock <shane@biomatters.com> - 3.2.2-10
+NEW FEATURES
+- cmdscale() gets new option list. for increased flexibility when a list
+  should be returned.
+- configure now supports texinfo version 6.0, which (unlike the change from
+  4.x to 5.0) is a minor update. (Wish of PR#16456.)
+- download.file() with default method = "auto" now chooses "libcurl" if that
+  is available and a https:// or ftps:// URL is used.
+- chooseCRANmirror() and chooseBioCmirror() now offer HTTPS mirrors in
+  preference to HTTP mirrors. This changes the interpretation of their ind
+  arguments: see their help pages.
+- capture.output() gets optional arguments type and split to pass to sink(),
+  and hence can be used to capture messages.
+BUG FIXES
+- The HTML help page links to demo code failed due to a change in R 3.2.0.
+  (PR#16432)
+- If the na.action argument was used in model.frame(), the original data
+  could be modified. (PR#16436)
+- getGraphicsEvent() could cause a crash if a graphics window was closed
+  while it was in use. (PR#16438)
+- matrix(x, nr, nc, byrow = TRUE) failed if x was an object of type
+  "expression".
+- strptime() could overflow the allocated storage on the C stack when the
+  timezone had a non-standard format much longer than the standard formats.
+  (Part of PR#16328.)
+- options(OutDec = s) now signals a warning (which will become an error in
+  the future) when s is not a string with exactly one character, as that has
+  been a documented requirement.
+- prettyNum() gains a new option input.d.mark which together with other
+  changes, e.g., the default for decimal.mark, fixes some format()ting
+  variants with non-default getOption("OutDec") such as in PR#16411.
+- download.packages() failed for type equal to either "both" or "binary".
+  (Reported by Dan Tenenbaum.)
+- The dendrogram method of labels() is much more efficient for large
+  dendrograms, now using rapply(). (Comment #15 of PR#15215)
+- The "port" algorithm of nls() could give spurious errors. (Reported by
+  Radford Neal.)
+- Reference classes that inherited from reference classes in another package
+  could invalidate methods of the inherited class. Fixing this requires
+  adding the ability for methods to be “external”, with the object supplied
+  explicitly as the first argument, named .self. See "Inter-Package 
+  Superclasses" in the documentation.
+- readBin() could fail on the SPARC architecture due to alignment issues.
+  (Reported by Radford Neal.)
+- qt(*, df=Inf, ncp=.) now uses the natural qnorm() limit instead of
+  returning NaN. (PR#16475)
+- Auto-printing of S3 and S4 values now searches for print() in the base
+  namespace and show() in the methods namespace instead of searching the
+  global environment.
+- polym() gains a coefs = NULL argument and returns class "poly" just like
+  poly() which gets a new simple=FALSE option. They now lead to correct
+  predict()ions, e.g., on subsets of the original data.
+- rhyper(nn, <large>) now works correctly. (PR#16489)
+- ttkimage() did not (and could not) work so was removed. Ditto for
+  tkimage.cget() and tkimage.configure(). Added two Ttk widgets and missing
+  subcommands for Tk's image command: ttkscale(), ttkspinbox(), 
+  tkimage.delete(), tkimage.height(), tkimage.inuse(), tkimage.type(), 
+  tkimage.types(), tkimage.width(). (PR#15372, PR#16450)
+- getClass("foo") now also returns a class definition when it is found in the
+  cache more than once.
 
 * Fri Jun 18 2015 Shane Sturrock <shane@biomatters.com> - 3.2.1-10
 - NEW FEATURES:
@@ -150,11 +245,6 @@ fi
     checks have been added to mitigate this.
   - apply(a, M, function(u) c(X = ., Y = .)) again has dimnames
     containing "X" and "Y" (as in R < 3.2.0).
-  - (Windows only) In some cases, the --clean option to R CMD INSTALL
-    could fail.  (PR#16178)
-  - (Windows only) choose.files() would occasionally include
-    characters from the result of an earlier call in the result of a
-    later one.  (PR#16270)
   - A change in RSiteSearch() in R 3.2.0 caused it to submit invalid
     URLs.  (PR#16329)
   - Rscript and command line R silently ignored incomplete statements
