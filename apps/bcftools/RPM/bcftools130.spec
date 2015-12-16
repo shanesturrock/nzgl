@@ -1,5 +1,6 @@
-%define priority 1301
-Name:		bcftools
+%global pkgbase bcftools
+%global versuffix 130
+Name:		%{pkgbase}%{versuffix}
 Version:	1.3
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
@@ -7,37 +8,45 @@ Summary:	Tools for nucleotide sequence alignments in the SAM format
 Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	samtools130
-Requires:	bcftools130
-# Post requires alternatives to install tool alternatives.
-Requires(post):   %{_sbindir}/alternatives
-# Postun requires alternatives to uninstall tool alternatives.
-Requires(postun): %{_sbindir}/alternatives
+Source0:	http://downloads.sourceforge.net/%{pkgbase}/%{pkgbase}-%{version}.tar.bz2
+Source1:	%{name}.modulefile
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:	zlib-devel >= 1.2.3
+BuildRequires:	ncurses-devel
 
 %description
 BCFtools implements utilities for variant calling (in conjunction with
 SAMtools) and manipulating VCF and BCF files.  The program is intended
 to replace the Perl-based tools from vcftools.
 
-%post
-alternatives \
-   --install %{_bindir}/bcftools bcftools /usr/lib64/bcftools130/bin/bcftools %{priority} \
-   --slave %{_bindir}/plot-vcfstats plot-vcfstats /usr/lib64/bcftools130/bin/plot-vcfstats \
-   --slave %{_bindir}/vcfutils.pl vcfutils.pl /usr/lib64/bcftools130/bin/vcfutils.pl \
-   --slave %{_mandir}/man1/bcftools.1 bcftools.1 /usr/lib64/bcftools130/man/man1/bcftools.1
+%prep
+%setup -q -n %{pkgbase}-%{version}
 
-%postun
-if [ $1 -eq 0 ]
-then
-  alternatives --remove bcftools /usr/lib64/bcftools130/bin/bcftools
-fi
+%build
+make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{_libdir}/%{name}/bin
+mkdir -p %{buildroot}%{_libdir}/%{name}/man/man1
+install -p bcftools plot-vcfstats vcfutils.pl %{buildroot}%{_libdir}/%{name}/bin
+cp -p doc/bcftools.1 %{buildroot}%{_libdir}/%{name}/man/man1/
+
+# install modulefile
+install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
+
+%clean
+rm -rf %{buildroot}
 
 %files
+%defattr(-,root,root,-)
+%doc AUTHORS LICENSE INSTALL
+%{_libdir}/%{name}
+%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
 * Thu Dec 17 2015 Shane Sturrock <shane@biomatters.com> - 1.3-1
-- Use in conjunction with samtools 1.3
 - bcftools call has new options --ploidy and --ploidy-file to make handling
   sample ploidy easier. See man page for details.
 - stats: -i/-e short options changed to -I/-E to be consistent with the
@@ -51,21 +60,20 @@ fi
   #336, and #338.
 
 * Mon Feb 09 2015 Shane Sturrock <shane@biomatters.com> - 1.2-1
-- Use in conjunction with samtools 1.2
 - new consensus command
 - new annotate plugins: fixploidy, vcf2sex, tag2tag
-- more features in convert command, amongst others new --hapsample function
+- more features in convert command, amongst others new --hapsample function 
   (thanks to Warren Kretzschmar)
 - support for complements in bcftools annotate --remove
 - support for -i/-e filtering expressions in isec
 - improved error reporting
 - call command changes:
-  - the default prior increased from -P1e-3 to -P1.1e-3, some clear calls
+  - the default prior increased from -P1e-3 to -P1.1e-3, some clear calls 
     were missed with default settings previously
   - support for the new symbolic allele <*>
   - support for -f GQ
-  - bug fixes, such as: proper trimming of DPR tag with -c; the -A switch
-    does not add back records removed by -v and the behaviour has been made
+  - bug fixes, such as: proper trimming of DPR tag with -c; the -A switch 
+    does not add back records removed by -v and the behaviour has been made 
     consistent with -c and -m
 - many bug fixes and improvements, such as
   - bug in filtering, FMT & INFO vs INFO & FMT
