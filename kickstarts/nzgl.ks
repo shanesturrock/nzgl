@@ -242,3 +242,6 @@ sed '/gpgkey/{/gpgkey/s/$/\'$'\n''#exclude = kernel*,libXfixes*/;}' --in-place /
 
 #Fix NX libXfixes issue
 # yum --releasever=6.5 downgrade libXfixes
+
+# Install extra fonts
+yum -y install msttcorefonts
