@@ -10,7 +10,12 @@
    <name>NZGL</name>
    <description></description>
     <packagelist>
+      <packagereq type="mandatory">abyss</packagereq>
       <packagereq type="mandatory">bamtools</packagereq>
+      <packagereq type="mandatory">bcftoosl100</packagereq>
+      <packagereq type="mandatory">bcftoosl110</packagereq>
+      <packagereq type="mandatory">bcftoosl120</packagereq>
+      <packagereq type="mandatory">bcftoosl130</packagereq>
       <packagereq type="mandatory">bedtools2</packagereq>
       <packagereq type="mandatory">bfast</packagereq>
       <packagereq type="mandatory">bismark</packagereq>
@@ -25,7 +30,7 @@
       <packagereq type="mandatory">cufflinks</packagereq>
       <packagereq type="mandatory">cutadapt</packagereq>
       <packagereq type="mandatory">ea-utils</packagereq>
-      <packagereq type="mandatory">EdenaV3-utils</packagereq>
+      <packagereq type="mandatory">EdenaV3</packagereq>
       <packagereq type="mandatory">fastq_screen</packagereq>
       <packagereq type="mandatory">fastqc</packagereq>
       <packagereq type="mandatory">fastx_toolkit</packagereq>
@@ -34,11 +39,15 @@
       <packagereq type="mandatory">glimmer</packagereq>
       <packagereq type="mandatory">glimmerhmm</packagereq>
       <packagereq type="mandatory">haploview</packagereq>
+      <packagereq type="mandatory">hdf5</packagereq>
       <packagereq type="mandatory">hmmer</packagereq>
       <packagereq type="mandatory">igv</packagereq>
+      <packagereq type="mandatory">legacy-blast</packagereq>
       <packagereq type="mandatory">macs</packagereq>
       <packagereq type="mandatory">matrix2png</packagereq>
+      <packagereq type="mandatory">mira</packagereq>
       <packagereq type="mandatory">mosaik</packagereq>
+      <packagereq type="mandatory">msttcorefonts</packagereq>
       <packagereq type="mandatory">ncbi-blast</packagereq>
       <packagereq type="mandatory">oases</packagereq>
       <packagereq type="mandatory">perl-bioperl</packagereq>
@@ -50,8 +59,13 @@
       <packagereq type="mandatory">python-biopython</packagereq>
       <packagereq type="mandatory">rstudio</packagereq>
       <packagereq type="mandatory">samtools</packagereq>
+      <packagereq type="mandatory">samtools100</packagereq>
+      <packagereq type="mandatory">samtools110</packagereq>
+      <packagereq type="mandatory">samtools120</packagereq>
+      <packagereq type="mandatory">samtools130</packagereq>
       <packagereq type="mandatory">seqmonk</packagereq>
       <packagereq type="mandatory">solexaqa</packagereq>
+      <packagereq type="mandatory">SolexaQA++</packagereq>
       <packagereq type="mandatory">srma</packagereq>
       <packagereq type="mandatory">rsem</packagereq>
       <packagereq type="mandatory">tablet</packagereq>
@@ -61,9 +75,14 @@
       <packagereq type="mandatory">velvet</packagereq>
       <packagereq type="mandatory">FLASH</packagereq>
       <packagereq type="mandatory">SOAPdenovo2</packagereq>
+      <packagereq type="mandatory">R-core</packagereq>
       <packagereq type="mandatory">STAR</packagereq>
       <packagereq type="mandatory">mothur</packagereq>
       <packagereq type="mandatory">uchime</packagereq>
+      <packagereq type="mandatory">Cython</packagereq>
+      <packagereq type="mandatory">Pyrex</packagereq>
+      <packagereq type="mandatory">pysam</packagereq>
+      <packagereq type="mandatory">HTSeq</packagereq>
       <packagereq type="mandatory">vsearch</packagereq>
     </packagelist>
   </group>
