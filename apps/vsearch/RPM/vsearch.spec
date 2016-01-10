@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.5
+Version:	1.9.6
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Jan 11 2016 Shane Sturrock <shane@biomatters.com> - 1.9.6-1
+- Should fix bug in aligned sequences produced with --fastapairs and --userout
+  (qrow, trow) options 
+
 * Mon Dec 07 2015 Shane Sturrock <shane@biomatters.com> - 1.9.5-1
 - Fixed bug resulting in inferior chimera detection performance.
 

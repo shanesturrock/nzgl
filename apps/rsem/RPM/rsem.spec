@@ -1,10 +1,10 @@
 Name:		rsem
-Version:	1.2.22
+Version:	1.2.26
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
 License:	GPL
-URL:		http://pages.cs.wisc.edu/~bli
+URL:		https://github.com/deweylab/RSEM/releases
 Source0:	rsem-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	zlib-devel
@@ -30,7 +30,8 @@ multi-reads shown in red. In addition, models learned from data can
 also be visualized. Last but not least, RSEM contains a simulator.
 
 %prep
-%setup -q
+%setup -q -n RSEM-%{version}
+#%setup -q -n %{name}-%{version}
 
 %build
 make 
@@ -106,6 +107,45 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Mon Jan 11 2016 Shane Sturrock <shane@biomatters.com> - 1.2.26-1
+- RSEM source moved to GitHub so this is a catch-up release to cover the 
+  versions missed
+- RSEM v1.2.26
+  - RSEM supports GFF3 annotation format now
+  - Added instructions to build RSEM references using RefSeq, Ensembl, or
+    GENCODE annotations
+  - Added an option to extract only transcripts from certain resources given a
+    GTF/GFF3 file
+  - Fixed a bug and improved the clarity of error messages for extracting
+    transcripts from genome
+- RSEM v1.2.25
+  - RSEM will extract gene_name/transcript_name from GTF file when possible;
+    however, it only appends them to the 'sample_name.*.results' files if
+    '--append-names' option is specified; unlike v1.2.24, this version is
+    compatible with STAR aligner even when '--append-names' is set
+- RSEM v1.2.24
+  - RSEM will extract gene_name/transcript_name from GTF file when possible; if
+    extracted, gene_name/transcript_name will append at the end of
+    gene_id/transcript_id with an underscore in between
+  - Modified 'rsem-plot-model' to indicate the modes of fragment length and
+    read length distributions
+  - Modified 'rsem-plot-model' to present alignment statistics better using
+    both barplot and pie chart
+  - Updated 'EBSeq' to version 1.2.0
+  - Added coefficient of quartile variation in addition to credibility
+    intervals when '--calc-ci' is turned on
+  - Added '--single-cell-prior' option to notify RSEM to use a sparse prior
+    (Dir(0.1)) for single cell data; this option only makes sense if
+    '--calc-pme' or '--calc-ci' is set
+- RSEM v1.2.23
+  - Moved version information from WHAT_IS_NEW to rsem_perl_utils.pm in order
+    to make sure the '--version' option always output the version information
+  - Fixed a typo in 'rsem-calculate-expression' that can lead an error when
+    '--star' is set and '--star-path' is not set
+  - Fixed a bug that can occasionally crash the RSEM simulator
+  - Added user-friendly error messages that are triggered when RSEM detects
+    invalid bases in the input FASTA file during reference building
+
 * Wed Jul 29 2015 Shane Sturrock <shane@biomatters.com> - 1.2.22-1
 - Added options to run the STAR aligner.
 
