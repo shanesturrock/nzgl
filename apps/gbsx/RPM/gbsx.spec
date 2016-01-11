@@ -1,5 +1,5 @@
 Name:		gbsx
-Version:	1.1
+Version:	1.1.5
 Release:	1%{?dist}
 Summary:	GBSX
 Group:		Applications/Engineering
@@ -24,7 +24,7 @@ can easily be plugged into existing variant analysis pipelines.
 %setup -q -n GBSX-%{version}
 
 %build
-find . -type f -name '*.pl' | xargs sed 's=perl\ GBSX_digest_v1.0.pl=GBSX_digest=g' --in-place
+find . -type f -name '*.pl' | xargs sed 's=perl\ GBSX_digest_v1.1.pl=GBSX_digest=g' --in-place
 
 %install
 rm -rf %{buildroot}
@@ -32,7 +32,7 @@ mkdir -p %{buildroot}/%{_javadir}/%{name}
 mkdir -p %{buildroot}/%{_bindir}
 
 install -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}
-install -m 0755 releases/latest/GBSX_digest_v1.0.pl %{buildroot}/%{_bindir}/GBSX_digest
+install -m 0755 releases/latest/GBSX_digest_v1.1.pl %{buildroot}/%{_bindir}/GBSX_digest
 install -m 0644 releases/latest/GBSX_v%{version}.jar %{buildroot}/%{_javadir}/%{name}
 
 %clean
@@ -45,6 +45,10 @@ rm -rf %{buildroot}
 /usr/share/java/gbsx/GBSX_v%{version}.jar
 
 %changelog
+* Tue Jan 12 2016 Shane Sturrock <shane@biomatters.com> - 1.1.5-1
+- Updated digest script
+- Updated Single Read demultiplexing
+
 * Thu Aug 06 2015 Shane Sturrock <shane@biomatters.com> - 1.1-1
 - Possible to simulate and demultiplex dual barcode experiments (in paired end
   modus only)
