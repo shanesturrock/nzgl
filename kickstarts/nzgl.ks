@@ -245,3 +245,5 @@ sed '/gpgkey/{/gpgkey/s/$/\'$'\n''#exclude = kernel*,libXfixes*/;}' --in-place /
 
 # Install extra fonts
 yum -y install msttcorefonts
+# Install htop
+yum -y install htop
