@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.6
+Version:	1.9.7
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Jan 14 2016 Shane Sturrock <shane@biomatters.com> - 1.9.7-1
+- Masking behavior is changed somewhat to keep the letter case of the input
+  sequences unchanged when no masking is performed. Masking is now performed
+  also during chimera detection. Documentation updated.
+
 * Mon Jan 11 2016 Shane Sturrock <shane@biomatters.com> - 1.9.6-1
 - Should fix bug in aligned sequences produced with --fastapairs and --userout
   (qrow, trow) options 
