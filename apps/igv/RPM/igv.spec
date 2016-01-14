@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.67
+Version:	2.3.68
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,26 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Fri Jan 15 2016 Shane Sturrock <shane@biomatters.com> - 2.3.68-1
+- Bug Fixes
+  - Recognize GFF version directives with major/minor version numbers
+- New Features and Improvements
+  - Add support for exporting features from the Splice Junction track
+  - VCF colors can now be customized. See the "Variants" tab of the Preferences
+    dialog
+  - New options for loading BAM files - alignments can now be hidden, showing
+    coverage and/or splice junctions only. This option leads to significant
+    memory settings when viewing individual alignments is not necessary. See 
+    the new track display options on the "Alignments" tab of the Preferences 
+    dialog. These options control initial display upon loading a BAM file. 
+    Alignments can still be loaded on demand for specific loci by 
+    right-clicking on the coverage or splice-junction track and selecting 
+    Show Alignment Track. NOTE: When the Alignment track is off consider 
+    selecting "Display all tracks in a single panel" from the "General" tab 
+    of the Preferences dialog.
+  - Add new menu item to autoscale multiple tracks as a group. Item is enabled
+    if multiple numeric tracks are selected.
+
 * Wed Dec 02 2015 Shane Sturrock <shane@biomatters.com> - 2.3.67-1
 - No details of changes
 
