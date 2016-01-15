@@ -1,3 +1,15 @@
 #!/bin/bash
 
-echo bkill $* | ssh -T 10.0.2.102
+HOST=10.0.2.102
+
+ping -c 1 -w 1 $HOST &>/dev/null
+if [ $? -ne 0 ] ; then
+  HOST=10.0.2.101
+fi
+ping -c 1 -w 1 $HOST &>/dev/null
+if [ $? -ne 0 ] ; then
+  echo "Cluster is not responding, contact NZGL administration"
+  exit
+fi
+
+echo bkill $* | ssh -T $HOST

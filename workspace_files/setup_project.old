@@ -147,30 +147,20 @@ fi
 if [ $ADDPROJECT -eq 1 ]; then
   if [ -z "$BIOIT" ]; then
     if [ -d "/archive/$GROUP" ]; then
-      echo "/archive/${GROUP} already exists"
+      echo "/archive/${GROUP} already exists, aborting"
+      exit 1
+    fi
+    if [ $DELIVERY -eq 0 ]; then
+      mkdir /archive/$GROUP /active/$GROUP /scratch/$GROUP
+      chmod 770 /active/$GROUP /scratch/$GROUP
+      chmod 550 /archive/$GROUP
+      chown $USERNAME:$GROUP /archive/$GROUP /active/$GROUP /scratch/$GROUP
+      echo "Created /archive/${GROUP}, /active/${GROUP}, /scratch/${GROUP}"
     else
       mkdir /archive/$GROUP
       chmod 550 /archive/$GROUP
       chown $USERNAME:$GROUP /archive/$GROUP
       echo "Created /archive/${GROUP}"
-    fi
-    if [ $DELIVERY -eq 0 ]; then
-      if [ -d "/active/$GROUP" ]; then
-        echo "/active/${GROUP} already exists"
-      else
-        mkdir /active/$GROUP
-        chmod 770 /active/$GROUP
-        chown $USERNAME:$GROUP /active/$GROUP
-        echo "Created /active/${GROUP}"
-      fi
-      if [ -d "/scratch/$GROUP" ]; then
-        echo "/scratch/${GROUP} already exists"
-      else
-        mkdir /scratch/$GROUP
-        chmod 770 /scratch/$GROUP
-        chown $USERNAME:$GROUP /scratch/$GROUP
-        echo "Created /scratch/${GROUP}"
-      fi
     fi
   else
     if [ ! -d "/archive/$BIOIT" ]; then
@@ -183,63 +173,39 @@ if [ $ADDPROJECT -eq 1 ]; then
       echo "/archive/${BIOIT} etc already exists"
     fi
     if [ -d "/archive/$BIOIT/$GROUP" ]; then
-      echo "/archive/${BIOIT}/${GROUP} already exists"
+      echo "/archive/${BIOIT}/${GROUP} already exists, aborting"
+      exit 1
+    fi
+    if [ $DELIVERY -eq 0 ]; then
+      mkdir /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      chmod 770 /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      chmod 550 /archive/$BIOIT/$GROUP
+      chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP /active/$BIOIT/$GROUP /scratch/$BIOIT/$GROUP
+      echo "Created /archive/${BIOIT}/${GROUP}, /active/${BIOIT}/${GROUP}, /scratch/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
     else
       mkdir /archive/$BIOIT/$GROUP
       chmod 550 /archive/$BIOIT/$GROUP
       chown $USERNAME:$GROUP /archive/$BIOIT/$GROUP
       echo "Created /archive/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
     fi
-    if [ $DELIVERY -eq 0 ]; then
-      if [ -d "/active/$BIOIT/$GROUP" ]; then
-        echo "/active/${BIOIT}/${GROUP} already exists"
-      else
-        mkdir /active/$BIOIT/$GROUP
-        chmod 770 /active/$BIOIT/$GROUP
-        chown $USERNAME:$GROUP /active/$BIOIT/$GROUP
-        echo "Created /active/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
-      fi
-      if [ -d "/scratch/$BIOIT/$GROUP" ]; then
-        echo "/scratch/${BIOIT}/${GROUP} already exists"
-      else
-        mkdir /scratch/$BIOIT/$GROUP
-        chmod 770 /scratch/$BIOIT/$GROUP
-        chown $USERNAME:$GROUP /scratch/$BIOIT/$GROUP
-        echo "Created /scratch/${BIOIT}/${GROUP} owned by ${USERNAME}:${GROUP}"
-      fi
-    fi
   fi
 fi
 
 # Create project symlinks in user's home directory
 
-if [ ! -d "/home/$USERNAME/project/$GROUP" ]; then
-  mkdir -p /home/$USERNAME/project/$GROUP
-fi
+mkdir -p /home/$USERNAME/project/$GROUP
 if [ -z "$BIOIT" ]; then
-  if [ ! -L /home/$USERNAME/project/$GROUP/archive ]; then
-    ln -s /archive/$GROUP /home/$USERNAME/project/$GROUP/archive
-  fi
+  ln -s /archive/$GROUP /home/$USERNAME/project/$GROUP/archive
   if [ $DELIVERY -eq 0 ]; then
-    if [ ! -L "/home/$USERNAME/project/$GROUP/active" ]; then
-      ln -s /active/$GROUP /home/$USERNAME/project/$GROUP/active
-    fi
-    if [ ! -L "/home/$USERNAME/project/$GROUP/scratch" ]; then
-      ln -s /scratch/$GROUP /home/$USERNAME/project/$GROUP/scratch
-    fi
+    ln -s /active/$GROUP /home/$USERNAME/project/$GROUP/active
+    ln -s /scratch/$GROUP /home/$USERNAME/project/$GROUP/scratch
   fi
   chown -R $USERNAME:$GROUP /home/$USERNAME/project/$GROUP
   echo "Created /home/${USERNAME}/project/${GROUP} symlinks"
 else
-  if [ ! -L "/home/$USERNAME/project/$GROUP/archive" ]; then
-    ln -s /archive/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/archive
-  fi
-  if [ ! -L "/home/$USERNAME/project/$GROUP/active" ]; then
-    ln -s /active/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/active
-  fi
-  if [ ! -L "/home/$USERNAME/project/$GROUP/scratch" ]; then
-    ln -s /scratch/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/scratch
-  fi
+  ln -s /archive/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/archive
+  ln -s /active/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/active
+  ln -s /scratch/$BIOIT/$GROUP /home/$USERNAME/project/$GROUP/scratch
   chown -R $USERNAME:$GROUP /home/$USERNAME/project/$GROUP
   echo "Created /home/${USERNAME}/project/${GROUP} symlinks for ${BIOIT} contract"
 fi

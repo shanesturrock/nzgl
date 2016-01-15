@@ -1,0 +1,5 @@
+USERLIST=( $( ls -1 /home | egrep -v "galaxy-test|globus|R-network|gridftp|list|script|adm_|build|simon|nzgltestuser|qiime|ctcvm|rhn_mirrors" ) )
+
+for USER in "${USERLIST[@]}"; do
+  id $USER
+done
