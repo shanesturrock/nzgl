@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.7
+Version:	1.9.9
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Jan 25 2016 Shane Sturrock <shane@biomatters.com> - 1.9.9-1
+- Fixes bug causing segfault when chimera detection is performed on extremely
+  short sequences.
+- Adjusted default min word matches for improved performance.
+
 * Thu Jan 14 2016 Shane Sturrock <shane@biomatters.com> - 1.9.7-1
 - Masking behavior is changed somewhat to keep the letter case of the input
   sequences unchanged when no masking is performed. Masking is now performed
