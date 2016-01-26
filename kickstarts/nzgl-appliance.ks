@@ -112,4 +112,12 @@ echo '10.10.2.50 packages packages.genomics.local' >> /etc/hosts
 # Set hostname to nzglapp
 sed 's/localhost.localdomain/nzglapp/g' --in-place /etc/sysconfig/network
 
+# Install R-core dummy package and rstudio
+yum -y install R-core rstudio
+
+# Install extra fonts
+yum -y install msttcorefonts
+# Install htop
+yum -y install htop
+
 %end

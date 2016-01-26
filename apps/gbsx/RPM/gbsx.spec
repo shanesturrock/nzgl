@@ -1,5 +1,5 @@
 Name:		gbsx
-Version:	1.1.5
+Version:	1.2
 Release:	1%{?dist}
 Summary:	GBSX
 Group:		Applications/Engineering
@@ -45,6 +45,10 @@ rm -rf %{buildroot}
 /usr/share/java/gbsx/GBSX_v%{version}.jar
 
 %changelog
+* Wed Jan 27 2016 Shane Sturrock <shane@biomatters.com> - 1.2-1
+- Code Clean-up
+- Deleted demultiplex parameter -m
+
 * Tue Jan 12 2016 Shane Sturrock <shane@biomatters.com> - 1.1.5-1
 - Updated digest script
 - Updated Single Read demultiplexing

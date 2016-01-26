@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.9
+Version:	1.9.10
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,12 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Jan 27 2016 Shane Sturrock <shane@biomatters.com> - 1.9.10-1
+- This version fixes bugs with DUST-masking and lower case database sequences.
+  Lower case sequences were masked even when DUST masking was specified for the
+  database sequences. During debugging it was detected that DUST-masking of
+  database sequences probably have not occurred at all. Both problems fixed.
+
 * Mon Jan 25 2016 Shane Sturrock <shane@biomatters.com> - 1.9.9-1
 - Fixes bug causing segfault when chimera detection is performed on extremely
   short sequences.
