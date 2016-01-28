@@ -48,8 +48,11 @@ fi
 
 while read -r LINE
 do
-        # Get the project ID and convert to lowercase if necessary
-	PROJECT=${LINE,,}
+        # Get the project ID and convert to lowercase if necessary but not
+	# the last character which should be uppercase
+	END=${LINE:${#LINE}-1:1}
+	START=`echo ${LINE%?}`
+	PROJECT=${START,,}${END^^}
 	# echo $PROJECT
 	COMMAND=""
         if [ $REPORT -eq 0 ]; then
