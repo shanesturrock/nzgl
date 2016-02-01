@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.26
+Version:	1.2.27
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -107,6 +107,18 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Tue Feb 02 2016 Shane Sturrock <shane@biomatters.com> - 1.2.27-1
+- Upgraded SAMtools to v1.3
+- RSEM now supports input alignments in SAM/BAM/CRAM format. 
+- '--sam/--bam' options of 'rsem-calculate-expression' are obsoleted, use 
+  '--alignments' instead. '--sam/--bam' can still be used for compatibility 
+  with previous versions.
+- Some 'rsem-calculate-expression' options are renamed for better 
+  interpretability. 
+- Documents are updated to reflect the SAMtools upgrade. 
+- Fixed a bug for parsing GTF files. 
+- Fixed a bug for generating transcript wiggle plots.
+
 * Mon Jan 11 2016 Shane Sturrock <shane@biomatters.com> - 1.2.26-1
 - RSEM source moved to GitHub so this is a catch-up release to cover the 
   versions missed
@@ -121,7 +133,7 @@ rm -rf %{buildroot}
 - RSEM v1.2.25
   - RSEM will extract gene_name/transcript_name from GTF file when possible;
     however, it only appends them to the 'sample_name.*.results' files if
-    '--append-names' option is specified; unlike v1.2.24, this version is
+    '--append-names' option is specified; unlike v1.2.24, this version is 
     compatible with STAR aligner even when '--append-names' is set
 - RSEM v1.2.24
   - RSEM will extract gene_name/transcript_name from GTF file when possible; if
