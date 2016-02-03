@@ -1,5 +1,5 @@
 Name:		rsem
-Version:	1.2.27
+Version:	1.2.28
 Release:	1%{?dist}
 Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 Group:		Applications/Engineering
@@ -107,6 +107,11 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Thu Feb 04 2016 Shane Sturrock <shane@biomatters.com> - 1.2.28-1
+- Fixed a bug in RSEM v1.2.27 that can lead to assertion errors for parsing GTF
+  files
+- Fixed a bug in Makefile
+
 * Tue Feb 02 2016 Shane Sturrock <shane@biomatters.com> - 1.2.27-1
 - Upgraded SAMtools to v1.3
 - RSEM now supports input alignments in SAM/BAM/CRAM format. 
