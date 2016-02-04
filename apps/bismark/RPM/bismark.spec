@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.14.5
+Version:	0.15.0
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -41,6 +41,53 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+*Fri Feb 05 2016 Shane Sturrock <shane@biomatters.com> - 0.15.0-1
+- Bismark
+  - Added option --se/--single_end <list>. This sets single-end mapping mode
+    explicitly giving a list of file names as <list>. The filenames may be
+    provided as a comma , or colon :-separated list.
+  - Added option --genome_folder <path/to/genome> as alternative to supplying
+    the genome as the first argument.
+  - Added an option --rg_tag to print an @RG header line as well as and RG:Z:
+    tag to each read. The ID and SAMPLE fields default to 'SAMPLE', but can be
+    specified manually with --rg_id or --rg_sample.
+  - Added new option --ambig_bam for Bowtie2-mode only, which writes out a
+    single alignment for sequences with multiple alignments to a special file
+    ending in .ambiguous.bam. The alignments are in Bowtie2 format and do not 
+    any contain Bismark specific entries such as the methylation call etc. 
+    These ambiguous BAM files are intended to be used as coverage estimators 
+    for variant callers. Works for single-end and paired-end alignments in 
+    single or multi-core mode.
+  - Added the new options --cram and --cram_ref to Bismark for both paired- and
+    single-end alignments in single or multi-core mode. This option requires
+    Samtools version 1.2 or higher. A genome FastA reference may be supplied 
+    as a single file with the option --cram_ref; if this is not specified the 
+    file is derived from the reference FastA file(s) used for the Bismark run, 
+    and written to the file Bismark_genome_CRAM_reference.mfa into the output 
+    directory.
+- deduplicate_bismark
+  - Added better handling of cases when the input file was empty (died for
+    percentage calculation instead of calling it N/A)
+  - Added a note mentioning that Read1 and Read2 of paired-end files are
+    expected to follow each other in two consecutive lines and possibly require
+    name-sorting prior to deduplication. Also added a check that reads the 
+    first 100000 lines to see if the file appears to have been sorted and bail 
+    out if this is true.
+- methylation extractor
+  - Added support for CRAM files (this option requires Samtools version 1.2 or
+    higher) bismark2bedGraph
+  - Changed the way gzip compressed input files are handled when using the UNIX
+    sort command (i.e. with --scaffolds/--gazillion or without --ample_memory
+    coverage2cytosine
+  - Added option --gzip to compress output files. This currently only works for
+    the default CpG_report and CX_report output files (and thus not with the
+    option --gc or --split_files. The option --gzip is now also passed on from 
+    the bismark_methylation_extractor.
+  - Added a check to bail if no information was found in the coverage file,
+    e.g. if a wrong file path for a .cov.gz file had been specified
+- bismark_genome_preparation
+  - Added process handling to the child processes.
+
 *Fri Aug 21 2015 Shane Sturrock <shane@biomatters.com> - 0.14.5-1
 - deduplicate_bismark
   - Changed all instances of literal calls of 'samtools' calls to 

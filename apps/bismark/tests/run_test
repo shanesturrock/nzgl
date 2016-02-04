@@ -6,13 +6,15 @@
 
 set -e
 
+module load samtools/1.2
+
 [ -d testdata/Bisulfite_Genome/ ] && rm -rf testdata/Bisulfite_Genome/
 
-bismark_genome_preparation testdata/
-bismark --sam -n 1 -l 50 testdata/ test_data.fastq
-bismark_methylation_extractor -s --comprehensive test_data.fastq_bismark_bt2.sam
+bismark_genome_preparation --bowtie1 testdata/
+bismark --bowtie1 -n 1 -l 50 testdata/ test_data.fastq
+bismark_methylation_extractor -s --comprehensive test_data.fastq_bismark.bam
 
 [ -d testdata/Bisulfite_Genome/ ] && rm -rf testdata/Bisulfite_Genome/
 rm -rf *.txt
 rm -rf *.png
-rm -f test_data.fastq_bismark_bt2.sam
+rm -f test_data.fastq_bismark.bam
