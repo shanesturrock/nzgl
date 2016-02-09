@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.0.1
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,48 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Feb 10 2016 Sidney Markowitz <sidney@biomatters.com> - 2.1.0-1
+- Picard update to 2.1.0
+- HTSJDK changes
+ - Various bug fixes and performance improvements
+ - Require a reference for CRAM files.
+ - CRAM multiref
+ - Extended Tuple to a ComparableTuple so it can be used in a Histogram
+ - SAM/BAM writers should always call setHeader on alignment records.
+ - fastq serializeable
+ - Implement a phred/bwa-style quality trimming utility method
+ - Allow the duplicate set comparator to be set.
+ - Added support for IUPAC ambiguous codes to bases match comparison method.
+ - Added support for a less-exhaustive faster validation of the index
+ - Open up DiskBasedBAMFileIndex as a public class.
+ - Allow lazy symlinking of bams
+- Picard Changes
+ - Various bug fixes and performance improvements
+ - Adding optical duplicate flagging/removal into MarkDuplicates.
+ - Add per-base coverage output option
+   for CollectHsMetrics and CollectTargetedPcrMetrics.
+ - Add tests for chimerism in the alignment summary metrics.
+ - Count chimera when it DOES NOT match expected orientations.
+ - Adds WMC (Warn on missing contig) option to LiftoverVcf
+ - Collect number of chimeric read pairs and adapter reads.
+ - Make sure overlapping reads are tested in CollectHsMetrisc
+ - Simple CLP for safely converting from IntervalList to BED.
+ - Add read-end quality trimming to SamToFastq.
+ - Add a new tool for counting the non-N bases in a reference sequence.
+ - Add the ability to produce insert size metrics including duplicates.
+ - Make CheckFingerprint have two ways to specify the outputs:
+   1) use OUTPUT as the base name and appending standard output
+   2) use SUMMARY_OUTPUT and DETAIL_OUTPUT to name each output file.
+ - Various changes including adding pct_exc_dupe and pct_exc_off_target
+ - Deprecate CalculateHsMetrics in favor of CollectHsMetrics
+ - Allow genome territory to be specified on the command-line
+ - Add capabilities to output both usable and raw metrics
+ - Add two command line options to EstimateLibraryComplexity:
+   1) MAX_READ_LENGTH to limit the number of bases considered during
+      calculation of the difference rate.
+   2) MIN_GROUP_COUNT to allow the user to specify the minimum count of
+      duplicates of a given size
+
 * Mon Dec 07 2015 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
 - Switched to Java 8 (handled by /usr/bin/picard script)
 - HTSJDK changes
