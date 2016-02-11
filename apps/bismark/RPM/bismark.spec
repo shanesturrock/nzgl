@@ -1,6 +1,6 @@
 Name:		bismark
 Version:	0.15.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
 License:	GNU GPL v3
@@ -29,6 +29,11 @@ mkdir -p %{buildroot}/%{_bindir}
 install -m 0755 bismark %{buildroot}/%{_bindir}
 install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
 install -m 0755 bismark_methylation_extractor %{buildroot}/%{_bindir}
+install -m 0755 coverage2cytosine %{buildroot}/%{_bindir}
+install -m 0755 bismark2bedGraph %{buildroot}/%{_bindir}
+install -m 0755 deduplicate_bismark %{buildroot}/%{_bindir}
+install -m 0755 bismark2report %{buildroot}/%{_bindir}
+install -m 0644 bismark_sitrep.tpl %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
@@ -39,8 +44,17 @@ rm -rf %{buildroot}
 %{_bindir}/bismark
 %{_bindir}/bismark_genome_preparation
 %{_bindir}/bismark_methylation_extractor
+%{_bindir}/coverage2cytosine
+%{_bindir}/bismark2bedGraph
+%{_bindir}/deduplicate_bismark
+%{_bindir}/bismark2report
+%{_bindir}/bismark_sitrep.tpl
 
 %changelog
+*Thu Feb 11 2016 Sidney Markowitz <sidney@biomatters.com> - 0.15.0-2
+- Bismark
+  - Added missing commands: bismark2bedGraph coverage2cytosine
+      deduplicate_bismark bismark2report
 *Fri Feb 05 2016 Shane Sturrock <shane@biomatters.com> - 0.15.0-1
 - Bismark
   - Added option --se/--single_end <list>. This sets single-end mapping mode
