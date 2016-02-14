@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.6
+Version:	2.2.7
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,12 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Feb 15 2016 Sidney Markowitz <sidney@biomatters.com> - 2.2.7-1
+- Added a parallel index build option: bowtie2-build --threads <# threads>
+- Bug fix:  IUPAC codes (other than A/C/G/T/N) in reads were converted to As
+  Now they are converted to Ns,
+- Removed debugging code that could impede performancg in some cases
+- Fixed a few typos in documentation
 * Wed Aug 26 2015 Shane Sturrock <shane@biomatters.com> - 2.2.6-1
 - Switched to a stable sort to avoid some potential reproducibility confusions.
 - Added 'install' target for *nix platforms.
