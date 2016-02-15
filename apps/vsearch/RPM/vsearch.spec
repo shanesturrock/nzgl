@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.9.10
+Version:	1.10.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,14 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Tue Feb 16 2016 Sidney Markowitz <sidney@biomatters.com> - 1.10.0-1
+- Parallelize and improve merging of paired-end reads and adjust some defaults
+- Remove progress indicator when stderr is not a terminal
+- Add --fasta_score option to report chimera scores in FASTA files.
+- Add rereplicate and fastq_eestats commands.
+- Fix typos.
+- Add relabelling to files produced with --consout and --profile options.
+
 * Wed Jan 27 2016 Shane Sturrock <shane@biomatters.com> - 1.9.10-1
 - This version fixes bugs with DUST-masking and lower case database sequences.
   Lower case sequences were masked even when DUST masking was specified for the
