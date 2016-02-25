@@ -1,7 +1,7 @@
 %define samtools_version 0.1.18
 
 Name:		tophat
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	A spliced read mapper for RNA-Seq
 Group:		Applications/Engineering
@@ -69,10 +69,25 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README COPYING AUTHORS LICENSE THANKS
+%doc README AUTHORS LICENSE THANKS
 %{_bindir}/*
 
 %changelog
+* Fri Feb 26 2016 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
+- Please note that TopHat has entered a low maintenance, low support stage as
+  it is now largely superseded by HISAT2 which provides the same core
+  functionality (i.e. spliced alignment of RNA-Seq reads), in a more accurate 
+  and much more efficient way.
+- TopHat can be now built on more recent Linux distributions with newer GNU C++
+  (5.x), as the included SeqAn library was finally upgraded to a newer version.
+- improved the detection of linker options for the Boost::Thread library which
+  prevented the TopHat build from source on some systems.
+- incorporated Luca Venturini's code to support large bowtie2 indexes (.bt2l).
+- bam2fastx usage message (-h/--help) was updated in order to better document
+  the functions of this program which can be used as a standalone utility for
+  converting reads from BAM/SAM to FASTQ/FASTA; the -v/--version option was 
+  also added to this utility for easier integration in other pipelines.
+
 * Wed Jul 01 2015 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
 - TopHat-Fusion algorithm improvements for more sensitive and accurate 
   discovery of fusions, thanks to contributions from Gordon Bean and Ryan 

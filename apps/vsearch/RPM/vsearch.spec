@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.10.0
+Version:	1.10.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Fri Feb 26 2016 Shane Sturrock <shane@biomatters.com> - 1.10.1-1
+- Fix truncated labels for fastq_mergepairs command
+
 * Tue Feb 16 2016 Sidney Markowitz <sidney@biomatters.com> - 1.10.0-1
 - Parallelize and improve merging of paired-end reads and adjust some defaults
 - Remove progress indicator when stderr is not a terminal
