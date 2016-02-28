@@ -1,2 +1,3 @@
 version=3
-http://code.google.com/p/bsmap/downloads/list?can=1 .*/bsmap-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
+# http://code.google.com/p/bsmap/downloads/list?can=1 .*/bsmap-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
+http://lilab.research.bcm.edu/dldcc-web/lilab/yxi/bsmap/bsmap-(\d[\d.]*)\.(?:zip|tgz|tbz2|txz|tar\.gz|tar\.bz2|tar\.xz)
