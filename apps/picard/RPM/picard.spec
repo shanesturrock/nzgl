@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,29 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Mar 07 2016 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
+- CollectMultipleMetric and CollectSequencingArtifactMetrics use FILE_EXTENSION
+  properly.
+- adding a test-case for the chimeric read that simply has an SA tag but is
+  otherwise not chimeric
+- squid:S1197 - Array designators [] should be on the type, not the variable
+- pmd:AppendCharacterWithChar - Append Character With Char
+- squid:HiddenFieldCheck - Local variables should not shadow class fields
+- Only load the overlapping dbSNP sites when using target intervals in
+  CollectVariantCallingMetrics.  This should speed up the load significantly
+  for smaller regions.
+- Fix the build that was broken by #441.
+- Add basic HTML parsing so CLI help is readable
+- squid:S1170 - Public constants and fields initialized at declaration should
+  be "static final" rather than merely "final"
+- staging/Collection.isEmpty()-should-be-used-to-test-for-emptiness-fix-1
+- squid:S2974 - Classes without public constructors should be final
+- Filled in missing tools in doc target
+- modified usage doc for OPTICAL_DUPLICATE_PIXEL_DISTANCE
+- pmd:ImmutableField - Immutable Field
+- check hasAD() in AlleleBalanceFilter
+- after js filters in htsjdk
+
 * Wed Feb 10 2016 Sidney Markowitz <sidney@biomatters.com> - 2.1.0-1
 - Picard update to 2.1.0
 - HTSJDK changes
