@@ -1,18 +1,18 @@
-Name:		rsem
-Version:	1.2.28
-Release:	1%{?dist}
-Summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
-Group:		Applications/Engineering
-License:	GPL
-URL:		https://github.com/deweylab/RSEM/releases
-Source0:	rsem-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	zlib-devel
-BuildRequires:	ncurses-devel
-Requires:	samtools
+name:		rsem
+version:	1.2.29
+release:	1%{?dist}
+summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
+group:		Applications/Engineering
+license:	GPL
+urL:		https://github.com/deweylab/RSEM/releases
+source0:	rsem-%{version}.tar.gz
+buildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+buildRequires:	zlib-devel
+buildRequires:	ncurses-devel
+requires:	samtools
 
 %description
-RSEM is a software package for estimating gene and isoform expression
+rsEM is a software package for estimating gene and isoform expression
 levels from RNA-Seq data. The RSEM package provides an user-friendly
 interface, supports threads for parallel computation of the EM
 algorithm, single-end and paired-end read data, quality scores,
@@ -21,7 +21,7 @@ posterior mean and 95% credibility interval estimates for expression
 levels. For visualization, It can generate BAM and Wiggle files in
 both transcript-coordinate and genomic-coordinate. Genomic-coordinate
 files can be visualized by both UCSC Genome browser and Broad
-Institute's Integrative Genomics Viewer (IGV). Transcript-coordinate
+institute's Integrative Genomics Viewer (IGV). Transcript-coordinate
 files can be visualized by IGV. RSEM also has its own scripts to
 generate transcript read depth plots in pdf format. The unique feature
 of RSEM is, the read depth plots can be stacked, with read depth
@@ -107,6 +107,14 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Tue Mar 08 2016 Shane Sturrock <shane@biomatters.com> - 1.2.29-1
+- Reformatted Makefile to be more professional, and make install is ready to
+  use
+- Enabled ./configure --without-curses for configuring SAMtools to avoid
+  potential compilation problems due to curses library
+- Fixed bugs for installing EBSeq
+- Improved the readability of RSEM documentation
+
 * Thu Feb 04 2016 Shane Sturrock <shane@biomatters.com> - 1.2.28-1
 - Fixed a bug in RSEM v1.2.27 that can lead to assertion errors for parsing GTF
   files
