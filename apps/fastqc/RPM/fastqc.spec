@@ -1,5 +1,5 @@
 Name:		fastqc
-Version:	0.11.4
+Version:	0.11.5
 Release:	1%{?dist}
 Summary:	A quality control application for high throughput sequence data
 Group:		Applications/Engineering
@@ -41,6 +41,12 @@ rm -rf %{buildroot}
 /usr/share/java/fastqc/*
 
 %changelog
+* Wed Mar 09 2016 Shane Sturrock <shane@biomatters.com> - 0.11.5-1
+- Fixed the smallRNA adapter sequence so that abundance isn't under-represented
+  in the adapter content plot
+- Fixed a bug in the warn / error code for the per-base sequence content plot
+- Fixed a typo in the documentation for the duplication plot
+
 * Mon Oct 12 2015 Shane Sturrock <shane@biomatters.com> - 0.11.4-1
 - Changed the OSX launcher to not rely on the internal JVM framework, but use
   any command line java which is found
