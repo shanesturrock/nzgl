@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.68
+Version:	2.3.69
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,19 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Mar 10 2016 Shane Sturrock <shane@biomatters.com> - 2.3.69-1
+- New Features and Improvements
+  - Support for indexing .mut and .maf mutation files with igvtools.
+  - New item "Export Track Names" in the right-click menu. Selected track names
+    and associated meta-data (sample information) are exported to a file.
+  - Support for loading BioNano .smap files.
+  - New option in the right-click menu to specify coloring of VCF variant
+    records by allele frequency or allele fraction.
+- Bug Fixes
+  - Suppress confirm dialogs when running a batch script.
+  - Fixed problems with VCF allele counts.
+
+
 * Fri Jan 15 2016 Shane Sturrock <shane@biomatters.com> - 2.3.68-1
 - Bug Fixes
   - Recognize GFF version directives with major/minor version numbers
