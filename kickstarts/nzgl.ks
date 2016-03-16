@@ -75,6 +75,7 @@ postgresql-devel
 python-matplotlib
 libXp-devel
 mysql-devel
+sqlite-devel
 environment-modules
 tmpwatch
 xorg-x11-fonts-100dpi
