@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 323
+%define priority 324
 
 Name:           R-core
-Version:        3.2.3
+Version:        3.2.4
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -12,8 +12,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0:        R-2.15.3.modulefile
 Source1:        R-3.0.3.modulefile
 Source2:        R-3.1.3.modulefile
-Source3:        R-3.2.3.modulefile
+Source3:        R-3.2.4.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
+Obsoletes:	R-core-3.2.3
 
 # Post requires alternatives to install tool alternatives.
 Requires(post):   %{_sbindir}/alternatives
@@ -30,7 +31,7 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.3
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.4
 
 %clean
 rm -rf %{buildroot}
@@ -51,9 +52,113 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.3
+%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.4
 
 %changelog
+* Thu Mar 17 2016 Shane Sturrock <shane@biomatters.com> - 3.2.4-10
+NEW FEATURES:
+- install.packages() and related functions now give a more
+  informative warning when an attempt is made to install a base
+  package.
+- summary(x) now prints with less rounding when x contains infinite
+  values. (Request of PR#16620.)
+- provideDimnames() gets an optional unique argument.
+- shQuote() gains type = "cmd2" for quoting in cmd.exe in Windows.
+  (Response to PR#16636.)
+- The data.frame method of rbind() gains an optional argument
+  stringsAsFactors (instead of only depending on
+  getOption("stringsAsFactors")).
+- smooth(x, *) now also works for long vectors.
+- tools::texi2dvi() has a workaround for problems with the texi2dvi
+  script supplied by texinfo 6.1.
+  It extracts more error messages from the LaTeX logs when in
+  emulation mode.
+UTILITIES:
+- R CMD check will leave a log file build_vignettes.log from the
+  re-building of vignettes in the .Rcheck directory if there is a
+  problem, and always if environment variable
+  _R_CHECK_ALWAYS_LOG_VIGNETTE_OUTPUT_ is set to a true value.
+DEPRECATED AND DEFUNCT:
+- Use of SUPPORT_OPENMP from header Rconfig.h is deprecated in
+  favour of the standard OpenMP define _OPENMP.
+  (This has been the recommendation in the manual for a while now.)
+- The make macro AWK which is long unused by R itself but recorded
+  in file etc/Makeconf is deprecated and will be removed in R
+  3.3.0.
+- The C header file S.h is no longer documented: its use should be
+  replaced by R.h.
+BUG FIXES:
+- kmeans(x, centers = <1-row>) now works. (PR#16623)
+- Vectorize() now checks for clashes in argument names.  (PR#16577)
+- file.copy(overwrite = FALSE) would signal a successful copy when
+  none had taken place.  (PR#16576)
+- ngettext() now uses the same default domain as gettext().
+  (PR#14605)
+- array(.., dimnames = *) now warns about non-list dimnames and,
+  from R 3.3.0, will signal the same error for invalid dimnames as
+  matrix() has always done.
+- addmargins() now adds dimnames for the extended margins in all
+  cases, as always documented.
+- heatmap() evaluated its add.expr argument in the wrong
+  environment.  (PR#16583)
+- require() etc now give the correct entry of lib.loc in the
+  warning about an old version of a package masking a newer
+  required one.
+- The internal deparser did not add parentheses when necessary,
+  e.g. before [] or [[]].  (Reported by Lukas Stadler; additional
+  fixes included as well).
+- as.data.frame.vector(*, row.names=*) no longer produces
+  'corrupted' data frames from row names of incorrect length, but
+  rather warns about them.  This will become an error.
+- url connections with method = "libcurl" are destroyed properly.
+  (PR#16681)
+- withCallingHandler() now (again) handles warnings even during S4
+  generic's argument evaluation.  (PR#16111)
+- deparse(..., control = "quoteExpressions") incorrectly quoted
+  empty expressions.  (PR#16686)
+- format()ting datetime objects ("POSIX[cl]?t") could segfault or
+  recycle wrongly.  (PR#16685)
+- plot.ts(<matrix>, las = 1) now does use las.
+- saveRDS(*, compress = "gzip") now works as documented.
+  (PR#16653)
+- (Windows only) The Rgui front end did not always initialize the
+  console properly, and could cause R to crash.  (PR#16998)
+- dummy.coef.lm() now works in more cases, thanks to a proposal by
+  Werner Stahel (PR#16665).  In addition, it now works for
+  multivariate linear models ("mlm", manova) thanks to a proposal
+  by Daniel Wollschlaeger.
+- The as.hclust() method for "dendrogram"s failed often when there
+  were ties in the heights.
+- reorder() and midcache.dendrogram() now are non-recursive and
+  hence applicable to somewhat deeply nested dendrograms, thanks to
+  a proposal by Suharto Anggono in PR#16424.
+- cor.test() now calculates very small p values more accurately
+  (affecting the result only in extreme not statistically relevant
+  cases).  (PR#16704)
+- smooth(*, do.ends=TRUE) did not always work correctly in R
+  versions between 3.0.0 and 3.2.3.
+- pretty(D) for date-time objects D now also works well if range(D)
+  is (much) smaller than a second.  In the case of only one unique
+  value in D, the pretty range now is more symmetric around that
+  value than previously.
+  Similarly, pretty(dt) no longer returns a length 5 vector with
+  duplicated entries for Date objects dt which span only a few
+  days.
+- The figures in help pages such as ?points were accidentally
+  damaged, and did not appear in R 3.2.3.  (PR#16708)
+- available.packages() sometimes deleted the wrong file when
+  cleaning up temporary files.  (PR#16712)
+- The X11() device sometimes froze on Red Hat Enterprise Linux 6.
+  It now waits for MapNotify events instead of Expose events,
+  thanks to Siteshwar Vashisht. (PR#16497)
+- [dpqr]nbinom(*, size=Inf, mu=.) now works as limit case, for
+  'dpq' as the Poisson.  (PR#16727)
+  pnbinom() no longer loops infinitely in border cases.
+- approxfun(*, method="constant") and hence ecdf() which calls the
+  former now correctly "predict" NaN values as NaN.
+- summary.data.frame() now displays NAs in Date columns in all
+  cases.  (PR#16709)
+
 * Fri Dec 11 2015 Shane Sturrock <shane@biomatters.com> - 3.2.3-10
 NEW FEATURES:
 - which.min(x) and which.max(x) may be much faster for logical and
