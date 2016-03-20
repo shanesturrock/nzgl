@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.10.1
+Version:	1.10.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,15 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Mar 21 2016 Shane Sturrock <shane@biomatters.com> - 1.10.2-1
+- Fixed a bug causing a segmentation fault when running usearch_global with an
+  empty query sequence. 
+- Also fixed a bug causing imperfect alignments to be reported with an
+  alignment string of "=" in uc output files. 
+- Fixed typos in man file. 
+- Fixed fasta/fastq processing code regarding presence or absence of
+  compression library header files.
+
 * Fri Feb 26 2016 Shane Sturrock <shane@biomatters.com> - 1.10.1-1
 - Fix truncated labels for fastq_mergepairs command
 
