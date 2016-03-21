@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.69
+Version:	2.3.71
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,11 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue Mar 22 2016 Shane Sturrock <shane@biomatters.com> - 2.3.71-1
+- Bug Fixes
+  - Cannot load a bam file with "refgene" in the name.
+  - .mut mutation files fail to load with number format error.
+
 * Thu Mar 10 2016 Shane Sturrock <shane@biomatters.com> - 2.3.69-1
 - New Features and Improvements
   - Support for indexing .mut and .maf mutation files with igvtools.
