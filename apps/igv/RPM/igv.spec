@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.71
+Version:	2.3.72
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Apr 04 2016 Shane Sturrock <shane@biomatters.com> - 2.3.72-1
+- Bug Fixes
+  - Alignments starting with deletions not rendered correctly.
+
 * Tue Mar 22 2016 Shane Sturrock <shane@biomatters.com> - 2.3.71-1
 - Bug Fixes
   - Cannot load a bam file with "refgene" in the name.
