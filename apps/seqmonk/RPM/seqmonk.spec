@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.32.1
+Version:	0.33.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,21 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 0.33.0-1
+- Added more metrics and allowed filtering in the RNA-Seq QC plot
+- Allow the creation of multiple genome projects so we can accommodate control
+  sets (ERCC for example)
+- Improved the layout in the chromosome view when many data tracks are loaded
+- Added a variance plot and a set of filters to select probes based on their
+  variance
+- Added a shuffled probe list probe generator
+- Made the duplication plot work across multiple data stores
+- Added probe names to the hierarchical cluster plot
+- Fixed a bug when creating custom genomes from gff3 files
+- Improved the data store tree so you can now create replicate sets based on
+  the clusters seen
+- Added a chromosome view report for bulk exporting chromosome view images
+
 * Fri Sep 11 2015 Shane Sturrock <shane@biomatters.com> - 0.32.1-1
 - Fixed a bug which caused some systems to hang when running a monitored R
   script

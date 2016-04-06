@@ -1,29 +1,11 @@
---- makefile.orig	2015-07-28 02:18:26.000000000 +1200
-+++ makefile	2015-07-29 08:02:44.817301463 +1200
-@@ -12,7 +12,7 @@
+--- Makefile.orig	2016-04-07 07:58:18.513847172 +1200
++++ Makefile	2016-04-07 08:00:53.535113132 +1200
+@@ -11,7 +11,7 @@
  64BIT_VERSION ?= yes
+ OPTIMIZE ?= yes
  USEREADLINE ?= yes
- USECOMPRESSION ?= no
 -USEBOOST ?= yes
 +USEBOOST ?= no
+ BOOST_LIBRARY_DIR="\"Enter_your_boost_library_path_here\""
  MOTHUR_FILES="\"Enter_your_default_path_here\""
- RELEASE_DATE = "\"7/27/2015\""
- VERSION = "\"1.36.1\""
-@@ -23,7 +23,7 @@
- 
- ifeq  ($(strip $(64BIT_VERSION)),yes)
-     #if you are a mac user use the following line
--    TARGET_ARCH += -arch x86_64
-+    #TARGET_ARCH += -arch x86_64
- 
-     #if you using cygwin to build Windows the following line
-     #CXX = x86_64-w64-mingw32-g++
-@@ -31,7 +31,7 @@
-     #TARGET_ARCH += -m64 -static
- 
-     #if you are a linux user use the following line
--    #CXXFLAGS += -mtune=native -march=native
-+    CXXFLAGS += -mtune=native -march=native
- 
-     CXXFLAGS += -DBIT_VERSION
- endif
+ RELEASE_DATE = "\"4/05/2016\""

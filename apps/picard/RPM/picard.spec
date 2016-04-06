@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.1.1
+Version:	2.2.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,14 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 2.2.1-1
+- Picard Changes
+  - Expose SAM tags for molecular indexes in IlluminaBasecallsToSam.
+  - Added an option to require a minimum read length after applying adapter 
+    clipping to read
+- HTSJDK Changes
+  - fix the bug in AbstractVCFCodec.canDecodeFile
+
 * Mon Mar 07 2016 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
 - CollectMultipleMetric and CollectSequencingArtifactMetrics use FILE_EXTENSION
   properly.

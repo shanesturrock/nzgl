@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.36.1
+Version:	1.37.0
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,78 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 1.37.0-1
+- New Commands
+  - biom.info - reads biom file and creates shared, taxonomy, constaxonomy and
+    tax.summary files.
+- Feature Updates
+  - Adds agc and dgc methods to the cluster.split and cluster commands from the
+    vsearch software package. Not available for Windows.
+  - merge.groups - adds count option. Adds method and fasta parameter. Method
+    options are sum, average and median. Default=sum.
+  - get.groups / remove.groups - adds phylip and column options.
+  - get.seqs / remove.seqs - Checks for repeat sequences names and eliminates
+    them. Allows users creating their own templates to easily remove duplicate
+    sequences from their reference files.
+  - Remove MPI source code - MPI version is slower than non-MPI version. No
+    advantage to using it.
+  - unique.seqs - adds format parameter. Options are name and count.
+  - Simplify makefile
+  - make.file - adds numcols parameter. Options 2 or 3. Default=3, meaning
+    groupName forwardFastq reverseFastq. The groupName is made from the
+    beginning part of the forwardFastq file. Everything up to the first '' 
+    or if no '' is found then the root of the forwardFastq filename.
+  - Output number of warning and errors detected.
+  - rename.seqs - adds file, map, qfile and contigsreport parameters. The map
+    file allows you to revert sequence names back to original. Works with
+    make.contigs to automatically rename sequences.
+  - make.contigs - adds rename parameter, default=t. Renames sequences to
+    reduce file sizes and greatly reduce the size of the column formatted
+    distance matrix downstream. Uses the rename.seqs command to rename which
+    creates a map file so you can revert to original names at any time.
+  - classify.seqs - Changes cutoff parameter default to 80. This change in the
+    bootstrap threshold reflects the default values in the 454 and MiSeq SOPs.
+  - get.current - Adds current RAM usage and total RAM available.
+  - Replaces '-' characters in sequences names with '_' characters to avoid
+    downstream issues.
+  - Changes default on minlength to 10 for the screen.seqs command.
+  - Removed load.logfile command. Added output file to get.current and
+    input/output file to set.current . These changes allow the commands to work
+    together to keep track of current files between instances of mothur in a 
+    more direct and easy to edit manner. You can input the output file of the
+    get.current command into the set.current command using the new current
+    parameter.
+  - Adds includescrap parameter to the make.sra command. Default=True.
+  - get.otulabels removed. Functions added to get.otus command.
+  - remove.otulabels removed. Functions added to remove.otus command.
+  - Adds output and printlevel parameters to classify.seqs, classify.otu,
+    biom.info and summary.tax commands. Output options simple and detail.
+    Default=detail.
+  - Adds relabund parameter to classify.otu command.
+  - Adds threshold parameter to summary.tax command.
+  - Adds parent taxons to unclassified taxons for outputs of classify.seqs,
+    classify.otu, biom.info commands.
+  - Adds count parameter to get.sharedseqs
+- Bug Fixes
+  - filter.shared - modifies rareOtus label to prevent mothurConvert error.
+  - make.contigs - File mismatch error with certain sequence name formats and
+    multiple processors. Three column format gz file not producing group file.
+  - Fixes mothurConvert error if "seed" was part of filename.
+  - Removes OS limit on open files for cluster.split
+  - make.sra - Fastq.info error about no inputs selected when running make.sra
+    with single fastq file and oligos file.
+  - cluster.split - removes limit on number of files that can be split by
+    cluster.split. Limit caused "[ERROR]: Cannot open yourFasta.xxx.temp" file
+    error.
+  - "Illegal Instruction" error on Linux machines. Fixed in 1.29.16 release.
+  - Updates Xcode project file to fix collaboration issues.
+  - Fixes filter.seqs issue where sequences are not the same length by setting
+    default minlength to 10 in the screen.seqs command.
+  - Windows version - if files were used with less sequences than processors
+    specified then empty file error.
+  - Fixes make.contigs name mismatch bug and gives a slight speed boost.
+  - Fixes lefse "Skipping x iter..." warning.
+
 * Wed Jul 27 2015 Shane Sturrock <shane@biomatters.com> - 1.36.1-1
 - make.file - Linux version only bug. Caused error messages about find 
   command -maxdepth parameter.
