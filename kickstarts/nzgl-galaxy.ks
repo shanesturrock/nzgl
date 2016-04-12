@@ -74,9 +74,9 @@ mkdir /databases
 mkdir /home/galaxy 
 mkdir /home/shane 
 
-echo "${nfs_host}:/fs1/home/galaxy /home/galaxy nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/galaxy /home/galaxy nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config

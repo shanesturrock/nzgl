@@ -115,17 +115,17 @@ mkdir /home/R-network
 mkdir /home/rtg
 mkdir -p /home/galaxy/upload
 
-echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/R-network /home/R-network nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/rtg /home/rtg nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/galaxy/upload /home/galaxy/upload nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-# echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-# echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
-# echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=8192,wsize=8192 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/R-network /home/R-network nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/rtg /home/rtg nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/galaxy/upload /home/galaxy/upload nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+# echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 
 # Set 500GB max file size limit
 echo "*	hard	fsize	512000000" >> /etc/security/limits.conf
