@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.10.2
+Version:	1.11.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,12 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Apr 14 2016 Shane Sturrock <shane@biomatters.com> - 1.11.1-1
+- Add strand info to uc file after dereplication.
+- Add info about expected errors (ee) to FASTA files with fastq_filter and
+  fastq_mergepairs commands if option -fastq_eeout or -eeout is specified. 
+- Delete unnecessary autotool files.
+
 * Mon Mar 21 2016 Shane Sturrock <shane@biomatters.com> - 1.10.2-1
 - Fixed a bug causing a segmentation fault when running usearch_global with an
   empty query sequence. 
