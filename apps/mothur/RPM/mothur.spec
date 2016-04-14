@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.0
+Version:	1.37.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Fri Apr 15 2016 Shane Sturrock <shane@biomatters.com> - 1.37.1-1
+- Bugfix release
+
 * Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 1.37.0-1
 - New Commands
   - biom.info - reads biom file and creates shared, taxonomy, constaxonomy and
