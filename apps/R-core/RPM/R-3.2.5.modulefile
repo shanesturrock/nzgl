@@ -3,4 +3,4 @@
 #  bwa module for use with 'environment-modules' package:
 # 
 conflict                R
-prepend-path 		PATH 			/home/R-network/R-3.2.3/bin
+prepend-path 		PATH 			/home/R-network/R-3.2.5/bin

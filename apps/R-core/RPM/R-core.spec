@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 324
+%define priority 325
 
 Name:           R-core
-Version:        3.2.4
+Version:        3.2.5
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -12,15 +12,14 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0:        R-2.15.3.modulefile
 Source1:        R-3.0.3.modulefile
 Source2:        R-3.1.3.modulefile
-Source3:        R-3.2.4.modulefile
+Source3:        R-%{version}.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
-Obsoletes:	R-core-3.2.3
+Obsoletes:	R-core-3.2.4
 
 # Post requires alternatives to install tool alternatives.
 Requires(post):   %{_sbindir}/alternatives
 # Postun requires alternatives to uninstall tool alternatives.
 Requires(postun): %{_sbindir}/alternatives
-
 %description
 
 NZGL R installer
@@ -31,7 +30,7 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.4
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %clean
 rm -rf %{buildroot}
@@ -52,9 +51,17 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 %{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.4
+%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
+* Mon Apr 18 2016 Shane Sturrock <shane@biomatters.com> - 3.2.5-10
+- BUG FIXES:
+  - format.POSIXlt() behaved incorrectly in R 3.2.4.  E.g. the output of
+    format(as.POSIXlt(paste0(1940:2000,"-01-01"), tz = "CET"), usetz = TRUE)
+    ended in two "CEST" time formats.
+  - A typo in the Makefile for src/extra/xz prevented builds of liblzma.a.
+    (Notice that this will become unbundled in 3.3.0.)
+
 * Thu Mar 17 2016 Shane Sturrock <shane@biomatters.com> - 3.2.4-10
 NEW FEATURES:
 - install.packages() and related functions now give a more
