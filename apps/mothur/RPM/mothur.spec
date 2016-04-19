@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.1
+Version:	1.37.2
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,16 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Apr 20 2016 Shane Sturrock <shane@biomatters.com> - 1.37.2-1
+- Bug Fixes
+  - Stops sort of user created list file.
+  - Fixes bug introduced in 1.37 that removed barcodes and primers from fastq
+    files instead of simply identifying samples for make.sra command.
+  - Fixes bug with merge.groups initialization of the shared file.
+  - Cleans up makefile.
+  - Removes extra unclassified level from taxonomy files
+  - Fixes make.contigs gz file error
+
 * Fri Apr 15 2016 Shane Sturrock <shane@biomatters.com> - 1.37.1-1
 - Bugfix release
 
