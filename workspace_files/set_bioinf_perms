@@ -2,10 +2,11 @@
 
 function usage() {
 	cat << EOF
-Usage: ${0} -u -g [-b]
+Usage: ${0} -u -g -d [-b]
 
 	-u Username
 	-g Project group
+	-d archive only (optional)
 	-b BioIT contract (optional)
 
 Note: This uses setfacl to allow users access to the selected project
@@ -20,13 +21,16 @@ fi
 USERNAME=
 GROUP=
 BIOIT=
+ALL=
 
-while getopts u:g:b: flag; do
+while getopts u:g:d:b: flag; do
         case $flag in
                 u) USERNAME=$OPTARG
                    ;;
                 g) GROUP=$OPTARG
                    ;;
+		d) ALL=0
+		   ;;
                 b) BIOIT=$OPTARG
                    ;;
                 ?)
@@ -70,15 +74,18 @@ if [ -z "$BIOIT" ]; then
   cd /archive
   setfacl -m u:$USERNAME:r -d -R $GROUP
   find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
-  if [ -d "/active/$GROUP" ]; then
-    cd /active
-    setfacl -m u:$USERNAME:rw -d -R $GROUP
-    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  fi
-  if [ -d "/scratch/$GROUP" ]; then
-    cd /scratch
-    setfacl -m u:$USERNAME:rw -d -R $GROUP
-    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  # Only change active and scratch if -d flag wasn't set
+  if [ -z "$ALL" ]; then
+    if [ -d "/active/$GROUP" ]; then
+      cd /active
+      setfacl -m u:$USERNAME:rw -d -R $GROUP
+      find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
+    if [ -d "/scratch/$GROUP" ]; then
+      cd /scratch
+      setfacl -m u:$USERNAME:rw -d -R $GROUP
+      find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
   fi
 else
   if [ ! -d "/archive/$BIOIT" ]; then
@@ -94,29 +101,35 @@ else
   # subprojects
   setfacl -m u:$USERNAME:r -d $BIOIT
   find $BIOIT -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
-  if [ -d "/active/$BIOIT/$GROUP" ]; then
-    cd /active
-    setfacl -m u:$USERNAME:rw -d $BIOIT
-    find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  fi
-  if [ -d "/scratch/$BIOIT/$GROUP" ]; then
-    cd /scratch
-    setfacl -m u:$USERNAME:rw -d $BIOIT
-    find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  # Only change active and scratch if -d flag wasn't set
+  if [ -z "$ALL" ]; then
+    if [ -d "/active/$BIOIT/$GROUP" ]; then
+      cd /active
+      setfacl -m u:$USERNAME:rw -d $BIOIT
+      find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
+    if [ -d "/scratch/$BIOIT/$GROUP" ]; then
+      cd /scratch
+      setfacl -m u:$USERNAME:rw -d $BIOIT
+      find $BIOIT -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
   fi
   if [ -d "/archive/$BIOIT/$GROUP" ]; then
     cd /archive/$BIOIT
     setfacl -m u:$USERNAME:r -d -R $GROUP
     find $GROUP -type d -exec setfacl -m u:$USERNAME:rx -d {} \;
   fi
-  if [ -d "/active/$BIOIT/$GROUP" ]; then
-    cd /active/$BIOIT
-    setfacl -m u:$USERNAME:rw -d -R $GROUP
-    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
-  fi
-  if [ -d "/scratch/$BIOIT/$GROUP" ]; then
-    cd /scratch/$BIOIT
-    setfacl -m u:$USERNAME:rw -d -R $GROUP
-    find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+  # Only change active and scratch if -d flag wasn't set
+  if [ -z "$ALL" ]; then
+    if [ -d "/active/$BIOIT/$GROUP" ]; then
+      cd /active/$BIOIT
+      setfacl -m u:$USERNAME:rw -d -R $GROUP
+      find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
+    if [ -d "/scratch/$BIOIT/$GROUP" ]; then
+      cd /scratch/$BIOIT
+      setfacl -m u:$USERNAME:rw -d -R $GROUP
+      find $GROUP -type d -exec setfacl -m u:$USERNAME:rwx -d {} \;
+    fi
   fi
 fi
