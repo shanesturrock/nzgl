@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.2.1
+Version:	2.2.2
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,31 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Apr 21 2016 Shane Sturrock <shane@biomatters.com> - 2.2.2-1
+- Picard changes
+  - Fixed bug in CompareSams that occurs when two read mates have the same
+    genomic start position. (#516)
+  - This commit enables MarkDuplicate to process query-sorted input. (#491)
+  - addressing review comments for yf_add_CLP_FixNmAndUqTags  (#515)
+  - Added a new CLP which will traverse a sorted sam/bam and fix the UQ and NM
+    tags (#512)
+  - Making more classes and methods public in Genotype Concordance.
+  - Exposing variant classification methods in GenotypeConcordance.
+  - Deprecating tools that we no longer want to support
+  - fix typo in log.warn in EstimateLibraryComplexity
+  - return 0 where lhs and rhs are identical in PairedReadComparator
+  - Moved calculation of values for %selected back to before filtering to
+    unique reads only.
+- HTSJDK changes:
+  - NPE bug fix for BinningIndexContext for chucksless queries (#313)
+  - Bug fixes for SAMRecord/SAMBinaryTagAndValue, BAMIndexer.
+  - Added a method to retrieve reference sequences as Strings in addition to as
+    byte[]s.
+  - Clean up Genotype JEXL Filtering (#532)
+  - fixing a spelling mistake in the packaged intel deflater path
+  - fix for race condition
+  - print variants example + test
+
 * Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 2.2.1-1
 - Picard Changes
   - Expose SAM tags for molecular indexes in IlluminaBasecallsToSam.

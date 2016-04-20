@@ -1,6 +1,6 @@
 Name:		bismark
-Version:	0.15.0
-Release:	2%{?dist}
+Version:	0.16.0
+Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
 License:	GNU GPL v3
@@ -27,30 +27,82 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{_bindir}
 
 install -m 0755 bismark %{buildroot}/%{_bindir}
-install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
-install -m 0755 bismark_methylation_extractor %{buildroot}/%{_bindir}
 install -m 0755 coverage2cytosine %{buildroot}/%{_bindir}
-install -m 0755 bismark2bedGraph %{buildroot}/%{_bindir}
-install -m 0755 deduplicate_bismark %{buildroot}/%{_bindir}
 install -m 0755 bismark2report %{buildroot}/%{_bindir}
 install -m 0644 bismark_sitrep.tpl %{buildroot}/%{_bindir}
+install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
+install -m 0755 deduplicate_bismark %{buildroot}/%{_bindir}
+install -m 0755 bismark2summary %{buildroot}/%{_bindir}
+install -m 0755 bismark2bedGraph %{buildroot}/%{_bindir}
+install -m 0755 bam2nuc %{buildroot}/%{_bindir}
+install -m 0755 bismark_methylation_extractor %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt
+%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt RRBS_Guide.pdf
+
 %{_bindir}/bismark
-%{_bindir}/bismark_genome_preparation
-%{_bindir}/bismark_methylation_extractor
 %{_bindir}/coverage2cytosine
-%{_bindir}/bismark2bedGraph
-%{_bindir}/deduplicate_bismark
 %{_bindir}/bismark2report
 %{_bindir}/bismark_sitrep.tpl
+%{_bindir}/bismark_genome_preparation
+%{_bindir}/deduplicate_bismark
+%{_bindir}/bismark2summary
+%{_bindir}/bismark2bedGraph
+%{_bindir}/bam2nuc
+%{_bindir}/bismark_methylation_extractor
 
 %changelog
+*Thu Apr 21 2016 Shane Sturrock <shane@biomatters.com> - 0.16.0-1
+- Bismark: File endings .fastq | .fq | .fastq.gz | .fq.gz are now removed from
+  the output file (unless they were specified with --basename) in a bid to
+  reduce the length of the already long file names
+- Bismark: Enabled the new option --dovetail (which will be turned on by
+  default for --pbat libraries) which will now allow dovetailing reads to be
+  reported
+- Bismark: Changed the behaviour of corner cases where several non-directional
+  alignments could have existed for the very same position but to different
+  strands so that now the best alignment trumps the weaker one. As an example: 
+  If you relaxed the alignment criteria of a given alignment to allow ~60 
+  mismatches for PE alignment we did find an alignment to the OT strand with a 
+  combined AS of -324, but there also was an alignment to the CTOB strand with 
+  and AS of 0 (perfect alignment). The CTOB now trumps the OT alignment, and 
+  the methylation information information is now reported for the bottom strand
+- New module: bismark2summary accepts Bismark BAM files as input. It will then
+  try to identify Bismark reports, and optionally deduplication reports or
+  methylation extractor (splitting) reports automatically based the BAM file
+  basename. It produces a tab delimited overview table (.txt) as well as a
+  graphical HTML report. Examples can be found at Bismark Summary Report and
+  Bismark Summary Report (.txt)
+- The new Bismark module bam2nuc calculcates the average mono- and
+  di-nucleotide coverage of libraries and compares this to the genomic average
+  composition. bam2nuc can be called straight from within Bismark (option
+  --nucleotide_coverage) or run stand-alone. bam2nuc creates a
+  ...nucleotide_stats.txt file that is also automatically detected by
+  bismark2report and incorporated into the HTML report
+- bismark_sitrep.tpl: Removed an extra function call in bismark_sitrep.tpl so
+  that the M-bias 2 plot is drawn once the M-bias 1 plot has finished drawing
+  (parallel processing could with certain browsers and data may have resulted in
+  a white spaceholder only)
+- Methylation extractor: Altering the file path handling of coverage2cytosine
+  and bismark2bedGraph also required some changes in the methylation extractor
+- bismark2bedGraph: Input file path handling has been completely reworked. The
+  output file which can be specified as -o output.bedGraph now has to be a
+  single file name and mustn't contain any path information. A particular output
+  folder may be specified with -dir /any/path/
+- bismark2bedGraph: Addressing the file path handling issue also fixed a
+  similar issue with the option --remove_spaces when -o had been specified
+- coverage2cytosine: Changed zcat for gunzip -c when reading a gzipped coverage
+  file. This should avoid some Mac platforms crashing because zcat invariably
+  requires a file to end in the .Z (which it doesn't...)
+- coverage2cytosine: Changed the way in which the coverage input file is handed
+  over from the methylation_extractor to coverage2cytosine (previously the path
+  information might have been part of the file name, but instead it will now be
+  only part of the -dir output_directory option
+
 *Thu Feb 11 2016 Sidney Markowitz <sidney@biomatters.com> - 0.15.0-2
 - Bismark
   - Added missing commands: bismark2bedGraph coverage2cytosine
