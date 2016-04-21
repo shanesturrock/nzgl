@@ -23,16 +23,16 @@ GROUP=
 BIOIT=
 ALL=
 
-while getopts u:g:d:b: flag; do
+while getopts u:g:b:d flag; do
         case $flag in
                 u) USERNAME=$OPTARG
                    ;;
                 g) GROUP=$OPTARG
                    ;;
-		d) ALL=0
-		   ;;
                 b) BIOIT=$OPTARG
                    ;;
+		d) ALL=0
+		   ;;
                 ?)
                    usage
                    exit 1
