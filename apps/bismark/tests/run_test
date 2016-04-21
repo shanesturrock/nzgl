@@ -16,18 +16,17 @@ export PATH=/usr/lib64/samtools130/bin/:$PATH
 bismark_genome_preparation --bowtie1 testdata/
 bismark --bowtie1 -n 1 -l 50 testdata/ test_data.fastq
 # Now outputs bam format
-bismark_methylation_extractor -s --comprehensive test_data.fastq_bismark.bam
-
-bismark2bedGraph -o CpG_context_test_data.fastq_bismark.bedGraph CpG_context_test_data.fastq_bismark.txt
+bismark_methylation_extractor -s --comprehensive test_data_bismark.bam
+bismark2bedGraph -o CpG_context_test_data_bismark.bedGraph CpG_context_test_data_bismark.txt
 bismark2report
-coverage2cytosine -o CpG_context_test_data.fastq_bismark.cytosine --genome testdata CpG_context_test_data.fastq_bismark.bismark.cov.gz
-deduplicate_bismark test_data.fastq_bismark.bam
+coverage2cytosine -o CpG_context_test_data.bismark.cytosine --genome testdata CpG_context_test_data_bismark.bismark.cov.gz
+deduplicate_bismark test_data_bismark.bam
 
 [ -d testdata/Bisulfite_Genome/ ] && rm -rf testdata/Bisulfite_Genome/
 rm -rf *.txt
 rm -rf *.png
 rm -rf *.gz
 rm -rf *.html
-rm -f test_data.fastq_bismark.bam
-rm -f test_data.fastq_bismark.deduplicated.sam
-rm -f CpG_context_test_data.fastq_bismark.cytosine
+rm -f test_data_bismark.bam
+rm -f test_data_bismark.deduplicated.sam
+rm -f CpG_context_test_data.bismark.cytosine
