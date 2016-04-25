@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.16.0
+Version:	0.16.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -56,6 +56,10 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_methylation_extractor
 
 %changelog
+*Tue Apr 29 2016 Shane Sturrock <shane@biomatters.com> - 0.16.1-1
+- Bismark: Removed a rogue warn/sleep statement for PE/Bowtie2 mode that had
+  crept in during the last release...
+
 *Thu Apr 21 2016 Shane Sturrock <shane@biomatters.com> - 0.16.0-1
 - Bismark: File endings .fastq | .fq | .fastq.gz | .fq.gz are now removed from
   the output file (unless they were specified with --basename) in a bid to

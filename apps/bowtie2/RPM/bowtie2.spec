@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.8
+Version:	2.2.9
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -60,6 +60,10 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Tue Apr 26 2016 Shane Sturrock <shane@biomatters.com> - 2.2.9-1
+- Fixed the multiple threads issue for the bowtie2-build.
+- Fixed a TBB related build issue impacting TBB v4.4.
+
 * Tue Mar 15 2016 Shane Sturrock <shane@biomatters.com> - 2.2.8-1
 - Various website updates.
 - Fixed the bowtie2-build issue that made TBB compilation fail.
