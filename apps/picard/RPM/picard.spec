@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.2.2
+Version:	2.2.4
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,23 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Apr 29 2016 Shane Sturrock <shane@biomatters.com> - 2.2.4-1
+- Picard Changes
+  - By default check out the latest tagged version of htsjdk
+  - Use string builder instead of format for memory reduction and performance
+    gain.
+  - Adding a new tool for collecting metrics on independent replicates and UMIs
+    (#482)
+  - Changes the List of ProgramInterfaces to a Set so that the output will not
+    have duplication of programs if the user neglects to include a null as the
+    first element. Also clarify documentation wrt INTERVALS and DB_SNP which are
+    (currently) only use by one PROGRAM (#479)
+- HTSJDK Changes:
+  - documentation changes
+  - Provide a method in VariantContextWriterBuilder to set an option depending
+    on a Boolean.
+  - Utility methods on CloseableIterator to make life a little easier. (#589)
+
 * Thu Apr 21 2016 Shane Sturrock <shane@biomatters.com> - 2.2.2-1
 - Picard changes
   - Fixed bug in CompareSams that occurs when two read mates have the same
