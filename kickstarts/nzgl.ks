@@ -61,7 +61,7 @@ cpan
 cmake
 glibc-static
 python-argparse
-libcurl-devel
+libcurl
 libxml2-devel
 ncurses-devel
 nautilus-open-terminal

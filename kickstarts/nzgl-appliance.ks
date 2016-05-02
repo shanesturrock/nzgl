@@ -50,7 +50,7 @@ cpan
 cmake
 glibc-static
 python-argparse
-libcurl-devel
+libcurl
 libxml2-devel
 libXp-devel
 ncurses-devel
