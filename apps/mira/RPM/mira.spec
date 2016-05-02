@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:        mira
-Version:     4.9.5_2
+Version:     4.9.6
 Release:     1
 Summary:     MIRA whole genome shotgun and EST sequence assembler
 Exclusiveos: linux
@@ -36,8 +36,8 @@ install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/bin/mira %{buildroot}
 # install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/bin/mirabait %{buildroot}/%{_bindir}/mirabait
 # install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/bin/miraconvert %{buildroot}/%{_bindir}/miraconvert
 # install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/bin/miramem %{buildroot}/%{_bindir}/miramem
-install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/scripts/fasta2frag.tcl %{buildroot}%{_bindir}/fasta2frag.tcl
-install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/scripts/fixACE4consed.tcl %{buildroot}%{_bindir}/fixACE4consed.tcl
+# install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/scripts/fasta2frag.tcl %{buildroot}%{_bindir}/fasta2frag.tcl
+# install -m 0755 %{name}_%{version}_linux-gnu_x86_64_static/scripts/fixACE4consed.tcl %{buildroot}%{_bindir}/fixACE4consed.tcl
 
 %clean
 rm -rf %{buildroot}
@@ -48,10 +48,14 @@ rm -rf %{buildroot}
 %{_bindir}/mirabait
 %{_bindir}/miraconvert
 %{_bindir}/miramem
-%{_bindir}/fasta2frag.tcl
-%{_bindir}/fixACE4consed.tcl
+# %{_bindir}/fasta2frag.tcl
+# %{_bindir}/fixACE4consed.tcl
 
 %changelog
+* Tue May 03 2016 Shane Sturrock <shane@biomatters.com> - 4.9.6-1
+- Upstream update development version
+- tcl scripts removed
+
 * Mon May 18 2015 Shane Sturrock <shane@biomatters.com> - 4.9.5_2-1
 - Upstream update
 
