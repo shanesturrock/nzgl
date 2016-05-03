@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.2
+Version:	1.37.3
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,10 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed May 04 2016 Shane Sturrock <shane@biomatters.com> - 1.37.3-1
+- Fixes bug with agc and dgc methods in the cluster.split and cluster commands
+  that added one duplicate names to OTUs.
+
 * Wed Apr 20 2016 Shane Sturrock <shane@biomatters.com> - 1.37.2-1
 - Bug Fixes
   - Stops sort of user created list file.
