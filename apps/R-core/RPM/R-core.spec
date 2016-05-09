@@ -15,7 +15,7 @@ Source2:        R-3.1.3.modulefile
 Source3:        R-3.2.5.modulefile
 Source4:        R-%{version}.modulefile
 Provides:	libR.so()(64bit) libRblas.so()(64bit) libRlapack.so()(64bit)
-# Obsoletes:	R-core-3.2.4
+#Obsoletes:	R-core-3.2.5
 
 # Post requires alternatives to install tool alternatives.
 Requires(post):   %{_sbindir}/alternatives
@@ -31,8 +31,8 @@ NZGL R installer
 install -D -p -m 0644 %SOURCE0 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/2.15.3
 install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.0.3
 install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.1.3
-install -D -p -m 0644 %SOURCE2 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.5
-install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
+install -D -p -m 0644 %SOURCE3 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/3.2.5
+install -D -p -m 0644 %SOURCE4 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %clean
 rm -rf %{buildroot}
@@ -40,7 +40,7 @@ rm -rf %{buildroot}
 %post
 alternatives \
   --install %{_bindir}/R R /home/R-network/R-%{version}/bin/R %{priority} \
-  --slave %{_bindir}/Rscript Rscript /home/R-network/R-%{version}/bin/Rscript
+  --slave %{_bindir}/Rscript Rscript /home/R-network/R-%{version}/bin/Rscript; \alternatives --set R /home/R-network/R-3.2.5/bin/R
 
 %postun
 if [ $1 -eq 0 ]
