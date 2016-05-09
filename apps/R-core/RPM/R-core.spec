@@ -57,7 +57,10 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
-* Wed May 04 2016 Shane Sturrock <shane@biomatters.com> - 3.3.0-10
+* Tue May 10 2016 Shane Sturrock <shane@biomatters.com> - 3.3.0-10
+- Note R 3.2.5 is still default because 3.3.0 doesn’t work with rstudio with
+  the most recent version that supports CentOS 6. You need to use module load
+  R/3.3.0 to access this version.
 - SIGNIFICANT USER-VISIBLE CHANGES:
   - nchar(x, *)'s argument keepNA governing how the result for NAs in
     x is determined, gets a new default keepNA = NA which returns NA
