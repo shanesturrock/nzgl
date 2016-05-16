@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.2.4
+Version:	2.3.0
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,29 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon May 16 2016 Shane Sturrock <shane@biomatters.com> - 2.3.0-1
+- HTSJDK Changes:
+  - Factor out an interface from CRAM ReferenceSource and fix two URI bugs.
+  - adding a useAsynchronousIO flag to SamReaderFactory
+  - fix setter in factory
+  - public reg2bin
+  - Document lack of support for BCF version 2.2
+  - Addressed code review; fixed potential deadlock if background thread throw
+    exception from hasNext() call
+  - AsyncBufferedIterator implementation to improve throughput by performing
+    read-ahead on a background thread
+- Picard Changes:
+  - Allow RevertSam to optionally output by read group. When run with
+    OUTPUT_BY_READGROUP=true, multiple output bams will be created, each
+    containing the reads for a single read group. Support outputting in CRAM
+    format. When removing alignment info, always remove mate info regardless of
+    value of read paired flag, and reset various fields (inferred inset size, 
+    not primary alignment, and proper pair flag) regardless of value of read 
+    unmapped flag.
+  - fixed number of bases in output (missing a + sign) (#532)
+  - New option: ALLOW_MISSING_FIELDS_IN_HEADER in LiftoverVcf.
+  - fixing a typo in the release script
+
 * Fri Apr 29 2016 Shane Sturrock <shane@biomatters.com> - 2.2.4-1
 - Picard Changes
   - By default check out the latest tagged version of htsjdk

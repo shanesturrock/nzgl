@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.3
+Version:	1.37.4
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,10 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon May 16 2016 Shane Sturrock <shane@biomatters.com> - 1.37.4-1
+- Fixes chimera.uchime size= instead of ab= for datasets run without references
+  or groups.
+
 * Wed May 04 2016 Shane Sturrock <shane@biomatters.com> - 1.37.3-1
 - Fixes bug with agc and dgc methods in the cluster.split and cluster commands
   that added one duplicate names to OTUs.
