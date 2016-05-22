@@ -1,5 +1,5 @@
 Name:		cutadapt
-Version:	1.9.1
+Version:	1.10
 Release:	1%{?dist}
 Summary:	A tool that removes adapter sequences from DNA sequencing reads
 Group:		Applications/Engineering
@@ -37,6 +37,26 @@ rm -rf %{buildroot}
 %{_libdir}/python2.6/site-packages/cutadapt-%{version}-py2.6.egg-info
 
 %changelog
+* Mon May 23 2016 Shane Sturrock <shane@biomatters.com> - 1.10-1
+- Added a new “linked adapter” type, which can be used to search for a 5’ and a
+  3’ adapter at the same time. Use ``-a ADAPTER1...ADAPTER2` to search for a
+  linked adapter. ADAPTER1 is interpreted as an anchored 5’ adapter, which is
+  searched for first. Only if ADAPTER1 is found will ADAPTER2 be searched for,
+  which is a regular 3’ adapter.
+- Added experimental --nextseq-trim option for quality trimming of NextSeq
+  data. This is necessary because that machine cannot distinguish between G and
+  reaching the end of the fragment (it encodes G as ‘black’).
+- Even when trimming FASTQ files, output can now be FASTA (quality values are
+  simply dropped). Use the -o/-p options with a file name that ends in .fasta
+  or .fa to enable this.
+- Cutadapt does not bundle pre-compiled C extension modules (.so files)
+  anymore. This affects only users that run cutadapt directly from an unpacked
+  tarball. Install through pip or conda instead.
+- Fix issue #167: Option --quiet was not entirely quiet.
+- Fix issue #199: Be less strict when checking for properly-paired reads.
+- This is the last version of cutadapt to support Python 2.6. Future versions
+  will require at least Python 2.7.
+
 * Thu Dec 03 2015 Shane Sturrock <shane@biomatters.com> - 1.9.1-1
 - Added --pair-filter option, which modifies how filtering criteria apply to
   paired-end reads
