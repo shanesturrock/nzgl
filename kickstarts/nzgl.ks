@@ -62,6 +62,7 @@ cmake
 glibc-static
 python-argparse
 libcurl
+boost-devel
 libxml2-devel
 ncurses-devel
 nautilus-open-terminal

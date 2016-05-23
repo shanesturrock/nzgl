@@ -51,6 +51,7 @@ cmake
 glibc-static
 python-argparse
 libcurl
+boost-devel
 libxml2-devel
 libXp-devel
 ncurses-devel
