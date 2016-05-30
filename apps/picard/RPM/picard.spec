@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.3.0
+Version:	2.4.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,21 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue May 31 2016 Shane Sturrock <shane@biomatters.com> - 2.4.1-1
+- Simple patch to the 2.4.0 release that disables the IntelDeflater in htsjdk,
+  which requires a new release from Intel before it will be fully usable in
+  htsjdk/Picard.
+- 2.4.0 notes
+  - Remove reference to htsjdk/lib/jni in build.xml, since it's been deleted
+  - Bug fix for tiny edge-case in MarkDuplicates
+  - Make EstimateLibraryComplexity ignore secondary or supplementary records.
+    (#547)
+  - squid:S1066 - Collapsible if statements should be merged (#469)
+  - small changes to make HetSense deterministic (#538)
+  - Fix null library name problem in LibraryIdGenerator constructor (#505)
+  - Added gradle build compatibility to picard public. This requires a merge of
+    the gradle changes in htsjdk
+
 * Mon May 16 2016 Shane Sturrock <shane@biomatters.com> - 2.3.0-1
 - HTSJDK Changes:
   - Factor out an interface from CRAM ReferenceSource and fix two URI bugs.

@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.72
+Version:	2.3.74
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,19 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue May 31 2016 Shane Sturrock <shane@biomatters.com> - 2.3.74-1
+- New Features and Improvements
+  - igvtools
+    - New tools for sorting and indexing BAM files.
+    - New MAF -> SAM converter.
+  - Group autoscale of multiple tracks
+    - Is now supported across panels in multi-locus view.
+    - Now supports alignment coverage tracks.
+  - New "BLAT" item in Tools menu for blatting arbitrary sequence.
+- Bug Fixes
+  - setMaxHeight command in batch files ignored on IGV startup.
+  - Deletions starting out-of-view not rendered.
+
 * Mon Apr 04 2016 Shane Sturrock <shane@biomatters.com> - 2.3.72-1
 - Bug Fixes
   - Alignments starting with deletions not rendered correctly.

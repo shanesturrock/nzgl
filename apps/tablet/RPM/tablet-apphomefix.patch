@@ -8,8 +8,8 @@
  INSTALL4J_JAVA_PREFIX=""
  GREP_OPTIONS=""
  
-+JRE_HOME=/usr/lib/jvm/jre-1.8.0-openjdk/jre
-+JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk
++JRE_HOME=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64/jre
++JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64
 +JAVA_PATH=$JAVA_HOME
 +PATH=$JAVA_PATH/bin:$PATH
 +

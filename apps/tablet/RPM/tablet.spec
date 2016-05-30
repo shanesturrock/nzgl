@@ -1,6 +1,6 @@
 Name:		tablet
 Version:	1.15.09.01
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
 License:	BSD Modified
@@ -62,6 +62,9 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri May 27 2017 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-2
+- Fixed Java issue where tablet wouldn't start because the path was wrong.
+
 * Wed Sep 02 2015 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-1
 - BUG: Reverted the included version of Java (because of JDK-8134827 that was
   breaking the scrollbars on large data sets).
