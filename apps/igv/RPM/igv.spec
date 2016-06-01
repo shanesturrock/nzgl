@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.74
+Version:	2.3.75
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Jun 02 2016 Shane Sturrock <shane@biomatters.com> - 2.3.75-1
+- Bug Fixes
+  - Autoscale not working for coverage tracks.
+
 * Tue May 31 2016 Shane Sturrock <shane@biomatters.com> - 2.3.74-1
 - New Features and Improvements
   - igvtools
