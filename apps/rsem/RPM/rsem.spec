@@ -1,5 +1,5 @@
 name:		rsem
-version:	1.2.30
+version:	1.2.31
 release:	1%{?dist}
 summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 group:		Applications/Engineering
@@ -107,6 +107,11 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Tue Jun 07 2016 Shane Sturrock <shane@biomatters.com> - 1.2.31-1
+- Rewrote 'rsem-gff3-to-gtf' to handle a more general set of GFF3 files.
+- Added safety checks to make sure poly(A) tails are not added to the 
+  reference when '--star' is set.
+
 * Tue Apr 26 2016 Shane Sturrock <shane@biomatters.com> - 1.2.30-1
 - Fixed a bug that can cause SAMtools sort to fail
 - Improved the appearance of warning messages: for the same type of warning
