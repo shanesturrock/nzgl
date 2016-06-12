@@ -7,9 +7,9 @@
 -version=@VERSION
 -build=@BUILD
 -timestamp=@TIMESTAMP
-+version=2.3.75
++version=2.3.76
 +build=86
-+timestamp=02/06/2016 08:00 AM
++timestamp=13/06/2016 08:00 AM
  master-resource-url=@DEFAULT_MASTER_RESOURCE_URL
 -development=@DEVELOPMENT
 \ No newline at end of file

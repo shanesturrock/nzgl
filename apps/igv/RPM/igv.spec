@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.75
+Version:	2.3.76
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Jun 13 2016 Shane Sturrock <shane@biomatters.com> - 2.3.76-1
+- New Features and Improvements
+  - Attributes from all constitutive parts of GFF features are now displayed in
+    popup text.
+- Bug Fixes
+  - Small chromosomes skipped when jumping through features (ctrl-f and
+    ctrl-b).
+
 * Thu Jun 02 2016 Shane Sturrock <shane@biomatters.com> - 2.3.75-1
 - Bug Fixes
   - Autoscale not working for coverage tracks.

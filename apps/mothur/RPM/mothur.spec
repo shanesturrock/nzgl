@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.4
+Version:	1.37.5
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jun 13 2016 Shane Sturrock <shane@biomatters.com> - 1.37.5-1
+- Fixes file divide bug with make.contigs for certain sequence name types.
+
 * Mon May 16 2016 Shane Sturrock <shane@biomatters.com> - 1.37.4-1
 - Fixes chimera.uchime size= instead of ab= for datasets run without references
   or groups.

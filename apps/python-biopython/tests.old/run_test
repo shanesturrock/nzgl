@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.63
+version=1.67
 set -e
 
 [ -d biopython-${version} ] && rm -rf biopython-${version}
