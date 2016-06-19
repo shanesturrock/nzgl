@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.33.0
+Version:	0.34.0
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,20 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Mon Jun 20 2016 Shane Sturrock <shane@biomatters.com> - 0.34.0-1
+- Added a transcription termination quantitation pipeline to quantitate
+  termination efficiency
+- Added a front/back chi-square test to do stats analysis for the termination
+  quantitation
+- Added a beanplot display
+- Added a default MAPQ filter of 20 when importing BAM files
+- Allowed the read position generator to work inside an existing probeset
+- Made the expanded replicate set display preference affect most plots which
+  work on visible data stores
+- Made the remote genomes list show the data of the annotation set used to
+  create each genome
+- Various smaller bug fixes and improvements
+
 * Thu Apr 07 2016 Shane Sturrock <shane@biomatters.com> - 0.33.0-1
 - Added more metrics and allowed filtering in the RNA-Seq QC plot
 - Allow the creation of multiple genome projects so we can accommodate control
