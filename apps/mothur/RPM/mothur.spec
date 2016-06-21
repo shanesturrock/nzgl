@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.5
+Version:	1.37.6
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jun 22 2016 Shane Sturrock <shane@biomatters.com> - 1.37.6-1
+- Fixes make.contigs gz file error.
+
 * Mon Jun 13 2016 Shane Sturrock <shane@biomatters.com> - 1.37.5-1
 - Fixes file divide bug with make.contigs for certain sequence name types.
 

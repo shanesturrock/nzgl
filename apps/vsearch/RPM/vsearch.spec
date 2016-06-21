@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.11.1
+Version:	1.11.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Jun 22 2016 Shane Sturrock <shane@biomatters.com> - 1.11.2-1
+- Fixed issues relating to query_cov option and to consensus sequences with Ns.
+
 * Thu Apr 14 2016 Shane Sturrock <shane@biomatters.com> - 1.11.1-1
 - Add strand info to uc file after dereplication.
 - Add info about expected errors (ee) to FASTA files with fastq_filter and
