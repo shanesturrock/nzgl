@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.4.1
+Version:	2.5.0
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,33 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Jun 27 2016 Shane Sturrock <shane@biomatters.com> - 2.5.0-1
+- Fixes for compile failures and warnings and test breaks vs HTSJDK master.
+- Output the read count per target.
+- Fixing bug in GatherVcfs. (#570)
+- Modify RevertSam to set the mate unmapped flag properly for single-end data.
+- Revert "Tag reads in duplicate sets with the representative read and the
+  duplicate set size"
+- Optional flag added to MarkDuplicates. If true, each record that is part of a
+  duplicate set is tagged with the representative read that is chosen by
+  MarkDuplicates. This is accomplished with the 
+  ReadEndsForMarkDuplicatesTagRepresentativeRead class that retains read name
+  information for each read pair examined. The RepresentativeReadName class
+  stores the representative read name and set size for each duplicate set,
+  spilling to disk if necessary. This functionality is tested by
+  MarkDuplicatesTagRepresentativeReadTest that also executes the tests in
+  AbstractMarkDuplicatesCommandLineProgramTest.
+- fixed TN/NT bug in check fingerprints. (#534)
+- squid:S1640 - Maps with keys that are enum values should be replaced with
+  EnumMap
+- findbugs:DM_BOOLEAN_CTOR, findbugs:DM_NUMBER_CTOR - Performance - Method
+  invokes inefficient constructor; use static valueOf instead
+- sprucing-up ScatterIntervalsByNsTest (#543)
+- Adding website files for release: 2.4.1-7-gc222883-SNAPSHOT
+- Allow sbt TestNG plugin to be resolved on systems that don't have it cached
+  already
+- MergeVcfs should not clear options be default.
+
 * Tue May 31 2016 Shane Sturrock <shane@biomatters.com> - 2.4.1-1
 - Simple patch to the 2.4.0 release that disables the IntelDeflater in htsjdk,
   which requires a new release from Intel before it will be fully usable in

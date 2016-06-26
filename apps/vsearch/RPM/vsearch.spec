@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	1.11.2
+Version:	2.0.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Jun 27 2016 Shane Sturrock <shane@biomatters.com> - 2.0.0-1
+- Support for reading from and writing to pipes.
+
 * Wed Jun 22 2016 Shane Sturrock <shane@biomatters.com> - 1.11.2-1
 - Fixed issues relating to query_cov option and to consensus sequences with Ns.
 
