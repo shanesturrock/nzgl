@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.76
+Version:	2.3.78
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,11 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Jun 29 2016 Shane Sturrock <shane@biomatters.com> - 2.3.78-1
+- Check sequence lengths in bam files for maximum supported length of 2^29-1.
+- Improved feature export for gff tracks.
+- Remove restriction on number of stacked features at a single locus.
+
 * Mon Jun 13 2016 Shane Sturrock <shane@biomatters.com> - 2.3.76-1
 - New Features and Improvements
   - Attributes from all constitutive parts of GFF features are now displayed in

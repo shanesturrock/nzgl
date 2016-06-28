@@ -52,6 +52,7 @@ sssd
 nx
 freenx
 gedit
+mc
 libreoffice
 yum-plugin-post-transaction-actions
 yum-utils

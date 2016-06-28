@@ -46,6 +46,7 @@ blas
 emacs
 nfs-utils
 gedit
+mc
 libreoffice
 valgrind
 cpan
