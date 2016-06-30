@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.0.0
+Version:	2.0.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Fri Jul 01 2016 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
+- Fix segmentation fault when masking very long sequences, due to use of 
+  alloca.
+
 * Mon Jun 27 2016 Shane Sturrock <shane@biomatters.com> - 2.0.0-1
 - Support for reading from and writing to pipes.
 
