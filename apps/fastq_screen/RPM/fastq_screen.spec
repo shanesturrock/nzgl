@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.6.0
+Version:	0.6.1
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jul 04 2016 Shane Sturrock <shane@biomatters.com> - 0.6.1-1
+- Fixed bug causing program to crash in some instances when --outdir option
+  selected
+
 * Tue Jun 28 2016 Shane Sturrock <shane@biomatters.com> - 0.6.0-1
 - Compatible with Bismark, enabling bisulfite library QC
 - Option --colorspace is no longer supported

@@ -1,5 +1,5 @@
 Name:           clustal-omega
-Version:        1.2.1
+Version:        1.2.2
 Release:	1%{?dist}
 License:        GPL
 Group:          Productivity/Scientific/Chemistry
@@ -40,7 +40,9 @@ rm -rf %{buildroot}
 %{_bindir}/clustalo
 
 %changelog
+* Mon Jul 04 2016 shane@biomatters.com 1.2.2-1
+- plugged memory leak, parallelised hhalign, more MAC-RAM.
 * Mon Mar 03 2014 shane@biomatters.com 1.2.1-1
-- Bug fix release
+- corrected Clustal format consensus line and label justification (multi-bit).
 * Fri Oct 11 2013 shane@biomatters.com 1.2.0-1
 - Initial build for NZGL repository
