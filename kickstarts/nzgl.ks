@@ -93,6 +93,7 @@ tk
 %post --logfile /root/post.log
 
 nfs_host="stn.genomics.local"
+nfs_host2="stn03.genomics.local"
 ntp_servers="10.0.1.1 10.10.0.3"
 
 # NTP
@@ -124,7 +125,7 @@ echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=32768,wsize
 echo "${nfs_host}:/fs1/home/R-network /home/R-network nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/rtg /home/rtg nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/galaxy/upload /home/galaxy/upload nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/databases /databases nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host2}:/fs1/databases /databases nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 # echo "${nfs_host}:/fs1/archive /archive nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 # echo "${nfs_host}:/fs1/active /active nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 # echo "${nfs_host}:/fs1/scratch /scratch nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
