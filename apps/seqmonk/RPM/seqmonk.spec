@@ -1,5 +1,5 @@
 Name:		seqmonk
-Version:	0.34.0
+Version:	0.34.1
 Release:	1%{?dist}
 Summary:	A tool to visualise and analyse high throughput mapped sequence data
 Group:		Applications/Engineering
@@ -60,6 +60,12 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Tue Jul 05 2016 Shane Sturrock <shane@biomatters.com> - 0.34.1-1
+- Fixed a crash in the beanplot when the first quantitated value was null
+- Fixed a problem where small chromosomes couldn't be selected in the genome
+  view
+- Fixed a hang when trying to view very small probes in a report
+
 * Mon Jun 20 2016 Shane Sturrock <shane@biomatters.com> - 0.34.0-1
 - Added a transcription termination quantitation pipeline to quantitate
   termination efficiency
