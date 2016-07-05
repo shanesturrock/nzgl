@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Jul 06 2016 Shane Sturrock <shane@biomatters.com> - 2.0.2-1
+- Fix GCC version 6 warnings.
+
 * Fri Jul 01 2016 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
 - Fix segmentation fault when masking very long sequences, due to use of 
   alloca.
