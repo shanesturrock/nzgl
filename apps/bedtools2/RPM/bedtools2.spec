@@ -1,5 +1,5 @@
 Name:		bedtools2
-Version:	2.25.0
+Version:	2.26.0
 Release:	1%{?dist}
 Summary:	Tools for handing BED files
 Group:		Applications/Engineering
@@ -106,6 +106,35 @@ rm -rf %{buildroot}
 %{_bindir}/windowMaker
 
 %changelog
+* Fri Jul 08 2016 Shane Sturrock <shane@biomatters.com> - 2.26.0-1
+- Fixed a major memory leak when using -sorted. Thanks to Emily Tsang and
+  Stephen Montgomery.
+- Fixed a bug for BED files containing a single record with no newline. Thanks
+  to @jmarshall.
+- The getfasta tool includes name, chromosome and position in fasta headers
+  when the -name option is used. Thanks to @rishavray.
+- Fixed a bug that now forces the coverage tool to process every record in the
+  -a file.
+- Fixed a bug preventing proper processing of BED files with consecutive tabs.
+- VCF files containing structural variants now infer SV length from either the
+  SVLEN or END INFO fields. Thanks to Zev Kronenberg.
+- Resolve off by one bugs when intersecting GFF or VCF files with BED files.
+- The shuffle tool now uses roulette wheel sampling to shuffle to -incl regions
+  based upon the size of the interval. Thanks to Zev Kronenberg and Michael
+  Imbeault.
+- Fixed a bug in coverage that prevented correct calculation of depth when
+  using the -split option.
+- The shuffle tool warns when an interval exceeds the maximum chromosome
+  length.
+- The complement tool better checks intervals against the chromosome lengths.
+- Fixes for stddev, min, and max operations. Thanks to @jmarshall.
+- Enabled stdev, sstdev, freqasc, and freqdesc options for groupby.
+- Allow -s and -w to be used in any order for makewindows.
+- Added new -bedOut option to getfasta.
+- The -r option forces the -F value for intersect.
+- Add -pc option to the genomecov tool, allowing coverage to be calculated
+  based upon paired-end fragments.
+
 * Fri Sep 04 2015 Shane Sturrock <shane@biomatters.com> - 2.25.0-1
 - Added new -F option that allows one to set the minimum fraction of
   overlap required for the B interval. This complements the

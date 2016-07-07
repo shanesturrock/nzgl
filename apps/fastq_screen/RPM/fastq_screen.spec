@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.6.2
+Version:	0.6.3
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 08 2016 Shane Sturrock <shane@biomatters.com> - 0.6.3-1
+- Fixed bug causing --subset 0 to crash
+- Fixed bug in which the reported percentage reads mapping to no libraries was,
+  in some instances, an underestimate of the correct value
+
 * Mon Jul 06 2016 Shane Sturrock <shane@biomatters.com> - 0.6.2-1
 - Updated help text
 - Refactored code
