@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.78
+Version:	2.3.79
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,13 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Jul 11 2016 Shane Sturrock <shane@biomatters.com> - 2.3.79-1
+- New Features and Improvements
+  - Improved tool-tip text for alignment tracks.
+- Bug Fixes
+  - OAuth credentials not passed for GA4GH readgroupsets.
+  - Cannot specify index URL for google cloud storage BAM files.
+
 * Wed Jun 29 2016 Shane Sturrock <shane@biomatters.com> - 2.3.78-1
 - Check sequence lengths in bam files for maximum supported length of 2^29-1.
 - Improved feature export for gff tracks.

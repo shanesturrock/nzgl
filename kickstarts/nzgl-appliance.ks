@@ -105,6 +105,9 @@ yum -y install glibc.i686 libstdc++.i686 libgomp.i686
 # Java 7 development support
 yum -y install java-1.7.0-openjdk-devel ant
 
+# Java 8 development support
+yum -y install java-1.8.0-openjdk-devel ant
+
 # Set runlevel 5
 sed 's/id:3:initdefault:/id:5:initdefault:/g' --in-place /etc/inittab
 

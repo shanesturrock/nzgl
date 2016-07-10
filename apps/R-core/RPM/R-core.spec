@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 330
+%define priority 331
 
 Name:           R-core
-Version:        3.3.0
+Version:        3.3.1
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -57,6 +57,31 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
+* Mon Jul 11 2016 Shane Sturrock <shane@biomatters.com> - 3.3.1-10
+- BUG FIXES:
+  - R CMD INSTALL and hence install.packages() gave an internal error
+    installing a package called description from a tarball on a
+    case-insensitive file system.
+  - match(x, t) (and hence x %in% t) failed when x was of length one, and
+    either character and x and t only differed in their Encoding or when x and
+    t where complex with NAs or NaNs.  (PR#16885.)
+  - unloadNamespace(ns) also works again when ns is a 'namespace', as from
+    getNamespace().
+  - rgamma(1,Inf) or rgamma(1, 0,0) no longer give NaN but the correct limit.
+  - length(baseenv()) is correct now.
+  - pretty(d, ..) for date-time d rarely failed when "halfmonth" time steps
+    were tried (PR#16923) and on 'inaccurate' platforms such as 32-bit windows
+    or a configuration with --disable-long-double; see comment #15 of PR#16761.
+  - In text.default(x, y, labels), the rarely(?) used default for labels is now
+    correct also for the case of a 2-column matrix x and missing y.
+  - as.factor(c(a = 1L)) preserves names() again as in R < 3.1.0.
+  - strtrim(""[0], 0[0]) now works.
+  - Use of Ctrl-C to terminate a reverse incremental search started by Ctrl-R
+    in the readline-based Unix terminal interface is now supported for readline
+    >= 6.3 (Ctrl-G always worked).  (PR#16603)
+  - diff(<difftime>) now keeps the "units" attribute, as subtraction already
+    did, PR#16940.
+
 * Tue May 10 2016 Shane Sturrock <shane@biomatters.com> - 3.3.0-10
 - Note R 3.2.5 is still default because 3.3.0 doesn’t work with rstudio with
   the most recent version that supports CentOS 6. You need to use module load

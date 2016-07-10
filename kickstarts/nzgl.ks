@@ -235,6 +235,9 @@ yum -y install glibc.i686 libstdc++.i686 libgomp.i686
 # Java 7 development support
 yum -y install java-1.7.0-openjdk-devel ant
 
+# Java 8 development support
+yum -y install java-1.8.0-openjdk-devel
+
 # Process Accounting
 yum -y install psacct
 chkconfig --add psacct
