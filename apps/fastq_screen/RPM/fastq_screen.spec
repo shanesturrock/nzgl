@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.6.3
+Version:	0.6.4
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,15 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jul 14 2016 Shane Sturrock <shane@biomatters.com> - 0.6.4-1
+- Program no longer terminates if a single Bismark reference genome index is
+  incorrectly specified
+- Fixed bug causing program to crash if --aligner bowtie2 and --bisulfite
+  specified together
+- FastQ Screen can now use Bowtie (in addition to Bowtie2) when performing
+  Bisulfite mapping with Bismark
+- Fixed bug in how FastQ Screen checks for dependencies (e.g. SamTools)
+
 * Fri Jul 08 2016 Shane Sturrock <shane@biomatters.com> - 0.6.3-1
 - Fixed bug causing --subset 0 to crash
 - Fixed bug in which the reported percentage reads mapping to no libraries was,
