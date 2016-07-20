@@ -1,5 +1,5 @@
 Name:           clustal-omega
-Version:        1.2.2
+Version:        1.2.3
 Release:	1%{?dist}
 License:        GPL
 Group:          Productivity/Scientific/Chemistry
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{_bindir}/clustalo
 
 %changelog
+* Thu Jul 21 2016 shane@biomatters.com 1.2.3-1
+- fixed consensus line in ClustalW format, 'H' in NHQK not recognised as strong
+  (bug in Squid)
 * Mon Jul 04 2016 shane@biomatters.com 1.2.2-1
 - plugged memory leak, parallelised hhalign, more MAC-RAM.
 * Mon Mar 03 2014 shane@biomatters.com 1.2.1-1

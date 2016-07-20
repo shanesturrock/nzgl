@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.37.6
+Version:	1.38.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,44 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Jul 21 2016 Shane Sturrock <shane@biomatters.com> - 1.38.1-1
+- New Commands
+  - rename.file - renames file and updates current files saved by mothur.
+  - chimera.vsearch - detects chimeras using vsearch software package. #239
+- Feature Updates
+  - Removes hcluster command. It is really really slow and we don't recommend
+    it. #208
+  - Removes save option which kept references in memory. #208
+  - Removes clear.memory command which worked with the save option. #208
+  - Removes pds.pipeline command. #208
+  - Command line mode returns exit-code to indicate failure. #151
+  - Removes reftaxonomy parameter from classify.otu and summary.tax. #241
+  - Removes large parameter from count.seqs command. #203
+  - Allows make.biom with picrust option to handle mothur's new
+    parentTaxon_unclassified format. #241
+  - Adds mothur's location as a default file location to check. Reduces unable
+    to open file errors. #231
+  - Adds count parameter to sens.spec command. #225
+  - Clarifies seq.error command output. #175
+  - Adds sets parameter to lefse command. #234
+  - Removes indexFile requirement for using NONE option in oligos file.
+    make.contigs. #193
+  - make.contigs command will skip blank file pairs. #233
+  - Warn about illegal characters in group names to prevent downstream analysis
+    issues. #37
+  - Adds rdiffs to pcr.seqs command to allow for setting different diffs for
+    the forward and reverse primers. #244
+- Bug Fixes
+  - Mothur can handle whitespace in command lines. #191
+  - Fixes gradient bar on heatmap.sim command. #237
+  - Fixes bug with classify.otu persample option.
+  - Fixes bug with agc method in cluster and cluster.split
+  - Fixes bug with summary.tax command not including name file counts in
+    *tax.summary.
+  - Fixes RAM output for linux get.current. #232
+  - Error generated when filenames are too long for uchime program. #226
+  - Fixes cutoff adjust for agc and dgc clustering methods. #254
+
 * Wed Jun 22 2016 Shane Sturrock <shane@biomatters.com> - 1.37.6-1
 - Fixes make.contigs gz file error.
 
