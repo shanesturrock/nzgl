@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.16.1
+Version:	0.16.3
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -42,20 +42,48 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt RRBS_Guide.pdf
+%doc Bismark_alignment_modes.pdf Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt 
+#%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt RRBS_Guide.pdf
 
-%{_bindir}/bismark
-%{_bindir}/coverage2cytosine
-%{_bindir}/bismark2report
-%{_bindir}/bismark_sitrep.tpl
-%{_bindir}/bismark_genome_preparation
-%{_bindir}/deduplicate_bismark
-%{_bindir}/bismark2summary
-%{_bindir}/bismark2bedGraph
 %{_bindir}/bam2nuc
+%{_bindir}/bismark
+%{_bindir}/bismark2bedGraph
+%{_bindir}/bismark2report
+%{_bindir}/bismark2summary
+%{_bindir}/bismark_genome_preparation
 %{_bindir}/bismark_methylation_extractor
+%{_bindir}/bismark_sitrep.tpl
+%{_bindir}/coverage2cytosine
+%{_bindir}/deduplicate_bismark
 
 %changelog
+*Wed Jul 27 2016 Shane Sturrock <shane@biomatters.com> - 0.16.3-1
+- Bismark: Essential fixes (2 in total) to address a bug for Bowtie 2
+  alignments where reads that should be considered ambiguous were incorrectly
+assigned to the first alignment thread. These errors had crept in during
+releases 0.16.0 and 0.16.2). More info available on Github
+- Bismark: Added support for large Bowtie (1) index files ending in .ebwtl
+  which had been added in Bowtie v1.1.0
+- Changed the Shebang in all scripts of the Bismark suite to #!/usr/bin/env
+  perl instead of #!/usr/bin/perl
+- deduplicate_bismark: Does now bail with a useful error message when the input
+  files are empty
+- bismark_genome_preparation: Added new option '--genomic_composition' so that
+  the genomic composition can be calculated and written right at the genome
+  preparation stage rather than by using bam2nuc
+- bam2nuc: Now also calculates a fold coverage for the various
+  (di-)nucleotides. The changes in the nucleotide_stats text file are also
+  picked up and plotted by bismark2report
+- bam2nuc: Added a new option '--genomic_composition_only' to just process the
+  genomic sequence without requiring any data files
+- bismark2summary: Added option -o/--basename FILENAME to specify a certain
+  filename. If not specified the name will remain
+  bismark_summary_report.txt/html
+- bismark2summary: Added documentation and the options '--help' and '--version'
+  to be consistent with the rest of Bismark
+- bismark2summary: Added option '--title STRING' to give the HTML report a
+  different title
+
 *Tue Apr 29 2016 Shane Sturrock <shane@biomatters.com> - 0.16.1-1
 - Bismark: Removed a rogue warn/sleep statement for PE/Bowtie2 mode that had
   crept in during the last release...
