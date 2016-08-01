@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.6.4
+Version:	0.7.0
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,15 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Aug 02 2016 Shane Sturrock <shane@biomatters.com> - 0.7.0-1
+- Added --tag option to create output FASTQ files in which the the genomes to
+  which a read maps is appended to the first line of the FASTQ read
+- Added --filter option to extract reads from a tagged FASTQ file which map, or
+  do not map, to a specified combination of genomes
+- Pre-existing option --nohits is now equivalent to the parameters --tag
+  --filter 000 (number of zeroes corresponds to the number of genome being
+  screened)
+
 * Thu Jul 14 2016 Shane Sturrock <shane@biomatters.com> - 0.6.4-1
 - Program no longer terminates if a single Bismark reference genome index is
   incorrectly specified
