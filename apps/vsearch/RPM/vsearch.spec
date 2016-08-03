@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.0.2
+Version:	2.0.3
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Aug 04 2016 Shane Sturrock <shane@biomatters.com> - 2.0.3-1
+- Fix Illegal instruction faults when running the precompiled binaries on some
+  systems.
+
 * Wed Jul 06 2016 Shane Sturrock <shane@biomatters.com> - 2.0.2-1
 - Fix GCC version 6 warnings.
 
