@@ -1,10 +1,10 @@
---- util/support_scripts/write_partitioned_trinity_cmds.pl.orig	2015-09-30 08:42:27.925831558 +1300
-+++ util/support_scripts/write_partitioned_trinity_cmds.pl	2015-09-30 08:43:00.809011114 +1300
+--- util/support_scripts/write_partitioned_trinity_cmds.pl.orig	2016-08-09 08:44:19.111209899 +1200
++++ util/support_scripts/write_partitioned_trinity_cmds.pl	2016-08-09 08:44:55.571410220 +1200
 @@ -71,7 +71,7 @@
      
      my $file = pop @x;
      
--    my $cmd = "$FindBin::Bin/../../Trinity --single \"$file\" --output \"$file.out\" $trin_args ";
+-    my $cmd = "$FindBin::RealBin/../../Trinity --single \"$file\" --output \"$file.out\" $trin_args ";
 +    my $cmd = "/usr/bin/Trinity --single \"$file\" --output \"$file.out\" $trin_args ";
      
      print "$cmd\n";

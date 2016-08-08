@@ -1,6 +1,6 @@
---- util/run_Trinity_edgeR_pipeline.pl.orig	2016-08-09 08:48:21.793548316 +1200
-+++ util/run_Trinity_edgeR_pipeline.pl	2016-08-09 08:49:54.755129553 +1200
-@@ -157,12 +157,12 @@
+--- util/run_Trinity_from_samples_file.pl.orig	2016-08-09 08:48:32.375609616 +1200
++++ util/run_Trinity_from_samples_file.pl	2016-08-09 08:51:15.755730430 +1200
+@@ -143,12 +143,12 @@
          ## got pairs
      
          ## Run Trinity:

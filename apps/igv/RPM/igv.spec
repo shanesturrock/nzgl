@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.79
+Version:	2.3.80
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,18 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue Aug 09 2016 Shane Sturrock <shane@biomatters.com> - 2.3.80-1
+- New Features and Improvements
+  - Support Google gs:// urls from batch scripts.
+  - Enable loading ga4gh read group sets from batch scripts.
+  - Support for setting igv directory from command line switch
+    (--igvDirectory).
+  - Display error dialog if fasta index file cannot be created.
+  - Allow setting oAuth access token via a port command.
+- Bug Fixes
+  - Copy number segmenets not always drawn if start is close to left edge of
+    screen.
+
 * Mon Jul 11 2016 Shane Sturrock <shane@biomatters.com> - 2.3.79-1
 - New Features and Improvements
   - Improved tool-tip text for alignment tracks.

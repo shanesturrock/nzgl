@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:		trinityrnaseq
-Version:	2.1.1
+Version:	2.2.0
 Release:	1%{?dist}
 Summary:	Provides software targeted to the reconstruction of full-length transcripts and alternatively spliced isoforms from Illumina RNA-Seq data.
 Group:		Applications/Engineering
@@ -10,6 +10,7 @@ URL:		http://trinityrnaseq.sourceforge.net
 Source0:	trinityrnaseq_%{version}.tar.gz
 Patch0:		write_partitioned_trinity_cmds.pl.patch
 Patch1:		run_Trinity_edgeR_pipeline.pl.patch
+Patch2:		run_Trinity_from_samples_file.pl.patch
 Requires:	java-1.6.0
 Obsoletes:	trinityrnaseq_r20140717
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -30,6 +31,7 @@ sequentially to process large volumes of RNA-seq reads.
 # %setup -q -n %{name}_r%{version}
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 # Fix perl shebangs
 find . -type f -name '*.pl' | xargs sed 's=/usr/local/bin/perl=/usr/bin/perl=g' --in-place
 # Fix Trinity script
@@ -82,12 +84,22 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README Release.Notes
+%doc README Changelog.txt
 /usr/bin/Trinity
 /usr/libexec/%{name}/*
 %{perl_vendorarch}/*
 
 %changelog
+* Tue Aug 09 2016 Shane Sturrock <shane@biomatters.com> - 2.2.0-1
+- Butterfly update: bugfix related to polynucleotide runs.
+- util/SAM_nameSorted_to_uniq_count_stats.pl: count fragments instead of reads.
+- util/abundance_estimates_to_matrix.pl: will output a matrix even if only a
+  single sample is specified. Also, now can take a --samples_file containing a
+  list of the target files to build the matrix from.
+- util/align_and_estimate_abundance.pl: added support for salmon
+- sample_data/test_align_and_estimate_abundance/: added examples and tests for
+  single-end and paired-end abundance estimation
+
 * Wed Oct 19 2015 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
 - Memory is divided among the samtools threads.
 - The Trinity contig identifiers for genome-guided assemblies are now formatted
