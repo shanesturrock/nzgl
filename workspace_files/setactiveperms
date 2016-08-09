@@ -1,0 +1,4 @@
+#!/bin/sh
+
+chmod -R a-rwx * ; chmod -R ug+rw * ; find . -type d -exec chmod ug+x {} \;
+find ./ -name "*.sh" -exec chmod ug+x {} \;
