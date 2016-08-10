@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.38.1
+Version:	1.38.1.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,23 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Aug 11 2016 Shane Sturrock <shane@biomatters.com> - 1.38.1.1-1
+- New Commands
+  - merge.count command combines count files. #259
+- Feature Updates
+  - Removes hard parameter from cluster, cluster.classic and cluster.split
+    commands. All commands now use hard=T.
+  - Improved help command. #257
+  - Make.file command is more flexible with filenames. #243
+  - Adds prefix parameter to Make.file command. #251
+  - Changes bad character in group names error to warning. Modifies group names
+    with '-' characters in output filenames to avoid downstream issues.
+- Bug Fixes
+  - Fixes bug with output directory in make.group command.
+  - Fixes filename expansion issue make.contigs.
+  - Fixes group name issue with oligos file option in get.mimarkspackage
+    command.
+
 * Thu Jul 21 2016 Shane Sturrock <shane@biomatters.com> - 1.38.1-1
 - New Commands
   - rename.file - renames file and updates current files saved by mothur.
