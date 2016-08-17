@@ -7,7 +7,7 @@ License:	GPL 3.0
 URL:		https://ccb.jhu.edu/software/hisat2/index.shtml
 Source0:	ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-%{version}-source.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	bowtie2
+Requires:	bowtie2 python27
 
 %description
 
@@ -28,6 +28,7 @@ information.
 
 %prep
 %setup -q
+find . -type f -name '*.py' | xargs sed 's=python=python2.7=g' --in-place
 
 %build
 make clean

@@ -62,7 +62,9 @@ cpan
 cmake
 glibc-static
 python-argparse
+python-backports
 libcurl
+ius-release
 boost-devel
 libxml2-devel
 ncurses-devel
