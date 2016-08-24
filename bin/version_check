@@ -84,6 +84,7 @@ if [ -z "${application_list}" ] || [ "${application_list}" == "all" ]; then
 fi
 
 # Clean out local repo caches before starting
+#yum -q clean expire-cache &>/dev/null
 yum -q clean expire-cache --enablerepo=nzgl-testing &>/dev/null
 
 for application in ${application_list}; do

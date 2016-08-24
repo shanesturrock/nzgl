@@ -1,5 +1,5 @@
 Name:		gbsx
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 Summary:	GBSX
 Group:		Applications/Engineering
@@ -45,6 +45,10 @@ rm -rf %{buildroot}
 /usr/share/java/gbsx/GBSX_v%{version}.jar
 
 %changelog
+* Thu Aug 25 2016 Shane Sturrock <shane@biomatters.com> - 1.3-1
+- The demultiplexer supports multithreading. To use the multiple threads, use
+  the -t option, giving the number of threads wanted.
+
 * Wed Jan 27 2016 Shane Sturrock <shane@biomatters.com> - 1.2-1
 - Code Clean-up
 - Deleted demultiplex parameter -m
