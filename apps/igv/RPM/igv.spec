@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.80
+Version:	2.3.81
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Aug 31 2016 Shane Sturrock <shane@biomatters.com> - 2.3.81-1
+- New Features and Improvements
+  - New "color-by library" option for alignment tracks.
+  - Session loading by drag&drop.
+  - GA4GH readgroupsets can now be stored in sessions.
+- Bug Fixes
+  - Relative genome paths in session files don't work.
+
 * Tue Aug 09 2016 Shane Sturrock <shane@biomatters.com> - 2.3.80-1
 - New Features and Improvements
   - Support Google gs:// urls from batch scripts.

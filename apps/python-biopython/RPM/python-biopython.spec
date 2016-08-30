@@ -2,7 +2,7 @@
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Name:             python-biopython
-Version:          1.67
+Version:          1.68
 Release:          0%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          http://biopython.org/DIST/biopython-%{version}.tar.gz
@@ -66,6 +66,36 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/BioSQL/*
 
 %changelog
+* Wed Aug 31 2016 Shane Sturrock <shane@biomatters.com> - 1.68-1
+- This release of Biopython supports Python 2.6, 2.7, 3.3, 3.4 and 3.5, but
+  this will be our final release to run on Python 2.6. It has also been tested
+  on PyPy 5.0, PyPy3 version 2.4, and Jython 2.7.
+- Bio.PDB has been extended to parse the RSSB's new binary Macromolecular
+  Transmission Format (MMTF, see http://mmtf.rcsb.org), in addition to the
+  mmCIF and PDB file formats (contributed by Anthony Bradley). This requires an
+  optional external dependency on the mmtf-python library.
+- Module Bio.pairwise2 has been re-written (contributed by Markus Piotrowski).
+  It is now faster, addresses some problems with local alignments, and also now
+  allows gap insertions after deletions, and vice versa, inspired by the
+  http://dx.doi.org/10.1101/031500 preprint from Flouri et al.
+- The two sample graphical tools SeqGui (Sequence Graphical User Interface) and
+  xbbtools were rewritten (SeqGui) or updated (xbbtools) using the tkinter
+  library (contributed by Markus Piotrowski). SeqGui allows simple nucleotide
+  transcription, back-transcription and translation into amino acids using
+  Bio.Seq internally, offering of the NCBI genetic codes supported in Biopython.
+  xbbtools is able to open Fasta formatted files, does simple nucleotide
+  operations and translations in any reading frame using one of the NCBI genetic
+  codes. In addition, it supports standalone Blast installations to do local
+  Blast searches.
+- New NCBI genetic code table 26 (Pachysolen tannophilus Nuclear Code) has been
+  added to Bio.Data (and the translation functionality), and table 11 is now
+  also available under the alias Archaeal.
+- In line with NCBI website changes, Biopython now uses HTTPS rather than HTTP
+  to connect to the NCBI Entrez and QBLAST API.
+- Additionally, a number of small bugs have been fixed with further additions
+  to the test suite, and there has been further work to follow the Python PEP8
+  and best practice standard coding style.
+
 * Mon Jun 13 2016 Shane Sturrock <shane@biomatters.com> - 1.67-1
 - This release of Biopython supports Python 2.6, 2.7, 3.3, 3.4 and 3.5, but
   support for Python 2.6 is considered to be deprecated. It has also been
