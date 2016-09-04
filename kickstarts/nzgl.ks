@@ -61,6 +61,7 @@ valgrind
 cpan
 cmake
 glibc-static
+glib2-devel
 python-argparse
 python-backports
 libcurl

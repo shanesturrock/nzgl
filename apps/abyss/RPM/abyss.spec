@@ -1,6 +1,6 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
-Version:	1.9.0
+Version:	2.0.0
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
@@ -41,6 +41,8 @@ install -m 0755 Graph/abyss-todot %{buildroot}/%{_bindir}
 install -m 0755 Align/abyss-align %{buildroot}/%{_bindir}
 install -m 0755 Align/abyss-mergepairs %{buildroot}/%{_bindir}
 install -m 0755 Bloom/abyss-bloom %{buildroot}/%{_bindir}
+install -m 0755 BloomDBG/abyss-bloom-dbg %{buildroot}/%{_bindir}
+install -m 0755 Sealer/abyss-sealer %{buildroot}/%{_bindir}
 install -m 0755 Konnector/konnector %{buildroot}/%{_bindir}
 install -m 0755 Consensus/Consensus %{buildroot}/%{_bindir}
 install -m 0755 DAssembler/DAssembler %{buildroot}/%{_bindir}
@@ -82,6 +84,7 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-kaligner
 %{_bindir}/abyss-pe
 %{_bindir}/abyss-samtoafg
+%{_bindir}/abyss-sealer
 %{_bindir}/abyss-tabtomd
 %{_bindir}/abyss-bloom-dist.mk
 %{_bindir}/ABYSS
@@ -94,6 +97,7 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-align
 %{_bindir}/abyss-mergepairs
 %{_bindir}/abyss-bloom
+%{_bindir}/abyss-bloom-dbg
 %{_bindir}/konnector
 %{_bindir}/Consensus
 %{_bindir}/DAssembler
@@ -123,6 +127,46 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-gapfill
 
 %changelog
+* Mon Sep 05 2016 Shane Sturrock <shane@biomatters.com> - 2.0.0-1
+- New Bloom filter mode for assembly => assemble large genomes 
+  with minimal memory (e.g. 34G for H. sapiens) 
+- Update param defaults for modern Illumina data 
+- Make sqlite3 an optional dependency 
+- abyss-bloom: 
+  - New 'compare' command for bitwise comparison of Bloom filters 
+  - New 'kmers' command for printing k-mers that match a Bloom filter 
+- abyss-bloom-dbg: 
+  - New preunitig assembler that uses Bloom filter 
+  - Add 'B' param (Bloom filter size) to 'abyss-pe' command to enable 
+    Bloom filter mode 
+  - See README.md and '--help' for further instructions 
+- abyss-fatoagp: 
+  - Mask scaftigs shorter than 50bp with 'N's (short scaftigs 
+    were causing problems with NCBI submission) 
+- abyss-pe: 
+  - Update default parameter values for modern Illumina data 
+  - Change 'l=k' => 'l=40' 
+  - Change 's=200' => 's=1000' 
+  - Change 'S=s' => 'S=1000-10000' (do a param sweep of 'S') 
+  - Use 'DistanceEst --mean' for scaffolding stage, instead of 
+    the default '--mle' 
+- abyss-sealer: 
+  - New '--max-gap-length' ('-G') option to replace unintuitive 
+    '--max-frag'; use of '--max-frag' is now deprecated 
+  - Require user to explicitly specify Bloom filter size (e.g. 
+    '-b40G') 
+  - Report false positive rate (FPR) when building/loading Bloom 
+    filters 
+  - Don't require input FASTQ files when using pre-built Bloom 
+    filter files 
+- konnector: 
+  - Fix bug causing output read 2 file to be empty 
+  - New percent sequence identity options ('-x' and '-X') 
+  - New '--alt-paths-mode' option to output alternate connecting 
+    paths between read pairs 
+- README.md: 
+  - Fix documentation of ABYSS and abyss-pe parameters 
+
 * Tue Jun 02 2015 Shane Sturrock <shane@biomatters.com> - 1.9.0-1
 - New paired de Bruijn graph mode for assembly. 
 - First official release of Sealer, a tool for closing scaffold gaps by 
