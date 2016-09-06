@@ -3,7 +3,7 @@
 
 Name:           R-core
 Version:        3.3.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        R-core
 
 Group:          Applications/Engineering
@@ -39,8 +39,12 @@ rm -rf %{buildroot}
 
 %post
 alternatives \
+  --install %{_bindir}/R R /home/R-network/R-3.2.5/bin/R 325 \
+  --slave %{_bindir}/Rscript Rscript /home/R-network/R-3.2.5/bin/Rscript; \
+alternatives \
   --install %{_bindir}/R R /home/R-network/R-%{version}/bin/R %{priority} \
-  --slave %{_bindir}/Rscript Rscript /home/R-network/R-%{version}/bin/Rscript; \alternatives --set R /home/R-network/R-3.2.5/bin/R
+  --slave %{_bindir}/Rscript Rscript /home/R-network/R-%{version}/bin/Rscript; \
+alternatives --set R /home/R-network/R-3.2.5/bin/R
 
 %postun
 if [ $1 -eq 0 ]
@@ -57,6 +61,9 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
+* Wed Sep 07 2016 Shane Sturrock <shane@biomatters.com> - 3.3.1-11
+- Fixed an issue where a fresh install wouldn't get R 3.2.5 set.
+
 * Mon Jul 11 2016 Shane Sturrock <shane@biomatters.com> - 3.3.1-10
 - BUG FIXES:
   - R CMD INSTALL and hence install.packages() gave an internal error
