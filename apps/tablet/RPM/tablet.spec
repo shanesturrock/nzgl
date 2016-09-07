@@ -1,6 +1,6 @@
 Name:		tablet
-Version:	1.15.09.01
-Release:	2%{?dist}
+Version:	1.16.09.06
+Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
 License:	BSD Modified
@@ -62,7 +62,15 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
-* Fri May 27 2017 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-2
+* Thu Sep 08 2016 Shane Sturrock <shane@biomatters.com> - 1.16.09.06-1
+- Added support for creation of Cigar features for CIGAR S and CIGAR H
+  operators.
+- Improved internal handling of CIGAR parsing.
+- Added some minor tweaks for better Windows 10 compatibility.
+- Updated the included Java runtime to 1.8.0_102.
+- Signed the installers with our new EV code signing certificate.
+
+* Fri May 27 2016 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-2
 - Fixed Java issue where tablet wouldn't start because the path was wrong.
 
 * Wed Sep 02 2015 Shane Sturrock <shane@biomatters.com> - 1.15.09.01-1
