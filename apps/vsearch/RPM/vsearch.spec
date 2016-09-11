@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.0.4
+Version:	2.0.5
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Sep 12 2016 Shane Sturrock <shane@biomatters.com> - 2.0.5-1
+- Added options to output discarded sequences from subsampling to separate
+  files. 
+- Updated manual.
+
 * Mon Sep 05 2016 Shane Sturrock <shane@biomatters.com> - 2.0.4-1
 - Improved manual and one error message.
 

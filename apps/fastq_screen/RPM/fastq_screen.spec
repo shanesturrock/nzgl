@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.7.0
+Version:	0.8.0
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Sep 12 2016 Shane Sturrock <shane@biomatters.com> - 0.8.0-1
+- Program is now compatible with aligner BWA
+- FastQ Screen produces an HTML summary report
+- Program documentation has been substantially updated and is now in Markdown
+  format
+
 * Tue Aug 02 2016 Shane Sturrock <shane@biomatters.com> - 0.7.0-1
 - Added --tag option to create output FASTQ files in which the the genomes to
   which a read maps is appended to the first line of the FASTQ read
