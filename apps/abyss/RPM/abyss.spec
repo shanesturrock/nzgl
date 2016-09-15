@@ -1,6 +1,6 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
-Version:	2.0.0
+Version:	2.0.1
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
@@ -127,6 +127,9 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-gapfill
 
 %changelog
+* Fri Sep 16 2016 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
+- Resolve licensing issues by switching to standard GPL-3 license
+
 * Mon Sep 05 2016 Shane Sturrock <shane@biomatters.com> - 2.0.0-1
 - New Bloom filter mode for assembly => assemble large genomes 
   with minimal memory (e.g. 34G for H. sapiens) 
