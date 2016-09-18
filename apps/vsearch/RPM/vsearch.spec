@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.0.5
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Sep 19 2016 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
+- Added fastx_filter command and options fastq_truncee and fastq_maxlen.
+- Allowed minwordmatches down to 3.
+
 * Mon Sep 12 2016 Shane Sturrock <shane@biomatters.com> - 2.0.5-1
 - Added options to output discarded sequences from subsampling to separate
   files. 
