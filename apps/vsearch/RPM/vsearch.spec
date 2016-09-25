@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Sep 26 2016 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
+- Fixed bugs in UC-output from clustering, updated docs.
+
 * Mon Sep 19 2016 Shane Sturrock <shane@biomatters.com> - 2.1.0-1
 - Added fastx_filter command and options fastq_truncee and fastq_maxlen.
 - Allowed minwordmatches down to 3.
