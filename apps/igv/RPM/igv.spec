@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.81
+Version:	2.3.82
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Sep 29 2016 Shane Sturrock <shane@biomatters.com> - 2.3.82-1
+- Sashimi plots do not autoscale.
+
 * Wed Aug 31 2016 Shane Sturrock <shane@biomatters.com> - 2.3.81-1
 - New Features and Improvements
   - New "color-by library" option for alignment tracks.

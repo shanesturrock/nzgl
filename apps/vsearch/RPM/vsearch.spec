@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.1.1
+Version:	2.1.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Sep 29 2016 Shane Sturrock <shane@biomatters.com> - 2.1.2-1
+- Fixed incorrect abundance output from fastx_filter and fastq_filter when
+  relabelling.
+
 * Mon Sep 26 2016 Shane Sturrock <shane@biomatters.com> - 2.1.1-1
 - Fixed bugs in UC-output from clustering, updated docs.
 
