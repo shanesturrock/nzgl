@@ -1,3 +1,2 @@
 version=3
-opts=uversionmangle=s/-/_/g \
-http://code.google.com/p/rna-star/downloads/list?can=1 .*/STAR_(\d\.\d\.\d[a-z]{1})\.tgz
+https://github.com/alexdobin/STAR/releases .*/(\d\.\d\.\d[a-z]{1})\.tar\.gz

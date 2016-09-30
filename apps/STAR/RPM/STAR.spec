@@ -1,11 +1,13 @@
+%define debug_package %{nil}
+
 Name:		STAR
-Version:	2.3.0e
-Release:	2%{?dist}
+Version:	2.5.2b
+Release:	1%{?dist}
 Summary:	Tool for handing RNA-seq alignment
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://code.google.com/p/rna-star/
-SOURCE:		STAR_2.3.0e.tgz
+SOURCE:		STAR-2.5.2b.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -13,25 +15,37 @@ STAR aligns RNA-seq reads to a reference genome using uncompressed suffix
 arrays.
 
 %prep
-%setup -q -n %{name}_%{version}
+%setup -q -n %{name}-%{version}
 
 %build
-make
 
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{_bindir}
-install -m 0755 STAR %{buildroot}%{_bindir}
+install -m 0755 bin/Linux_x86_64_static/STAR %{buildroot}%{_bindir}
+install -m 0755 bin/Linux_x86_64_static/STARlong %{buildroot}%{_bindir}
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE.txt
-%{_bindir}/STAR
+%doc LICENSE
+/usr/bin/STAR
+/usr/bin/STARlong
 
 %changelog
+* Fri Sep 30 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.5.2b-1
+- Fixed a problem with --outSAMmultNmax 1 not working for transcriptomic
+  output.
+- Fixed a bug with chimeric BAM output for --chimOutType WithinBAM option.
+- Fixed a bug that could cause non-stable BAM sorting if the gcc qsort is
+  unstable.
+- Fixed a bug with causing seg-faults when combining --twopassMode Basic
+  --outSAMorder PairedKeepInputOrder .
+- Fixed a problem with SAM header in cases where reference sequences are added
+  at the mapping stage.
+
 * Tue Feb 17 2015 Shane Sturrock <shane@biomatters.com> - 2.3.0e-2
 - CentOS 7 compatibility
 
