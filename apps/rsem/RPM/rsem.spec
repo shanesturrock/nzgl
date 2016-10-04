@@ -1,5 +1,5 @@
 name:		rsem
-version:	1.2.31
+version:	1.3.0
 release:	1%{?dist}
 summary:	Package for estimating gene and isoform expression levels from RNA-Seq data.
 group:		Applications/Engineering
@@ -107,6 +107,21 @@ rm -rf %{buildroot}
 %{_bindir}/rsem_perl_utils.pm 
 
 %changelog
+* Wed Oct 05 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.3.0-1
+- Added Prior-Enhanced RSEM (pRSEM) as a submodule
+- Introduced --strandedness <none|forward|reverse> option, --strand-specific
+  and --forward-prob are deprecated (but still supported)
+- Revised documentation for rsem-plot-model, made it clear that in alignment
+  statistics, isoform-level (instead of genome-level) multi-mapping reads are
+  shown
+- Significantly improved the output information of rsem-sam-validator: if
+  indels/clippings/skips are detected in alignments or alignments exceed
+  transcript boundaries, rsem-sam-validator will report them instead of telling
+  you the input is valid
+- Updated the warning message to ask users to make sure that they align their
+  reads against a set of transcripts instead of genome when RSEM finds less
+  sequences in the BAM file than RSEM's indices
+
 * Tue Jun 07 2016 Shane Sturrock <shane@biomatters.com> - 1.2.31-1
 - Rewrote 'rsem-gff3-to-gtf' to handle a more general set of GFF3 files.
 - Added safety checks to make sure poly(A) tails are not added to the 

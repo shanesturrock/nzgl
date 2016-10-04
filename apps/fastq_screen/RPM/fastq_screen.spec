@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.8.0
+Version:	0.9.0
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Oct 05 2016 Shane Sturrock <shane@biomatters.com> - 0.9.0-1
+- FastQ Screen, when run in Bisulfite mode, reports to which strand the reads
+  aligned (original top strand, complementary to original top strand,
+  complementary to original bottom strand, or original bottom strand).
+
 * Mon Sep 12 2016 Shane Sturrock <shane@biomatters.com> - 0.8.0-1
 - Program is now compatible with aligner BWA
 - FastQ Screen produces an HTML summary report
