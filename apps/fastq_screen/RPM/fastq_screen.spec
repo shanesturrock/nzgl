@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.0
+Version:	0.9.1
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Oct 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.1-1
+- Fixed bug causing FastQ Screen to terminate prematurely when in 
+  bisulfite mode if no reads map to a bisulfite reference genome.
+
 * Wed Oct 05 2016 Shane Sturrock <shane@biomatters.com> - 0.9.0-1
 - FastQ Screen, when run in Bisulfite mode, reports to which strand the reads
   aligned (original top strand, complementary to original top strand,
