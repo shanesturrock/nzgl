@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.1.2
+Version:	2.2.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Oct 10 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.2.0-1
+- Added options for OTU table generation: --biomout, --mothur_shared_out and
+  --otutabout.
+
 * Thu Sep 29 2016 Shane Sturrock <shane@biomatters.com> - 2.1.2-1
 - Fixed incorrect abundance output from fastx_filter and fastq_filter when
   relabelling.
