@@ -1,7 +1,7 @@
 #!/bin/bash
 
 log_dir='/var/log/biomatters/report'
-mail_to='nzgl@biomatters.com'
+mail_to='shane.sturrock@nzgenomics.co.nz'
 
 function usage() {
 	cat << EOF
@@ -107,4 +107,4 @@ echo -e "Upstream Updates (${#all_upstream_updates[@]})\n"
 echo -e "Failed Tests (${#all_failed_tests[@]})\n"
 [ ${#all_failed_tests[@]} -gt 0 ] && echo "${all_failed_tests[@]}" | sed 's/ /\n/g' && echo ""
 
-} |  mail -r 'NZGL Report <nzgl@biomatters.com>' -s "${mail_subject}" ${mail_to}
+} |  mail -r 'NZGL Report <shane.sturrock@nzgenomics.co.nz>' -s "${mail_subject}" ${mail_to}
