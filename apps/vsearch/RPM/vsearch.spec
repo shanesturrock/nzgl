@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.2.0
+Version:	2.3.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Tue Oct 11 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.0-1
+- Allow zero-length sequences. New fastq_trunclen_keep option.
+
 * Mon Oct 10 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.2.0-1
 - Added options for OTU table generation: --biomout, --mothur_shared_out and
   --otutabout.
