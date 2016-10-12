@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.1
+Version:	0.9.2
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,17 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Oct 13 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.2-1
+- When --outdir option selected, FastQ Screen creates the output directory if
+  it does not already exist.
+- FastQ Screen in bisulfite mode checks whether the bisulfite orientation graph
+  already exists.
+- Adjusted how compressed files are read to improve compatibility with Mac
+  systems.
+- Fixed bug causing the HTML report to be missing one genome when reporting
+  conventional (i.e. not bisulfite) alignment results
+- Updated documentation.
+
 * Fri Oct 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.1-1
 - Fixed bug causing FastQ Screen to terminate prematurely when in 
   bisulfite mode if no reads map to a bisulfite reference genome.

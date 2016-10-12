@@ -1,18 +1,19 @@
 Name:		phast
-Version:	1.3
+Version:	1.4
 Release:	1%{?dist}
 Summary:	PHAST is a freely available software package for comparative and evolutionary genomics.
 Group:		Applications/Engineering
 License:	BSD Modified
 URL:		http://compgen.bscb.cornell.edu/phast/index.php
-Source0:	http://compgen.bscb.cornell.edu/phast/downloads/phast.v1_2_1.tgz
+Source0:	http://compgen.bscb.cornell.edu/phast/downloads/phast.v1_4.tgz
 Source1:	http://www.netlib.org/clapack/clapack.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-PHAST is a freely available software package for comparative and evolutionary genomics. 
-It consists of about half a dozen major programs, plus more than a dozen utilities for 
-manipulating sequence alignments, phylogenetic trees, and genomic annotations. 
+PHAST is a freely available software package for comparative and evolutionary
+genomics.  It consists of about half a dozen major programs, plus more than a
+dozen utilities for manipulating sequence alignments, phylogenetic trees, and
+genomic annotations. 
 
 %prep
 %setup -q -n %{name} -a 1
@@ -67,6 +68,7 @@ rm -rf %{buildroot}
 %{_bindir}/phastCons
 %{_bindir}/phastMotif
 %{_bindir}/phastOdds
+%{_bindir}/phastBias
 %{_bindir}/phyloBoot
 %{_bindir}/phyloFit
 %{_bindir}/phyloP
@@ -75,11 +77,15 @@ rm -rf %{buildroot}
 %{_bindir}/stringiphy
 %{_bindir}/tree_doctor
 %{_bindir}/treeGen
-/usr/share/man/man7/*.gz
+/usr/share/man/man1/*.gz
 /opt/phast/*
 
 %changelog
+* Thu Oct 13 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.4-1
+- Updated release
+
 * Thu Jul 31 2014 Shane Sturrock <shane@biomatters.com> - 1.3-1
 - Updated release
+
 * Mon Sep 24 2012 Carl Jones <carl@biomatters.com> - 1.2.1-1
 - Initial release.
