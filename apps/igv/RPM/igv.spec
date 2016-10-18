@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.82
+Version:	2.3.83
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,12 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Oct 19 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.83-1
+- Error resulting in "Range byte test" failures for certain Amazon hosted
+  resources.
+- New panel is not created for BAM files loaded by url commands from S3
+  buckets.
+
 * Thu Sep 29 2016 Shane Sturrock <shane@biomatters.com> - 2.3.82-1
 - Sashimi plots do not autoscale.
 
