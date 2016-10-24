@@ -1,6 +1,6 @@
 Summary:	Sequence assembler for short reads
 Name:		abyss
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Engineering
@@ -127,6 +127,9 @@ rm -rf %{buildroot}
 %{_bindir}/abyss-gapfill
 
 %changelog
+* Tue Oct 25 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.0.2-1
+- Fix compile errors with gcc-6 and boost-1.62.
+
 * Fri Sep 16 2016 Shane Sturrock <shane@biomatters.com> - 2.0.1-1
 - Resolve licensing issues by switching to standard GPL-3 license
 
