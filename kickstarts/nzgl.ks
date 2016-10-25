@@ -52,6 +52,7 @@ sssd
 nx
 freenx
 gedit
+nano
 mc
 libreoffice
 yum-plugin-post-transaction-actions
