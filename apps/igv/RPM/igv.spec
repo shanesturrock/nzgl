@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.83
+Version:	2.3.84
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Oct 31 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.84-1
+- Minor bug fix release, no details.
+
 * Wed Oct 19 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.83-1
 - Error resulting in "Range byte test" failures for certain Amazon hosted
   resources.
