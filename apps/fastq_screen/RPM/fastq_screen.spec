@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.2
+Version:	0.9.3
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,20 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Nov 02 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.3-1
+- v0.9.3 is a minor release.
+- Fixed bug stopping the command-line --threads option overriding 
+  the configuration file. 
+- When the --tag option was specified, FastQ Screen should have 
+  analysed all the reads in a file by default. However, a bug resulted
+  in a subset file being generated and analysed instead. This has been
+  fixed and now a reduced reads file will only be generated with the 
+  --tag option if explicitly requested using the --subset command.
+- Fixed bug causing FastQ Screen to not process reads containing 
+  full-stop in the FASTQ read header.  
+- Changes to what is reported when using the --quiet option
+- Updated documentation.
+
 * Thu Oct 13 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.2-1
 - When --outdir option selected, FastQ Screen creates the output directory if
   it does not already exist.

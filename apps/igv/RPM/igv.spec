@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.84
+Version:	2.3.85
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,8 +63,14 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Nov 02 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.85-1
+- Bug Fixes
+  - Line plots artificats in whole genome view from TDF files
+- New Features and Improvements
+  - Support "points" plot type (with window function == none) for whole genome
+    view from TDF files
 * Mon Oct 31 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.84-1
-- Minor bug fix release, no details.
+- Fix: GenomeSpace paths with spaces will not load.
 
 * Wed Oct 19 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.83-1
 - Error resulting in "Range byte test" failures for certain Amazon hosted
