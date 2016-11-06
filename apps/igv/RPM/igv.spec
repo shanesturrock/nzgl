@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.86
+Version:	2.3.87
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Nov 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.87-1
+- Bug Fix: bigwig bug
+
 * Thu Nov 03 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.86-1
 - Bug Fixes
   - Incorrect (black & white) colors for "seg" copy number files.

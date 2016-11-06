@@ -1,5 +1,5 @@
 Name:		hisat2
-Version:	2.0.4
+Version:	2.0.5
 Release:	1%{?dist}
 Summary:	A fast and sensitive alignment program for mapping NGS reads
 Group:		Applications/Bioinformatics
@@ -52,7 +52,7 @@ install -m 0755 hisat2_build_genotype_genome.py %{buildroot}%{_bindir}
 install -m 0755 hisat2-build-l %{buildroot}%{_bindir}
 install -m 0755 hisat2-build-s %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_exons.py %{buildroot}%{_bindir}
-install -m 0755 hisat2_extract_HLA_vars.py %{buildroot}%{_bindir}
+#install -m 0755 hisat2_extract_HLA_vars.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_snps_haplotypes_UCSC.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_snps_haplotypes_VCF.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_splice_sites.py %{buildroot}%{_bindir}
@@ -63,6 +63,9 @@ install -m 0755 hisat2-inspect-s %{buildroot}%{_bindir}
 install -m 0755 hisat2_simulate_reads.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_test_BRCA_genotyping.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_extract_vars.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_typing.py %{buildroot}%{_bindir}
+install -m 0755 old_hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
 
 %clean
 rm -rf %{buildroot}
@@ -80,7 +83,7 @@ rm -rf %{buildroot}
 /usr/bin/hisat2-build-l
 /usr/bin/hisat2-build-s
 /usr/bin/hisat2_extract_exons.py
-/usr/bin/hisat2_extract_HLA_vars.py
+#/usr/bin/hisat2_extract_HLA_vars.py
 /usr/bin/hisat2_extract_snps_haplotypes_UCSC.py
 /usr/bin/hisat2_extract_snps_haplotypes_VCF.py
 /usr/bin/hisat2_extract_splice_sites.py
@@ -91,9 +94,26 @@ rm -rf %{buildroot}
 /usr/bin/hisat2_simulate_reads.py
 /usr/bin/hisat2_test_BRCA_genotyping.py
 /usr/bin/hisat2_test_HLA_genotyping.py
+/usr/bin/hisatgenotype_extract_vars.py
+/usr/bin/hisatgenotype_typing.py
+/usr/bin/old_hisat2_test_HLA_genotyping.py
 /usr/libexec/%{name}/*
 
 %changelog
+* Mon Nov 07 2016 Shane Sturrock <shane@biomatters.com> - 2.0.5-1
+- Due to a policy change (HTTP to HTTPS) in using SRA data (--sra-option),
+  users are strongly encouraged to use this version. As of 11/9/2016, NCBI will
+  begin a permanent redirect to HTTPS, which means the previous versions of
+  HISAT2 no longer works with --sra-acc option soon.
+- Implemented -I and -X options for specifying minimum and maximum fragment
+  lengths. The options are valid only when used with --no-spliced-alignment,
+  which is used for the alignment of DNA-seq reads.
+- Fixed some cases where reads with SNPs on their 5' ends were not properly
+  aligned.
+- Implemented --no-softclip option to disable soft-clipping.
+- Implemented --max-seeds to specify the maximum number of seeds that HISAT2
+  will try to extend to full-length alignments (see the manual for details).
+
 * Tue Aug 16 2016 Shane Sturrock <shane@biomatters.com> - 2.0.4-1
 - Initial release of Hisat2 for BioIT
 - Scripts, doc and examples can be found in /usr/libexec/hisat2
