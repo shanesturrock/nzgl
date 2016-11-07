@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.87
+Version:	2.3.88
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue Nov 08 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.88-1
+- Bug Fix: Restore missing window functions for wig, bedgraph
+
 * Mon Nov 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.87-1
 - Bug Fix: bigwig bug
 
