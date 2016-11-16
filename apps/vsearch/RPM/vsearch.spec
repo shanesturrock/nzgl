@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.3.0
+Version:	2.3.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,12 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Nov 17 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.1-1
+- Fixed bug where --minwordmatches 0 was interpreted as the default minimum
+  word matches for the given word length instead of zero. When used in
+  combination with --maxaccepts 0 and --maxrejects 0 it will allow complete
+  bypass of the kmer-based heuristics.
+
 * Tue Oct 11 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.0-1
 - Allow zero-length sequences. New fastq_trunclen_keep option.
 
