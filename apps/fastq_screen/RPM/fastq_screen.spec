@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.3
+Version:	0.9.4
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Nov 22 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.4-1
+- New colour scheme which should be easily interpretable by colour blind people
+- Fixed bug preventing, in some instances, genome names being displayed in the
+  header line of filtered (using the --filter option) FASTQ files
+
 * Wed Nov 02 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.3-1
 - v0.9.3 is a minor release.
 - Fixed bug stopping the command-line --threads option overriding 
