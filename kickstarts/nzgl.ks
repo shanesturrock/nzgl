@@ -51,6 +51,7 @@ krb5-workstation
 sssd
 nx
 freenx
+bzip2-devel
 gedit
 nano
 mc

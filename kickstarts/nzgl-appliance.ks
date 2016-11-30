@@ -51,6 +51,7 @@ cpan
 cmake
 glibc-static
 glib2-devel
+bzip2-devel
 python-devel
 python-argparse
 python-backports
