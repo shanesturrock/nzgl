@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.3.2
+Version:	2.3.3
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Dec 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.3-1
+- Minor speed improvements.
+
 * Mon Nov 21 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.2-1
 - Fix bug in column 2 of H-lines in UC output files after clustering. Resolves
   issue #207.
