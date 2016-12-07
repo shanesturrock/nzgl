@@ -74,6 +74,7 @@ libxml2-devel
 ncurses-devel
 nautilus-open-terminal
 perl-Bio-SamTools
+perl-Filesys-Df
 perl-DBD-MySQL
 perl-Module-Build
 nzgl-release

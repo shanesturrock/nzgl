@@ -64,6 +64,7 @@ ncurses-devel
 nautilus-open-terminal
 environment-modules
 perl-Bio-SamTools
+perl-Filesys-Df
 perl-DBD-MySQL
 perl-Module-Build
 python-matplotlib
