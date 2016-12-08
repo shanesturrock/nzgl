@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.4
+Version:	0.9.5
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Dec 09 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.5-1
+- Fixed bug causing FastQ Screen, when running in --bisulfite mode, to mislabel
+  species names in the HTML bisulfite read orientation graph on the occasion
+  that one or more of the samples tested contained reads that mapped to none of
+  the bisulfite converted reference genomes
+
 * Tue Nov 22 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.4-1
 - New colour scheme which should be easily interpretable by colour blind people
 - Fixed bug preventing, in some instances, genome names being displayed in the
