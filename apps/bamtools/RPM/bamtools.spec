@@ -1,5 +1,5 @@
 Name:		bamtools
-Version:	2.4.0
+Version:	2.4.1
 Release:	1%{?dist}
 Summary:	Tools for handing BAM files
 Group:		Applications/Engineering
@@ -47,8 +47,15 @@ rm -rf %{buildroot}
 %{_includedir}/*
 
 %changelog
+* Wed Dec 14 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> 2.4.1-1
+- Added: list-tag support to 'bamtools split'
+- Fixed: various architecture/compiler errors (see commits for specifics)
+- Fixed: documentation-related errors
+
 * Thu Jun 18 2015 Shane Sturrock <shane@biomatters.com> 2.4.0-1
-- Minor version bump, no details from developer
+- Minor version bump
+  - Added support for custom header tags.
+  - Suppressed clang compiler warnings.
 
 * Tue Jul 22 2014 Shane Sturrock <shane@biomatters.com> 2.3.0-1
 - Long overdue update due to watch script not working
