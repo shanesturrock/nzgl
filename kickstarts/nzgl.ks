@@ -245,6 +245,9 @@ yum -y install java-1.7.0-openjdk-devel ant
 # Java 8 development support
 yum -y install java-1.8.0-openjdk-devel
 
+# Set java 8 as default
+alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+
 # Process Accounting
 yum -y install psacct
 chkconfig --add psacct

@@ -114,6 +114,9 @@ yum -y install java-1.7.0-openjdk-devel ant
 # Java 8 development support
 yum -y install java-1.8.0-openjdk-devel ant
 
+# Set Java 8 as default
+alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+
 # Set runlevel 5
 sed 's/id:3:initdefault:/id:5:initdefault:/g' --in-place /etc/inittab
 
