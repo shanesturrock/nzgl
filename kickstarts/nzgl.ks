@@ -119,7 +119,7 @@ mkdir /scratch
 mkdir /databases
 mkdir /home/shane
 mkdir /home/simon
-mkdir /home/sidney
+mkdir /home/rsmithies
 mkdir /home/qiime
 mkdir /home/R-network
 mkdir /home/rtg
@@ -127,7 +127,7 @@ mkdir -p /home/galaxy/upload
 
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/rsmithies /home/rsmithies nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/R-network /home/R-network nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/rtg /home/rtg nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab

@@ -67,12 +67,12 @@ done
 
 # NFS 
 mkdir /home/simon
-mkdir /home/sidney
+mkdir /home/rsmithies
 mkdir /home/shane 
 mkdir /home/qiime
 
 echo "${nfs_host}:/fs1/home/simon /home/simon nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
-echo "${nfs_host}:/fs1/home/sidney /home/sidney nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
+echo "${nfs_host}:/fs1/home/rsmithies /home/rsmithies nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/shane /home/shane nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 echo "${nfs_host}:/fs1/home/qiime /home/qiime nfs rw,hard,intr,rsize=32768,wsize=32768 0 0" >> /etc/fstab
 
