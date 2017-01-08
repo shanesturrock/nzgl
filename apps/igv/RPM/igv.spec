@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.88
+Version:	2.3.89
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Jan 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.89-1
+- Fix NPE in MergedAlignmentReader
+
 * Tue Nov 08 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.88-1
 - Bug Fix: Restore missing window functions for wig, bedgraph
 

@@ -1,5 +1,5 @@
 Name:		bowtie2
-Version:	2.2.9
+Version:	2.3.0
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -22,7 +22,7 @@ and paired-end alignment modes.
 %setup -q
 
 %build
-make %{?_smp_mflags}
+make %{?_smp_mflags} NO_TBB=1
 
 %install
 rm -rf %{buildroot}
@@ -60,6 +60,26 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Jan 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.0-1
+- Code related to read parsing was completely rewritten to improve scalability
+  to many threads. In short, the critical section is simpler and parses input
+  reads in batches rather than one at a time. The improvement applies to all 
+  read formats.
+- TBB is now the default threading library. We consistently found TBB to give
+  superior thread scaling. It is widely available and widely installed. That
+  said, we are also preserving a "legacy" version of Bowtie that, like previous
+  releases, does not use TBB. To compile Bowtie source in legacy mode use
+  NO_TBB=1. To use legacy binaries, download the appropriate binary archive with
+  "legacy" in the name.
+- Bowtie now uses a queue-based lock rather than a spin or heavyweight lock. We
+  find this gives superior thread scaling; we saw an order-of-magnitude
+  throughput improvements at 120 threads in one experiment, for example.
+- Unnecessary thread synchronization removed
+- Fixed issue with parsing FASTA records with greater-than symbol in the name
+- Now detects and reports inconsistencies between --score-min and --ma
+- Changed default for --bmaxdivn to yield better memory footprint and running
+  time when building an index with many threads
+
 * Tue Apr 26 2016 Shane Sturrock <shane@biomatters.com> - 2.2.9-1
 - Fixed the multiple threads issue for the bowtie2-build.
 - Fixed a TBB related build issue impacting TBB v4.4.

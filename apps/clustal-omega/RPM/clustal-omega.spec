@@ -1,5 +1,5 @@
 Name:           clustal-omega
-Version:        1.2.3
+Version:        1.2.4
 Release:	1%{?dist}
 License:        GPL
 Group:          Productivity/Scientific/Chemistry
@@ -40,6 +40,8 @@ rm -rf %{buildroot}
 %{_bindir}/clustalo
 
 %changelog
+* Mon Jan 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> 1.2.4-1
+- made code gcc-6 compliant
 * Thu Jul 21 2016 shane@biomatters.com 1.2.3-1
 - fixed consensus line in ClustalW format, 'H' in NHQK not recognised as strong
   (bug in Squid)
