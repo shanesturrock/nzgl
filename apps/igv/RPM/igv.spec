@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.89
+Version:	2.3.90
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Tue Jan 10 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.90-1
+- Do blat query on strand of feature
+
 * Mon Jan 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.89-1
 - Fix NPE in MergedAlignmentReader
 
