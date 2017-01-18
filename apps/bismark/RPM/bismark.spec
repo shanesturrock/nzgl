@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.16.3
+Version:	0.17.0
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -42,8 +42,8 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Bismark_alignment_modes.pdf Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt 
-#%doc Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt RRBS_Guide.pdf
+#%doc Bismark_alignment_modes.pdf Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt 
+%doc Bismark_User_Guide.html license.txt RELEASE_NOTES.md RRBS_Guide.pdf
 
 %{_bindir}/bam2nuc
 %{_bindir}/bismark
@@ -57,6 +57,64 @@ rm -rf %{buildroot}
 %{_bindir}/deduplicate_bismark
 
 %changelog
+* Thu Jan 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.17.0-1
+- Bismark
+  - The option --dovetail is now the default behaviour for paired-end Bowtie2
+    libraries to assist with
+  - alignments that have undergone 5'-end trimming. Can be disabled using the
+    new option --no_dovetail.
+  - Added time stamp to the Bismark run.
+  - Chromosome names with leading spaces now cause Bismark to bail.
+  - Fixed path handling for --multicore mode when --prefix had been specified
+    as well.
+  - Bismark now quits if the Bowties could not be executed properly.
+  - Bails if supplied filenames do not exist.
+- Documentation
+  - Added Overview of different library types and kits to the Bismark User
+    Guide.
+  - Also added documentation for Bismark modules bam2nuc, bismark2report,
+    bismark2summary and filter_non_conversion.
+  - Added a Markdown to HTML converter (make_docs.pl; thanks to Phil Ewels).
+- filter_non_conversion
+  - Added a new script that allows filtering out of reads or read-pairs if the
+    apparent non-CG methylation exceeds a certain threshold (3 by default).
+    Optionally, the non-CG count may be forced to occur on consecutive non-CGs
+    using the option --consecutive.
+  - Added time stamp to filtering step.
+- bismark2bedGraph
+  - For the creation of temporary files, we are now replacing / characters in
+    the chromosome names with _ (underscores), similar to | (pipe) characters,
+    as these / would attempt to write files to non-existing directories.
+- deduplicate_bismark
+  - `Single-/paired-end detection now also accepts --1 or --2.
+  - Added. EOF or truncation detection, causing the deduplicator to die.
+- bismark_methylation_extractor
+  - Single-/paired-end detection now also accepts --1 or --2.
+  - Added EOF or truncation detection, causing the methylation extractor to
+    die.
+  - Addded fatal ID1/ID2 check to paired-end extraction so that files which
+    went out-of-sync at a later stage do not complete silently (but
+    incorrectly!)
+- bismark2report
+  - Major refactoring of bismark2report, the output should look the same
+    though. Massive thanks to Phil Ewels for this.
+- coverage2cytosine
+  - Added a new option --NOMe-seq to filter nucleosome occupancy and methylome
+    sequencing (NOMe-Seq) data where accessible DNA gets enzymatically
+    methylated in a GpC context. The option --NOMe-seq: 
+      i) filters the genome-wide CpG-report to only output cytosines in ACG 
+         and TCG context 
+     ii) filters the GC context output to only report cytosines in GCA, GCC 
+         and GCT context 
+    Both of these measures aim to reduce unwanted biases, namely the influence
+    of GCG and CCG on endogenous CpG methylation, and the inlfluence of CpG
+    methylation on (the NOMe-Seq specific) GC context methylation. PLEASE NOTE
+    that NOMe-Seq data requires a .cov.gz file as input which has been
+    generated in non-CG mode (--CX).
+- bismark_genome_preparation
+  - Fixed a bug that arose when --genomic_composition was specified (now moving
+    back to the genome directory for in silico conversion).
+
 *Wed Jul 27 2016 Shane Sturrock <shane@biomatters.com> - 0.16.3-1
 - Bismark: Essential fixes (2 in total) to address a bug for Bowtie 2
   alignments where reads that should be considered ambiguous were incorrectly
