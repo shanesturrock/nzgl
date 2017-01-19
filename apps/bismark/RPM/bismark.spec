@@ -25,11 +25,15 @@ to analyse the methylation levels of their samples straight away.
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{_bindir}
+mkdir -p %{buildroot}/%{_bindir}/bismark_sitrep
 
 install -m 0755 bismark %{buildroot}/%{_bindir}
 install -m 0755 coverage2cytosine %{buildroot}/%{_bindir}
 install -m 0755 bismark2report %{buildroot}/%{_bindir}
-install -m 0644 bismark_sitrep.tpl %{buildroot}/%{_bindir}
+install -m 0644 bismark_sitrep.tpl %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 bismark_sitrep.js %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 highcharts.js %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 jquery-3.1.1.min.js %{buildroot}/%{_bindir}/bismark_sitrep/
 install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
 install -m 0755 deduplicate_bismark %{buildroot}/%{_bindir}
 install -m 0755 bismark2summary %{buildroot}/%{_bindir}
@@ -52,7 +56,10 @@ rm -rf %{buildroot}
 %{_bindir}/bismark2summary
 %{_bindir}/bismark_genome_preparation
 %{_bindir}/bismark_methylation_extractor
-%{_bindir}/bismark_sitrep.tpl
+%{_bindir}/bismark_sitrep/bismark_sitrep.tpl
+%{_bindir}/bismark_sitrep/bismark_sitrep.js
+%{_bindir}/bismark_sitrep/highcharts.js
+%{_bindir}/bismark_sitrep/jquery-3.1.1.min.js
 %{_bindir}/coverage2cytosine
 %{_bindir}/deduplicate_bismark
 
