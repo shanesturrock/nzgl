@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.9.5
+Version:	0.10.0
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 23 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.10.0-1
+- Added option --top for faster processing, when speed of processing is the
+  highest priority
+- Improve appearance of HTML graphs
+
 * Fri Dec 09 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.9.5-1
 - Fixed bug causing FastQ Screen, when running in --bisulfite mode, to mislabel
   species names in the HTML bisulfite read orientation graph on the occasion
