@@ -1,5 +1,5 @@
---- Makefile.orig	2016-06-22 06:55:01.405037097 +1200
-+++ Makefile	2016-06-22 06:55:13.915123054 +1200
+--- Makefile.orig	2017-01-26 08:59:50.295045421 +1300
++++ Makefile	2017-01-26 09:00:07.620104424 +1300
 @@ -11,7 +11,7 @@
  64BIT_VERSION ?= yes
  OPTIMIZE ?= yes
@@ -9,3 +9,12 @@
  BOOST_LIBRARY_DIR="\"Enter_your_boost_library_path_here\""
  BOOST_INCLUDE_DIR="\"Enter_your_boost_include_path_here\""
  MOTHUR_FILES="\"Enter_your_default_path_here\""
+@@ -28,7 +28,7 @@
+ endif
+ 
+ #CPP_11
+-    CXXFLAGS += -std=c++11
++    #CXXFLAGS += -std=c++11
+ 
+ CXXFLAGS += -DRELEASE_DATE=${RELEASE_DATE} -DVERSION=${VERSION} -O3
+ 

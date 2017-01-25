@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.38.1.1
+Version:	1.39.0
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,40 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Thu Jan 26 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.0-1
+- Feature Updates
+ - Changes default clustering method to opti.
+ - Adds agc and dgc vsearch clustering methods for Windows users. #215
+ - Adds chimera.vsearch command for Windows users. #215
+ - Major speed improvement for pre.cluster command with aligned files. #220
+ - Major memory requirement reduction for pre.cluster command with by group
+   option. #220
+ - Adds constaxonomy file to current files saved by mothur.
+ - Control-C handling: In script or batch mode exit mothur. In interactive mode
+   exit command. #212
+http://www.mothur.org/forum/viewtopic.php?f=5&t=4102&p=12431#p12431
+ - Adds blastdir parameter to set.dir command. #223
+ - Taxonomy files can now contain spaces in the taxon names. #265
+ - Makes refasta and repnames parameters optional for create.database command.
+   #32
+ - Removes cutoff adjust in dist.seqs command. #274
+ - Adds trim parameter to make.sra command for use with sff files.
+- Bug Fixes
+ - Fixes Windows multiple processors with groups crash - chimera.uchime
+   command.
+ - Fixes Windows bug with make.file command. #255
+ - Creates unique group names for 3 column format make.file command. #270
+ - Fixes bug with number of "taxon"_unclassifeds appended to taxonomy in
+   classify.seqs.
+ - Eliminates zero abundance OTUs created by some floating point biom files
+   converted to shared files make.shared.
+ - Floating point exception in sparcc command.
+ - Fixes bug where mothur was not finding matches for sequence names "off by
+   one character" in the name. make.contigs
+ - Fixes bug with "find" command for Linux user in make.file
+ - Fixes bug with optimize parameter using alignreport file in screen.seqs
+   command. #288
+
 * Thu Aug 11 2016 Shane Sturrock <shane@biomatters.com> - 1.38.1.1-1
 - New Commands
   - merge.count command combines count files. #259
