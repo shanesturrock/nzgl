@@ -77,6 +77,7 @@ perl-Bio-SamTools
 perl-Filesys-Df
 perl-DBD-MySQL
 perl-Module-Build
+perl-Log-Log4perl
 nzgl-release
 nzgl-sysscripts
 postgresql-libs

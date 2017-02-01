@@ -67,6 +67,7 @@ perl-Bio-SamTools
 perl-Filesys-Df
 perl-DBD-MySQL
 perl-Module-Build
+perl-Log-Log4perl
 python-matplotlib
 nzgl-release
 nzgl-sysscripts-appliance
