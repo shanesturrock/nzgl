@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.39.0
+Version:	1.39.1
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,19 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Feb 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.1-1
+- Bug Fixes:
+  - pre.cluster (without groups) not clustering properly. #301
+  - make.contigs fixes "off by one" name mismatch error. #303
+  - rename.file unable to automatically rename with output directory specified.
+  - cluster and cluster.split improper printing of list file when using name
+    file option. Does not effect printing of the list file when clustered with
+    count file.
+  - cluster and cluster.split improper printing of list file when using phylip
+    file option. Does not effect printing of the list file when clustered with
+    column file.
+  - Incorrect taxlevel printed in *.tax.summary file.
+
 * Thu Jan 26 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.0-1
 - Feature Updates
  - Changes default clustering method to opti.
