@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.90
+Version:	2.3.91
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.91-1
+- Add ",ucscsnp" to annotation file type list
+
 * Tue Jan 10 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.90-1
 - Do blat query on strand of feature
 

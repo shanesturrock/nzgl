@@ -1,5 +1,5 @@
 Name:		SolexaQA++
-Version:	3.1.6
+Version:	3.1.7
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -34,6 +34,9 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.1.7-1
+- Added support for NextSeq reads.
+
 * Wed Dec 07 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.1.6-1
 - Minor bugfixes.
 

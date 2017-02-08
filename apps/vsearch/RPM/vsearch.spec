@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.3.4
+Version:	2.4.0
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.0-1
+- This release includes support for Linux on the Power8 architecture (using
+  AltiVec) as well as Windows on x86_64. The documentation has been updated and
+  a few small bugs have been corrected.
+
 * Wed Dec 14 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.4-1
 - Fix bug in profile output, update docs.
 
