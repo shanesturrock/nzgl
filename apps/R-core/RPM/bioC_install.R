@@ -48,6 +48,7 @@ install.packages("https://cran.r-project.org/src/contrib/Archive/RcppArmadillo/R
 source("http://www.bioconductor.org/biocLite.R")
 biocLite()
 biocLite("affyQCReport")
+biocLite("ROTS")
 biocLite("ShortRead")
 biocLite("biomaRt")
 biocLite("DESeq")
