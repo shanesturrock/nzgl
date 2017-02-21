@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.39.1
+Version:	1.39.2
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,19 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Tue Feb 21 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.2-1
+- Feature Updates:
+  - Adds file mismatch check to summary.seqs
+- Bug Fixes:
+  - chimera.vsearch removing last character of sequence names when processing
+    with a reference. Not an issue with denovo method. #306
+  - Fixes summary.tax summary file printing issue.
+  - Fixes bug on start "[ERROR]: basic_string::substr: __pos (which is
+    18446744073709551615) > this->size()..."
+  - Fixes bug with the rename.file command that occurs if outputdir is used and
+    multiple files are provided.
+  - Fixes ls bug for Windows users in make.file command.
+
 * Mon Feb 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.1-1
 - Bug Fixes:
   - pre.cluster (without groups) not clustering properly. #301
