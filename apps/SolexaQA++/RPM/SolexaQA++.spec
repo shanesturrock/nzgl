@@ -1,5 +1,5 @@
 Name:		SolexaQA++
-Version:	3.1.7
+Version:	3.1.7.1
 Release:	1%{?dist}
 Summary:	Calculates quality statistics and creates visual representations of data quality from FASTQ files.
 Group:		Applications/Engineering
@@ -23,8 +23,8 @@ by Illumina second-generation sequencing technology (“Solexa”).
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{_bindir}
-#install -m 0755 Linux_x64/%{name} %{buildroot}/%{_bindir}
-install -m 0755 %{name}_v%{version}/Linux_x64/%{name} %{buildroot}/%{_bindir}
+install -m 0755 Linux_x64/%{name} %{buildroot}/%{_bindir}
+#install -m 0755 %{name}_v%{version}/Linux_x64/%{name} %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
@@ -34,6 +34,10 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 
 %changelog
+* Thu Feb 23 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.1.7.1-1
+- Bugfix for high-output NextSeq runs
+- minor bugfixes.
+
 * Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.1.7-1
 - Added support for NextSeq reads.
 
