@@ -1,5 +1,5 @@
 Name:		fastq_screen
-Version:	0.10.0
+Version:	0.11.1
 Release:	1%{?dist}
 Summary:	Contamination screening for next-gen sequence data
 
@@ -51,6 +51,13 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.11.1-1
+- Fixed bug preventing selection of --filter options 4 or 5
+- Added --filter options 4 and 5
+- Added option --pass to further improve filtering
+- Prevented HTML bar graphs overlapping when screening against multiple genomes
+- Corrected documentation describing how to use the option --top
+
 * Mon Jan 23 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.10.0-1
 - Added option --top for faster processing, when speed of processing is the
   highest priority
