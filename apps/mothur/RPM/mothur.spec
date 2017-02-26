@@ -1,5 +1,5 @@
 Name:		mothur
-Version:	1.39.2
+Version:	1.39.3
 Release:	1%{?dist}
 Summary:	Computational microbial ecology tool
 Group:		Applications/Engineering
@@ -44,6 +44,12 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Feb 27 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.3-1
+- Feature Updates
+  - Adds contigsreport to current files saved by mothur. #291
+- Bug Fixes
+  - Fixes bug with shortcut files in classify.seqs command. #307
+
 * Tue Feb 21 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.39.2-1
 - Feature Updates:
   - Adds file mismatch check to summary.seqs
