@@ -1,2 +1,3 @@
 version=3
-http://sf.net/vcftools/vcftools_([0-9].[0-9]{1,2}.[0-9]{1,2}.+)\.tar\.gz
+#http://sf.net/vcftools/vcftools_([0-9].[0-9]{1,2}.[0-9]{1,2}.+)\.tar\.gz
+https://github.com/vcftools/vcftools/releases .*/vcftools-(.+)\.tar\.gz
