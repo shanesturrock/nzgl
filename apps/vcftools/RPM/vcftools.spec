@@ -1,17 +1,16 @@
 Name:		vcftools
-Version:	0.1.13
+Version:	0.1.14
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
 Group:		Applications/Engineering
 License:	GPLv3 
-URL:		http://vcftools.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}_%{version}.tar.gz
+URL:		https://vcftools.github.io/index.html
+Source0:	https://github.com/vcftools/vcftools/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Requires:	tabix
-
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 BuildRequires:	zlib-devel
+#BuildRequires:	zlib-devel,autogen,automake,autoconf
 
 
 %description
@@ -21,21 +20,22 @@ provide methods for working with VCF files: validating, merging,
 comparing and calculate some basic population genetic statistics
 .
 %prep
-%setup -q -n %{name}_%{version}
+%setup -q -n %{name}-%{version}
 #%patch0 -p1
 
 %build
+#./autogen.sh
+./configure --prefix="%{buildroot}/usr"
 make %{?_smp_mflags} CPPFLAGS="%{optflags}"
-
 
 %install
 rm -rf %{buildroot}
-make install PREFIX=%{buildroot}usr MODDIR="%{buildroot}%{perl_vendorarch}" \
+make install PREFIX="%{buildroot}/usr" MODDIR="%{buildroot}%{perl_vendorarch}" \
 BINDIR="%{buildroot}%{_bindir}" MANDIR="%{buildroot}%{_mandir}/man1"
 mkdir -p %{buildroot}%{_mandir}/man1
 
-install -m 0775 %{_builddir}/%{name}_%{version}/cpp/vcftools %{buildroot}%{_bindir}
-install -m 0644 %{_builddir}/%{name}_%{version}/cpp/vcftools.1 %{buildroot}%{_mandir}/man1
+#install -m 0775 %{_builddir}/%{name}-%{version}/src/cpp/vcftools %{buildroot}%{_bindir}
+#install -m 0644 %{_builddir}/%{name}-%{version}/src/cpp/vcftools.1 %{buildroot}%{_mandir}/man1
 
 
 %clean
@@ -44,38 +44,74 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README.txt 
-%{_mandir}/man1/vcftools.1*
-%{_bindir}/vcf-compare
-%{_bindir}/fill-aa
-%{_bindir}/fill-an-ac
-%{_bindir}/vcf-merge
-%{_bindir}/vcf-query
-%{_bindir}/vcf-annotate
-%{_bindir}/vcf-concat
-%{_bindir}/vcf-convert
-%{_bindir}/vcf-isec
-%{_bindir}/vcf-sort
-%{_bindir}/vcf-stats
-%{_bindir}/vcf-subset
-%{_bindir}/vcf-to-tab
-%{_bindir}/vcf-validator
-%{_bindir}/fill-fs
-%{_bindir}/fill-ref-md5
-%{_bindir}/vcf-consensus
-%{_bindir}/vcf-contrast
-%{_bindir}/vcf-fix-ploidy
-%{_bindir}/vcf-indel-stats
-%{_bindir}/vcf-phased-join
-%{_bindir}/vcf-shuffle-cols
-%{_bindir}/vcf-tstv
+#%doc README.txt 
+/usr/bin/fill-aa
+/usr/bin/fill-an-ac
+/usr/bin/fill-fs
+/usr/bin/fill-ref-md5
+/usr/bin/vcf-annotate
+/usr/bin/vcf-compare
+/usr/bin/vcf-concat
+/usr/bin/vcf-consensus
+/usr/bin/vcf-contrast
+/usr/bin/vcf-convert
+/usr/bin/vcf-fix-newlines
+/usr/bin/vcf-fix-ploidy
+/usr/bin/vcf-indel-stats
+/usr/bin/vcf-isec
+/usr/bin/vcf-merge
+/usr/bin/vcf-phased-join
+/usr/bin/vcf-query
+/usr/bin/vcf-shuffle-cols
+/usr/bin/vcf-sort
+/usr/bin/vcf-stats
+/usr/bin/vcf-subset
+/usr/bin/vcf-to-tab
+/usr/bin/vcf-tstv
+/usr/bin/vcf-validator
+/usr/bin/vcftools
+/usr/share/man/man1/vcftools.1.gz
+/usr/share/perl5/FaSlice.pm
+/usr/share/perl5/Vcf.pm
+/usr/share/perl5/VcfStats.pm
 
-%attr(0755, root, root) %{_bindir}/vcftools
-%{perl_vendorarch}/FaSlice.pm
-%{perl_vendorarch}/Vcf.pm
-%{perl_vendorarch}/VcfStats.pm
+#%{_mandir}/man1/vcftools.1*
+#%{_bindir}/vcf-compare
+#%{_bindir}/fill-aa
+#%{_bindir}/fill-an-ac
+#%{_bindir}/vcf-merge
+#%{_bindir}/vcf-query
+#%{_bindir}/vcf-annotate
+#%{_bindir}/vcf-concat
+#%{_bindir}/vcf-convert
+#%{_bindir}/vcf-isec
+#%{_bindir}/vcf-sort
+#%{_bindir}/vcf-stats
+#%{_bindir}/vcf-subset
+#%{_bindir}/vcf-to-tab
+#%{_bindir}/vcf-validator
+#%{_bindir}/fill-fs
+#%{_bindir}/fill-ref-md5
+#%{_bindir}/vcf-consensus
+#%{_bindir}/vcf-contrast
+#%{_bindir}/vcf-fix-ploidy
+#%{_bindir}/vcf-indel-stats
+#%{_bindir}/vcf-phased-join
+#%{_bindir}/vcf-shuffle-cols
+#%{_bindir}/vcf-tstv
+
+#%attr(0755, root, root) %{_bindir}/vcftools
+#%{perl_vendorarch}/FaSlice.pm
+#%{perl_vendorarch}/Vcf.pm
+#%{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Mon Feb 27 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.1.14-1
+- Compiling and building vcftools is now done by autotools (see README for
+  installation instructions)
+- Changed temporary file handling (from mktemp to mkstemp)
+- Minor bug fixes
+
 * Tue Aug 04 2015 Shane Sturrock <shane@biomatters.com> - 0.1.13-1
 - Migration of the vcftools project (and website) from sourceforge to github
 - Optimizations for reading and writing BCF files
