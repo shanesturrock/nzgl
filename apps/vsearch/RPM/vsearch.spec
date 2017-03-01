@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.4.0
+Version:	2.4.1
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,12 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Mar 02 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.1-1
+- This version fixes overflow bugs in fastq_stats and fastq_eestats with very
+  large FASTQ files. 
+- It also fixes a memory reporting issue on Windows. 
+- Minor documentation updates.
+
 * Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.0-1
 - This release includes support for Linux on the Power8 architecture (using
   AltiVec) as well as Windows on x86_64. The documentation has been updated and
