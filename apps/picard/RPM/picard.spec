@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.5.0
+Version:	2.9.0
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,143 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon Mar 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.0-1
+- Picard changed the release process and this update catches up with the 
+  latest release so I'm including all previous release notes.
+- 2.9.0 notes
+  - Use htsjdk 2.9.0. See htsjdk releases for release notes.
+  - Add divide method to MathUtil and use it in RnaSeqMetricsCollector.
+    Specifically, take the fiveToThree value zero if the threePrimeCoverage
+    (denominator) is 0. The effect of this change is that instead of dividing by
+    zero, the result is instead zero for histogram-derived values in metrics
+    calculations.
+  - UpdateVcfSequenceDictionary can now stream the output to stdout. This is a
+    new feature.
+  - Fix bug in createMetricsDoclet, a gradle task, so that building now 
+    generates
+    a document that it did not before. #749
+  - Cleanup code to remove references to LazyInitializer, which will be
+    deprecated in htsjdk in the near future. #722
+- 2.8.3 notes
+  - Converted VariantCallingMetrics to using MergableMetricsBase (#552)
+  - fix Exception thrown in MergeBamAlignment when NM tag was present (#744)
+  - add IOUtil.unrollFiles(INPUT, IOUtil.VCF_EXTENSIONS); to MergeVcfs (#729)
+  - Tests for CollectOxoGMetrics, CollectJumpingLibraryMetrics and BamTBfq
+    classes
+  - Adding metrics for estimating strand specificity. (#733)
+- 2.8.2 notes
+  - Use mapped file dictionary in MergeBamAlignment (#739)
+  - Update tests to remove temporary data upon completion.
+  - Revert "Fix sorting of lifted intervals in LiftOverIntervalList (#726)
+    (#682)" (#737)
+  - Fix case error in usage example of SamToFastq
+  - Fix sorting of lifted intervals in LiftOverIntervalList (#726) (#682)
+  - Exposed options to reverse and rc attributes in MergeBamAlignment. (#731)
+  - Fix sorting of lifted intervals in LiftOverIntervalList (#726)
+  - Added '.genotype_concordance' into the output VCF name. (#725)
+  - Code cleaning (#717)
+  - Small changes to how MBA works with bacterial contamination (#701)
+- 2.8.1 notes
+  - removed a O(maxCoverage * nLoci) sanity test which significantly increases
+    run-time for CollectWgsMetrics when the maxCoverage is large, as it is by
+    default for CollectRawWgsMetrics. (#716)
+  - Fix to handle overlapped read clipping in MergeBamAlignment when clipping
+    already present (#709)
+  - correcting DUAL_INDEXED adapter sequence according to the documentation
+    and also inspection of read sequence from short inserts. (#705)
+  - Default output for CreateSequenceDictionary (#712)
+  - remove reference to @Deprecated VariantContextWriterFactory in htsdjk prior
+    to removal from that codebase. (#710)
+  - Fix for issues 342 and 138: introduced ALSO_IGNORE_DUPLICATES option (#646)
+  - CollectIlluminaBasecallingMetrics supports an alternative barcodes (#702)
+  - use SEQUENCE_REFERENCE when opening files in CheckFingerprints. This should
+    allow fingerprinting CRAM files directly. (#703)
+  - Support in-line skips and molecular barcodes. (#697)
+  - The molecular indexes should be joined with hyphens rather than (#689)
+  - Fix for issue #432 CreateSequenceDictionary stalls indefinitely with large
+    genomes (#687)
+- 2.8.0 notes
+  - Upgrade HTSJDK to 2.8.0
+  - Add to the ExtractIlluminaBarcodes usage. (#696)
+  - Speed up loading DBSNP file in CollectSequencingArtifactMetrics with an
+    IntervalList. (#695)
+- 2.7.2 notes
+  - Add tools to be documented + minor tweaks to MD docs
+  - Small typo in IlluminaBasecallsToSam doc.
+  - Adding an option to output an concordance state annotated VCF in
+    GenotypeConcordance.
+  - Fix the same variant returned multiple times by
+    ByIntervalListVariantContextIterator.
+  - new CLP: FindMendelianViolations (#536)
+  - Fix for MergeBamAlignment when one read maps to both pos and neg strand
+  - updating gradle from 2.13 -> 3.1 (#680)
+  - moved FindMendelianViolations from the private repository - added a test -
+    cleaned up the code a-la-java8
+  - update htsjdk to 2.7.0 (#681)
+  - Include low quality bases in the base quality histogram and add a new
+    coverage histogram that includes these bases in order to improve
+    theoretical het sensitivity estimates.
+  - delete unused imports, change year in license
+  - rename utils methods in tests
+  - add license to tests
+  - added tests for both algorithms
+  - migrate elc first version of algorithm
+- 2.7.1 notes
+  - Do not require an index when checking fingerprints
+  - Added in an summary error rate by substitution type to
+    CollectSequencingArtifactMetrics.
+  - remove uses of SAMFileReader to fix #653 (#654)
+  - Added a public accessor for the per-target coverage information. (#673)
+  - Add link to release instructions to README
+- 2.7.0 notes
+  - Add logging for loading in dbSNP in CollectVariantCallingMetrics. (#662)
+  - fixed format issues
+  - added an option to force the file output format when using
+    OUTPUT_BY_READGROUP
+  - Small fixups to WgsMetrics missed in #657. (#666)
+  - made index created during test get deleted in the end - tightened
+    TheoreticalHetSensitivity test intervals since it has been made
+    deterministic.
+  - QualityYieldMetrics may overflow with many reads. (#665)
+  - Total clusers is now a long in GcBiasSummaryMetrics. (#664)
+  - Fixing a typo in the usage of FilterVcf.
+  - Fixing a number of issues in and add tests for
+    CollectWgsMetricsWithNonZeroCoverage.
+  - fix InsertSizeCollection giving bin width trailing zeros when median is not
+    integer; fixed tests as well
+  - Rename SetNmAndUqTags and fix #622 (MergeBamAlignment MD tag). (#636)
+  - Added options to CollectOxoGMetrics and CollectSequencingArtifactMetrics to
+    include/exclude non-PF reads. (#644)
+  - Modified CheckFingerprint to be able to take a VCF as INPUT (as opposed to
+    a SAM/BAM). Added specialized method in FingerprintChecker for that purpose
+    Generalized certain methods to handle VCF vs BAM/SAM as input. Added test 
+    cases and test data for FingerprintChecker
+  - Fix usage docs: refer to -h instead of --help (#649)
+  - UMI Aware Mark Duplicates with rudimentary error correction
+  - Revert "Update the NM and MD tags when clipping overlapping inserts in"
+    (#635)
+  - Make WgsMetrics mergeable.
+  - Added check for REFERENCE_SEQUENCE to avoid NPE in
+    CollectSequencingArtifactMetrics (#639)
+  - Added file path to exception message thrown out of BclReader
+  - Added the ability to include duplicate reads in
+    CollectSequencingArtifactMetrics. (#633)
+  - DuplicationMetrics are now mergeable.
+  - The update of the docs for CollectMultipleMetrics. (#626)
+  - Using predefined version of MQ (two different kinds) and SA. (#603)
+  - Modify documentation to add RNA-seq usage example of READ_NAME_REGEX=null
+    to skip optical duplicate detection.
+  - Expose the INCLUDE_UNPAIRED option for CollectSequencingArtifactMetrics in
+    CollectMultipleMetrics.
+  - Kt fingerprintchecker fix (#596)
+  - Update the NM and MD tags when clipping overlapping inserts in
+    MergeBamAlignment.
+  - now relying on getSamReadNameFromFastqHeader in HTSJDK's SequenceUtil for
+    converting a read name in a FASTQ to a read name in a SAM/BAM file.
+- 2.6.0 notes
+  - Picard has switched it's build system from ant to gradle, see the ReadMe
+    for gradle usage instructions.
+
 * Mon Jun 27 2016 Shane Sturrock <shane@biomatters.com> - 2.5.0-1
 - Fixes for compile failures and warnings and test breaks vs HTSJDK master.
 - Output the read count per target.

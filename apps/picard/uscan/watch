@@ -1,2 +1,4 @@
 version=3
-https://github.com/broadinstitute/picard/releases/ .*/picard-tools-(.+)\.zip
+#https://github.com/broadinstitute/picard/releases/ .*/picard-tools-(.+)\.zip
+#https://github.com/broadinstitute/picard/releases/download/ .*/(.+)/picard\.jar
+https://github.com/broadinstitute/picard/releases/ .*/(.+)\.zip
