@@ -92,6 +92,12 @@ xorg-x11-fonts-100dpi
 xorg-x11-fonts-75dpi
 vim-enhanced
 tk
+libcurl-devel 
+gnutls-devel 
+libtasn1-devel 
+p11-kit-devel 
+gmp-devel 
+nettle-devel
 @Development tools
 @NZGL
 @Internet Browser
