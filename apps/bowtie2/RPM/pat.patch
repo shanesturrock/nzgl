@@ -1,0 +1,12 @@
+--- pat.cpp.orig	2017-03-04 20:26:39.000000000 +1300
++++ pat.cpp	2017-03-08 12:52:02.383160046 +1300
+@@ -463,7 +463,8 @@
+ 			}
+ 		}
+ 		is_open_ = true;
+-		compressed_ ? gzbuffer(zfp_, 64*1024) : setvbuf(fp_, buf_, _IOFBF, 64*1024);
++		//compressed_ ? gzbuffer(zfp_, 64*1024) : setvbuf(fp_, buf_, _IOFBF, 64*1024);
++		setvbuf(fp_, buf_, _IOFBF, 64*1024);
+ 		return;
+ 	}
+ 	cerr << "Error: No input read files were valid" << endl;

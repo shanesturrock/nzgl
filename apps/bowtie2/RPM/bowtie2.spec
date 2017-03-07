@@ -1,12 +1,15 @@
 Name:		bowtie2
-Version:	2.3.0
+Version:	2.3.1
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 Source0:	%{name}-%{version}-source.zip
+Patch0:         pat.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires:	readline,zlib
+BuildRequires:  readline-devel,zlib-devel
 
 %description
 Bowtie 2 is an ultrafast and memory-efficient tool for
@@ -20,8 +23,10 @@ and paired-end alignment modes.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
+make clean
 make %{?_smp_mflags} NO_TBB=1
 
 %install
@@ -60,6 +65,25 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/scripts
 
 %changelog
+* Mon Mar 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.1-1
+- Added native support for gzipped read files. The wrapper script is no longer
+  responsible for decompression. This simplifies the wrapper and improves speed
+  and thread scalability for gzipped inputs.
+- Fixed a bug that caused 'bowtie2-build' to crash when the first FASTA
+  sequence contains all Ns.
+- Add support for interleaved FASTQ format -—interleaved.
+- Empty FASTQ inputs would yield an error in Bowtie 2 2.3.0, whereas previous
+  versions would simply align 0 reads and report the SAM header as usual. This
+  version returns to the pre-2.3.0 behavior, resolving a compatibility issue
+  between TopHat2 and Bowtie 2 2.3.0.
+- Fixed a bug whereby combining -—un-conc* with -k or -a would cause 'bowtie2'
+  to print duplicate reads in one or both of the --un-conc* output files,
+  causing the ends to be misaligned.
+- The default ---score-min for --local mode is now 'G,20,8'. That was the
+  stated default in the documentation for a while, but the actual default was
+  'G,0,10' for many versions. Now the default matches the documentation and, we
+  find, yields more accurate alignments than 'G,0,10'
+
 * Mon Jan 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.0-1
 - Code related to read parsing was completely rewritten to improve scalability
   to many threads. In short, the critical section is simpler and parses input
