@@ -98,6 +98,7 @@ libtasn1-devel
 p11-kit-devel 
 gmp-devel 
 lsof
+time
 nettle-devel
 @Development tools
 @NZGL

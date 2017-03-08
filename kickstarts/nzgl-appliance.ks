@@ -86,6 +86,7 @@ p11-kit-devel
 gmp-devel 
 nettle-devel
 lsof
+time
 @Development tools
 @NZGL
 @Internet Browser
