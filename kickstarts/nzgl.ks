@@ -97,6 +97,7 @@ gnutls-devel
 libtasn1-devel 
 p11-kit-devel 
 gmp-devel 
+lsof
 nettle-devel
 @Development tools
 @NZGL

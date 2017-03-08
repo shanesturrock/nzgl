@@ -85,6 +85,7 @@ libtasn1-devel
 p11-kit-devel 
 gmp-devel 
 nettle-devel
+lsof
 @Development tools
 @NZGL
 @Internet Browser
