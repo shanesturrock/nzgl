@@ -143,9 +143,10 @@ yum -y install msttcorefonts
 yum -y install htop
 
 # Enable EPEL repo
+yum -y install epel-release
 sed '0,/enabled=0/s/enabled=0/enabled=1/' --in-place /etc/yum.repos.d/epel.repo
 
 # Install nettle from EPEL
-yum -y nettle-devel
+yum -y install nettle-devel
 
 %end
