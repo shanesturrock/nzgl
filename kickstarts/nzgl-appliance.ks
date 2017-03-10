@@ -84,7 +84,6 @@ gnutls-devel
 libtasn1-devel 
 p11-kit-devel 
 gmp-devel 
-nettle-devel
 lsof
 time
 @Development tools
@@ -142,5 +141,11 @@ yum -y install R-core rstudio
 yum -y install msttcorefonts
 # Install htop
 yum -y install htop
+
+# Enable EPEL repo
+sed '0,/enabled=0/s/enabled=0/enabled=1/' --in-place /etc/yum.repos.d/epel.repo
+
+# Install nettle from EPEL
+yum -y nettle-devel
 
 %end

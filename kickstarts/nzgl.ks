@@ -99,7 +99,6 @@ p11-kit-devel
 gmp-devel 
 lsof
 time
-nettle-devel
 @Development tools
 @NZGL
 @Internet Browser
@@ -278,3 +277,11 @@ yum -y install htop
 
 # Symlink to rtg tools
 ln -s /home/rtg/rtg-core-current/rtg /usr/bin/rtg
+
+# Enable EPEL repo
+sed '0,/enabled=0/s/enabled=0/enabled=1/' --in-place /etc/yum.repos.d/epel.repo
+
+# Install nettle from EPEL
+yum -y nettle-devel
+
+%end
