@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.4.1
+Version:	2.4.2
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Mon Mar 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.2-1
+- Default value for fastq_minovlen increased to 16 in accordance with help text
+  and for compatibility with usearch. Minor changes for improved accuracy of
+  paired-end read merging.
+
 * Thu Mar 02 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.1-1
 - This version fixes overflow bugs in fastq_stats and fastq_eestats with very
   large FASTQ files. 

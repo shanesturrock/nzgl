@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 332
+%define priority 333
 
 Name:           R-core
-Version:        3.3.2
+Version:        3.3.3
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -61,6 +61,63 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
+* Mon Mar 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.3.3-10
+- NEW FEATURES
+  - Changes when redirection of a http:// URL to a https:// URL is encountered:
+    - The internal methods of download.file() and url() now report that they
+      cannot follow this (rather than failing silently).
+    - (Unix-alike) download.file(method = "auto") (the default) re-tries with
+      method = "libcurl".
+    - (Unix-alike) url(method = "default") with an explicit open argument
+      re-tries with method = "libcurl". This covers many of the usages, e.g.
+      readLines() with a URL argument.
+- INSTALLATION on a UNIX-ALIKE
+  - The configure check for the zlib version is now robust to versions longer
+    than 5 characters, including 1.2.11.
+- UTILITIES
+  - Environmental variable _R_CHECK_TESTS_NLINES_ controls how R CMD check
+    reports failing tests (see §8 of the ‘R Internals’ manual).
+- DEPRECATED AND DEFUNCT
+  - (C-level Native routine registration.) The undocumented styles field of the
+    components of R_CMethodDef and R_FortranMethodDef is deprecated.
+- BUG FIXES
+  - vapply(x, *) now works with long vectors x. (PR#17174)
+  - isS3method("is.na.data.frame") and similar are correct now. (PR#17171)
+  - grepRaw(<long>, <short>, fixed = TRUE) now works, thanks to a patch by
+    Mikko Korpela. (PR#17132)
+  - Package installation into a library where the package exists via symbolic
+    link now should work wherever Sys.readlink() works, resolving PR#16725.
+  - "Cincinnati" was missing an "n" in the precip dataset.
+  - Fix buffer overflow vulnerability in pdf() when loading an encoding file.
+    Reported by Talos (TALOS-2016-0227).
+  - getDLLRegisteredRoutines() now produces its warning correctly when multiple
+    DLLs match, thanks to Matt Dowle's PR#17184.
+  - Sys.timezone() now returns non-NA also on platforms such as Ubuntu 14.04.5
+    LTS, thanks to Mikko Korpela's PR#17186.
+  - format(x) for an illegal "POSIXlt" object x no longer segfaults.
+  - methods(f) now also works for f "(" or "{".
+  - (Windows only) dir.create() did not check the length of the path to create,
+    and so could overflow a buffer and crash R. (PR#17206)
+  - On some systems, very small hexadecimal numbers in hex notation would
+    underflow to zero. (PR#17199)
+  - pmin() and pmax() now work again for ordered factors and 0-length S3
+    classed objects, thanks to Suharto Anggono's PR#17195 and PR#17200.
+  - bug.report() did not do any validity checking on a package's BugReports
+    field. It now ignores an empty field, removes leading whitespace and only
+    attempts to open http:// and https:// URLs, falling back to emailing the
+    maintainer.
+  - Bandwidth selectors bw.ucv() and bw.SJ() gave incorrect answers or
+    incorrectly reported an error (because of integer overflow) for inputs
+    longer than 46341. Similarly for bw.bcv() at length 5793.
+  - Another possible integer overflow is checked and may result in an error
+    report (rather than an incorrect result) for much longer inputs (millions
+    for a smooth distribution).
+  - findMethod() failed if the active signature had expanded beyond what a
+    particular package used. (Example with packages XR and XRJulia on CRAN.)
+  - qbeta() underflowed too early in some very asymmetric cases. (PR#17178)
+  - R CMD Rd2pdf had problems with packages with non-ASCII titles in ‘.Rd’
+    files (usually the titles were omitted).
+
 * Thu Nov 03 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.3.2-10
 - NEW FEATURES:
   - extSoftVersion() now reports the version (if any) of the readline library
