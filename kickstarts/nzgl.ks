@@ -4,6 +4,8 @@ reboot
 
 url --url=http://packages.genomics.local/mirrors/CentOS/6/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
+repo --name=epel --baseurl=http://dl.fedoraproject.org/pub/epel/6/x86_64/
+repo --name=ius --baseurl=https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64
 
 lang en_US.UTF-8
 keyboard us

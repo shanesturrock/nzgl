@@ -6,6 +6,8 @@ reboot
 # because Cisco AnyConnect seems to disable DNS
 url --url=http://103.247.152.85/pub/linux/dist/centos/6/os/x86_64/
 repo --name=nzgl-stable --baseurl=http://10.10.2.50/nzgl-stable
+repo --name=epel --baseurl=http://dl.fedoraproject.org/pub/epel/6/x86_64/
+repo --name=ius --baseurl=https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64
 
 lang en_US.UTF-8
 keyboard us
