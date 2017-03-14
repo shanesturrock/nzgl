@@ -1,5 +1,6 @@
-%define priority 141
-Name:		samtools
+%global pkgbase samtools
+%global versuffix 14
+Name:		%{pkgbase}%{versuffix}
 Version:	1.4
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
@@ -7,12 +8,12 @@ Summary:	Tools for nucleotide sequence alignments in the SAM format
 Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	samtools131
-# Post requires alternatives to install tool alternatives.
-Requires(post):   %{_sbindir}/alternatives
-# Postun requires alternatives to uninstall tool alternatives.
-Requires(postun): %{_sbindir}/alternatives
+Source0:	http://downloads.sourceforge.net/%{pkgbase}/%{pkgbase}-%{version}.tar.bz2
+Source1:	%{name}.modulefile
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:	zlib-devel >= 1.2.3
+BuildRequires:	ncurses-devel,xz-devel,bzip2-devel
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
@@ -21,38 +22,45 @@ SAM Tools provide various utilities for manipulating alignments in the
 SAM format, including sorting, merging, indexing and generating
 alignments in a per-position format.
 
-%post
-alternatives \
-   --install %{_bindir}/samtools samtools /usr/lib64/samtools131/bin/samtools %{priority} \
-   --slave %{_bindir}/ace2sam ace2sam /usr/lib64/samtools131/bin/ace2sam \
-   --slave %{_bindir}/blast2sam.pl blast2sam.pl /usr/lib64/samtools131/bin/blast2sam.pl \
-   --slave %{_bindir}/bowtie2sam.pl bowtie2sam.pl /usr/lib64/samtools131/bin/bowtie2sam.pl \
-   --slave %{_bindir}/export2sam.pl export2sam.pl /usr/lib64/samtools131/bin/export2sam.pl \
-   --slave %{_bindir}/interpolate_sam.pl interpolate_sam.pl /usr/lib64/samtools131/bin/interpolate_sam.pl \
-   --slave %{_bindir}/maq2sam-long maq2sam-long /usr/lib64/samtools131/bin/maq2sam-long \
-   --slave %{_bindir}/maq2sam-short maq2sam-short /usr/lib64/samtools131/bin/maq2sam-short \
-   --slave %{_bindir}/md5fa md5fa /usr/lib64/samtools131/bin/md5fa \
-   --slave %{_bindir}/md5sum-lite md5sum-lite /usr/lib64/samtools131/bin/md5sum-lite \
-   --slave %{_bindir}/novo2sam.pl novo2sam.pl /usr/lib64/samtools131/bin/novo2sam.pl \
-   --slave %{_bindir}/plot-bamstats plot-bamstats /usr/lib64/samtools131/bin/plot-bamstats \
-   --slave %{_bindir}/psl2sam.pl psl2sam.pl /usr/lib64/samtools131/bin/psl2sam.pl \
-   --slave %{_bindir}/sam2vcf.pl sam2vcf.pl /usr/lib64/samtools131/bin/sam2vcf.pl \
-   --slave %{_bindir}/samtools.pl samtools.pl /usr/lib64/samtools131/bin/samtools.pl \
-   --slave %{_bindir}/seq_cache_populate.pl seq_cache_populate.pl /usr/lib64/samtools131/bin/seq_cache_populate.pl \
-   --slave %{_bindir}/soap2sam.pl soap2sam.pl /usr/lib64/samtools131/bin/soap2sam.pl \
-   --slave %{_bindir}/varfilter.py varfilter.py /usr/lib64/samtools131/bin/varfilter.py \
-   --slave %{_bindir}/wgsim wgsim /usr/lib64/samtools131/bin/wgsim \
-   --slave %{_bindir}/wgsim_eval.pl wgsim_eval.pl /usr/lib64/samtools131/bin/wgsim_eval.pl \
-   --slave %{_bindir}/zoom2sam.pl zoom2sam.pl /usr/lib64/samtools131/bin/zoom2sam.pl \
-   --slave %{_mandir}/man1/samtools.1 samtools.1 /usr/lib64/samtools131/man/man1/samtools.1
+%prep
+%setup -q -n %{pkgbase}-%{version}
 
-%postun
-if [ $1 -eq 0 ]
-then
-  alternatives --remove samtools /usr/lib64/samtools131/bin/samtools
-fi
+# fix wrong interpreter
+perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
+
+# fix eol encoding
+sed -i 's/\r//' misc/export2sam.pl
+
+
+%build
+make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{_libdir}/%{name}/bin
+mkdir -p %{buildroot}%{_libdir}/%{name}/man/man1
+install -p samtools %{buildroot}%{_libdir}/%{name}/bin
+cp -p samtools.1 %{buildroot}%{_libdir}/%{name}/man/man1/
+
+# install modulefile
+install -D -p -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
+
+cd misc/
+install -p ace2sam blast2sam.pl bowtie2sam.pl export2sam.pl \
+    interpolate_sam.pl maq2sam-long maq2sam-short md5fa md5sum-lite \
+    novo2sam.pl plot-bamstats psl2sam.pl sam2vcf.pl samtools.pl \
+    seq_cache_populate.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl \
+    zoom2sam.pl \
+    %{buildroot}%{_libdir}/%{name}/bin
+
+%clean
+rm -rf %{buildroot}
 
 %files
+%defattr(-,root,root,-)
+%doc AUTHORS ChangeLog.old LICENSE INSTALL NEWS examples/
+%{_libdir}/%{name}
+%{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
 * Wed Mar 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.4-1
@@ -114,11 +122,11 @@ fi
   line for compatibility with existing scripts).
 - The mpileup command now outputs the unseen allele in VCF/BCF as <*> rather
   than X or <X> as previously, and now has AD, ADF, ADR, INFO/AD, INFO/ADF,
-  INFO/ADR --output-tags annotations that largely supersede the existing DV,
+  INFO/ADR --output-tags annotations that largely supersede the existing DV, 
   DP4, DPR annotations.
 - The mpileup command now applies BAQ calculations at all base positions,
   regardless of which -l or -r options are used (previously with -l it was not
-  applied to the first few tens of bases of each chromosome, leading to
+  applied to the first few tens of bases of each chromosome, leading to 
   different mpileup results with -l vs. -r; #79, #125, #286, #407).
 - Samtools now has a configure script which checks your build environment and
   facilitates choosing which HTSlib to build against. See INSTALL for details.
@@ -145,7 +153,7 @@ fi
 - Samtools depad command now handles CIGAR N operators and accepts CRAM files
   (#201, #404).
 - Samtools stats now outputs separate "N" and "other" columns in the ACGT
-content per cycle section (#376).
+  content per cycle section (#376).
 - Added -a option to samtools depth to show all locations, including zero depth
   sites (#374).
 - New samtools dict command, which creates a sequence dictionary (as used by
@@ -172,27 +180,27 @@ content per cycle section (#376).
 - Flagstat now works on SAM, BAM, or CRAM files (rather than BAM only)
 - Stats calculates mismatches per cycle for unclipped length
 - Merge can now merge SAM input files
-- CRAM reference files are now cached by default (see HTSlib below and samtools(
-1) man page)
-- Tested against Intel-optimised zlib (https://github.com/jtkukunas/zlib; see RE
-ADME for details)
+- CRAM reference files are now cached by default (see HTSlib below and 
+  samtools(1) man page)
+- Tested against Intel-optimised zlib (https://github.com/jtkukunas/zlib; see 
+  README for details)
 - Fixed bugs #302, #309, #318, and #327
 
 * Thu Sep 25 2014 Shane Sturrock <shane@biomatters.com> - 1.1-1
 - Samtools fixmate and flagstat now consider supplementary reads
-- Sorting BAM files with thousands of reference contigs now completes in a
+- Sorting BAM files with thousands of reference contigs now completes in a 
   reasonable amount of time
-- Fixed samtools idxstats when displaying statistics from indices generated by
+- Fixed samtools idxstats when displaying statistics from indices generated by 
   samtools 0.1.x
 - Fixed samtools calmd memory leak
-- Samtools fixmate now only adds a template cigar tag (ct:Z) when requested
+- Samtools fixmate now only adds a template cigar tag (ct:Z) when requested 
   with -c, and never adds it repeatedly
 - Regularised script #! directives as #!/usr/bin/env perl etc
 - Fixed DPR annotation in samtools mpileup
 - New bcftools convert and plugin commands and annotate --rename-chrs option
-- BCFtools norm performance is improved and now averages QUALs and accumulates
+- BCFtools norm performance is improved and now averages QUALs and accumulates 
   IDs and FILTERs
-- Improved bcftools filter expressions, query support for IUPAC ambiguity
+- Improved bcftools filter expressions, query support for IUPAC ambiguity 
   codes, and annotate support for genotype fields
 - Plugins for bcftools have now moved from annotate to the new plugin command
 
@@ -202,6 +210,80 @@ ADME for details)
 - Removes bcftools from package as that is now separate
 - Doesn't produce samtools-devel and samtools-lib RPMs anymore
 
-* Mon Aug 18 2014 Shane Sturrock <shane@biomatters.com> - 0.1.19-3
-- Create versioned package for modulefile compatibility
-- Removes devel and libs packages as they're not used
+* Mon Apr 22 2013 Shane Sturrock <shane@biomatters.com> - 0.1.19-2
+- Bring upstream update from fedora into NZGL replacing homegrown
+
+* Thu Apr 11 2013 Tom Callaway <spot@fedoraproject.org> - 0.1.19-1
+- update to 0.1.19
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.18-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.18-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Wed Oct 26 2011 Adam Huffman <verdurin@fedoraproject.org> - 0.1.18-2
+- make sure new seqtk tool included
+
+* Tue Sep  6 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.18-1
+- Updated to 0.1.18
+
+* Tue May 10 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.16-1
+- Updated to 0.1.16
+
+* Mon Apr 11 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.15-1
+- Updated to 0.1.15
+
+* Wed Mar 23 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.14-1
+- Updated to 0.1.14
+- Build shared library instead of static
+
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.12a-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-2
+- Fixed header files directory ownership
+- Added missing header files
+
+* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-1
+- Updated to 0.1.12a
+
+* Tue Nov 23 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
+- cleanup man page handling
+
+* Sun Oct 10 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
+- fix attributes for devel subpackage
+- fix library location
+
+* Sun Sep 26 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-3
+- put headers and library in standard locations
+
+* Mon Sep 6 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-2
+- merge Rasmus' latest changes (0.1.8 update)
+- include bam.h and libbam.a for Bio-SamTools compilation
+- move bam.h and libbam.a to single directory
+- put bgzf.h, khash.h and faidx.h in the same place
+- add -fPIC to CFLAGS to make Bio-SamTools happy
+- add virtual Provide as per guidelines
+
+* Tue Aug 17 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.8-1
+- Updated to 0.1.8.
+
+* Mon Nov 30 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.7a-1
+- Updated to 0.1.7a.
+
+* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.5c-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Sun Jul 12 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-3
+- Specfile cleanup.
+
+* Sat Jul 11 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-2
+- Fixed manpage location.
+- Make sure optflags is passed to the makefiles.
+
+* Sat Jul 11 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.5c-1
+- Initial build.
