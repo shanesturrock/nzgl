@@ -1,13 +1,13 @@
 %define debug_package %{nil}
 
 Name:		STAR
-Version:	2.5.2b
+Version:	2.5.3a
 Release:	1%{?dist}
 Summary:	Tool for handing RNA-seq alignment
 Group:		Applications/Engineering
 License:	GPL
 URL:		https://code.google.com/p/rna-star/
-SOURCE:		STAR-2.5.2b.tar.gz
+SOURCE:		STAR-2.5.3a.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -35,6 +35,29 @@ rm -rf %{buildroot}
 /usr/bin/STARlong
 
 %changelog
+* Mon Mar 20 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.5.3a-1
+- Implemented --genomeFileSizes option to supply sizes of the genome index
+  files. This allows for streaming of index files.
+- Implemented extra references input in the SAM/AM header from user-created
+  "extraReferences.txt" file in the genome directory.
+- Implemented --chimOutType HardClip OR SoftClip options to output hard
+  (default) / soft clipping in the BAM CIGAR for supplementary chimeric
+  alignments.
+- Implemented --chimMainSegmentMultNmax parameters, which may be used to
+  prohibit chimeric alignments with multimapping main segments to reduce false
+  positive chimeras.
+- Implemented new SAM attribute 'ch' to mark chimeric aligmments in the BAM
+  file for --chimOutType WithinBAM option.
+- Implemented --bamRemoveDuplicatesType UniqueIdenticalNotMulti option, which
+  (unlike the UniqueIdentical optipon) will NOT mark multi-mappers as
+  duplicates.
+- For --bamRemoveDuplicatesType UniqueIdentical, the unmmapped reads are no
+  longer marked as duplicates.
+- Fixed occasional seg-faults after the completion of the mapping runs with
+  shared memory.
+- Fixed a problem with RNEXT field in the Chimeric.out.sam file: RNEXT now
+  always points to the other mate start.
+
 * Fri Sep 30 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.5.2b-1
 - Fixed a problem with --outSAMmultNmax 1 not working for transcriptomic
   output.
