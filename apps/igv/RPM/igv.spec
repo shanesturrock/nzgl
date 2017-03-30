@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.91
+Version:	2.3.92
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon Mar 27 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.92-1
+- Workaround for colour palette initialization problem. This should not be
+  necessary.
+
 * Thu Feb 09 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.91-1
 - Add ",ucscsnp" to annotation file type list
 
