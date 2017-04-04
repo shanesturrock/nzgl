@@ -1,23 +1,28 @@
+# test kickstart by Russell 17/3/2017
 install
 text
-reboot
+reboot --eject
 
-url --url=http://packages.genomics.local/mirrors/CentOS/6/os/x86_64/
-repo --name=nzgl-stable --baseurl=http://packages.genomics.local/nzgl-stable
-repo --name=epel --baseurl=http://dl.fedoraproject.org/pub/epel/6/x86_64/
-repo --name=ius --baseurl=https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64
+url --url=http://103.247.152.85/pub/linux/dist/centos/7/os/x86_64/
+repo --name=nzgl-stable --baseurl=http://10.10.2.50/nzgl-stable
+repo --name=epel --baseurl=http://dl.fedoraproject.org/pub/epel/7/x86_64/
+repo --name=ius --baseurl=https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64
 
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --device eth0 --bootproto dhcp
-rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
+network --onboot yes --device ens160 --bootproto dhcp --hostname xenial
+#rootpw --iscrypted $1$thfc41$XIkOu/l/lKZvvRO6WMDgy.
+# root password will be ChangeMeNow
+rootpw --iscrypted $1$thfc41$dgkI90H8xqOz61ha8zuyF.
 skipx
-authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --updateall
+#authconfig --enableldap --disableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --updateall
 selinux --disabled
 timezone --utc Pacific/Auckland
 zerombr
 bootloader --location=mbr --append="rd_NO_PLYMOUTH"
 clearpart --all
+eula --agreed
+services --enabled=NetworkManager,sshd,nslcd
 
 part / --fstype=ext4 --grow --asprimary --size=200
 
@@ -29,7 +34,6 @@ yum
 rpm
 e2fsprogs
 ftp
-grub
 openssh-server
 openssh-clients
 dhclient
@@ -67,15 +71,14 @@ cmake
 glibc-static
 glib2-devel
 python-devel
-python-argparse
+#python-argparse
 python-backports
 libcurl
 ius-release
 boost-devel
 libxml2-devel
 ncurses-devel
-nautilus-open-terminal
-perl-Bio-SamTools
+#perl-Bio-SamTools
 perl-Filesys-Df
 perl-DBD-MySQL
 perl-Module-Build
@@ -102,8 +105,11 @@ gmp-devel
 lsof
 time
 dos2unix
+sssd-libwbclient
+nss-pam-ldapd 
+fprintd-pam
 @Development tools
-@NZGL
+#@NZGL
 @Internet Browser
 @Desktop
 %end
@@ -153,10 +159,10 @@ echo "*	hard	fsize	512000000" >> /etc/security/limits.conf
 
 # SSH
 sed 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' --in-place /etc/ssh/sshd_config
-sed 's/#PermitRootLogin yes/PermitRootLogin no/g' --in-place /etc/ssh/sshd_config
-sed 's/PasswordAuthentication yes/PasswordAuthentication no/g' --in-place /etc/ssh/sshd_config
+sed 's/#PermitRootLogin yes/PermitRootLogin yes/g' --in-place /etc/ssh/sshd_config
 sed 's/#MaxAuthTries 6/MaxAuthTries 3/g' --in-place /etc/ssh/sshd_config
-echo "AllowGroups Biomatters munin nx $(hostname)" >> /etc/ssh/sshd_config
+sed 's/PasswordAuthentication no/PasswordAuthentication yes/' --in-place /etc/ssh/sshd_config
+echo "AllowGroups Biomatters munin nx root" >> /etc/ssh/sshd_config
 
 # motd
 # suppress ssh display of motd because it will be displayed by all bash shells
@@ -168,6 +174,7 @@ echo "curl -m 3 -f -s http://central.genomics.local/motd" > /etc/profile.d/motd.
 authconfig --enableshadow --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://genomics.local --ldapbasedn="dc=genomics,dc=local" --enablesssd --enablesssdauth --enablekrb5 --krb5kdc=genomics.local --krb5realm=GENOMICS.LOCAL --krb5adminserver=genomics.local --update
 touch /etc/sssd/sssd.conf
 sed 's/\[sssd\]/ldap_default_bind_dn = cn=svc_linux,ou=Service Accounts,ou=Special Accounts,ou=IAAS,dc=genomics,dc=local\nldap_default_authtok = Laptip23\nldap_schema = ad\nldap_user_principal = nosuchattribute\nentry_cache_timeout = 300\n\[sssd\]/g' --in-place /etc/sssd/sssd.conf
+chmod 600 /etc/sssd/sssd.conf
 echo 'binddn CN=svc_linux,OU=Service Accounts,OU=Special Accounts,OU=IAAS,DC=genomics,DC=local
 bindpw Laptip23' >> /etc/pam_ldap.conf
 sed 's/dns_lookup_realm = false/dns_lookup_realm = true/g' --in-place /etc/krb5.conf 
@@ -178,31 +185,30 @@ sed 's/dns_lookup_kdc = false/dns_lookup_kdc = true/g' --in-place /etc/krb5.conf
 echo '%Biomatters ALL=(ALL) ALL' >> /etc/sudoers
 
 #NX
-sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
-sed 's/#DISPLAY_BASE=1000/DISPLAY_BASE=1001/g' --in-place /etc/nxserver/node.conf
+#sed 's/#ENABLE_SSH_AUTHENTICATION="1"/ENABLE_SSH_AUTHENTICATION="1"/g' --in-place /etc/nxserver/node.conf
+#sed 's/#DISPLAY_BASE=1000/DISPLAY_BASE=1001/g' --in-place /etc/nxserver/node.conf
 #nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 # Allow password authentication from localhost (else NX can't authenticate)
-echo 'Match Address 127.0.0.1,::1
-  PasswordAuthentication yes' >> /etc/ssh/sshd_config
+#echo 'Match Address 127.0.0.1,::1' >> /etc/ssh/sshd_config
 
 
 # Munin
-chkconfig --add munin-node
-chkconfig munin-node on
-chsh -s /bin/bash munin
-mkdir -m 0700 /var/lib/munin/.ssh
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
-chown -R munin:munin /var/lib/munin/.ssh/
-chmod 600 /var/lib/munin/.ssh/authorized_keys
-sed s='fuse.gvfs-fuse-daemon'='fuse.gvfs-fuse-daemon tmpfs'=g --in-place /etc/munin/plugin-conf.d/df
+#chkconfig --add munin-node
+#chkconfig munin-node on
+#chsh -s /bin/bash munin
+#mkdir -m 0700 /var/lib/munin/.ssh
+#echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMI275mOlgGSj1xusO4HzS7uktCfvfqVNILxAFV/I0DtDAhtS27/KSlWeRA0NMHK8xM/sn8XWe0xePO89q+6u31QWg6KQSH8Fg7ovlOSVk3T6Tur8lL/nwEc3ommTMzzTTs5dO5jBVUtOB41DPMLkXv8+QiVE3ZU1H+FIbpIqcXUp66lyDeQPibugwmU17zAhI+gdLEo0q2f9TkUDTgqicC97xnfMqc7VyqH3kJMT39TM/d7MgdomUYtLeLb1Y640wmW0oGrC3o6HOT1ACYEi9xc8lvFBXTO/6+MIhjflznHXki60iUbYpPk3VWay+1ovNBbAKLU3bQ+N668Y2IsnQ== munin master' > /var/lib/munin/.ssh/authorized_keys
+#chown -R munin:munin /var/lib/munin/.ssh/
+#chmod 600 /var/lib/munin/.ssh/authorized_keys
+#sed s='fuse.gvfs-fuse-daemon'='fuse.gvfs-fuse-daemon tmpfs'=g --in-place /etc/munin/plugin-conf.d/df
 
 # Munin plugins
-/bin/rm /etc/munin/plugins/*
-plugins='cpu df df_inode diskstats load memory netstat processes proc_pri swap threads uptime users vmstat'
-for plugin in ${plugins}; do
-	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
-done
-ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
+#/bin/rm /etc/munin/plugins/*
+#plugins='cpu df df_inode diskstats load memory netstat processes proc_pri swap threads uptime users vmstat'
+#for plugin in ${plugins}; do
+#	ln -sf /usr/share/munin/plugins/${plugin} /etc/munin/plugins/${plugin} 
+#done
+#ln -sf /usr/share/munin/plugins/if_ /etc/munin/plugins/if_eth0
 
 # Remove unnecessary firmware packages
 rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
@@ -210,23 +216,26 @@ rpm -e $(rpm -qa | grep -i \\-firmware | grep -v kernel-firmware)
 # Set CentOS repos
 echo '[base]
 name=CentOS-$releasever - Base
-baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/os/$basearch/
+#baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/os/$basearch/
+baseurl=http://ucmirror.canterbury.ac.nz/linux/CentOS/$releasever/os/$basearch/
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 #released updates 
 [updates]
 name=CentOS-$releasever - Updates
-baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/updates/$basearch/
+#baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/updates/$basearch/
+baseurl=http://ucmirror.canterbury.ac.nz/linux/CentOS/$releasever/updates/$basearch/
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 #additional packages that may be useful
 [extras]
 name=CentOS-$releasever - Extras
-baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/extras/$basearch/
+#baseurl=http://packages.genomics.local/mirrors/CentOS/$releasever/extras/$basearch/
+baseurl=http://ucmirror.canterbury.ac.nz/linux/CentOS/$releasever/extras/$basearch/
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6' > /etc/yum.repos.d/CentOS-Base.repo
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7' > /etc/yum.repos.d/CentOS-Base.repo
 
 # Upgrade packages
 /usr/sbin/nzgl-yum-upgrade
@@ -245,7 +254,7 @@ sed -e 's/0/'$((RANDOM%60))'/g' --in-place /etc/cron.d/nzgl.cron
 
 # Fix NX keyboard map problem and set it up
 touch /usr/share/X11/xkb/keymap.dir
-nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
+#nxsetup --install --clean --purge --setup-nomachine-key --ignore-errors
 
 # 32 bit binary support
 yum -y install glibc.i686 libstdc++.i686 libgomp.i686
@@ -287,5 +296,6 @@ sed '0,/enabled=0/s/enabled=0/enabled=1/' --in-place /etc/yum.repos.d/epel.repo
 
 # Install nettle from EPEL
 yum -y install nettle-devel
+
 
 %end

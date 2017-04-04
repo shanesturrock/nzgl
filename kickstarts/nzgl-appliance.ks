@@ -88,6 +88,7 @@ p11-kit-devel
 gmp-devel 
 lsof
 time
+dos2unix
 @Development tools
 @NZGL
 @Internet Browser
