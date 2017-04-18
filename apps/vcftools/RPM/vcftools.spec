@@ -1,5 +1,5 @@
 Name:		vcftools
-Version:	0.1.14
+Version:	0.1.15
 Release:	1%{?dist}
 Summary:	VCF file manipulation tools
 
@@ -106,6 +106,11 @@ rm -rf %{buildroot}
 #%{perl_vendorarch}/VcfStats.pm
 
 %changelog
+* Wed Apr 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.1.15-1
+- Minor release to include recent small code changes.
+- Output in LDhelmet format
+- Minor bug fixes.
+
 * Mon Feb 27 2016 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.1.14-1
 - Compiling and building vcftools is now done by autotools (see README for
   installation instructions)

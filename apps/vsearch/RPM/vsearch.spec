@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.4.2
+Version:	2.4.3
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Thu Apr 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.3-1
+- Fixed bug with progress bar for shuffling. 
+- Fixed missing N-lines in UC files with usearch_global, search_exact and
+  allpairs_global when the output_no_hits option was not specified.
+
 * Mon Mar 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.2-1
 - Default value for fastq_minovlen increased to 16 in accordance with help text
   and for compatibility with usearch. Minor changes for improved accuracy of
