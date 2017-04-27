@@ -1,3 +1,5 @@
+%define debug_package %{nil}
+
 Name:		bowtie2
 Version:	2.3.1
 Release:	1%{?dist}
@@ -5,11 +7,11 @@ Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
-Source0:	%{name}-%{version}-source.zip
-Patch0:         pat.patch
+Source0:	%{name}-%{version}-legacy-linux-x86_64.zip
+#Patch0:         pat.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	readline,zlib
-BuildRequires:  readline-devel,zlib-devel
+#Requires:	readline,zlib
+#BuildRequires:  readline-devel,zlib-devel
 
 %description
 Bowtie 2 is an ultrafast and memory-efficient tool for
@@ -22,17 +24,16 @@ footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local,
 and paired-end alignment modes.
 
 %prep
-%setup -q
-%patch0 -p0
+%setup -n %{name}-%{version}-legacy
+#%patch0 -p0
 
 %build
-make clean
-make %{?_smp_mflags} NO_TBB=1
 
 %install
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{_bindir}
+mkdir -p %{buildroot}/%{_datadir}/%{name}
 
 install -m 0755 bowtie2 %{buildroot}/%{_bindir}
 install -m 0755 bowtie2-align-l %{buildroot}/%{_bindir}
@@ -43,6 +44,7 @@ install -m 0755 bowtie2-build-s %{buildroot}/%{_bindir}
 install -m 0755 bowtie2-inspect %{buildroot}/%{_bindir}
 install -m 0755 bowtie2-inspect-l %{buildroot}/%{_bindir}
 install -m 0755 bowtie2-inspect-s %{buildroot}/%{_bindir}
+cp -a scripts %{buildroot}/%{_datadir}/%{name}
 
 %clean
 rm -rf %{buildroot}
@@ -50,6 +52,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc MANUAL NEWS VERSION AUTHORS TUTORIAL doc/
+%dir %{_datadir}/%{name}
 %{_bindir}/bowtie2
 %{_bindir}/bowtie2-align-l
 %{_bindir}/bowtie2-align-s
@@ -62,10 +65,11 @@ rm -rf %{buildroot}
 #%{_datadir}/bowtie/genomes
 #%{_datadir}/bowtie/indexes
 #%{_datadir}/bowtie/reads
-#%{_datadir}/bowtie/scripts
+#%{_datadir}/bowtie2/scripts
+%{_datadir}/%{name}
 
 %changelog
-* Mon Mar 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.1-1
+* Fri Apr 28 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.1-1
 - Added native support for gzipped read files. The wrapper script is no longer
   responsible for decompression. This simplifies the wrapper and improves speed
   and thread scalability for gzipped inputs.
