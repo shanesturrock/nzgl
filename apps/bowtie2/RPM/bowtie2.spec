@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:		bowtie2
-Version:	2.3.1
+Version:	2.3.2
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
@@ -69,6 +69,24 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %changelog
+* Mon May 08 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.2-1
+- Added support for interleaved paired-end FASTQ inputs (--interleaved)
+- Now reports MREVERSE SAM flag for unaligned end when only one end of a pair
+  aligns
+- Fixed issue where first character of some read names was omitted from SAM
+  output when using tabbed input formats
+- Added --sam-no-qname-trunc option, which causes entire read name, including
+  spaces, to be written to SAM output. This violates SAM specification, but can
+  be useful in applications that immediately postprocess the SAM.
+- Fixed compilation error caused by pointer comparison issue in
+  aligner_result.cpp
+- Removed termcap and readline dependencies introduced in v2.3.1
+- Fixed compilation issues caused by gzbuffer function when compiling with zlib
+  v1.2.3.5 and earlier. Users compiling against these libraries will use the
+  zlib default buffer size of 8Kb when decompressing read files.
+- Fixed issue that would cause Bowtie 2 hang when aligning FASTA inputs with
+  more than one thread
+
 * Fri Apr 28 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.1-1
 - Added native support for gzipped read files. The wrapper script is no longer
   responsible for decompression. This simplifies the wrapper and improves speed

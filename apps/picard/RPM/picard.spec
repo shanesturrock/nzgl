@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.9.0
+Version:	2.9.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,33 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon May 08 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.1-1
+- Add CBCL parser (reader), which is not currently plugged into any CLPs but
+  will be in future PRs.
+- Adding MAX_TARGET_COVERAGE to targeted metrics (#803)
+- Optional flag to add an attribute in the SAM/BAM file used to store the size
+  of a duplicate set. A separate attribute is also added to store which read
+  was selected as representative out of a duplicate set.
+- Adding custom adapter pairs to IlluminaBasecallsToSam (#795)
+- Adds a couple of metrics computed on UMIs (#740)
+- new algorithm for CollectWgsMetrics (#556)
+- replace git link with https link (#792)
+- Yf fix asm bisulfite error (#782)
+- Fix CollectHsMetrics and CollectTargetedPcrMetrics to correctly handle read
+  pairs that are fully overlapped when CLIP_OVERLAPPING_READS=true. (#784)
+- Fix for no calls in VCF of GenotypeConcordance
+- New approach to splitting on sub-group in EstimateLibraryComplexity (#713)
+- Fixes shift in quality used in TargetedMetricsCollector (for HetSensitivity)
+  (#771)
+- Informative error when RG info is missing with OUTPUT_PER_RG
+- Allow an optional file extension for CollectIlluminaLaneMetrics. (#747)
+- Update README.md to show license badge
+- Create LICENSE.txt
+- parallel map in MergableMetric fails since merge is not synchronized. (#756)
+- Yf filter vcf log progress (#757)
+- Must use a RIBOSOMAL_INTERVALS file if RRNA_FRAGMENT_PERCENTAGE = 0.0
+- Use default HTSJDK method in CreateSequenceDictionary (#724)
+
 * Mon Mar 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.0-1
 - Picard changed the release process and this update catches up with the 
   latest release so I'm including all previous release notes.
