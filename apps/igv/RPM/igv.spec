@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.92
+Version:	2.3.93
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Mon May 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.93-1
+- Fixes #409. Encode browser selections are unchecked upon load.
+
 * Mon Mar 27 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.92-1
 - Workaround for colour palette initialization problem. This should not be
   necessary.

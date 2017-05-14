@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.9.1
+Version:	2.9.2
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,10 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Mon May 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.2-1
+- Yf add proper pairs to asm
+- Remove deprecated classes
+
 * Mon May 08 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.1-1
 - Add CBCL parser (reader), which is not currently plugged into any CLPs but
   will be in future PRs.
