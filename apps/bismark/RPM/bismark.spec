@@ -1,5 +1,5 @@
 Name:		bismark
-Version:	0.17.0
+Version:	0.18.1
 Release:	1%{?dist}
 Summary:	A tool to map bisulfite converted sequence reads and determine cytosine methylation states.
 Group:		Applications/Engineering
@@ -30,16 +30,18 @@ mkdir -p %{buildroot}/%{_bindir}/bismark_sitrep
 install -m 0755 bismark %{buildroot}/%{_bindir}
 install -m 0755 coverage2cytosine %{buildroot}/%{_bindir}
 install -m 0755 bismark2report %{buildroot}/%{_bindir}
-install -m 0644 bismark_sitrep.tpl %{buildroot}/%{_bindir}/bismark_sitrep/
-install -m 0644 bismark_sitrep.js %{buildroot}/%{_bindir}/bismark_sitrep/
-install -m 0644 highcharts.js %{buildroot}/%{_bindir}/bismark_sitrep/
-install -m 0644 jquery-3.1.1.min.js %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 bismark_sitrep/bismark_sitrep.tpl %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 bismark_sitrep/bismark_sitrep.js %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 bismark_sitrep/highcharts.js %{buildroot}/%{_bindir}/bismark_sitrep/
+install -m 0644 bismark_sitrep/jquery-3.1.1.min.js %{buildroot}/%{_bindir}/bismark_sitrep/
 install -m 0755 bismark_genome_preparation %{buildroot}/%{_bindir}
 install -m 0755 deduplicate_bismark %{buildroot}/%{_bindir}
 install -m 0755 bismark2summary %{buildroot}/%{_bindir}
 install -m 0755 bismark2bedGraph %{buildroot}/%{_bindir}
 install -m 0755 bam2nuc %{buildroot}/%{_bindir}
 install -m 0755 bismark_methylation_extractor %{buildroot}/%{_bindir}
+install -m 0755 filter_non_conversion %{buildroot}/%{_bindir}
+install -m 0755 NOMe_filtering %{buildroot}/%{_bindir}
 
 %clean
 rm -rf %{buildroot}
@@ -47,7 +49,8 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 #%doc Bismark_alignment_modes.pdf Bismark_User_Guide.pdf license.txt RELEASE_NOTES.txt 
-%doc Bismark_User_Guide.html license.txt RELEASE_NOTES.md RRBS_Guide.pdf
+#%doc Bismark_User_Guide.html license.txt RELEASE_NOTES.md RRBS_Guide.pdf
+%doc license.txt CHANGELOG.md RRBS_Guide.pdf
 
 %{_bindir}/bam2nuc
 %{_bindir}/bismark
@@ -62,8 +65,76 @@ rm -rf %{buildroot}
 %{_bindir}/bismark_sitrep/jquery-3.1.1.min.js
 %{_bindir}/coverage2cytosine
 %{_bindir}/deduplicate_bismark
+%{_bindir}/filter_non_conversion
+%{_bindir}/NOMe_filtering
+
 
 %changelog
+* Thu May 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.18.1-1
+- Bismark
+  - Commented out warning messages for certain ambiguous alignments for
+    paired-end alignments.
+
+* Thu May 16 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.18.0-1
+- Changed FindBin qw($Bin) to FindBin qw($RealBin) for bismark,
+  bismark_methylation_extractor, bismark2report and bismark2summary so that
+  symlinks are resolved before calling different modules.
+- Bismark
+  - Fixed the behaviour of (very rare) ambiguous corner cases where a sequence
+    had a perfect sequence duplication within the valid paired-end distance.
+- Methylation Extractor
+    Added new option --yacht (for Yet Another Context Hunting Tool) that writes
+    out additional information about the read a methylation call belongs to, and
+    its output is meant to be fed into the NOMe_filtering script (see below). 
+    This option writes out a single 'any_C_context' file that contains all 
+    methylation calls for a read consecutively. Its intended use is single-cell 
+    NOMe-Seq data, so it only works in single-end mode (paired-end reads often 
+    suffer from chimaera problems...) --yacht adds three additional columns to 
+    the standard methylation call files:
+
+    <read start> <read end> <read orientation>
+
+    For forward reads (+ orientation) the start position is the left-most
+    position wheras for reverse reads (- orientation) it is the rightmost 
+    position.
+
+    Changed FindBin qw($Bin) to FindBin qw($RealBin) so that symlinks are
+    resolved before calling different modules.
+
+- NOMe_filtering
+    This script reads in methylation call files from the Bismark methylation
+    extractor that contain additional information about the reads that 
+    methylation calls belonged to. It processes entire (single-end) reads and 
+    then filters calls for NOMe-Seq positions (nucleosome occupancy and 
+    methylome sequencing) where accessible DNA gets methylated in a GpC 
+    context:
+
+     (i) filters CpGs to only output cytosines in A-CG and T-CG context 
+    (ii) filters GC context to only report cytosines in GC-A, GC-C and GC-T 
+         context 
+
+    Both of these measures aim to reduce unwanted biases, i.e. the influence of 
+    G-CG (intended) and C-CG (off-target) on endogenous CpG methylation, and the
+    influence of CpG methylation on (the NOMe-Seq specific) GC context 
+    methylation.
+
+    The NOMe-Seq filtering output reports cytosines in CpG context only if they
+    are in A-CG or T-CG context, and cytosines in GC context only when the C is 
+    not in CpG context. The output file is tab-delimited and in the following 
+    format (1-based coords):
+
+    <readID>  <chromosome>  <read start>  <read end>  <count methylated CpG> <count non-methylated CpG>  <count methylated GC>  <count non-methylated GC>
+    HWI-D00436:298:C9KY4ANXX:1:1101:2035:2000_1:N:0:_ACAGTGGT 10 8517979 8518098 0 1 0 1 
+    HWI-D00436:298:C9KY4ANXX:1:1101:5072:1993_1:N:0:_ACAGTGGT 8 9476630 9476748 0 0 0 2
+
+- coverage2cytosine
+  - Fixed an issue in --merge_CpG mode caused by chromosomes ending in CG.
+  - Fixed an issue caused by specifying --zero as well as --merge_CpG.
+- bam2nuc
+  - Fixed an issue where the option --output_dir had been ignored.
+- filter_non_conversion
+  - Removed help text indicating that this script also did the deduplication.
+
 * Thu Jan 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.17.0-1
 - Bismark
   - The option --dovetail is now the default behaviour for paired-end Bowtie2
