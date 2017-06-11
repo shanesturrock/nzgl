@@ -1,5 +1,5 @@
 Name:		hisat2
-Version:	2.0.5
+Version:	2.1.0
 Release:	1%{?dist}
 Summary:	A fast and sensitive alignment program for mapping NGS reads
 Group:		Applications/Bioinformatics
@@ -29,6 +29,7 @@ information.
 %prep
 %setup -q
 find . -type f -name '*.py' | xargs sed 's=python=python2.7=g' --in-place
+find . -type f -name '*genotype*.py' | xargs sed "/ sys,/a sys.path.append('/usr/libexec/hisat2/hisatgenotype_modules')" --in-place
 
 %build
 make clean
@@ -48,7 +49,7 @@ install -m 0755 hisat2 %{buildroot}%{_bindir}
 install -m 0755 hisat2-align-l %{buildroot}%{_bindir}
 install -m 0755 hisat2-align-s %{buildroot}%{_bindir}
 install -m 0755 hisat2-build %{buildroot}%{_bindir}
-install -m 0755 hisat2_build_genotype_genome.py %{buildroot}%{_bindir}
+#install -m 0755 hisat2_build_genotype_genome.py %{buildroot}%{_bindir}
 install -m 0755 hisat2-build-l %{buildroot}%{_bindir}
 install -m 0755 hisat2-build-s %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_exons.py %{buildroot}%{_bindir}
@@ -56,16 +57,22 @@ install -m 0755 hisat2_extract_exons.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_snps_haplotypes_UCSC.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_snps_haplotypes_VCF.py %{buildroot}%{_bindir}
 install -m 0755 hisat2_extract_splice_sites.py %{buildroot}%{_bindir}
-install -m 0755 hisat2_genotype.py %{buildroot}%{_bindir}
+#install -m 0755 hisat2_genotype.py %{buildroot}%{_bindir}
 install -m 0755 hisat2-inspect %{buildroot}%{_bindir}
 install -m 0755 hisat2-inspect-l %{buildroot}%{_bindir}
 install -m 0755 hisat2-inspect-s %{buildroot}%{_bindir}
 install -m 0755 hisat2_simulate_reads.py %{buildroot}%{_bindir}
-install -m 0755 hisat2_test_BRCA_genotyping.py %{buildroot}%{_bindir}
-install -m 0755 hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
+#install -m 0755 hisat2_test_BRCA_genotyping.py %{buildroot}%{_bindir}
+#install -m 0755 hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_build_genome.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_extract_reads.py %{buildroot}%{_bindir}
 install -m 0755 hisatgenotype_extract_vars.py %{buildroot}%{_bindir}
-install -m 0755 hisatgenotype_typing.py %{buildroot}%{_bindir}
-install -m 0755 old_hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_hla_cyp.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype_locus.py %{buildroot}%{_bindir}
+install -m 0755 hisatgenotype.py %{buildroot}%{_bindir}
+#install -m 0755 old_hisat2_test_HLA_genotyping.py %{buildroot}%{_bindir}
+/bin/cp -r hisatgenotype_scripts %{buildroot}/%{_libexecdir}/%{name}/
+/bin/cp -r hisatgenotype_modules %{buildroot}/%{_libexecdir}/%{name}/
 
 %clean
 rm -rf %{buildroot}
@@ -79,7 +86,7 @@ rm -rf %{buildroot}
 /usr/bin/hisat2-align-l
 /usr/bin/hisat2-align-s
 /usr/bin/hisat2-build
-/usr/bin/hisat2_build_genotype_genome.py
+#/usr/bin/hisat2_build_genotype_genome.py
 /usr/bin/hisat2-build-l
 /usr/bin/hisat2-build-s
 /usr/bin/hisat2_extract_exons.py
@@ -87,19 +94,39 @@ rm -rf %{buildroot}
 /usr/bin/hisat2_extract_snps_haplotypes_UCSC.py
 /usr/bin/hisat2_extract_snps_haplotypes_VCF.py
 /usr/bin/hisat2_extract_splice_sites.py
-/usr/bin/hisat2_genotype.py
+#/usr/bin/hisat2_genotype.py
 /usr/bin/hisat2-inspect
 /usr/bin/hisat2-inspect-l
 /usr/bin/hisat2-inspect-s
 /usr/bin/hisat2_simulate_reads.py
-/usr/bin/hisat2_test_BRCA_genotyping.py
-/usr/bin/hisat2_test_HLA_genotyping.py
+#/usr/bin/hisat2_test_BRCA_genotyping.py
+#/usr/bin/hisat2_test_HLA_genotyping.py
+/usr/bin/hisatgenotype_build_genome.py
+/usr/bin/hisatgenotype_extract_reads.py
 /usr/bin/hisatgenotype_extract_vars.py
-/usr/bin/hisatgenotype_typing.py
-/usr/bin/old_hisat2_test_HLA_genotyping.py
+/usr/bin/hisatgenotype_hla_cyp.py
+/usr/bin/hisatgenotype_locus.py
+/usr/bin/hisatgenotype.py
+#/usr/bin/old_hisat2_test_HLA_genotyping.py
 /usr/libexec/%{name}/*
 
 %changelog
+* Mon Jun 12 2017 Shane Sturrock <shane.sturrock@nzgenomics.com> - 2.1.0-1
+- This major version includes the first release of HISAT-genotype, which
+  currently performs HLA typing, DNA fingerprinting analysis, and CYP typing on
+  whole genome sequencing (WGS) reads. We plan to extend the system so that it
+  can analyze not just a few genes, but a whole human genome. Please refer to 
+  the HISAT-genotype website for more details.
+- HISAT2 can be directly compiled and executed on Windows system using Visual
+  Studio, thanks to Nigel Dyer.
+- Implemented --new-summary option to output a new style of alignment summary,
+  which is easier to parse for programming purposes.
+- Implemented --summary-file option to output alignment summary to a file in
+  addition to the terminal (e.g. stderr).
+- Fixed discrepancy in HISAT2’s alignment summary.
+- Implemented --no-templatelen-adjustment option to disable automatic template
+  length adjustment for RNA-seq reads.
+
 * Mon Nov 07 2016 Shane Sturrock <shane@biomatters.com> - 2.0.5-1
 - Due to a policy change (HTTP to HTTPS) in using SRA data (--sra-option),
   users are strongly encouraged to use this version. As of 11/9/2016, NCBI will
