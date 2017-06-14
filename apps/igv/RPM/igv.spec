@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.93
+Version:	2.3.94
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,10 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Jun 14 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.94-1
+- Merge pull request #432 from dbrant/jfilechooser_crash
+- Fix crash when choosing files on Windows 10.
+
 * Mon May 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.93-1
 - Fixes #409. Encode browser selections are unchecked upon load.
 

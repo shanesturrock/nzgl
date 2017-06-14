@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.9.2
+Version:	2.9.3
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,28 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Jun 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.3-1
+- Added new data provider for cbcls (NovaSeq) (#823)
+- Adding copyright notice to oligonucliotide sequences
+- Adding the COVERED action to interval list tools. (#830)
+- ValidateSamFile returns informative error codes
+- Yf rev htsjdk (#821)
+- Fixes GenotypeConcordance VCF context with different Ref alleles or symbolic
+  allele
+- Typo in SplitSamByLibraryTest
+- CollectIlluminaLaneMetric should be lenient when missing prephasing and
+  phasing metrics.
+- Overflow in TargetMetricsCollector.Coverage (#820)
+- Adding OpenJDK to travis build. Add trusty dist to allow openjdk8
+- Added a new tool to merge a collection of variant calling metrics
+- Incorporate YF's suggestions to CrosscheckReadGroupFingerprints
+- Incorporate YF's suggestions to CheckFingerprint
+- Update HAPLOTYPE_MAP description (2)
+- Update description of HAPLOTYPE_MAP (1)
+- Added in missing bracket for unrelated portion of doc
+- Update CollectRnaSeqMetrics.java
+- Provide example REFFLAT file link and snippet
+
 * Mon May 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.2-1
 - Yf add proper pairs to asm
 - Remove deprecated classes
