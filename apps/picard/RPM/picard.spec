@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.9.3
+Version:	2.9.4
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,9 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Sat Jun 17 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.4-1
+- PO-8928: Don't calculate improper pair metrics on unpaired reads
+
 * Thu Jun 15 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.3-1
 - Added new data provider for cbcls (NovaSeq) (#823)
 - Adding copyright notice to oligonucliotide sequences
