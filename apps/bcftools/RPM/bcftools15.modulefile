@@ -1,7 +1,7 @@
 #%Module 1.0
 #
-#  bwa module for use with 'environment-modules' package:
+#  bcftools module for use with 'environment-modules' package:
 # 
-conflict                bcftools
+conflict                bwa
 prepend-path 		PATH 			/usr/lib64/bcftools15/bin
 prepend-path 		MANPATH			/usr/lib64/bcftools15/man
