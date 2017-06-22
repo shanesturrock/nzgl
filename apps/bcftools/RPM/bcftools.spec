@@ -1,6 +1,6 @@
-%define priority 1411
+%define priority 15
 Name:		bcftools
-Version:	1.4.1
+Version:	1.5
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
@@ -8,8 +8,8 @@ Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	samtools141
-Requires:	bcftools141
+Requires:	samtools%{priority}
+Requires:	bcftools%{priority}
 # Post requires alternatives to install tool alternatives.
 Requires(post):   %{_sbindir}/alternatives
 # Postun requires alternatives to uninstall tool alternatives.
@@ -30,12 +30,31 @@ alternatives \
 %postun
 if [ $1 -eq 0 ]
 then
-  alternatives --remove bcftools /usr/lib64/bcftools141/bin/bcftools
+  alternatives --remove bcftools /usr/lib64/bcftools%{priority}/bin/bcftools
 fi
 
 %files
 
 %changelog
+* Thu Jun 22 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.5-1
+- Added autoconf support to bcftools. See INSTALL for more details.
+- norm: Make norm case insensitive (#601). Trim the reference allele (#602).
+- mpileup: fix for misreported indel depths for reads containing adjacent
+  indels (3c1205c).
+- plot-vcfstats: Open stats file in text mode, not binary (#618).
+- fixref plugin: Allow multiallelic sites in the -i, --use-id reference. Also
+  flip genotypes, not just REF/ALT!
+- merge: fix gVCF merge bug when last record on a chromosome opened a gVCF
+  block (#616)
+- New options added to the ROH plotting script.
+- consensus: Properly flush chain info (#606, thanks to @krooijers).
+- New +prune plugin for pruning sites by LD (R2) or maximum number of records
+  within a window.
+- New N_MISSING, F_MISSING (number and fraction missing) filtering expressions.
+- Fix HMM initialization in roh when snapshots are used in multiple chromosome
+  VCF.
+- Fix buffer overflow (#607) in filter.
+
 * Thu May 25 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.4.1-1
 - This is primarily a security bug fix update.
 - roh: Fixed malfunctioning options -m, --genetic-map and -M, --rec-rate, and
