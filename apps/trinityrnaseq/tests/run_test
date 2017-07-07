@@ -2,7 +2,7 @@
 
 set -e
 
-module load bowtie/1.1.2
+#module load bowtie/1.1.2
 
 # Run test_Trinity_Assembly
 #cd sample_data/test_Trinity_Assembly
