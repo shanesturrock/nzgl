@@ -1,8 +1,8 @@
 %global pkgbase R
-%define priority 340
+%define priority 341
 
 Name:           R-core
-Version:        3.4.0
+Version:        3.4.1
 Release:        10%{?dist}
 Summary:        R-core
 
@@ -64,6 +64,34 @@ fi
 %{_sysconfdir}/modulefiles/%{pkgbase}/%{version}
 
 %changelog
+* Wed Jul 12 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.4.1-10
+- BUG FIXES
+  - getParseData() gave incorrect column information when code contained
+    multi-byte characters. (PR#17254)
+  - Asking for help using expressions like ?stats::cor() did not work.
+    (PR#17250)
+  - readRDS(url(....)) now works.
+  - R CMD Sweave again returns status = 0 on successful completion.
+  - Vignettes listed in \u2018.Rbuildignore\u2019 were not being ignored
+    properly.  (PR#17246)
+  - file.mtime() no longer returns NA on Windows when the file or directory is
+    being used by another process. This affected installed.packages(), which 
+    is now protected against this.
+  - R CMD INSTALL Windows .zip file obeys --lock and --pkglock flags.
+  - (Windows only) The choose.files() function could return incorrect results
+    when called with multi = FALSE. (PR#17270)
+  - aggregate(<data.frame>, drop = FALSE) now also works in case of near-equal
+    numbers in by. (PR#16918)
+  - fourfoldplot() could encounter integer overflow when calculating the odds
+    ratio. (PR#17286)
+  - parse() no longer gives spurious warnings when extracting srcrefs from a
+    file not encoded in the current locale.
+  - This was seen from R CMD check with \u2018inst/doc/*.R\u2019 files, and
+    check has some additional protection for such files.
+  - print.noquote(x) now always returns its argument x (invisibly).
+  - Non-UTF-8 multibyte character sets were not handled properly in source
+    references. (PR#16732)
+
 * Wed Apr 26 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 3.4.0-10
 - SIGNIFICANT USER-VISIBLE CHANGES
   - (Unix-alike) The default methods for download.file() and url() now choose
