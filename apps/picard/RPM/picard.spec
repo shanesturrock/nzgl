@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.9.4
+Version:	2.10.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,23 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Jul 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.1-1
+- Bug fix
+  - Fix RevertSam to SANITIZE output when read group information is missing
+    (#856). The tool considers read group (RG) information missing if the SAM
+    file header does not have an @RG line, the read does not have an RG tag or 
+    the tag's read group is absent from header groups.
+  - For deprecated CrosscheckReadGroupFingerprints, fix option
+    EXPECT_ALL_READ_GROUPS_TO_MATCH (#860).
+- New feature
+  - Fingerprinting tools now read a HaplotypeMap object from a VCF (#793).
+    Previously, tools could only read a custom-formatted file. The VCF needs to
+    have exactly one sample, HET for all the variants, and haplotype block 
+    phasing via phased genotypes (0|1, and 1|0) and the PS format field. The 
+    AF field is the AlternateAllele frequency, NOT the minor allele frequency, 
+    as it is in the HaplotypeDatabase file. For more details on the file 
+    formats, see GATK Article#9526.
+
 * Sat Jun 17 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.9.4-1
 - PO-8928: Don't calculate improper pair metrics on unpaired reads
 
