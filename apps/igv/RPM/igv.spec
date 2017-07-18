@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.94
+Version:	2.3.97
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,11 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Jul 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.97-1
+- Fix for track name bug
+- Fix sequence bug
+- Update chrom.sizes
+
 * Wed Jun 14 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.94-1
 - Merge pull request #432 from dbrant/jfilechooser_crash
 - Fix crash when choosing files on Windows 10.
