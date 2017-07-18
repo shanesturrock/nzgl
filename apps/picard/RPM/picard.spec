@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.1
+Version:	2.10.3
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,15 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Jul 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.3-1
+- Add warning to CheckIlluminaDir if we detect cycles without data. (#874)
+
+* Fri Jul 14 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.2-1
+- yet another reverse-compatibility issue in CrosscheckReadgroupFingerprints
+  (#868) 
+- fixed bug in Liftover pertaining to indels that straddle two "links\u2026
+  (#864)
+
 * Thu Jul 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.1-1
 - Bug fix
   - Fix RevertSam to SANITIZE output when read group information is missing
