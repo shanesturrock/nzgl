@@ -1,5 +1,5 @@
 Name:		igv
-Version:	2.3.97
+Version:	2.3.98
 Release:	1%{?dist}
 Summary:	Integrative Genomics Viewer
 Group:		Applications/Engineering
@@ -63,6 +63,9 @@ fi
 /usr/share/applications/igv.desktop
 
 %changelog
+* Wed Jul 26 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.98-1
+- Manifest change for Java 8 1.4.1 bug (affects java webstart)
+
 * Wed Jul 19 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.97-1
 - Fix for track name bug
 - Fix sequence bug
