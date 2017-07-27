@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.4
+Version:	2.10.5
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,9 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Jul 27 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.5-1
+- Revert default compression level to 5.
+
 * Wed Jul 26 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.4-1
 - This Picard version contains MAJOR CHANGES TO DEFAULT SETTINGS that impact
   throughput of pipelines.
