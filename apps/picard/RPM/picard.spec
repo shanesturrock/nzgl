@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.5
+Version:	2.10.7
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,20 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Aug 04 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.7-1
+- added config file to supress error message
+- Bump GKL version to avoid hanging in AVX support check. (#888)
+- Updated the documentation for the reference argument in ScatterIntervalsByNs.
+  Also, we now expilictly check for an index and a dict for the reference file.
+
+* Tue Aug 01 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.6-1
+- Add a doc note to change VALIDATION_STRINGENCY if validation error
+- Add comment per code review suggestion.
+- Allow RG tag fields to be unpopulated.
+- Made METRICS_FILE optional, which was fairly clearly the original intent.
+  (#884)
+- Sort availableTiles consistently in all ctors (#878)
+
 * Thu Jul 27 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.5-1
 - Revert default compression level to 5.
 
