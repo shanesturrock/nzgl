@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.7
+Version:	2.10.9
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,13 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Aug 11 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.9-1
+- Change log4j logging to send all logging to stderr. Added test to assert
+  empty stdout.
+- Adding the ability to set a maximum size of duplicate sets for checking
+  optical dups
+- Add regression test for #883. (#894)
+
 * Fri Aug 04 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.7-1
 - added config file to supress error message
 - Bump GKL version to avoid hanging in AVX support check. (#888)
