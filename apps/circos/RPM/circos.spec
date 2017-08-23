@@ -1,5 +1,5 @@
 %define ver 0.69
-%define issue 5
+%define issue 6
 
 Name:		circos
 # Version:	%{ver}
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 /etc/profile.d/circos.sh
 
 %changelog
+* Thu Aug 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.69.6-1
+- Bug fix release
+
 * Mon May 08 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 0.69.5-1
 - Bug fix release
 

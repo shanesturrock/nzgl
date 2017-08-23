@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.9
+Version:	2.10.10
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,12 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Thu Aug 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.10-1
+- Add documentation creation and update (pushed to gh-pages) (#909)
+- Fixed docker build for gradle (#908)
+- Remove class (CommandLineProgramGroup) replaced by Barclay parser.
+- Add set UQ only option to SetNmMdAndUqTags (#887)
+
 * Fri Aug 11 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.9-1
 - Change log4j logging to send all logging to stderr. Added test to assert
   empty stdout.

@@ -1,5 +1,5 @@
 Name:		tablet
-Version:	1.16.09.06
+Version:	1.17.08.17
 Release:	1%{?dist}
 Summary:	Lightweight, high-performance graphical viewer for next generation sequence assemblies and alignments.
 Group:		Applications/Engineering
@@ -62,6 +62,14 @@ fi
 /usr/share/icons/hicolor/*
 
 %changelog
+* Thu Aug 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 1.17.08.17-1
+- NEW: Updated the included Java runtime to 1.8.0_144.
+- CHG: Renamed Show Cigar-I to Show Cigar in the overlays band of the ribbon.
+- CHG: Tablet now doesn’t attempt to render Cigar overlays when the width of a
+  base is less than 1.
+- BUG: Cigar feature creation code can now handle reads where the read sequence
+  is set to “*”.
+
 * Thu Sep 08 2016 Shane Sturrock <shane@biomatters.com> - 1.16.09.06-1
 - Added support for creation of Cigar features for CIGAR S and CIGAR H
   operators.
