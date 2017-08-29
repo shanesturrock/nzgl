@@ -1,5 +1,5 @@
 Name:		vsearch
-Version:	2.4.3
+Version:	2.4.4
 Release:	1%{?dist}
 Summary:	An alternative to the USEARCH
 Group:		Applications/Engineering
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/vsearch.1*
 
 %changelog
+* Wed Aug 30 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.4-1
+- Several minor bug fixes, improved error messages and updated documentation.
+
 * Thu Apr 13 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.4.3-1
 - Fixed bug with progress bar for shuffling. 
 - Fixed missing N-lines in UC files with usearch_global, search_exact and
