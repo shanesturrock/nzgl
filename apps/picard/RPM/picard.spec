@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.10.10
+Version:	2.11.0
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,14 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Wed Aug 30 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.11.0-1
+- Extract CommandLineProgram finding/processing code for reuse. (#899)
+- This makes CollectSequencingArtifactMetrics faster by reducing the number of
+  HashMap.get() functions we call at every base of the traversal. (#912)
+- Adding the option to not write out PG tags for MarkDuplicates and
+  MergeBamAlignment. Default behavior is kept the same as it was before but you
+  can get speed increases if you set them appropriately. (#907)
+
 * Thu Aug 24 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.10.10-1
 - Add documentation creation and update (pushed to gh-pages) (#909)
 - Fixed docker build for gradle (#908)
