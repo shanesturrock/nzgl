@@ -1,13 +1,13 @@
 %define debug_package %{nil}
 
 Name:		bowtie2
-Version:	2.3.2
+Version:	2.3.3
 Release:	1%{?dist}
 Summary:	An ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences
 Group:		Applications/Engineering
 License:	GPLv3
 URL:		http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
-Source0:	%{name}-%{version}-legacy-linux-x86_64.zip
+Source0:	%{name}-%{version}-linux-x86_64.zip
 #Patch0:         pat.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 #Requires:	readline,zlib
@@ -24,7 +24,7 @@ footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local,
 and paired-end alignment modes.
 
 %prep
-%setup -n %{name}-%{version}-legacy
+%setup -n %{name}-%{version}
 #%patch0 -p0
 
 %build
@@ -69,6 +69,20 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %changelog
+* Tue Sep 12 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.3-1
+- bowtie2-build now supports gzip-compressed FASTA inputs
+- New --xeq parameter for bowtie2 disambiguates the 'M' CIGAR flag. When
+  specified, matches are indicated with the = operation and mismatches with X
+- Fixed a possible infinite loop during parallel index building due to the
+  compiler optimizing away a loop condition
+- Added --soft-clipped-unmapped-tlen parameter for bowtie2 that ignores
+  soft-clipped bases when calculating template length (TLEN)
+- Added support for multi-line sequences in FASTA read inputs
+- Expanded explanation of MD:Z field in manual
+- Fixed a crashing bug when output is redirected to a pipe
+- Fixed ambiguity in the SEED alignment policy that sometimes caused -N
+  parameter to be ignored
+
 * Mon May 08 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.3.2-1
 - Added support for interleaved paired-end FASTQ inputs (--interleaved)
 - Now reports MREVERSE SAM flag for unaligned end when only one end of a pair

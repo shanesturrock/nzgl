@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.11.0
+Version:	2.12.1
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,13 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Tue Sep 12 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.12.1-1
+- Replaced hard-coded uses of .vcf, .bcf, and .vcf.gz with static variables.
+  (Didn't touch the tests or comments though)
+- This fixes [this] (#742) bug, where genotype concordance does not properly
+  handle the star allele which represents a spanning deletion. (#904)
+- update to htsjdk 2.11.0 and fix tests (#918)
+
 * Wed Aug 30 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.11.0-1
 - Extract CommandLineProgram finding/processing code for reuse. (#899)
 - This makes CollectSequencingArtifactMetrics faster by reducing the number of
