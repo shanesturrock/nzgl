@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.12.1
+Version:	2.12.2
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,13 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+* Fri Sep 29 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.12.2-1
+- makes the Fingerprint code more robust to data that has non-conforming (or
+  missing!) PU fields (#939)
+- Added code that tests all the @dataproviders in the package (#931)
+- Update the algorithm in gathering metrics so that it does not use a lot of
+  memory
+
 * Tue Sep 12 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.12.1-1
 - Replaced hard-coded uses of .vcf, .bcf, and .vcf.gz with static variables.
   (Didn't touch the tests or comments though)
