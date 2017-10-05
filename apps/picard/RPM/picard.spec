@@ -1,5 +1,5 @@
 Name:		picard
-Version:	2.12.2
+Version:	2.13.2
 Release:	1%{?dist}
 Summary:	Java utilities to manipulate SAM files
 
@@ -48,6 +48,15 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/*
 
 %changelog
+
+* Fri Oct 06 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.13.2-1
+- Prk samtofastq compressed (#942)
+- Fixed tests that were removed from CrosscheckReadgroupFingerprints (#870)
+- Fixing lift-over (again) WRT genotypes (#930)
+- Adds argument to include filtered sites in genotypeconcordance (#898)
+- Updated htsjdk version to integrate updates to Snappy
+- Add support for KS and FO in AddOrReplaceReadGroups (#925)
+
 * Fri Sep 29 2017 Shane Sturrock <shane.sturrock@nzgenomics.co.nz> - 2.12.2-1
 - makes the Fingerprint code more robust to data that has non-conforming (or
   missing!) PU fields (#939)
